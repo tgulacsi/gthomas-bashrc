@@ -1,0 +1,3 @@
+#!/bin/sh
+flac -dc "$1" |  lame --preset standard - - \
+  >"${2:-$(basename "$1" .flac).mp3}"

@@ -1,0 +1,2 @@
+#!/bin/sh
+setxkbmap -v -layout us,hu -option 'grp:shifts_toggle,grp_led:scroll'

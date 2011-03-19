@@ -1,0 +1,19 @@
+#!/bin/bash
+CMD="mkvmerge -o $1"
+shift
+i=0
+for nm in "$@"; do
+  new=$(echo "$nm" | sed -e 's/ .*\././')
+  [ "x$new" != "x$nm" ] && mv "$nm" "$new"
+  #echo "$nm = $new ($CMD)"
+  if [ $i -lt 1 ]; then
+    CMD="$CMD $new"
+  else
+    CMD="$CMD +$new"
+  fi
+  i=$(($i+1))
+done
+
+echo $CMD
+$CMD
+echo $CMD
