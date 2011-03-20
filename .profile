@@ -30,3 +30,4 @@ mkdir -p /tmp/$USER
 }
 
 eval $(ssh-agent -t 7200)
+case "$-" in *i*) byobu-launcher && exit 0; esac;
