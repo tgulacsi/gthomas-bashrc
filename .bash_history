@@ -1,122 +1,3 @@
-sudo mv natty.list ../sources.list
-mount
-sudo mount -o remount,compress=lzo /
-mount
-dmesg|tail
-sudo vi /etc/fstab
-dmesg|tail
-nm-applet
-cd Downloads
-l
-unzip -l google_appengine_1.4.2.zip 
-cd /home/gthomas/projects/
-l
-cd google_appengine/
-l
-sudo mount -o remount,nocompress /
-mount
-sudo mount -o remount /
-mount
-sudo btrfs
-sudo btrfs fi df /
-sudo btrfs fi df /home
-sudo btrfs fi show
-df -h /
-top
-top
-cd projects/google_appengine/
-l
-cd /home/gthomas/Downloads
-l
-rm manualsms2.zip 
-evince datadevroom_nosql.pdf 
-rm datadevroom_nosql.pdf 
-cd /home/gthomas/projects/google_appengine/
-l
-less README 
-l
-./appcfg.py 
-l
-./dev_appserver.py 
-top
-cd projects/unosoft/uno
-git pull
-cd ../unora
-git pull
-cd ../../python/flake8-gthomas/
-git pull
-hg pull
-hg update
-sudo latencytop
-top
-sudo vi /etc/fstab
-sudo mount -o remount /
-sudo vi /etc/fstab
-sudo btrfs fi show
-sudo btrfs fi df /
-sudo aptitude -u
-sudo aptitude safe-upgrade
-sudo aptitude dist-upgrade
-sudo aptitude -t natty dist-upgrade
-sudo aptitude -u
-l
-top
-sudo vi /etc/usbmount/usbmount.conf
-top
-sync
-top
-l
-pwd
-dstat 5
-sudo poweroff
-sudo vi /etc/default/console-setup 
-console-kit-daemon --help
-sudo console-kit-daemon --help
-sudo console-kit-daemon --debug
-sudo /etc/init.d/console-setup restart
-sudo aptitude -u
-cd /etc/apt/sources.list.d/
-l
-sudo mv unofficial-debian-maintainers.list unofficial-debian-maintainers.list.ave
-sudo mv unofficial-debian-maintainers.list.ave unofficial-debian-maintainers.list.save
-apropos keyboard
-kbd_mode
-sudo vi /etc/X11/xorg.conf 
-sudo mv /etc/X11/xorg.conf /etc/X11/xorg.conf.save
-top
-sudo aptitude -u
-sudo aptitude
-vi .config/awesome/rc.lua 
-sudo aptitude
-top
-gnome-settings-daemon 
-killall gnome-settings-daemon
-xfce4-settings-editor 
-xfce4-mouse-settings 
-xfce4-keyboard-settings 
-sudo aptitude
-sudo killall gnome-volume-control-applet 
-top
-to
-top
-mount
-sudo /etc/init.d/console-setup stop
-sudo service console-setup stop
-sudo console-kit-daemon --debug --help
-sudo console-kit-daemon --debug --no-daemon
-dmesg|tail
-sudo console-kit-daemon --debug --no-daemon
-sudo vi /etc/default/keyboard 
-sudo vi /etc/default/console-setup 
-man XkbVarian
-man XkbVariant
-man xkb
-man xkbcomp
-man X
-man 7 X
-sudo vi /etc/default/console-setup 
-sudo vi /etc/default/keyboard 
-sudo console-kit-daemon --debug --no-daemon
 sudo vi /etc/default/keyboard 
 sudo console-kit-daemon --debug --no-daemon
 xfce4-settings-helper &
@@ -1998,3 +1879,122 @@ tail -n 5 .profile
 tail -n 5 .profile|sh
 free
 ssh miranda
+l
+rm vegyes*
+git status
+git init
+vi .gitignore
+git status
+git add .bash* .profile
+git add -f .bash* .profile
+l bin/
+git add bin/uno bin/unots bin/wpa bin/xkbmap bin/flac2mp3 bin/merge.mkv bin/send_dvd.sh bin/st_dl
+git add -f bin/uno bin/unots bin/wpa bin/xkbmap bin/flac2mp3 bin/merge.mkv bin/send_dvd.sh bin/st_dl
+git commit -am 'initial commit'
+git add origin git@gthomas.homelinux.org:gthomas-bashrc
+git remote add origin git@gthomas.homelinux.org:gthomas-bashrc
+cd projects/gitolite-admin/
+git pull
+vi conf/gitolite.conf 
+git commit -am 'add gthomas-bashrc repo'
+git push
+git push origin master:master
+vi .git/config 
+git push origin master:master
+ssh miranda
+top
+sudo aptitude -u
+cd ../../python/picasa-directory-sync/
+git remote -v
+git pull miranda
+git pull miranda master:master
+git push
+ssh miranda
+cd ../../python/
+l
+cd iptcinfo/
+l test
+cd test
+mkdir aapo_rista
+cd aapo_rista/
+l ../rudolph_vogt/
+cp -p ~/Downloads/iphoto-export-with-metadata.jpg .
+cd ..
+l
+l matej_cepl/
+l
+st iptcinfo-test.py
+./iptcinfo-test.py aapo_rista/iphoto-export-with-metadata.jpg 
+cd ..
+test/iptcinfo-test.py test/aapo_rista/iphoto-export-with-metadata.jpg 
+git status
+hg status
+l
+cat upl.sh 
+cat upload.sh 
+vi upl.sh 
+vi upload.sh 
+cat upload.sh >>upl.sh
+vi upl.sh 
+rm upload.sh 
+hg status
+hg rm upload.sh 
+hg add upl.sh
+hg idff
+hg diff
+hg commit -am 'fix "super" error on line 410 - reported by Aapo Rista'
+hg commit -m 'fix "super" error on line 410 - reported by Aapo Rista'
+hg push
+./upl.sh 
+vi upl.sh
+hg commit -m 'upl.sh fix'
+hg push
+./upl.sh 
+vi upl.sh 
+hg commit -m 'upl.sh fix'
+./upl.sh 
+vi upl.sh 
+hg commit -m 'upl.sh fix'
+./upl.sh 
+ssh miranda
+./upl.sh 
+./c
+man lftp
+l dist/
+lftp put dist/IPTCInfo-1.9.5-1.tar.gz ftp://gthomas@ftp.fw.hu/gthomas/python/
+man lftp
+echo 'put dist/IPTCInfo-1.9.5-1.tar.gz ftp://gthomas@ftp.fw.hu/gthomas/python/'|lftp
+echo 'put dist/IPTCInfo-1.9.5-1.tar.gz' | lftp  ftp://gthomas@ftp.fw.hu/gthomas/python/
+man curl
+curl -T 'dist/IPTCInfo-1.9.5-1.tar.gz' | ftp://gthomas@ftp.fw.hu/gthomas/python/
+curl -T 'dist/IPTCInfo-1.9.5-1.tar.gz'  ftp://gthomas@ftp.fw.hu/gthomas/python/
+curl -T 'dist/IPTCInfo-1.9.5-1.tar.gz'  ftp://gthomas:goody8@ftp.fw.hu/gthomas/python/
+vi upl.sh 
+man curl;
+man curl
+PASSW=gthomas:goody8 ./upl.sh 
+hg remote -v
+hg summary
+hg status
+ssh miranda
+cd projects/python/picasa-directory-sync/
+git status
+git pull miranda
+git remote
+git pull miranda master:master
+git push
+git pull innerloop
+git pull innerloop master:master
+git merge innerloop/master
+git log
+git branch
+git status
+git push
+git branch
+git pull innerloop master:master
+git fetch innerloop
+git merge innerloop/master
+git status
+git diff
+git commit 
+git commit -am 'merge innerloop'
