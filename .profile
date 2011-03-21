@@ -24,9 +24,13 @@ export LANGUAGE="hu_HU:en_US:en"
 export LANG="hu_HU.utf8"
 
 mkdir -p /tmp/$USER
-[ -h $HOME/.cache ] || {
+if [ -h $HOME/.cache ]; then
+  TGT=$(readlink -f $HOME/.cache)
+  [ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
+else
   mv $HOME/.cache /tmp/$USER/
   ln -s /tmp/$USER/.cache $HOME/
-}
+fi
 
 eval $(ssh-agent -t 7200)
+#case "$-" in *i*) byobu-launcher && exit 0; esac;
