@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+
+import os, subprocess
+
+from cStringIO import StringIO
+
+DEV = os.environ.get('DEV', 'wlan0')
+
+TYP_UNKNOWN = 0
+TYP_INITSCRIPT = 1
+TYP_UPSTART = 2
+daemons_type_d = {}
+def get_daemon_type(name):
+    typ = TYP_UNKNOWN
+    if not name in daemons_type_d:
+        if os.path.exists('/etc/init/' + name):
+            typ = TYP_UPSTART
+        elif os.path.exists('/etc/init.d/' + name):
+            typ = TYP_INITSCRIPT
+        daemons_type_d[name] = typ
+    return daemons_type_d[name]
+
+def sudo(*args, **kwds):
+    if isinstance(args[0], list):
+        cmd, args = args[0], args[1:]
+    else:
+        cmd = list(args)
+        args = []
+    try:
+        inp = kwds.get('input', None)
+        if inp:
+            kwds['stdin'] = subprocess.PIPE
+            del kwds['input']
+        p = subprocess.Popen(['sudo'] + cmd, *args, **kwds)
+        if inp:
+            p.stdin.write(inp)
+            p.stdin.close()
+        return p.wait()
+    except:
+        import traceback
+        print {'cmd': cmd, 'args': args, 'kwds': kwds}, traceback.format_exc()
+    
+def kill(name):
+    typ = get_daemon_type(name)
+    if TYP_UPSTART == typ:
+        cmd = ['stop', name]
+    elif TYP_INITSCRIPT == typ:
+        cmd = ['/etc/init.d/' + name, 'stop']
+    else:
+        cmd = ['/bin/sh', '-c', 
+            'kill -9 $(ps -ef|grep %s|grep -v grep|cut -c 8-14)' % name]
+    return sudo(cmd)
+
+def start(name):
+    typ = get_daemon_type(name)
+    if TYP_UPSTART == typ:
+        cmd = ['start', name]
+    elif TYP_INITSCRIPT == typ:
+        cmd = ['/etc/init.d/' + name, 'start']
+    else:
+        cmd = ['/bin/sh', '-c', '%s' % name]
+    return sudo(cmd)
+
+network_daemons = ('wicd', 'network-manager', 'connman')
+stop_rc = [(x, kill(x)) for x in network_daemons]
+
+sudo('/bin/sh', '-c', 
+    'modprobe -r iwl3945 ; modprobe -v iwl3945'
+    '; ifconfig %(DEV)s up; iwconfig %(DEV)s essid P192em' % {'DEV': DEV})
+
+conf_fn = '/etc/wpa_supplicant/wpa_supplicant.conf' 
+if not os.path.exists(conf_fn):
+    conf_fn = os.path.dirname(__file__) + '/.wpa/wpa_supplicant.conf'
+
+sudo('/bin/sh', '-c', 'cat >>/etc/resolv.conf', 
+    input='''search guba
+nameserver 192.168.1.2
+nameserver 208.67.222.222
+nameserver 208.67.220.220''')
+
+import time
+time.sleep(5)
+sudo('/bin/sh', '-c', 'ifconfig wlan0 192.168.1.10 '
+    '; route add -net 0.0.0.0 gw 192.168.1.1 dev %s &' % DEV)
+
+if 0 != sudo('wpa_supplicant', '-Dwext', '-i' + DEV, '-c' + conf_fn):
+    sudo('modprobe', '-r', 'iwl3945')
+    sudo('modprobe', '-v', 'iwl3945')
+
+for name, rc in stop_rc:
+    if 0 == rc:
+        start(name)
+        break
