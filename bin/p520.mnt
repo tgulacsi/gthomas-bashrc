@@ -1,0 +1,111 @@
+#!/usr/bin/env python
+
+import time
+import os
+import subprocess
+Popen = subprocess.Popen
+PIPE = subprocess.PIPE
+import logging
+LOG = logging.getLogger(__name__)
+
+DN = os.path.dirname(__file__)
+USER = os.environ['USER']
+BASE = os.path.expandvars('$HOME/mnt')
+PASSWD = os.path.expandvars('$HOME/.ssh/smb-unosoft.passwd')
+
+
+def execute(cmd, timeout=None):
+    LOG.debug('# executing %r', ' '.join('"%s"' % x if ' ' in x else x
+            for x in ('PASSWD=***' if x.startswith('PASSWD=') else x
+        for x in cmd)))
+    p = Popen(cmd)
+    if timeout:
+        pid = p.pid
+        if pid:
+            def on_timeout(signum, frame):
+                LOG.warn('TIMEOUT')
+                signal.alarm(0)
+                os.kill(pid, signal.SIGABRT)
+            import signal
+            signal.signal(signal.SIGALRM, on_timeout)
+            signal.alarm(timeout)
+    LOG.debug('%r: %r', cmd, p.communicate())
+    return p.returncode
+
+
+def kill_sshfs(mountpoint=None):
+    p = Popen(['ps', '-ef'], stdout=PIPE)
+    for line in p.stdout:
+        # LOG.debug('#  in line %r ?%s', line, 'sshfs' in line)
+        if 'sshfs' in line and (not mountpoint or mountpoint in sshfs):
+            LOG.debug('# pid from %r', line)
+            pid = int(line.split(None, 2)[1])
+            LOG.info('# killing %r', pid)
+            if 0 != execute(['kill', str(pid)]):
+                time.sleep(1)
+                execute(['kill', '-9', str(pid)])
+
+
+def walk_hosts(root=BASE):
+    for fn in os.listdir(root):
+        if os.path.isdir(root + '/' + fn):
+            host = fn
+            for fn in os.listdir(root + '/' + host):
+                if True or os.path.isdir(root + '/' + host + '/' + fn):
+                    nm = fn
+                    yield (root, host, nm)
+
+
+def main(umount=True, umount_only=False):
+    execute([DN + '/uno-ssh'])
+    assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])
+
+    passwd = open(PASSWD, 'rU').readline().rstrip()
+
+    if umount or umount_only:
+        LOG.info('## umounts')
+        for base, host, nm in walk_hosts():
+            path = base + '/' + host + '/' + nm
+            LOG.info('# umounting %s', path)
+            execute(['sudo', 'umount', '-lf', path])
+
+        kill_sshfs()
+
+    if not umount_only:
+        for base, host, nm in walk_hosts():
+            path = '/'.join((base, host, nm))
+            if 'p520' == host:
+                userhost = 'ablkd' if 'ablak3' == nm else nm + 'd'
+
+                assert 0 == execute(['sshfs', userhost + ':/home/' + nm, path,
+                    '-o',
+                    'idmap=user,follow_symlinks,large_read,direct_io'])
+            else:
+                cred = ('user=' + USER if 'unointra' == host
+                    else 'user=unosoft/' + USER + ',domain=unosoft')
+                opts = [cred, 'rw,iocharset=utf8', 'uid=' + USER, 'gid=' + USER]
+                if 'unots' == host:
+                    opts.append('nounix,sec=ntlm2')
+                else:
+                    opts.append('sfu')
+                rc = execute(['sudo', 'env', 'PASSWD=' + passwd,
+                    'mount', '-t', 'cifs',
+                    '//' + host + '/' + nm, path, '-o', ','.join(opts),
+                    '--verbose'])
+                if 0 != rc:
+                    LOG.error('!!! rc=%r', rc)
+        # assert 0 == rc, rc
+
+if '__main__' == __name__:
+    import optparse
+    op = optparse.OptionParser()
+    op.add_option('--no-umount', action='store_true', default=False)
+    op.add_option('-u', '--umount', default=False, action='store_true',
+        help='unmount only')
+    op.add_option('-v', '--verbose', action='store_true', default=False)
+    opts, args = op.parse_args()
+    if opts.verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO, fmt='%(message)s')
+    main(umount=not opts.no_umount, umount_only=opts.umount)

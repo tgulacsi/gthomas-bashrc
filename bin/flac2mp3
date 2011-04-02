@@ -1,3 +1,54 @@
-#!/bin/sh
-flac -dc "$1" |  lame --preset standard - - \
-  >"${2:-$(basename "$1" .flac).mp3}"
+#!/usr/bin/env python
+
+import os, subprocess
+
+def filter_factory(ext=None):
+    filters = []
+    if ext:
+        filters.append(lambda fn: fn.endswith(ext))
+    return lambda fn: all(filt(fn) for filt in filters)
+
+def search_files(path, filter=filter_factory(ext='.flac')):
+    return (os.path.join(root, fn)
+            for root, dirs, files in os.walk(path)
+            for fn in files
+            if filter(fn))
+
+running = False
+import threading
+def worker(queue):
+    while running:
+        fun = queue.get()
+        fun()
+        queue.task_done()
+
+from Queue import Queue
+def main(path, dest, threadnum=1):
+    global running
+    q = Queue()
+    running = True
+    for _ in range(threadnum):
+        threading.Thread(target=worker, args=(q,)).start()
+    n = len(path) + 1
+    for flac in search_files(path, filter=filter_factory(ext='.flac')):
+        mp3 = os.path.join(dest,
+            flac[n:].rsplit('.', 1)[0].replace(' ', '_') + '.mp3')
+        print '#', flac, '->', mp3
+        dn = os.path.dirname(mp3)
+        if not os.path.exists(dn):
+            os.makedirs(dn)
+        cmd = ['sh', '-c',
+            "flac -dc '%s' | lame --preset standard - '%s'" % (flac, mp3)]
+        print '#', ' '.join(cmd)
+        q.put(lambda: subprocess.check_call(cmd))
+    #
+    for th in threading.enumerate():
+        if th != threading.currentThread():
+            th.join()
+
+
+if '__main__' == __name__:
+    import sys
+    threadnum = sum(1 for line in open('/proc/cpuinfo', 'rU')
+        if line.startswith('processor'))
+    main(sys.argv[1], dest=sys.argv[-1], threadnum=threadnum)
