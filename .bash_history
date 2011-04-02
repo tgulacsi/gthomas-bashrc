@@ -1,725 +1,3 @@
-sudo vi /etc/default/keyboard 
-sudo console-kit-daemon --debug --no-daemon
-xfce4-settings-helper &
-sudo aptitude -u
-top
-ps -ef|grep sett
-xfce4-session-settings 
-ps -ef|grep sess
-xfce4-session &
-vi .config/awesome/rc.lua 
-xfce4-settings-manager 
-top
-sudo /etc/init.d/lxdm restart
-view /var/log/Xorg.0.log
-cd /etc/X11/
-l
-sudo cp -p xorg.conf.save xorg.conf
-sudo /etc/init.d/lxdm restart
-ck-history 
-ck-list-sessions 
-top
-dmesg|tail
-ps -ef|grep power
-sudo aptitude -u
-dstat 5
-top
-xfce4-settings-manager 
-sudo restart gdm
-ps -ef|grep X
-DISPLAY=:0.0 awesome
-vi .config/awesome/rc.lua 
-DISPLAY=:0.0 awesome
-bg
-sudo bin/wpa
-sudo /etc/init.d/lxdm stop
-sudo killall lxdm
-ps -ef|grep X
-sudo kill -9 16265 16268
-ps -ef|grep X
-sudo restart gdm
-sudo start gdm
-DISPLAY=:0.0 awesome &
-DISPLAY=:0.0 awesome --replace &
-DISPLAY=:0.0 awesome --help &
-pstree
-killall xfwm4
-DISPLAY=:0.0 awesome &
-pstree
-killall xfwm4 ; DISPLAY=:0.0 awesome &
-killall xfwm4 ; DISPLAY=:0.0 xfce4-settings-manager &
-sudo restart gdm
-killall xfwm4 ; DISPLAY=:0.0 awesome &
-killall xfwm4 ; DISPLAY=:0.1 awesome &
-killall xfwm4 ; DISPLAY=:0.2 awesome &
-killall xfwm4 ; DISPLAY=:1.0 awesome &
-sudo aptitude -u
-top
-cat /etc/default/keyboard 
-cat bin/xkbmap 
-sudo vi /etc/default/keyboard 
-xfce4-settings-manager 
-xkbmap 
-sudo vi /etc/default/keyboard 
-cd projects/unosoft/ws
-git pull
-cd uno
-git pull
-cd ..
-cd ora_interface/test/
-./ws_client.py --host www.unosoft.hu --port 8443 --ssl szerzodesek p_limit=10 p_offset=1
-vi .config/awesome/rc.lua 
-vi /usr/local/bin/x-file-browser
-l /usr/local/bin/x-file-browser
-vi /usr/local/bin/x-file-browser
-x-file-browser 
-vi /usr/local/bin/x-file-browser
-x-file-browser 
-sudo pm-suspend
-apropos power
-sudo aptotide -u
-sudo aptitude -u
-ck-list-sessions 
-killall xfce4-power-manager 
-xfce4-power-manager --help
-xfce4-power-manager --no-daemon --debug 
-sudo vi /usr/share/polkit-1/actions/org.freedesktop.upower.policy 
-sudo vi /usr/share/polkit-1/actions/org.freedesktop.policykit.policy 
-upower --help
-upower -d
-xfpm
-xfce4-power-manager &
-nm-applet
-connman
-connmand --help
-connmand -t
-connmand -n -c
-sudo connmand -n -c
-sudo stop connman
-sudo connmand -n -c
-sudo connmand -n
-sudo start connman
-sudo restart gdm
-x-www-browser &
-ifconfig
-ps -ef|grep conn
-ps -ef|grep network
-killall connman-applet
-sudo stop connman
-sudo start network-manager
-lxappearance 
-maximus
-nman
-sudo connmand -n -c
-sudo connmand -n
-sudo start connman
-sudo restart gdm
-x-www-browser &
-sudo aptitude -u
-awesome
-killall openbox ; awesome
-bg
-sudo pm-suspend
-pstree
-vi .config/awesome/rc.lua 
-vi .config/lxsession/Lubuntu/
-vi .config/lxsession/LXDE/desktop.conf 
-vi .config/lxsession/Lubuntu/desktop.conf 
-lxsessionp
-lxsession-logout 
-cd
-vi .config/awesome/rc.lua 
-find .config -name rc.lua
-find .config -name \*rc.lua
-ps -ef|grep awesome
-killall awesome ; awesome -c ~/.config/awesome/rc.lua 
-bg
-vi .config/lxsession/LXDE/
-man awesome
-bin/xkbmap 
-x-file-browser 
-vi $(which x-file-browser)
-x-file-browser 
-cat /tmp/x-file-browser.log 
-x-file-browser 
-pcmanfm
-pcmanfm --help
-pcmanfm --desktop-off
-pcmanfm
-pcmanfm -e
-pcmanfm 
-cat /etc/sudoers
-sudo cat /etc/sudoers
-groups
-which pm-suspend
-vi .config/awesome/rc.lua 
-sudo visudo
-sudo vi /etc/sudoers.d/README 
-sudo vi /etc/sudoers.d/pm-suspend
-sudo chmod 0440 /etc/sudoers.d/pm-suspend
-sudo chmod 0640 /etc/sudoers.d/pm-suspend
-sudo visudo
-sudo chmod 0440 /etc/sudoers.d/pm-suspend
-l /etc/sudoers.d/
-st_dl 2027
-vi $(which st_dl)
-st_dl 2027
-l /usr/local/lib/
-l /usr/local/lib/SublimeText2/
-sudo pm-suspend~
-sudo pm-suspend
-bin/unots
-st bin/uno &
-ssh-agent --help
-ps -ef|grep agent
-kill 16824
-sudo aptitude -u
-awesome --help
-awesome -k
-kill -USR1 $(pidof awesome -k)
-killall -USR1 awesome
-awesome
-bg
-l -tr bin/
-cat bin/import-cert.sh 
-echo QUIT | openssl s_client -connect www.unosoft.hu:443
-vi www.unosoft.hu.pem
-cd ..
-l
-l ../
-ln -s ../google_appengine/dev_appserver.py .
-sudo aptitude -u
-cd photo-shopkeeper/
-l
-cd templates/
-l
-mv psk_main.html MainPage.html
-cd ..
-git init
-git add *.py
-git add templates/
-git commit -am 'initial commit'
-l
-unzip -l flickrapi.zip 
-rm flickrapi.zip 
-cp -p ../../python/flickrapi/flickrapi.zip .
-unzip -l flickrapi.zip 
-pyflake *
-pyflake *.py
-git status
-git add flickr_handler.py flickrapi.zip
-vi .gitignore
-git status
-git add *
-git status
-git add .gitignore app.yaml
-git status
-git commit -m 'flickr_handler start'
-git push
-git remote add origin gitolite@gthomas.homelinux.org:python/gae/photo-shopkeeper
-git push
-git push origin master:master
-st --help
-cd projects/
-l
-mkdir eszter
-cd eszter
-cd ..
-mv eszter gae
-cd gae
-mkdir photo-shopkeeper
-cd photo-shopkeeper/
-../dev_appserver.py ./
-l ../
-(cd ../ ; ln -s ../google_appengine/appcfg.py .)
-../appcfg.py 
-../appcfg.py update .
-vi app.yaml 
-rm helloworld.py 
-git rm helloworld.py
-../appcfg.py update .
-vi app.yaml 
-../appcfg.py update .
-vi app.yaml 
-../appcfg.py update .
-git status
-git diff
-git commit -am 'first upload'
-git push
-git status
-git help
-git help --all
-git help archive
-git archive -9 -o ../photo-shopkeeper-elso_feltoltes.zip
-git archive -9 -o ../photo-shopkeeper-elso_feltoltes.zip HEAD
-l ../
-unzip -l ../photo-shopkeeper
-unzip -l ../photo-shopkeeper.z
-unzip -l ../photo-shopkeeper.zip
-unzip -l ../photo-shopkeeper-elso_feltoltes.zip 
-view psk_main.py 
-cd ../
-hg clone http://hg.stuvel.eu/flickrapi
-cd flickrapi
-l
-./runtests 
-l
-l flickrapi/
-l
-l flickrapi/
-cp -pr flickrapi/ ../photo-shopkeeper/
-rm -r ../photo-shopkeeper/flickrapi/
-zip -j9 ../photo-shopkeeper/flickrapi.zip flickrapi
-zip -j9 ../photo-shopkeeper/flickrapi.zip flickrapi/*
-rm ../photo-shopkeeper/flickrapi.zip ; zip -j9 ../photo-shopkeeper/flickrapi.zip flickrapi/*.py
-cd ..
-mv flickrapi/ ../python/
-cd ../python/flickrapi/
-l
-zip -9r flickrapi.zip flickrapi/
-rm flickrapi.zip 
-zip -9r flickrapi.zip flickrapi/*.py
-cd /home/gthomas/projects/gitolite-admin/
-git pull
-vi conf/gitolite.conf 
-git status
-git commit -am 'add python/gae/photo-shopkeeper repo'
-git push
-sudo aptitude -u
-ssh-add -l
-ssh-add -l; echo $?
-ssh-agent -k
-eval $(ssh-agent -s -t 7200)
-ssh-add -l
-ps -ef|grep ssh
-killall ssh-agent
-A
-killall ssh-agent
-ps -ef|grep ssh
-killall ssh-agent
-ps -ef|grep ssh
-killall ssh-agent -9
-ps -ef|grep ssh
-kill -9 11233 11272
-top
-ssh-agent -l
-ssh-add -l
-vi bin/uno
-vi .config/awesome/rc.lua 
-top
-sudo kill -9 25071
-unots
-nm-applet &
-unots
-cd projects/unosoft/uno
-git pull
-cd ../unora
-git pull
-cd ../ws
-git pull
-cd uno
-git pull
-cd ..
-st ora_interface/dealer_szerzodesek_wsgi.py 
-bg
-locate zipfile.py
-view /usr/lib/python2.7/zipfile.py
-view /usr/local/lib/google-refine-2.0/webapp/extensions/jython/module/MOD-INF/lib/jython/zipfile.py
-pyflake uno/io/zip_gen.py 
-cd uno
-git add io/zip_gen.py
-git status
-git commit -m 'add io.zip_gen.ZipFileGen'
-git push
-cd ..
-git status
-git diff
-git commit -am 'dealer_szerzodesek_wsgi: add uno.io.zip_gen.ZipFileGen'
-git push
-cd uno
-git push
-cd projects/gae/photo-shopkeeper/
-../appcfg.py update
-../appcfg.py update .
-../appcfg.py update --email='gt-dev@gthomas.homelinux.org' .
-../appcfg.py update --email='tgulacsi78@gmail.com' .
-../dev_appserver.py .
-../appcfg.py update --email='tgulacsi78@gmail.com' .
-../dev_appserver.py .
-../appcfg.py update --email='tgulacsi78@gmail.com' .
-git status
-git commit -am 'van flickr auth callback'
-git push
-git commit -am 'van flickr auth callback frob jav'
-git push
-../appcfg.py update --email='tgulacsi78@gmail.com' .
-echo "../appcfg.py update --email='tgulacsi78@gmail.com' .">c
-top
-view /var/log/Xorg.0.log
-mount
-dmesg|tail
-mount
-l /boot/
-df -h
-uname -a
-sudo restart gdm
-sudo dpkg-reconfigure gdm
-sudo dpkg-reconfigure -plow gdm
-sudo start gdm
-DISPLAY=:0.0 awesome
-
-DISPLAY=:0.0 awesome
-sudo latencytop
-top
-latencytop
-nm-applet &
-sudo aptitude -u
-sudo latencytop
-killall xfreerdp
-RDP=rdesktop unots
-sudo aptitude -u
-cd ../../gae/photo-shopkeeper/
-l
-./c
-chmod +x c
-./c
-top
-./c
-vi d
-sh d
-./c
-./d
-chmod +x d
-./d
-./c
-./d
-./c
-./d
-./c
-./d
-./c
-./d
-./c
-git status
-git commit -am 'frob -> token mar megy'
-git push
-cd projects/unosoft/uno
-git pull
-cd ../unora
-git pull
-cd ../ws/uno
-git pull
-cd ..
-git pull
-st ora_interface/dealer_szerzodesek.py &
-git status
-cd uno
-git status
-git pull
-cd ..
-git status
-git diff
-vi .git/hooks/pre-commit
-pyflake
-git commit -am 'dealer_szerzodesek: start if DealerSzerzodesekWsgi'
-git commit -am 'dealer_szerzodesek: start of DealerSzerzodesekWsgi'
-git push
-l ../../gae/
-git pull
-curl -v http://localhost:8080/
-curl -v http://localhost:8080/callback/flickr/auth?frob=111
-cd ../../gae/photo-shopkeeper/
-git status
-git add c d
-sudo aptitude -u
-dmesg|tail
-dmesg|less
-sync
-sudo aptitude -u
-sudo aptitude -t natty
-sudo aptitude safe-upgrade
-sudo aptitude distupgrade
-sudo aptitude dist-upgrade
-bin/unots
-cd projects/gae/photo-shopkeeper/
-l
-st flickr_handler.py psk_main.py &
-pyflake *.py
-git status
-./d
-./c
-git status
-pyflake *.py
-git commit -am 'flickr auth + list_photosets works!'
-git push
-git archive --help
-git archive --format=zip -o /tmp/photo-shopkeeper-$(date '+%Y%m%d').zip HEAD
-l /tmp/
-st &
-./d
-./c
-./d
-./c
-locate etree
-st /usr/local/lib/google-refine-2.0/webapp/extensions/jython/module/MOD-INF/lib/jython/xml/etree/ElementTree.py 
-./d
-pyflake *.py
-vi c
-./c
-git status
-git commit -am 'photosets_getList works!'
-git push
-./d
-./c
-sudo start gdm
-view /var/log/Xorg.0.log
-X
-sudo X
-links
-w3m
-w3m http://google.com
-sudo aptitude -u
-sudo aptitude -t maverick
-sudo start gdm
-view /var/log/Xorg.0.log
-lsmod|grep nvidia
-sudo modprobe -rv nvidia
-lsmod|grep nvidia
-sudo reboot
-view /var/log/Xorg.0.log
-dmesg|tail
-sudo bin/wpa
-top
-sudo latencytop
-sudo start gdm
-sudo bin/wpa
-cd /etc/apt/sources.list.d/
-sudo mv ../sources.list natty.list
-sudo mv maverick.list ../sources.list
-sudo vi ../apt.conf.d/99zz-default_release 
-sudo aptitude
-sudo bin/wpa
-cd /etc/apt/sources.list.d/
-lsmod|grep nv
-uname -a
-sudo aptitude -u
-sudo start gdm
-sudo restart gdm
-sudo stop gdm
-ps -ef|grep X
-sudo start gdm
-ps -ef|grep X
-sudo stop gdm
-sudo X
-sudo modprobe -v nvidia
-find /lib/modules/2.6.38-3-generic/ -name nvidia.ko
-find /lib/modules/2.6.38-3-generic/ -name nvidia\*
-sudo modprobe -v nvidia-current
-dmesg|tail
-lsmod|grep nvidia
-lsmod|grep nouv
-sudo modprobe -rv nouveau
-view /var/log/Xorg.0.log
-sudo start gdm
-view /var/log/Xorg.0.log
-dmesg|tail
-sudo restart gdm
-view /var/log/Xorg.0.log
-sudo bin/wpa
-lsmod|grep nv
-lsmod|grep nouv
-sudo start gdm
-cd /etc/X11/
-l
-cat xorg.conf
-cat xorg.conf.save 
-sudo vi xorg.conf
-sudo start gdm
-ps -ef|grep X
-tail /var/log/Xorg.0.log
-view /var/log/Xorg.0.log
-sudo modprobe -rv nvidia
-sudo modprobe -rv nvidia-current
-man Xorg
-killall openbox ; awesome
-bg
-top
-vi .config/awesome/rc.lua 
-killall openbox ; awesome &
-cd .config/autostart/
-l
-vi awesome.desktop 
-vi awesome.sh
-chmod +x awesome.sh 
-mv awesome.sh  /home/gthomas/Asztal/
-x-www-browser &
-dmesg|tail
-sudo aptitude -u
-cd
-bin/unots
-update-rc.d
-sudo update-rc.d -n gdm defaults
-sudo start gdm
-cd /etc/apt/sources.list.d/
-l
-sudo vi natty.list 
-sudo vi ../sources.list
-top
-xkbmap 
-cd /etc/default/
-sudo vi grub 
-sudo update-grub
-top
-dmesg|tail
-sudo vi /etc/apt/apt.conf.d/99zz-default_release 
-df -h
-top
-cd projects/gae/photo-shopkeeper/
-st &
-./d
-./c
-./d
-./c
-git status
-git commit -am 'photo listing sith sizes works'
-git push
-pstree
-top
-sudo renice -n1 15889
-sudo renice -n 1 -p 15889
-top
-sudo ionice -c2 -n2 -p15889
-top
-ps -ef|grep ssh
-bin/unots
-RDP=rdesktop bin/unots
-ping www.unosoft.hu
-dmesg|Tail
-dmesg|tail
-sudo vi /etc/X11/xorg.conf
-sudo aptitude -u 
-sudo aptitude -t natty dist-upgrade
-sudo aptitude
-bin/unots
-l .ssh/
-l /home/gthomas/.ssh/id_tgulacsi@unosoft" 
-l /home/gthomas/.ssh/id_tgulacsi@unosoft
-cat /home/gthomas/.ssh/id_tgulacsi@unosoft
-bin/unots
-ssh -C -f -N -L 0.0.0.0:5001:unots.unosoft.local:3389        -o CompressionLevel=9 -o Compression=yes -o ConnectionAttempts=3        -o ServerAliveInterval=5 -o ServerAliveCountMax=3 -o TCPKeepAlive=yes        -p 2222 -i "/home/gthomas/.ssh/id_tgulacsi@unosoft" tgulacsi@mail.unosoft.hu
-echo $?
-netstat -nt|grep 500
-xfreerdp localhost:5001
-xfreerdp -g 1420x900 localhost:5001
-ssh -C -f -N -L 0.0.0.0:5001:unots.unosoft.local:3389        -o CompressionLevel=9 -o Compression=yes -o ConnectionAttempts=3        -o ServerAliveInterval=5 -o ServerAliveCountMax=3 -o TCPKeepAlive=yes        -p 2222 -i "/home/gthomas/.ssh/id_tgulacsi@unosoft" tgulacsi@mail.unosoft.hu
-xfreerdp -g 1420x900 localhost:5001
-dmesg 5
-dstat 5
-top
-sudo aptitude install
-sudo poweroff
-dmesg|tail
-sudo vi /etc/fstab
-sudo mount -o remount /boot
-mount
-vi bin/uno
-sudo aptitude -u
-ssh miranda
-python
-cd projects/gae/photo-shopkeeper/
-st &
-apropos image
-curl -O http://pypng.googlecode.com/svn/trunk/code/png.py
-l
-vi png.py 
-git add png.py
-pyflake png.py
-git rm png.py
-git rm -f png.py
-curl -O http://pypng.googlecode.com/svn/trunk/code/png.py
-vi png.py
-pyflake png.py
-git add png.py
-git status
-git commit -am 'add png.py - not used yet'
-git push
-git pull
-scp -pr miranda:projects/python/watermark .watermark
-cd .watermark/
-l
-rm *.pyc *.png
-l
-cd ..
-git add .watermark/
-git commit -m 'add .watermark'
-git push
-scp -pr miranda:projects/python/watermark .watermark
-cd .watermark/
-l
-cd watermark/
-l
-mv *.py ..
-cd ..
-rm -r watermark
-pyflake *.py
-git status
-git commit -m 'watermark flake-ize'
-git commit -m 'watermark flake-ize' *.py
-git push
-git status
-git diff
-git status
-git diff
-st_dl 2032
-git status
-pyflake *.py
-git commit -am 'add watermark_url to flickr_handler'
-git push
-git pull
-git pull origin master:master
-git merge origin/master
-git push
-rsync -av *.py miranda:projects/python/watermark/
-pwd
-st
-top
-sudo aptitude -u
-df -h
-ssh miranda
-l
-cd
-cat /proc/acpi/battery/BAT0/
-cat /proc/acpi/battery/BAT0/info 
-cat /proc/acpi/battery/BAT0/state 
-top
-top
-pstree
-tail -f /var/log/syslog
-tail -f /var/log/unattended-upgrades/unattended-upgrades.log
-top
-sudo vi /etc/ssmtp/revaliases 
-sudo vi /etc/ssmtp/ssmtp.conf 
-sendmail 
-echo 'PROBA' | sendmail -F gt-hackworth@gthomas.homelinux.org -S proba gt-proba@gthomas.homelinux.org
-ping gthomas.homelinux.org
-echo 'PROBA' | sendmail -F gt-hackworth@gthomas.homelinux.org -S proba gt-proba@gthomas.homelinux.org
-echo 'PROBA' | sendmail -f gt-hackworth@gthomas.homelinux.org -S proba gt-proba@gthomas.homelinux.org
-echo 'PROBA' | sendmail -f gt-hackworth@gthomas.homelinux.orga gt-proba@gthomas.homelinux.org
-echo 'PROBA' | sendmail -f gt-hackworth@gthomas.homelinux.org gt-proba@gthomas.homelinux.org
-sleep 300 ; echo 'PROBA' | sendmail -f gt-hackworth@gthomas.homelinux.org gt-proba@gthomas.homelinux.org
-cd projects/gae/photo-shopkeeper/
-st ^
-st &
-pyflake *.py
-./d
-./c
-git status
-git add cron.yaml
-git commit -am 'start of TransportOne'
-git push
-ssh miranda
-sudo aptitude -u
-cd projects/gae/photo-shopkeeper/
 st &
 cd ../../python/iptcinfo/
 l
@@ -1998,3 +1276,725 @@ git status
 git diff
 git commit 
 git commit -am 'merge innerloop'
+ssh miranda
+cd ../../
+l
+cd unosoft/
+l
+svn checkout http://xdocreport.googlecode.com/svn/trunk/ xdocreport-read-only
+cd
+sudo aptitude -u
+cd projects/unosoft/
+l
+cd xdocreport-read-only/
+l
+cd ..
+tar cjf xdocreport-read-only-$(date '+%Y%m%d').tbz2 xdocreport-read-only/
+rm -r xdocreport-read-only/
+rm -rf xdocreport-read-only/
+l
+scp -p xdocreport-read-only-20110321.tbz2 miranda:html/
+rm -r xdocreport-read-only-20110321.tbz2 
+sync
+top
+cd
+git status
+git remote -v
+git remote 
+git remote --help
+git remote rename origin gho
+git remote add origin git@github.com:tgulacsi/gthomas-bashrc
+git pull
+git pull origin master:master
+git fetch origin
+git merge orign/master
+git merge origin/master
+rm .gitignore 
+git merge origin/master
+git mergetool
+git commit
+git commit -am 'merged
+'
+git push
+git pull
+git push origin master:master
+git push gho master:master
+cd projects/gae/photo-shopkeeper/
+st_dl 2052
+st_dl 2053
+st_dl 2057
+st_dl 2051
+st &
+./d
+./c
+git commit -am 'start of refactoring models'
+git push
+./c
+git status
+git add models.py steps.py
+git commit -am "fix upload_photo's return value to be parsed, not raw xml"
+git push
+irqbalance 
+apropos irc
+man 3 queue
+./c
+top
+ssh miranda
+./c
+git status
+git log
+git commit -am 'cron job works!'
+git push
+./c
+python -m jinja2 templates/usersettings.html 
+python -m lib/jinja2 templates/usersettings.html 
+python -m lib.jinja2 templates/usersettings.html 
+PYTHONPATH=$PYTHONPAT:lib python -m jinja2 templates/usersettings.html 
+./c
+git status
+git commit -am 'add new_photos to flickr_handler'
+git push
+./c
+git status
+git commit -am 'fix unicode issue in steps.watermark_and_upload'
+git push
+sudo vi /etc/apt/sources.list
+sudo vi /etc/apt/sources.list.d/natty.list 
+sudo aptitude -u
+ssh miranda
+cd projects/unosoft/unora
+git pull
+top
+cd ~/Dokumentumok/TeX/
+l
+pdftex Val/statpus.tex 
+pdflatex Val/statpus.tex 
+pdflatex -h Val/statpus.tex 
+pdflatex --he
+pdflatex Val/statpus.tex 
+tex4ht Val/statpus.tex 
+pdflatex Val/statpus.tex 
+apropos prosper
+pdflatex Val/statpus.tex 
+man pdflatex
+latex Val/statpus.tex 
+l
+l -tr
+pdflatex Val/statpus.tex 
+l
+l -tr
+l -tr Val/
+find . -name stmaryrd.sty
+tar tjf körítés.tar.bz2 
+cp -p ~/Letöltések/stmaryrd.sty körítés/
+ln -s körítés/stmaryrd.sty .
+cp -p ~/Letöltések/module.sty körítés/
+ln -s körítés/module.sty .
+cd ~/Dokumentumok/TeX/Val
+l
+dvipdf 
+cd ..
+find . -name '*.dvi'
+find . -name '*.pdf'
+oolatex
+top
+dmesg|tail
+top
+dstat 5
+top
+sudo aptitude -u
+l ./projects/honlap/cs.elte.hu/mat/jegyzetek/statpus.tex.bz2
+l ./projects/honlap/gthomas.atw.hu/jegyzetek/statpus.tex.bz2
+cd ./projects/honlap/gthomas.atw.hu/jegyzetek/
+l
+cd ../..
+find . -name '*.pdf*'
+cp -p $(find . -name '*.pdf*') /media/usb/matek/
+sudo aptitude -u
+sync
+top
+find . -name '*.dvi'
+find . -name 'statpus.*'
+mkdir /media/usb/matek
+cd Dokumentumok/TeX/
+rm stmaryrd.sty module.sty 
+find ~/ -name val\*.dvi
+find ~/ -name stat\*.dvi
+find ~/ -name stat\*.dvi\*
+find ~/ -name val\*.dvi\*
+cp -p /home/gthomas/projects/honlap/cs.elte.hu/gthomas/*.dvi.gz .
+gzip -d *.dvi.gz
+l
+tex4ht Val/val.tex 
+mv val*.dvi Val/
+tex4ht Val/val.tex 
+l -tr
+l -tr Val/
+x-www-browser Val/val.html 
+tex4ht Val/statpus.tex 
+mv stat*.dvi Val/
+tex4ht Val/statpus.tex 
+dvipdf Val/val.dvi
+l -tr
+evince val.pdf
+dvipdfm Val/val.dvi
+evince val.pdf
+man dvipdf
+man dvipdfm
+dvipdfm -l Val/val.dvi
+evince val.pdf
+mv val.pdf Val/
+cd Val
+l
+dvipdfm valfej.dvi 
+evince valfej.pdf 
+mv valfej* ../opk/
+mv ../opk* ../opk/
+l
+dvipdfm stat.dvi
+mount
+mount|grep btrf
+dvipdfm stat.dvi
+pdflatex statpus.tex
+cd ../
+pdflatex Val/statpus.tex
+find . -name gtstat.sty
+l x/
+l x/tools/
+ln x/tools/gt*.sty x/tools/my* körítés/
+l körítés
+pdflatex Val/statpus.tex
+man pdflatex
+man latex
+latex Val/statpus.tex
+l mystart
+l mystart*
+ln körítés/* .
+latex Val/statpus.tex
+l -tr
+rm stmaryrd.sty module.sty 
+latex Val/statpus.tex
+l -tr
+evince statpus.pdf 
+find . -name '*.tex' -maxdepth 1
+find . -maxdepth 1 -name '*.tex'
+find . -maxdepth 2 -name '*.tex'
+find . -maxdepth 2 -name '*.tex' -exec pdflatex {} \;
+l mystart*
+l x/tools/Old/
+find . -name mystart1.tex
+find ~/ -name mystart1.tex
+ln -s mystart.tex mystart1.tex
+find . -maxdepth 2 -name '*.tex' -exec pdflatex {} \;
+l -tr
+find . -maxdepth 2 -name '*.tex' -exec pdfluatex {} \;
+lualatex --help
+lualatex Val/stat.tex 
+latex Val/stat.tex 
+l -tr
+find . -maxdepth 2 -name '*.tex' -exec pdflatex -batchmode {} \;
+l -tr
+find . -name '*.log' -name '*.aux'
+find . -name '*.log' -o -name '*.aux'
+find . -name '*.log' -o -name '*.aux' -delete
+l
+l -tr
+cd Val/
+l
+dvipdfm statpus.dvi 
+dvipdfm val1.dvi 
+dvipdfm val2.dvi 
+;l
+l
+cd ..
+l
+cd others/
+l
+cd ../ana/
+l
+l ../ana*
+cd ..
+cd ..; tar cvf TeX-$(date '+%Y%m%d').tar.lzma --lzma TeX
+l
+l -tr
+cp -p TeX-20110323.tar.lzma /media/usb/matek/
+bg
+cd TeX/Val/
+cp -p *.pdf /media/usb/matek/
+cp -p ../*.pdf /media/usb/matek/
+bg
+fg ; cp -p *.pdf /media/usb/matek/
+top
+l
+cd ../
+find . -maxdepth 2 -name '*.dvi' -exec dvipdfm {} \;
+l -tr
+evince ana11.pdf 
+l
+find . -name '*.log' -o -name '*.aux' -delete
+cd ..
+tar cvf TeX-$(date '+%Y%m%d').tar.lzma --lzma TeX
+l
+l -tr
+cp -p TeX-20110323.tar.lzma /media/usb/matek/
+sync
+cd projects/unosoft/unora
+git pull
+cd ../
+sudo aptitude -u
+cd projects/python
+l
+git clone git@github.com:Pylons/pyramid.git
+cd pyramid
+l
+cd pyramid/
+l
+l paster_templates/
+l paster_templates/starter/
+l paster_templates/starter/+package+/
+l paster_templates/starter/
+l
+cd ..
+cp -pr pyramid/ ~/projects/gae/lib/
+cd ~/projects/gae/
+mv lib photo-shopkeeper/lib/pyramid
+cd photo-shopkeeper/
+l
+cd lib
+l
+cd pyramid/
+l
+gm -t tests paster*
+rm -r tests paster*
+find . |wc -l
+l
+view __init__.py 
+l
+view mako_templating.py 
+l
+grep jinja *
+l
+cd ..
+python
+cd ~/projects/gae/photo-shopkeeper/
+git status
+git branch
+git checkout -b pyramid master
+git branch
+l
+cd ~/projects/python/pyramid/
+l
+cd docs/
+l
+make
+make html
+l
+cd ../..
+pip help
+pip help install
+pip install --no-install pyramid
+l
+l -tr
+cd build/
+l
+l Chameleon/
+l Chameleon/src/
+l Chameleon/src/chameleon/
+cp -pr  Chameleon/src/chameleon/ ~/projects/gae/photo-shopkeeper/lib/
+l
+l Paste
+l Paste/paste/
+cp -pr Paste/paste/ ~/projects/gae/photo-shopkeeper/lib/
+l
+l PasteDeploy/
+l
+l PasteDeploy/paste/
+pip install virtualenv
+cd ..
+virtualenv --help
+sudo pip install virtualenv
+virtualenv --help
+virtualenv -v --no-site-packages  pyramid
+cd pyramid/
+l
+cd ..
+rm -r pyramid
+rm -fr pyramid
+virtualenv -v --no-site-packages  pyramid
+cd pyramid/
+l
+l bin/
+. bin/activate
+which pip
+pip install pyramid
+pip install distribute
+pip install --upgrade distribute
+pip install pyramid
+l
+l lib/
+l lib/python2.7/
+l lib/python2.7/site
+l lib/python2.7/site-packages/
+l lib/python2.7/site-packages/webob/
+l
+du -hs .
+find . |wc -l
+cd ..
+l
+cd ../gae/photo-shopkeeper/
+l
+git branch
+git checkout -f master
+cd lib
+l
+rm -r pyramid/
+rm -r chameleon/ paste 
+l
+git clone https://github.com/duointeractive/paypal-python.git
+mv paypal-python/paypal .
+rm -rf paypal-python/
+l
+cd paypal/
+l
+ps -ef|grep gdm
+l /var/log/Xorg.0.log
+dmesg|tail
+pstree -p
+sudo start gdm
+l /var/log/Xorg.0.log
+less /var/log/Xorg.0.log
+lsmod|grep nouv
+pstree
+sudo start gdm
+sudo restart gdm
+byobu
+lsmod
+sudo restart gdm
+sudo start gdm
+sudo stop gdm
+tail -n 20 /var/log/Xorg.0.log
+sudo vi /etc/X11/xorg.conf
+sudo start gdm
+l
+lsmod|grep nouv
+lsmod|grep nvid
+l
+lsmod|grep nvid
+which gnome-wm
+file $(which gnome-wm)
+view $(which gnome-wm)
+locate metacity.desktop
+cd /usr/share/application
+cd /usr/share/applications
+l
+sudo cp -p metacity.desktop awesome.desktop
+sudo vi awesome.desktop 
+sudo mv awesome.desktop /usr/local/share/applications/
+sudo ln -s /usr/local/share/applications/awesome.desktop .
+top
+pstree
+sudo udevadm monitor
+top
+sudo udevadm monitor
+ps -ef|grep udev|wc -l
+ps -ef|grep udev
+pstree
+cd /media/My\ Disc/
+l
+wine loader_page.exe 
+gnash main_page_1.swf 
+bg
+top
+wine loader_page.exe 
+cd ~/Etoys/S
+cd ~/Etoys/
+l
+l Squeaklets/
+cd ..
+mkdir Games
+cp /usr/share/applications/wine.desktop Games/HelenDoron.desktop
+vi Games/HelenDoron.desktop
+top
+pstree
+start Games/HelenDoron.desktop
+nautilus Games/HelenDoron.desktop
+echo 'wine HelenDoron/loader_page.exe' >Games/helendoron
+vi Games/helendoron 
+mv Games/HelenDoron.desktop /usr/local/share/applications/
+sudo mv Games/HelenDoron.desktop /usr/local/share/applications/
+ps auxww | grep -v VSZ | awk 'BEGIN {vsz = 0} {vsz = vsz + $5} END {print vsz}'
+dmesg|grep swap
+dmesg|tail
+top -o size
+op
+top
+dstat -n 5
+top
+htop
+sudo latencytop
+dstat
+sudo aptitude -u
+fg; sudo pm-suspend
+sudo aptitude -u
+cd projects/unosoft/unora
+git pull
+cd projects/gae/photo-shopkeeper/
+top
+ln ~/Downloads/*.php lib/paypal/
+cp -p ~/Downloads/*.php lib/paypal/
+sudo aptitude
+cd ..
+l
+cd ..
+l
+sudo mv google_appengine/ /usr/local/
+ln -s /usr/local/google_appengine
+man cpulimit
+cd gae/photo-shopkeeper/
+git remote -v
+cd ../../gitolite-admin/
+git pull
+vi conf/gitolite.conf 
+git commit -am 'add psk-django'
+git push
+cd
+sudo aptitude -u
+top
+cd projects/gae/django/
+l
+hg clone https://bitbucket.org/chris1610/satchmo
+l
+l satchmo/
+cd satchmo/
+l
+zip ../satchmo.zip satchmo/
+zip -r ../satchmo.zip satchmo/
+rm ../satchmo.zip 
+cd satchmo/
+l
+cd apps/
+l
+l l10n/
+zip -r9 ../apps.zip .
+cd ..
+l
+rm -r apps
+vi __init__.py 
+cd ..
+python
+vi satchmo/__init__.py 
+python
+vi satchmo/__init__.py 
+python
+cd satchmo/
+l
+mkdir apps
+cd apps
+unzip ../apps.zip 
+cd ..
+rm apps.zip 
+zip -r9 apps.zip apps
+rm -r apps
+cd ..
+python
+l
+cd satchmo/
+l
+vi projects/
+l projects/
+l projects/simple/
+l
+vi projects/simple/settings.py 
+unzip -l apps.zip 
+unzip apps.zip 
+cd apps
+rm ../apps.zip 
+zip -r9 ../apps.zip *
+l
+cd ..
+rm -r apps
+l
+cd ..
+l
+cd djangoappengine/
+l
+l lib/
+find . |wc -l
+cd ..
+l
+cd django-dbindexer/
+l
+l dbindexer/
+cd ../..
+l
+cd django/
+l
+cd django-defer/
+l
+l defer/
+cd ..
+l
+cd djangotoolbox/
+l
+l djangotoolbox/
+l djangotoolbox/db/
+cd ..
+l
+cd django-nonrel/
+l
+cd django/
+l
+find . |wc -l
+zip -rm9 ../django.zip *
+l
+cd ..
+rm -r django
+l
+cd ../..
+cd psk-django/
+l
+rm django
+vi __init__.py 
+l
+cd ../django/
+l
+cd django-
+l
+cd django-nonrel/
+l
+mkdir django
+cd django/
+unzip ../django.zip 
+cd ..
+rm django.zip 
+zip -m9r django.zip django
+cd 
+cat ../../photo-shopkeeper/c
+cd ..
+l
+cd django
+l
+cd djangoappengine/
+l
+hg pull
+cd ..
+cd ~/projects/unosoft/ws/uno
+git pull
+cd ..
+git pull
+pyflake uno/db/oracle/pool.py
+cd uno
+git status
+git commit -am 'add OraDummyPool'
+git push
+git pull
+cd projects/unosoft/unora
+git pul
+git pullk
+git pull
+cd ../uno
+git pull
+cd ../ws/uno
+git pull
+cd ..
+git pull
+cd ../uno
+git checkout config/__init__.py
+git pull
+cd /tmp
+unzip /home/gthomas/projects/gae/psk-django/django.zip 
+l
+l ~/Downloads/
+unzip /home/gthomas/Downloads/google_appengine_1.4.3.zip 
+cp -pr google_appengine /usr/local/
+sudo cp -pr google_appengine /usr/local/
+sudo rsync -av --inplace google_appengine/ /usr/local/google_appengine/ 
+l /usr/local/
+cd
+cd projects/unosoft/unora
+git pull
+git status
+git commit -am 'br_uno: uid2dsn jav else proxyra'
+git push
+cd
+sudo aptitude -u
+top
+top
+sudo aptitude -u
+cd ../2010-Pöttyös_labda/
+l
+rename_images 2010-Bori_évzáró 2010-05-Bölcsőde-201005271*
+eog 2010-05-Bölcsőde-201012251*
+rename_images Család 2010-05-Bölcsőde-201012251*.jpg
+rm *~*
+mv Család-201012251* ../2010-12/
+l
+eog 2010-05-Bölcsőde-2010080615
+eog 2010-05-Bölcsőde-2010080615*
+rename_images 2010-angol_tábor 2010-05-Bölcsőde-2010080615*
+mv 2010-angol_tábor-2010080615*.jpg ../2010-08/
+rm *~*
+l
+cd ../2011-01
+cd ../2010-03
+l
+cd ../2011-03
+rename_images Család DS*.JPG
+cd ..
+l
+cd ..
+l
+cd Család/
+./2miranda.sh 
+sudo aptitude -u
+top
+cd ~/projects/python/picasa-directory-sync/
+git remote
+git pull miranda
+git pull miranda master:master
+git push
+git fetch innerloop
+git log innerloop/master
+git rebase innerloop/master
+git push
+git push -f
+cd projects/python/picasa-directory-sync/
+vi sync.py 
+git status
+git pull miranda
+git pull miranda master:master
+git checkout sync.py
+git pull miranda master:master
+view sync.py 
+git status
+git checkout -f master
+git pull miranda master:master
+git log
+git status
+view sync.py 
+git status
+git push
+cd Photos/GUBA/Család/2010-12
+l
+rename_images Család DSC*.JPG
+rename_images 2010-05-Bölcsőde IMGA*.JPG
+mv 2010-05-Bölcsőde-2010* ../2010-Pöttyös_labda/
+l
+rm *~*
+l
+cd ../2011-01/
+l
+rename_images Család DSC*.JPG
+cd ../2011-02
+rename_images Család DSC*.JPG
+cd ../2011-04
+rename_images Család DSC*.JPG
+cd ..
+find . -name '*~' -delete
+cd
+sync
+sudo umount /media/NIKON\\\ D70S 
+sudo umount '/media/NIKON\ D70S '
+sudo umount '/media/NIKON\ D70S'
+sudo umount /dev/sdb1
+ssh miranda
