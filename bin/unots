@@ -3,7 +3,7 @@ case $(uname -n) in
   tgulacsi-desktop)
 #/usr/bin/rdesktop -D -g 1920x1056 -a 16 -P -d unosoft unots
 xfreerdp -D -g 1900x1080 -a 16 -d unosoft -u tgulacsi \
-  -k 0x409 --plugin cliprdr unots
+  -k 0x409 --plugin cliprdr ${1:-unots}
 
     ;;
   *) exec $(dirname $0)/uno ts "$@"; break 
