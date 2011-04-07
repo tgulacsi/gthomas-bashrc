@@ -2,6 +2,7 @@
 
 import time
 import os
+import sys
 import subprocess
 Popen = subprocess.Popen
 PIPE = subprocess.PIPE
@@ -49,6 +50,8 @@ def kill_sshfs(mountpoint=None):
 def walk_hosts(root=BASE):
     for fn in os.listdir(root):
         if os.path.isdir(root + '/' + fn):
+            if 'na' == fn:
+                continue
             host = fn
             for fn in os.listdir(root + '/' + host):
                 if True or os.path.isdir(root + '/' + host + '/' + fn):
@@ -56,8 +59,10 @@ def walk_hosts(root=BASE):
                     yield (root, host, nm)
 
 
-def main(umount=True, umount_only=False):
-    execute([DN + '/uno-ssh'])
+def main(umount=True, umount_only=False, use_sshfs=False):
+    if not os.environ.get('SSH_AGENT_PID'):
+        execute(['sh', '-c', '. %s/uno-ssh ; %s' % (DN, sys.argv[0])])
+        sys.exit(0)
     assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])
 
     passwd = open(PASSWD, 'rU').readline().rstrip()
@@ -74,7 +79,7 @@ def main(umount=True, umount_only=False):
     if not umount_only:
         for base, host, nm in walk_hosts():
             path = '/'.join((base, host, nm))
-            if 'p520' == host:
+            if 'p520' == host and use_sshfs:
                 userhost = 'ablkd' if 'ablak3' == nm else nm + 'd'
 
                 assert 0 == execute(['sshfs', userhost + ':/home/' + nm, path,
@@ -85,7 +90,7 @@ def main(umount=True, umount_only=False):
                     else 'user=unosoft/' + USER + ',domain=unosoft')
                 opts = [cred, 'rw,iocharset=utf8', 'uid=' + USER, 'gid=' + USER]
                 if 'unots' == host:
-                    opts.append('nounix,sec=ntlm2')
+                    opts.append('nounix,sec=ntlmv2')
                 else:
                     opts.append('sfu')
                 rc = execute(['sudo', 'env', 'PASSWD=' + passwd,
@@ -103,9 +108,11 @@ if '__main__' == __name__:
     op.add_option('-u', '--umount', default=False, action='store_true',
         help='unmount only')
     op.add_option('-v', '--verbose', action='store_true', default=False)
+    op.add_option('--nosshfs', action='store_true', default=False)
     opts, args = op.parse_args()
     if opts.verbose:
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO, fmt='%(message)s')
-    main(umount=not opts.no_umount, umount_only=opts.umount)
+    main(umount=not opts.no_umount, umount_only=opts.umount,
+        use_sshfs=not opts.nosshfs)

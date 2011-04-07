@@ -13,14 +13,15 @@ find_pid () {
         export SSH_AGENT_PID
     }
 }
-echo SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
-{
-    ssh-add -l || {
-        ssh-agent -k
-        SSH_AGENT_PID=; export SSH_AGENT_PID
-        SSH_AUTH_SOCK=; export SSH_AUTH_SOCK
-        eval $(ssh-agent -t 7200)
-    }
-} | grep -q 'd5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b' && exit 0
-echo SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
-env SSH_ASKPASS=/usr/bin/ssh-askpass ssh-add $HOME/.ssh/tgulacsi@unosoft
+echo 1 SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+ssh-add -l | grep -q 'd5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b' && exit 0
+ssh-agent -k
+killall ssh-agent
+rm -rf /tmp/ssh-*
+SSH_AGENT_PID=; export SSH_AGENT_PID
+SSH_AUTH_SOCK=; export SSH_AUTH_SOCK
+eval $(ssh-agent -t 7200)
+export SSH_AGENT_PID
+export SSH_AUTH_SOCK
+echo 2 SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+ssh-add $HOME/.ssh/tgulacsi@unosoft

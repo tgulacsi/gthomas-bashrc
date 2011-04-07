@@ -22,6 +22,7 @@ if [ -d "$HOME/bin" ] ; then
 fi
 export LANGUAGE="hu_HU:en_US:en"
 export LANG="hu_HU.utf8"
+export LC_ALL=C
 
 mkdir -p /tmp/$USER
 if [ -h $HOME/.cache ]; then
@@ -32,5 +33,6 @@ else
   ln -s /tmp/$USER/.cache $HOME/
 fi
 
-eval $(ssh-agent -t 7200)
+#eval $(ssh-agent -t 7200)
+[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 #case "$-" in *i*) byobu-launcher && exit 0; esac;
