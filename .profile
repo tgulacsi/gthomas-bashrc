@@ -21,8 +21,8 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 export LANGUAGE="hu_HU:en_US:en"
-export LANG="hu_HU.utf8"
-export LC_ALL=C
+export LANG="hu_HU.UTF-8"
+export LC_ALL=hu_HU.UTF-8
 
 mkdir -p /tmp/$USER
 if [ -h $HOME/.cache ]; then
