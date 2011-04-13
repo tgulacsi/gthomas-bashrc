@@ -57,6 +57,7 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          , className =? "MPlayer"   --> doFloat
                          , className =? "Gimp"      --> doFloat
                          , className =? "Vlc"       --> doFloat
+                         , className =? "gmrun"       --> doFloat
 			 , insertPosition Below Newer
 			 , transience'
                          ]
@@ -93,7 +94,7 @@ tabTheme1 = defaultTheme { decoHeight = 16
                          }
 
 -- workspaces
-workspaces' = ["1-main", "2-web", "3-mail", "4-torrents", "5-im", "6", "7", "8", "9"]
+workspaces' = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- layouts
 layoutHook' = tile ||| mtile ||| tab ||| full
@@ -106,7 +107,7 @@ layoutHook' = tile ||| mtile ||| tab ||| full
 
 -------------------------------------------------------------------------------
 -- Terminal --
-terminal' = "urxvt"
+terminal' = "x-terminal-emulator"
 
 -------------------------------------------------------------------------------
 -- Keys/Button bindings --
@@ -123,7 +124,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     [ ((modMask,               xK_Return), spawn $ XMonad.terminal conf) 
     , ((modMask,               xK_p     ), spawn "dmenu_run") 
     , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
-    , ((modMask .|. shiftMask, xK_m     ), spawn "claws-mail")
+    , ((modMask .|. shiftMask, xK_f     ), spawn "firefox")
     , ((modMask .|. shiftMask, xK_c     ), kill)
 
     -- grid
