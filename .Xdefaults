@@ -24,6 +24,8 @@ URxvt*background: #000000
 URxvt*foreground: #C7C7C7
 URxvt*borderless: 1
 
+Urxvt*termName: xterm-color
+
 !--[font]--! 
 !URxvt*font: -*-monospace-*-*-*-*-12-*-*-*-*-*-*-u
 !URxvt*font: -misc-monospade-*-*-*-*-14-*-*-*-*-*-*-*

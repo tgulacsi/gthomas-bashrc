@@ -81,7 +81,7 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
 -- borders
-borderWidth' = 1
+borderWidth' = 2
 normalBorderColor'  = "#333333"
 focusedBorderColor' = "#AFAF87"
 
@@ -107,7 +107,7 @@ layoutHook' = tile ||| mtile ||| tab ||| full
 
 -------------------------------------------------------------------------------
 -- Terminal --
-terminal' = "x-terminal-emulator"
+terminal' = "urxvt -tn xterm-color"
 
 -------------------------------------------------------------------------------
 -- Keys/Button bindings --
