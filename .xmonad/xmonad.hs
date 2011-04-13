@@ -57,7 +57,7 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          , className =? "MPlayer"   --> doFloat
                          , className =? "Gimp"      --> doFloat
                          , className =? "Vlc"       --> doFloat
-                         , className =? "gmrun"       --> doFloat
+			 , isDialog                 --> doFloat
 			 , insertPosition Below Newer
 			 , transience'
                          ]
@@ -107,7 +107,8 @@ layoutHook' = tile ||| mtile ||| tab ||| full
 
 -------------------------------------------------------------------------------
 -- Terminal --
-terminal' = "urxvt -tn xterm-color"
+--terminal' = "urxvt -tn xterm-color"
+terminal' = "x-terminal-emulator"
 
 -------------------------------------------------------------------------------
 -- Keys/Button bindings --
