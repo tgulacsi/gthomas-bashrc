@@ -64,6 +64,7 @@ def main(umount=True, umount_only=False, use_sshfs=False):
         execute(['sh', '-c', '. %s/uno-ssh ; %s' % (DN, sys.argv[0])])
         sys.exit(0)
     assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])
+    os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
 
     passwd = open(PASSWD, 'rU').readline().rstrip()
 
