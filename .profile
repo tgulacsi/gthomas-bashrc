@@ -40,6 +40,7 @@ for CD in $HOME/.mozilla/firefox/*.default; do
     TGT=/tmp/$USER${CD:${#HOME}}
     mkdir -p $TGT
     mv $CD/Cache $TGT
+    ln -s $TGT $CD/Cache
   fi
 done
 

@@ -126,6 +126,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_p     ), spawn "dmenu_run") 
     , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
     , ((modMask .|. shiftMask, xK_f     ), spawn "firefox")
+    , ((modMask,               xK_F12   ), spawn "sudo pm-suspend")
     , ((modMask .|. shiftMask, xK_c     ), kill)
 
     -- grid
