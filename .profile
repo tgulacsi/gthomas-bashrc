@@ -32,6 +32,16 @@ else
   mv $HOME/.cache /tmp/$USER/
   ln -s /tmp/$USER/.cache $HOME/
 fi
+for CD in $HOME/.mozilla/firefox/*.default; do
+  if [ -h $CD/Cache ]; then
+    TGT=$(readlink -f $CD/Cache)
+    [ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
+  else
+    TGT=/tmp/$USER${CD:${#HOME}}
+    mkdir -p $TGT
+    mv $CD/Cache $TGT
+  fi
+done
 
 #eval $(ssh-agent -t 7200)
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
