@@ -13,6 +13,8 @@ DN = os.path.dirname(__file__)
 USER = os.environ['USER']
 BASE = os.path.expandvars('$HOME/mnt')
 PASSWD = os.path.expandvars('$HOME/.ssh/smb-unosoft.passwd')
+uname = os.uname()[1]
+SSH_HOSTS = ('p520', 'gho', 'miranda')
 
 
 def execute(cmd, timeout=None):
@@ -23,6 +25,7 @@ def execute(cmd, timeout=None):
     if timeout:
         pid = p.pid
         if pid:
+
             def on_timeout(signum, frame):
                 LOG.warn('TIMEOUT')
                 signal.alarm(0)
@@ -30,15 +33,19 @@ def execute(cmd, timeout=None):
             import signal
             signal.signal(signal.SIGALRM, on_timeout)
             signal.alarm(timeout)
-    LOG.debug('%r: %r', cmd, p.communicate())
-    return p.returncode
+    stdout, stderr = p.communicate()
+    LOG.debug('%r: %r', cmd, stdout)
+    rc = p.returncode
+    if rc != 0:
+        LOG.error('%r: %s=%s', cmd, rc, stderr)
+    return rc
 
 
 def kill_sshfs(mountpoint=None):
     p = Popen(['ps', '-ef'], stdout=PIPE)
     for line in p.stdout:
         # LOG.debug('#  in line %r ?%s', line, 'sshfs' in line)
-        if 'sshfs' in line and (not mountpoint or mountpoint in sshfs):
+        if 'sshfs' in line and (not mountpoint or mountpoint in line):
             LOG.debug('# pid from %r', line)
             pid = int(line.split(None, 2)[1])
             LOG.info('# killing %r', pid)
@@ -59,14 +66,43 @@ def walk_hosts(root=BASE):
                     yield (root, host, nm)
 
 
+def mount_host_nm(base, host, nm, params):
+    passwd = params.get('passwd')
+    path = '/'.join((base, host, nm))
+    if host in SSH_HOSTS and params['use_sshfs']:
+        userhost = (host if uname == 'hackworth'
+            else 'ablkd' if 'ablak3' == nm else nm + 'd')
+
+        rc = execute(['sshfs', userhost + ':/home/' + nm, path,
+            '-o',
+            'idmap=user,follow_symlinks,large_read,direct_io,debug'])
+        assert 0 == rc, 'sshfs rc:%s' % rc
+    else:
+        if not passwd:
+            passwd = params['passwd'] = open(PASSWD, 'rU').readline().rstrip()
+
+        cred = ('user=' + USER if 'unointra' == host
+            else 'user=unosoft/' + USER + ',domain=unosoft')
+        opts = [cred, 'rw,iocharset=utf8', 'uid=' + USER,
+            'gid=' + USER]
+        if 'unots' == host:
+            opts.append('nounix,sec=ntlmv2')
+        else:
+            opts.append('sfu')
+        rc = execute(['sudo', 'env', 'PASSWD=' + passwd,
+            'mount', '-t', 'cifs',
+            '//' + host + '/' + nm, path, '-o', ','.join(opts),
+            '--verbose'])
+        if 0 != rc:
+            LOG.error('!!! rc=%r', rc)
+
+
 def main(umount=True, umount_only=False, use_sshfs=False):
     if not os.environ.get('SSH_AGENT_PID'):
         execute(['sh', '-c', '. %s/uno-ssh ; %s' % (DN, sys.argv[0])])
         sys.exit(0)
     assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])
     os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
-
-    passwd = open(PASSWD, 'rU').readline().rstrip()
 
     if umount or umount_only:
         LOG.info('## umounts')
@@ -78,28 +114,9 @@ def main(umount=True, umount_only=False, use_sshfs=False):
         kill_sshfs()
 
     if not umount_only:
+        params = {'use_sshfs': use_sshfs}
         for base, host, nm in walk_hosts():
-            path = '/'.join((base, host, nm))
-            if 'p520' == host and use_sshfs:
-                userhost = 'ablkd' if 'ablak3' == nm else nm + 'd'
-
-                assert 0 == execute(['sshfs', userhost + ':/home/' + nm, path,
-                    '-o',
-                    'idmap=user,follow_symlinks,large_read,direct_io'])
-            else:
-                cred = ('user=' + USER if 'unointra' == host
-                    else 'user=unosoft/' + USER + ',domain=unosoft')
-                opts = [cred, 'rw,iocharset=utf8', 'uid=' + USER, 'gid=' + USER]
-                if 'unots' == host:
-                    opts.append('nounix,sec=ntlmv2')
-                else:
-                    opts.append('sfu')
-                rc = execute(['sudo', 'env', 'PASSWD=' + passwd,
-                    'mount', '-t', 'cifs',
-                    '//' + host + '/' + nm, path, '-o', ','.join(opts),
-                    '--verbose'])
-                if 0 != rc:
-                    LOG.error('!!! rc=%r', rc)
+            mount_host_nm(base, host, nm, params)
         # assert 0 == rc, rc
 
 if '__main__' == __name__:
