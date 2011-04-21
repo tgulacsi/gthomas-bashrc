@@ -31,7 +31,7 @@ import XMonad.Layout.Tabbed
 -- Main --
 main :: IO ()
 main = xmonad =<< statusBar cmd pp kb conf
-  where 
+  where
     uhook = withUrgencyHookC NoUrgencyHook urgentConfig
     cmd = "bash -c \"tee >(xmobar -x0) | xmobar -x1\""
     pp = customPP
@@ -69,7 +69,7 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 customPP = defaultPP { ppCurrent = xmobarColor "#429942" "" . wrap "<" ">"
                      , ppHidden = xmobarColor "#C98F0A" ""
                      , ppHiddenNoWindows = xmobarColor "#C9A34E" ""
-                     , ppUrgent = xmobarColor "#FFFFAF" "" . wrap "[" "]" 
+                     , ppUrgent = xmobarColor "#FFFFAF" "" . wrap "[" "]"
                      , ppLayout = xmobarColor "#C9A34E" ""
                      , ppTitle =  xmobarColor "#C9A34E" "" . shorten 80
                      , ppSep = xmobarColor "#429942" "" " | "
@@ -103,7 +103,7 @@ layoutHook' = tile ||| mtile ||| tab ||| full
     tile = named "[]=" $ smartBorders rt
     mtile = named "M[]=" $ smartBorders $ Mirror rt
     tab = named "T" $ noBorders $ tabbed shrinkText tabTheme1
-    full = named "[]" $ noBorders Full 
+    full = named "[]" $ noBorders Full
 
 -------------------------------------------------------------------------------
 -- Terminal --
@@ -122,11 +122,12 @@ toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 keys' :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- launching and killing programs
-    [ ((modMask,               xK_Return), spawn $ XMonad.terminal conf) 
-    , ((modMask,               xK_p     ), spawn "dmenu_run") 
+    [ ((modMask,               xK_Return), spawn $ XMonad.terminal conf)
+    , ((modMask,               xK_p     ), spawn "dmenu_run")
     , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
     , ((modMask .|. shiftMask, xK_f     ), spawn "firefox")
-    , ((modMask,               xK_F12   ), spawn "sudo pm-suspend")
+    , ((modMask .|. shiftMask, xK_F12   ), spawn "sudo pm-suspend")
+    , ((modMask,               xK_F12   ), spawn "slock")
     , ((modMask .|. shiftMask, xK_c     ), kill)
 
     -- grid

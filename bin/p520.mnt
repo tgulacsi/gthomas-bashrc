@@ -75,7 +75,7 @@ def mount_host_nm(base, host, nm, params):
 
         rc = execute(['sshfs', userhost + ':/home/' + nm, path,
             '-o',
-            'idmap=user,follow_symlinks,large_read,direct_io,debug'])
+            'idmap=user,follow_symlinks,large_read,direct_io'])
         assert 0 == rc, 'sshfs rc:%s' % rc
     else:
         if not passwd:
