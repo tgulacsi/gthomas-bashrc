@@ -2,7 +2,7 @@
 
 import os, subprocess
 
-from cStringIO import StringIO
+from io import StringIO
 
 DEV = os.environ.get('DEV', 'wlan0')
 
@@ -38,7 +38,7 @@ def sudo(*args, **kwds):
         return p.wait()
     except:
         import traceback
-        print {'cmd': cmd, 'args': args, 'kwds': kwds}, traceback.format_exc()
+        print({'cmd': cmd, 'args': args, 'kwds': kwds}, traceback.format_exc())
     
 def kill(name):
     typ = get_daemon_type(name)
