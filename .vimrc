@@ -1,3 +1,7 @@
+" -[ Bell ]-
+set visualbell
+set noerrorbells
+
 " -[ General behaviour ]-
 " general
 set nocompatible

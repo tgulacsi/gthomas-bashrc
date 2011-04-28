@@ -20,6 +20,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.InsertPosition
+import XMonad.Hooks.ManageDocks
 
 -- layouts
 import XMonad.Layout.NoBorders
@@ -47,7 +48,7 @@ myConfig = defaultConfig { workspaces = workspaces'
                          , focusedBorderColor = focusedBorderColor'
                          , terminal = terminal'
                          , keys = keys'
-                         , layoutHook = layoutHook'
+                         , layoutHook = avoidStruts $ layoutHook'
                          , manageHook = manageHook'
                          }
 
