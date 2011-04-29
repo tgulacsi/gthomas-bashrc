@@ -1,0 +1,17 @@
+{
+	"color_scheme": "Packages/Color Scheme - Default/Monokai Bright.tmTheme",
+	"fallback_encoding": "Eastern (ISO-8859-2)",
+	"font_size": 9,
+	"rulers":
+	[
+		78
+	],
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true,
+    "font_face": "Inconsolata-g",
+    "font_size": 10,
+
+    // Valid options are "bold", "italic", "no_antialias", "gray_antialias",
+    // and "subpixel_antialias"
+    "font_options": ["subpixel_antialias"]
+}

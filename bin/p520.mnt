@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# !! python3 !!
 
 import time
 import os
@@ -45,6 +46,7 @@ def execute(cmd, timeout=None, catch_stdout=False):
 def kill_sshfs(mountpoint=None):
     p = Popen(['ps', '-ef'], stdout=PIPE)
     for line in p.stdout:
+        line = str(line, ENCODING)
         # LOG.debug('#  in line %r ?%s', line, 'sshfs' in line)
         if 'sshfs' in line and (not mountpoint or mountpoint in line):
             LOG.debug('# pid from %r', line)
@@ -73,6 +75,7 @@ def mount_host_nm(base, host, nm, params):
     if host in SSH_HOSTS and params['use_sshfs']:
         userhost = (host if uname == 'hackworth'
             else 'ablkd' if 'ablak3' == nm else nm + 'd')
+        load_sshfs()
 
         rc = execute(['sshfs', userhost + ':/home/' + nm, path,
             '-o',
@@ -85,7 +88,7 @@ def mount_host_nm(base, host, nm, params):
         cred = ('user=' + USER if 'unointra' == host
             else 'user=unosoft/' + USER + ',domain=unosoft')
         opts = [cred, 'rw,iocharset=utf8', 'uid=' + USER,
-            'gid=' + USER]
+            'gid=users']
         if 'unots' == host:
             opts.append('nounix,sec=ntlmv2')
         else:
@@ -106,7 +109,7 @@ def main(umount=True, umount_only=False, use_sshfs=False):
     os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
     rc = execute(['ssh-add', '-l'], catch_stdout=True)
     LOG.debug('rc: %r', rc)
-    if not (0 == rc[0] and 'tgulacsi@unosoft' in unicode(rc[1], ENCODING)):
+    if not (0 == rc[0] and 'tgulacsi@unosoft' in str(rc[1], ENCODING)):
         rc = execute(['ssh-add',
             os.path.expandvars('$HOME/.ssh/tgulacsi@unosoft')])
         LOG.debug(rc)
@@ -125,6 +128,21 @@ def main(umount=True, umount_only=False, use_sshfs=False):
         for base, host, nm in walk_hosts():
             mount_host_nm(base, host, nm, params)
         # assert 0 == rc, rc
+
+sshfs_loaded = None
+def load_sshfs():
+    global sshfs_loaded
+    if sshfs_loaded is None:
+        p = Popen(['lsmod'], stdout=PIPE)
+        for line in p.stdout:
+            line = str(line, ENCODING)
+            if 'fuse' in line:
+                sshfs_loaded = True
+                break
+        if not sshfs_loaded:
+            assert 0 == execute(['sudo', 'insmod', '-v', 'fuse']), 'fuse'
+            sshfs_loaded = True
+    return sshfs_loaded
 
 if '__main__' == __name__:
     import optparse
