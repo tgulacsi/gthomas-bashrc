@@ -14,12 +14,15 @@ find_pid () {
 }
 echo 1 SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
 ssh-add
-ssh-add -l | grep -q 'd5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b' && exit 0
-ssh-agent -k
-killall ssh-agent
-SSH_AGENT_PID=; export SSH_AGENT_PID
-eval $(ssh-agent -a $SSH_AUTH_SOCK -t 28800)
-export SSH_AGENT_PID
-echo 2 SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
-ssh-add
-ssh-add $HOME/.ssh/tgulacsi@unosoft
+if ssh-add -l | grep -q 'd5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b'; then
+    echo "already there"
+else
+    ssh-agent -k
+    killall ssh-agent
+    SSH_AGENT_PID=; export SSH_AGENT_PID
+    eval $(ssh-agent -a $SSH_AUTH_SOCK -t 28800)
+    export SSH_AGENT_PID
+    echo 2 SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+    ssh-add
+    ssh-add $HOME/.ssh/tgulacsi@unosoft
+fi

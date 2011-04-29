@@ -22,7 +22,7 @@ if [ -d "$HOME/bin" ] ; then
 fi
 export LANGUAGE="hu_HU:en_US:en"
 export LANG="hu_HU.UTF-8"
-export LC_ALL=hu_HU.UTF-8
+#export LC_ALL=hu_HU.UTF-8
 
 mkdir -p /tmp/$USER
 if [ -h $HOME/.cache ]; then
