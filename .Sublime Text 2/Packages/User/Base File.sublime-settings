@@ -8,7 +8,7 @@
 	],
 	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,
-    "font_face": "Inconsolata-g",
+    "font_face": "Inconsolata",
     "font_size": 10,
 
     // Valid options are "bold", "italic", "no_antialias", "gray_antialias",
