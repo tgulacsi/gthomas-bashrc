@@ -83,8 +83,8 @@ while :; do
     CPUFREQ_STR=`echo "Freq:"$(cat /proc/cpuinfo | grep 'cpu MHz' | sed 's/.*: //g; s/\..*//g;')`
     CPULOAD_STR="Load:$(uptime | sed 's/.*://; s/,//g')"
 
-    eval $(awk '/^MemTotal/ {printf "MTOT=%s;", $2}; /^MemFree/ {printf "MFREE=%s;",$2}' /proc/meminfo)
-    MUSED=$(( $MTOT - $MFREE ))
+    eval $(awk '/^MemTotal/ {printf "MTOT=%s;", $2}; /^MemFree/ {printf "MFREE=%s;",$2}; /^Buffers/ {printf "MBUFF=%s;", $2}; /^Cached/ {printf "MCACHED=%s;", $2}' /proc/meminfo)
+    MUSED=$(( $MTOT - $MFREE - $MBUFF - $MCACHED ))
     MUSEDPT=$(( ($MUSED * 100) / $MTOT ))
     MEM_STR="Mem:${MUSEDPT}%"
 
