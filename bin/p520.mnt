@@ -144,7 +144,7 @@ def load_sshfs():
                 sshfs_loaded = True
                 break
         if not sshfs_loaded:
-            assert 0 == execute(['sudo', 'modprobe', '-v', 'fuse']), 'fuse'
+            execute(['sudo', 'modprobe', '-v', 'fuse'])
             sshfs_loaded = True
     return sshfs_loaded
 
