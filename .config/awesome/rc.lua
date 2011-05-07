@@ -244,8 +244,8 @@ awful.key({ modkey, "Shift" }, "F12",
 awful.key({ modkey, "Control" }, "F12",
       function () awful.util.spawn("sudo /usr/sbin/pm-hibernate") end),
 awful.key({ modkey }, "F12",
-      function () awful.util.spawn("xscreensaver-command -lock") end)
-, awful.key({ "Shift" }, "f",
+      function () awful.util.spawn("xlockmore") end)
+, awful.key({ modkey, "Shift" }, "f",
      function () awful.util.spawn("x-www-browser") end)
 
 )
