@@ -47,3 +47,4 @@ done
 #eval $(ssh-agent -t 7200)
 #[ -x ~/bin/uno-ssh -a -z "$DISPLAY" ] && . ~/bin/uno-ssh
 #case "$-" in *i*) byobu-launcher && exit 0; esac;
+. /home/gthomas/.profabevjava
