@@ -1,0 +1,23 @@
+#!/bin/sh
+BASE=${BASE:-/var/backups/gibkp}
+
+for dn in "$@"; do
+  DEST=${BASE}$dn
+  DN=$(dirname $DEST)
+  BN=$(basename $DEST)
+  echo DEST=$DEST DN=$DN BN=$BN
+  if [ ! -x $DEST ]; then
+    mkdir -p $DN && git init $DEST || exit $?
+    cd $DEST || exit $?
+    echo '.git' >> .gitignore
+  else
+    cd $DEST || exit $?
+    if git branch | grep -q master; then
+      git checkout -f master || exit $?
+    fi
+  fi
+  cd $DEST || exit $?
+  rsync -a --exclude=.git $dn/ ./ || exit $?
+  git add * .[!.]* || exit 10
+  git commit -am "$(date '+%Y-%m-%dT%H:%M:%S')" || exit 11
+done
