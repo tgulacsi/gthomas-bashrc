@@ -17,7 +17,7 @@ for dn in "$@"; do
     fi
   fi
   cd $DEST || exit $?
-  rsync -a --exclude=.git $dn/ ./ || exit $?
-  git add * .[!.]* || exit 10
+  rsync -a --exclude=.git --exclude=.gitignore $dn/ ./ || exit $?
+  git add $(ls -d * .[!.] | grep -v .gitignore)
   git commit -am "$(date '+%Y-%m-%dT%H:%M:%S')" || exit 11
 done
