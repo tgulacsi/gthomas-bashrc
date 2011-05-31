@@ -1,0 +1,4 @@
+#!/bin/sh
+arch_user=$(basename $(ls -d /home/{tgulacsi,gthomas} 2>/dev/null))
+
+XAUTHORITY=/home/$arch_user/.Xauthority DISPLAY=:0.0 xlock "$@"
