@@ -98,4 +98,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+[ -z "$SSH_AUTH_SOCK" -a -e /tmp/$USER-ssh-agent.sock ] && {
+    export SSH_AUTH_SOCK=/tmp/$USER-ssh-agent.sock
+}
 export EDITOR=vim
