@@ -15,7 +15,7 @@ USER = os.environ['USER']
 BASE = os.path.expandvars('$HOME/mnt')
 PASSWD = os.path.expandvars('$HOME/.ssh/smb-unosoft.passwd')
 uname = os.uname()[1]
-SSH_HOSTS = ('p520', 'gho', 'miranda', 'unointra')
+SSH_HOSTS = ('p520', 'gho', 'miranda', 'unointra', 'unowebprd')
 ENCODING = sys.getfilesystemencoding()
 
 
