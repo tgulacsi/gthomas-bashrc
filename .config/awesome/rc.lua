@@ -246,7 +246,10 @@ awful.key({ modkey, "Control" }, "F12",
 awful.key({ modkey }, "F12",
       function () awful.util.spawn("remote-xlock") end),
 awful.key({ modkey, "Shift" }, "f",
-     function () awful.util.spawn("x-www-browser") end)
+     function () awful.util.spawn("x-www-browser") end),
+awful.key({ modkey }, "p",
+     function () awful.util.spawn("screenshot") end)
+
 
 )
 
