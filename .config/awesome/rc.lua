@@ -236,7 +236,7 @@ awful.key({ }, "XF86MonBrightnessDown",
 
 -- GT
 awful.key({ }, "XF86Suspend",
-      function () awful.util.spawn("sudo /usr/sbin/pm-suspend") end),
+      function () awful.util.spawn("sh -c 'remote-xlock & sleep 2 ; sudo /usr/sbin/pm-suspend'") end),
 awful.key({ modkey }, "e",
       function () awful.util.spawn("x-file-browser") end),
 awful.key({ modkey, "Shift" }, "F12",
@@ -375,6 +375,6 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 --os.execute("empathy -h &")
 --os.execute("killall pcmanfm &")
 --os.execute("xfce4-session")
---os.execute("pidof nm-applet || nm-applet")
+--os.execute("pidof nm-applet || nm-applet --sm-disable")
 --os.execute("pidof nautilus || nautilus")
 -- }}}
