@@ -29,15 +29,15 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
-    awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
+    awful.layout.suit.floating,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
+    --awful.layout.suit.spiral,
+    --awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
@@ -236,17 +236,20 @@ awful.key({ }, "XF86MonBrightnessDown",
 
 -- GT
 awful.key({ }, "XF86Suspend",
-      function () awful.util.spawn("sudo /usr/sbin/pm-suspend") end),
+      function () awful.util.spawn("sh -c 'remote-xlock & sudo /usr/sbin/pm-suspend'") end),
 awful.key({ modkey }, "e",
       function () awful.util.spawn("x-file-browser") end),
 awful.key({ modkey, "Shift" }, "F12",
-      function () awful.util.spawn("sudo /usr/sbin/pm-suspend") end),
+      function () awful.util.spawn("sh -c 'remote-xlock & sudo /usr/sbin/pm-suspend'") end),
 awful.key({ modkey, "Control" }, "F12",
-      function () awful.util.spawn("sudo /usr/sbin/pm-hibernate") end),
+      function () awful.util.spawn("sh -c 'remote-xlock & sudo /usr/sbin/pm-hibernate'") end),
 awful.key({ modkey }, "F12",
-      function () awful.util.spawn("nice -n 15 xlock") end),
+      function () awful.util.spawn("remote-xlock") end),
 awful.key({ modkey, "Shift" }, "f",
-     function () awful.util.spawn("x-www-browser") end)
+     function () awful.util.spawn("x-www-browser") end),
+awful.key({ modkey }, "p",
+     function () awful.util.spawn("screenshot") end)
+
 
 )
 
@@ -372,6 +375,6 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 --os.execute("empathy -h &")
 --os.execute("killall pcmanfm &")
 --os.execute("xfce4-session")
---os.execute("pidof nm-applet || nm-applet")
+--os.execute("pidof nm-applet || nm-applet --sm-disable")
 --os.execute("pidof nautilus || nautilus")
 -- }}}

@@ -6,7 +6,7 @@ from io import StringIO
 
 DEV = os.environ.get('DEV', 'wlan0')
 ENCODING = sys.getfilesystemencoding()
-mode = 'dhcp'
+mode = os.environ.get('MODE', 'dhcp')
 
 TYP_UNKNOWN = 0
 TYP_INITSCRIPT = 1
@@ -41,7 +41,7 @@ def sudo(*args, wait=True, **kwds):
     except:
         import traceback
         print(({'cmd': cmd, 'args': args, 'kwds': kwds}, traceback.format_exc()))
-    
+
 def kill(name):
     typ = get_daemon_type(name)
     if TYP_UPSTART == typ:
@@ -49,8 +49,9 @@ def kill(name):
     elif TYP_INITSCRIPT == typ:
         cmd = ['/etc/init.d/' + name, 'stop']
     else:
-        cmd = ['/bin/sh', '-c', 
-            'kill -9 $(ps -ef|grep %s|grep -v grep|cut -c 8-14)' % name]
+        cmd = ['/bin/sh', '-c',
+            'Z="$(ps -ef|grep %s|grep -v grep|cut -c 8-14)" && [ -n "$!" ] '
+            ' && kill -9 $Z' % name]
     return sudo(cmd)
 
 def start(name):
@@ -66,28 +67,29 @@ def start(name):
 network_daemons = ('wicd', 'network-manager', 'connman', 'NetworkManager')
 stop_rc = [(x, kill(x)) for x in network_daemons]
 
-sudo('/bin/sh', '-c', 
+sudo('/bin/sh', '-c',
     'modprobe -r iwl3945 ; modprobe -v iwl3945'
     '; ifconfig %(DEV)s up; iwconfig %(DEV)s essid P192em' % {'DEV': DEV})
 
-conf_fn = [x for x in ('/etc/wpa_supplicant/wpa_supplicant.conf', 
-        '/etc/wpa_supplicant.conf', 
-        os.path.dirname(__file__) + '/.wpa/wpa_supplicant.conf') 
+conf_fn = [x for x in ('/etc/wpa_supplicant/wpa_supplicant.conf',
+        '/etc/wpa_supplicant.conf',
+        os.path.dirname(__file__) + '/.wpa/wpa_supplicant.conf')
     if os.path.exists(x)][0]
 
 sudo('rfkill', 'unblock', '0')
 if 'static' == mode:
-    sudo('/bin/sh', '-c', 'cat >>/etc/resolv.conf', 
+    sudo('/bin/sh', '-c', 'cat >>/etc/resolv.conf',
         input='''search guba
-nameserver 192.168.1.2
+nameserver 192.168.1.1
 nameserver 208.67.222.222
+nameserver 8.8.8.8
 nameserver 208.67.220.220''')
     import time
     time.sleep(5)
     sudo('/bin/sh', '-c', 'ifconfig wlan0 192.168.1.10 '
         '; route add -net 0.0.0.0 gw 192.168.1.1 dev %s &' % DEV)
 else:
-    sudo('dhcpcd', DEV, wait=True)
+    sudo('/bin/sh', '-c', 'dhcpcd %s &' % DEV, wait=True)
 
 if 0 != sudo('wpa_supplicant', '-Dwext', '-i' + DEV, '-c' + conf_fn):
     sudo('modprobe', '-r', 'iwl3945')

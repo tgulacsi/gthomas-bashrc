@@ -15,7 +15,7 @@ USER = os.environ['USER']
 BASE = os.path.expandvars('$HOME/mnt')
 PASSWD = os.path.expandvars('$HOME/.ssh/smb-unosoft.passwd')
 uname = os.uname()[1]
-SSH_HOSTS = ('p520', 'gho', 'miranda', 'unointra')
+SSH_HOSTS = ('p520', 'gho', 'miranda', 'unointra', 'unowebprd')
 ENCODING = sys.getfilesystemencoding()
 
 
@@ -73,14 +73,16 @@ def mount_host_nm(base, host, nm, params):
     passwd = params.get('passwd')
     path = '/'.join((base, host, nm))
     if host in SSH_HOSTS and params['use_sshfs']:
-        userhost = (host if (uname == 'hackworth' or 'unointra' == host)
+        userhost = (host if (uname == 'hackworth'
+                or host in ('unowebprd', 'unointra'))
             else 'ablkd' if 'ablak3' == nm else nm + 'd')
         load_sshfs()
 
-        rc = execute(['sshfs', userhost + ':/home/' + nm, path,
-            '-o',
-            'idmap=user,follow_symlinks,large_read,direct_io'])
-        assert 0 == rc[0], 'sshfs rc:%s' % tuple([rc])
+        cmd = ['sshfs', userhost + ':/home/' + nm, path,
+            '-o', 'idmap=user,follow_symlinks,large_read,direct_io']
+        rc = execute(cmd)
+        assert 0 == rc[0], 'sshfs rc:%s\ncmd: %s' % (tuple([rc]),
+            ' '.join(cmd))
     else:
         if not passwd:
             passwd = params['passwd'] = open(PASSWD, 'rU').readline().rstrip()
