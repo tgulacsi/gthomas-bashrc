@@ -1,0 +1,6 @@
+#!/bin/sh
+[ -x remote-xlock ] && {
+  remote-xlock &
+  sleep 1
+}
+sudo pm-hibernate

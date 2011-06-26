@@ -1,0 +1,6 @@
+#!/bin/sh
+[ -x $(dirname $0)/remote-xlock ] && {
+  remote-xlock &
+  sleep 1
+}
+sudo pm-suspend
