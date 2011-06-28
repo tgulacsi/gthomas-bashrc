@@ -1,6 +1,2 @@
 #!/bin/sh
-[ -x remote-xlock ] && {
-  remote-xlock &
-  sleep 1
-}
-sudo pm-hibernate
+$(dirname $0)/susp-hiber hibernate

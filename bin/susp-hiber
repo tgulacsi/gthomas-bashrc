@@ -1,0 +1,18 @@
+#!/bin/sh
+[ -x $(dirname $0)/remote-xlock ] && {
+  remote-xlock &
+  sleep 1
+}
+case "$1" in
+  suspend|Suspend) CMD_initcap=Suspend; CMD_lower=suspend;;
+hibernate|Hibernate) CMD_initcap=Hibernate; CMD_lower=hibernate;;
+esac
+
+if pidof gnome-power-manager >/dev/null; then
+  dbus-send --session --dest=org.freedesktop.PowerManagement \
+    --type=method_call --print-reply --reply-timeout=2000 \
+    /org/freedesktop/PowerManagement \
+    org.freedesktop.PowerManagement.${CMD_initcap}
+else
+  sudo pm-${CMD_lower}
+fi

@@ -1,6 +1,2 @@
 #!/bin/sh
-[ -x $(dirname $0)/remote-xlock ] && {
-  remote-xlock &
-  sleep 1
-}
-sudo pm-suspend
+$(dirname $0)/susp-hiber suspend
