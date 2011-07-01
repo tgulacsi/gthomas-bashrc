@@ -138,7 +138,8 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "left", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, align = "right", 
+                               width = "99%" })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
@@ -236,13 +237,13 @@ awful.key({ }, "XF86MonBrightnessDown",
 
 -- GT
 awful.key({ }, "XF86Suspend",
-      function () awful.util.spawn("sh -c 'remote-xlock & sudo /usr/sbin/pm-suspend'") end),
+      function () awful.util.spawn("pm-suspend") end),
 awful.key({ modkey }, "e",
       function () awful.util.spawn("x-file-browser") end),
 awful.key({ modkey, "Shift" }, "F12",
-      function () awful.util.spawn("sh -c 'remote-xlock & sudo /usr/sbin/pm-suspend'") end),
+      function () awful.util.spawn("suspend") end),
 awful.key({ modkey, "Control" }, "F12",
-      function () awful.util.spawn("sh -c 'remote-xlock & sudo /usr/sbin/pm-hibernate'") end),
+      function () awful.util.spawn("hibernate") end),
 awful.key({ modkey }, "F12",
       function () awful.util.spawn("remote-xlock") end),
 awful.key({ modkey, "Shift" }, "f",

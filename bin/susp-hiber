@@ -10,7 +10,7 @@ esac
 
 if pidof gnome-power-manager >/dev/null; then
   dbus-send --session --dest=org.freedesktop.PowerManagement \
-    --type=method_call --print-reply --reply-timeout=2000 \
+    --type=method_call --print-reply --reply-timeout=1 \
     /org/freedesktop/PowerManagement \
     org.freedesktop.PowerManagement.${CMD_initcap}
 else

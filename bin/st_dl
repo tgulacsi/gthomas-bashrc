@@ -1,7 +1,12 @@
 #!/bin/sh
 M=
+if which curl >/dev/null; then
+  CMD=curl
+else
+  CMD='wget -O-'
+fi
 [ $(uname -m) = 'x86_64' ] && M='%20x64'
 cd ~/Downloads && rm -rf Sublime\ Text\ 2 \
-&& curl "http://www.sublimetext.com/Sublime%20Text%202%20Build%20${1}${M}.tar.bz2" \
+&& $CMD "http://www.sublimetext.com/Sublime%20Text%202%20Build%20${1}${M}.tar.bz2" \
 | tar xjf - && cd Sublime\ Text\ 2 && rsync -av * /usr/local/lib/SublimeText2/
 

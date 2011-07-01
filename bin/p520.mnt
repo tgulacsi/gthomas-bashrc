@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# !! python3 !!
+# !! python2 !!
 
 import time
 import os
@@ -46,7 +46,7 @@ def execute(cmd, timeout=None, catch_stdout=False):
 def kill_sshfs(mountpoint=None):
     p = Popen(['ps', '-ef'], stdout=PIPE)
     for line in p.stdout:
-        line = str(line, ENCODING)
+        line = unicode(line, ENCODING)
         # LOG.debug('#  in line %r ?%s', line, 'sshfs' in line)
         if 'sshfs' in line and (not mountpoint or mountpoint in line):
             LOG.debug('# pid from %r', line)
@@ -115,7 +115,7 @@ def main(umount=True, umount_only=False, use_sshfs=False):
     os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
     rc = execute(['ssh-add', '-l'], catch_stdout=True)
     LOG.debug('rc: %r', rc)
-    if not (0 == rc[0] and 'tgulacsi@unosoft' in str(rc[1], ENCODING)):
+    if not (0 == rc[0] and 'tgulacsi@unosoft' in unicode(rc[1], ENCODING)):
         rc = execute(['ssh-add',
             os.path.expandvars('$HOME/.ssh/tgulacsi@unosoft')])
         LOG.debug(rc)
@@ -141,7 +141,7 @@ def load_sshfs():
     if sshfs_loaded is None:
         p = Popen(['lsmod'], stdout=PIPE)
         for line in p.stdout:
-            line = str(line, ENCODING)
+            line = unicode(line, ENCODING)
             if 'fuse' in line:
                 sshfs_loaded = True
                 break
