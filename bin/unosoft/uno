@@ -1,0 +1,134 @@
+#!/bin/bash
+SSH=${SSH:-ssh}
+UNOSOFT=${UNOSOFT:-mail.unosoft.hu}
+UNOPORT=2222
+ID_FILE=$HOME/.ssh/tgulacsi@unosoft
+OPTS=${OPTS:-}
+
+GEP=$1
+shift
+MORE=[ $# -ge 1 ]
+CMD=${1:-connect}
+
+function conf {
+  FELH=tgulacsi
+  case "$1" in
+    unots|ts) PORT=${PORT:-5001} ; GEP=unots ;;
+    te|te-gulacsit) PORT=${PORT:-5000} ; GEP=te-gulacsit ;;
+    sql|sqlsrv) FELH2=administrator ; PORT=${PORT:-5004} ; GEP=sqlsrv ;;
+    scan|unoscan) FELH2=administrator ; PORT=${PORT:-5003} ; GEP=unoscan ;;
+    bddev|unobddev) FELH2=administrator ; PORT=${PORT:-5005} ; GEP=unobddev ;;
+    brtest) ssh -i /home/gthomas/.ssh/unosoft.local.priv  kobe@brtest;
+      exit;;
+  esac
+  PORTGEP=${PORT}:${GEP}
+  FELH2=${FELH2:-${FELH}}
+  if $MORE; then
+    BINDADDR=0.0.0.0:
+  else
+    BINDADDR=
+  fi
+}
+
+function close () {
+  PORTGEP=$PORT:$GEP
+  echo "closing $PORTGEP"
+  if [ -a ~/.ssh/master-${PORTGEP}* ]; then
+    MASTER_FILE=`ls ~/.ssh/master-$PORTGEP-$FELH@*`
+    TGT=`echo $MASTER_FILE | cut -d- -f3`
+    echo "MASTER=$MASTER_FILE TGT=$TGT"
+    ssh -O check -S ${MASTER_FILE} $TGT \
+      && ssh -O exit -S "${MASTER_FILE}" $TGT
+    rm -f $MASTER_FILE
+  fi
+  pkill -f ${PORTGEP}[.]
+  ps -ef|grep "$PORTGEP"|grep -v grep
+}
+
+#~/bin/titok
+
+conf $GEP
+
+#close
+if [ "$CMD" = "close" ]; then
+  close
+else
+  ssh-add -l || if [ $? -eq 2 ]; then
+    ssh-agent -k
+    unset SSH_AUTH_SOCK
+    unset SSH_AGENT_PID
+    eval $(ssh-agent -s -t 7200)
+  fi
+  #FELH=$FELH ~/bin/unosoft.connect ${PORT} ${GEP} tgulacsi
+  id_hash='40:f2:e4:2f:90:0b:76:78:6c:fb:39:5b:c8:0d:74:3b'
+  Z=$(ssh-add -l | grep $id_hash | wc -l)
+  echo "id_hash=$id_hash; grep: $Z"
+  [ $Z -eq 0 ] \
+  && {
+    { #[ ! -a $ID_FILE ] && ~/bin/titok 1;
+      echo ssh-add ${ID_FILE};
+      SSH_ASKPASS=ssh-askpass ssh-add ${ID_FILE};
+    } || { [ "x$NOCLOSE" = 'x1' ] || close; }
+  }
+  SSH="$SSH -C -f -N -L ${BINDADDR}${PORTGEP}.unosoft.local:3389 \
+       -o CompressionLevel=9 -o Compression=yes -o ConnectionAttempts=3 \
+       -o ServerAliveInterval=5 -o ServerAliveCountMax=3 -o TCPKeepAlive=yes \
+       -p ${UNOPORT} -i \"${ID_FILE}\" ${FELH}@${UNOSOFT} "
+  close
+
+  echo "$SSH"
+  trap close 1 2 3 6 9 15 17 19
+  SSH_ASKPASS=ssh-askpass $SSH || close
+  echo SSH_PID=$!
+  NUM=$#
+
+  if [ -z "$SIZE" ]; then
+    X=$(xwininfo -root -metric|sed -ne '/Height\|Width/ {s/^.*: //;s/ (.*$//p}')
+    #echo "X=$X"
+    set $X
+    W=$1
+    H=$2
+    #echo "W=$W H=$H"
+    if pidof awesome >/dev/null && pidof gnome-panel >/dev/null; then
+      W=$(($W - 40))
+    else
+      if pidof metacity >/dev/null; then
+        H=$(($H - 24))
+      else
+        W=$(($W - 16))
+      fi
+    fi
+    echo "W=$W H=$H"
+    SIZE=${W}x${H}
+  fi
+  echo SIZE=$SIZE
+  [ $NUM -lt 1 ] && {
+    echo "RDP[$RDP]..."
+    if [ "x$RDP" = 'xrdesktop' ]; then
+        mkdir -p /tmp/$USER/rdesktop ; ln -sf /tmp/$USER/rdesktop ~/.rdesktop/cache
+        (#-g 95%
+          LC_ALL=C LANG=C \
+          ${RDESKTOP:-rdesktop} -u ${FELH2} -d unosoft -c ${WD:-/tmp} -B \
+          ${OPTS} \
+          -x m -g ${SIZE} -E -k en-us \
+          -T ${FELH2}@${GEP} -z -P localhost:${PORT} \
+          $([ -z "$PASSW" ] || echo "-p $PASSW") \
+          -r disk:gt-szemet=${HOME}/szemet \
+          -r scard:"Smart Enterprise Guardian (106A1D11163057150508) 01 00" \
+          || close
+        )
+    else
+        (
+        ${RDP:-xfreerdp} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} \
+          -z -x m --plugin cliprdr \
+          --plugin rdpdr --data scard --data disk:tmp:/tmp -- \
+          -u tgulacsi -d unosoft \
+          -t ${PORT} -k 0x409 localhost \
+        || close
+        )
+    fi
+    close
+  }
+fi
+
+

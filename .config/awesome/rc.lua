@@ -138,8 +138,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, align = "right", 
-                               width = "99%" })
+    mywibox[s] = awful.wibox({ position = "right", screen = s })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
