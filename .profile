@@ -20,7 +20,8 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
-export LANGUAGE="hu_HU:en_US:en"
+#export LANGUAGE="hu_HU:en_US:en"
+export LANGUAGE="en"
 export LANG="hu_HU.UTF-8"
 #export LC_ALL=hu_HU.UTF-8
 

@@ -28,7 +28,7 @@ set whichwrap=b,s,h,l,<,>,[,]   " move freely between files
 set undolevels=200
 set cpoptions=$cF
 set wildignore=*.o,*.obj,*.bak,*.exe,*.pyc,*.DS_Store,*.db
-set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
+set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%02v,%04l/%L\ (%p%%)]
 filetype plugin indent on " turn on the indent plugins
 
 set noautoindent    " turn off by default, enable for specific filetypes
