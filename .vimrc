@@ -101,7 +101,7 @@ if has("autocmd")
     au FileType py set omnifunc=pythoncomplete#Complete
     autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
     autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
-    autocmd BufWritePre *.py :%s/\s\+$//e
+    "autocmd BufWritePre *.py :%s/\s\+$//e
     "au BufRead mutt*[0-9] set tw=72
 
     " Automatically chmod +x Shell scripts
@@ -110,11 +110,25 @@ if has("autocmd")
     " File formats
     au BufNewFile,BufRead  *.pls    set syntax=dosini
     au BufNewFile,BufRead  modprobe.conf    set syntax=modconf
+
+    " Strip trailing whitespace
+    function! <SID>StripTrailingWhitespaces()
+        " Preparation: save last search, and cursor position.
+        let _s=@/
+        let l = line(".")
+        let c = col(".")
+        " Do the business:
+        %s/\s\+$//e
+        " Clean up: restore previous search history, and cursor position
+        let @/=_s
+        call cursor(l, c)
+    endfunction
+    autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 endif
 
 " Keyboard mappings
-map <F1> :previous<CR>  " map F1 to open previous buffer
-map <F2> :next<CR>      " map F2 to open next buffer
+map <F4> :previous<CR>  " map F1 to open previous buffer
+map <F5> :next<CR>      " map F2 to open next buffer
 map <F3> :NERDTreeToggle<CR>" map F3 to open NERDTree
 map <F7> :TlistToggle<CR> " map F7 to toggle the Tag Listing
 map <silent> <C-N> :silent noh<CR> " turn off highlighted search
@@ -124,6 +138,9 @@ map ,u :source ~/.vimrc<cr> " update the system settings from my vimrc file
 map ,p :Lodgeit<CR>         " pastes selection / file to paste.pocoo.org
 map ,ft :%s/    /    /g<CR> " replace all tabs with 4 spaces
 map ,d :call <SID>SCMDiff()<CR>
+
+map <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
 
 " Viewport Controls
 " ie moving between split panes
