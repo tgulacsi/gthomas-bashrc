@@ -101,6 +101,7 @@ if has("autocmd")
     au FileType py set omnifunc=pythoncomplete#Complete
     autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
     autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+    autocmd BufWritePre *.py :%s/\s\+$//e
     "au BufRead mutt*[0-9] set tw=72
 
     " Automatically chmod +x Shell scripts
