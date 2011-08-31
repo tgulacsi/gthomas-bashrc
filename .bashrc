@@ -102,3 +102,4 @@ fi
     export SSH_AUTH_SOCK=/tmp/$USER-ssh-agent.sock
 }
 export EDITOR=vim
+export CHROMIUM_FLAGS=--memory-profile=low
