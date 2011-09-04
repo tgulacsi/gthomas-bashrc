@@ -11,6 +11,9 @@
 " Maintainer: Kevin Watters <kevin.watters@gmail.com>
 " Version: 0.1
 
+finish
+
+
 if exists("b:did_pyflakes_plugin")
     finish " only load once
 else
@@ -97,6 +100,8 @@ def check(buffer):
         old_stderr, sys.stderr = sys.stderr, blackhole()
         try:
             tree = ast.parse(contents, filename or '<unknown>')
+            if not hasattr(tree, 'getChildNodes'):
+                tree.getChildNodes = lambda: tree.body
         finally:
             sys.stderr = old_stderr
     except:

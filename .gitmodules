@@ -1,0 +1,15 @@
+[submodule "dotfiles/vim/bundle/vim-fugitive"]
+	path = dotfiles/vim/bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "dotfiles/vim/bundle/pyflakes-vim"]
+	path = dotfiles/vim/bundle/pyflakes-vim
+	url = git://github.com/kevinw/pyflakes-vim.git
+[submodule "dotfiles/vim/bundle/nerdcommenter"]
+	path = dotfiles/vim/bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "dotfiles/vim/bundle/tagbar"]
+	path = dotfiles/vim/bundle/tagbar
+	url = git://github.com/majutsushi/tagbar.git
+[submodule "dotfiles/vim/external/pathogen"]
+	path = dotfiles/vim/external/pathogen
+	url = git://github.com/tpope/vim-pathogen.git
