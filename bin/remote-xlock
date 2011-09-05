@@ -1,5 +1,5 @@
 #!/bin/sh
-arch_user=$(basename $(ls -d /home/{tgulacsi,gthomas} 2>/dev/null))
+arch_user=$(cd /home/ && ls -d {tgulacsi,gthomas} 2>/dev/null)
 
 if which xlock 2>/dev/null; then
   CMD=xlock

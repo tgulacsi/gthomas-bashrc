@@ -104,7 +104,7 @@ def mount_host_nm(base, host, nm, params):
 
 
 def main(umount=True, umount_only=False, use_sshfs=False):
-    if not os.environ.get('SSH_AGENT_PID'):
+    if True or not os.environ.get('SSH_AGENT_PID'):
         p = Popen(['sh', '-c', '. %s/uno-ssh ; set' % DN], stdout=PIPE)
         for line in p.stdout:
             line = line.decode(ENCODING)
