@@ -4,6 +4,8 @@ UNOSOFT=${UNOSOFT:-mail.unosoft.hu}
 UNOPORT=2222
 ID_FILE=$HOME/.ssh/tgulacsi@unosoft
 OPTS=${OPTS:-}
+#XFREERDP=${XFREERDP:-/usr/local/src/FreeRDP/freerdp/client/X11/xfreerdp}
+[ -z "$XFREERDP" -o -x $(which "$XFREERDP") ] || XFREERDP=xfreerdp
 
 GEP=$1
 shift
@@ -119,9 +121,11 @@ else
         )
     else
         (
-        ${RDP:-xfreerdp} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} \
+        RDP=${RDP:-${XFREERDP}}
+        echo "RDP=${RDP}"
+        ${RDP} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} \
           -z -x m --plugin cliprdr \
-          --plugin rdpdr --data scard --data disk:tmp:/tmp -- \
+          --data disk:tmp:/tmp -- \
           -u tgulacsi -d unosoft \
           -t ${PORT} -k 0x409 localhost \
         || close
