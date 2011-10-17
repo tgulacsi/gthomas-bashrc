@@ -17,7 +17,7 @@ daemons_type_d = {}
 def get_daemon_type(name):
     typ = TYP_UNKNOWN
     if not name in daemons_type_d:
-        if os.path.exists('/etc/init/' + name):
+        if os.path.exists('/etc/init/' + name + '.conf'):
             typ = TYP_UPSTART
         elif os.path.exists('/etc/init.d/' + name):
             typ = TYP_INITSCRIPT

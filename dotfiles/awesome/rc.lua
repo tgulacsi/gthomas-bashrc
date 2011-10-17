@@ -138,7 +138,8 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "right", screen = s })
+    mywibox[s] = awful.wibox({ position = "left", --"right",
+                               screen = s })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
@@ -377,4 +378,6 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 --os.execute("xfce4-session")
 --os.execute("pidof nm-applet || nm-applet --sm-disable")
 --os.execute("pidof nautilus || nautilus")
+os.execute("pidof gnome-settings-daemon || gnome-settings-daemon &")
+os.execute("hostname | grep -q waterhouse && { pidof gnome-sound-applet || gnome-sound-applet & }")
 -- }}}

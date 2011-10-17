@@ -45,13 +45,36 @@ for CD in $HOME/.mozilla/firefox/*.default; do
   fi
 done
 
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+     ps ${SSH_AGENT_PID} > /dev/null || {
+         start_agent;
+     }
+else
+     start_agent;
+fi
+
 #eval $(ssh-agent -t 7200)
 #[ -x ~/bin/uno-ssh -a -z "$DISPLAY" ] && . ~/bin/uno-ssh
 #case "$-" in *i*) byobu-launcher && exit 0; esac;
 #. /home/gthomas/.profabevjava
-if tmux list-session 2>&1 >/dev/null; then
-    tmux attach
-else 
-    tmux new-session
-fi
+
+#if tmux list-session 2>&1 >/dev/null; then
+#    tmux attach
+#else
+#    tmux new-session
+#fi
 
