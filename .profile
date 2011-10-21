@@ -72,9 +72,11 @@ fi
 #case "$-" in *i*) byobu-launcher && exit 0; esac;
 #. /home/gthomas/.profabevjava
 
-#if tmux list-session 2>&1 >/dev/null; then
-#    tmux attach
-#else
-#    tmux new-session
-#fi
+if [ -z "$DISPLAY" ]; then
+    if tmux list-session 2>&1 >/dev/null; then
+        tmux attach
+    else
+        tmux new-session
+    fi
+fi
 
