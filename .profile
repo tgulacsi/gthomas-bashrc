@@ -33,17 +33,19 @@ else
   mv $HOME/.cache /tmp/$USER/
   ln -s /tmp/$USER/.cache $HOME/
 fi
-for CD in $HOME/.mozilla/firefox/*.default; do
-  if [ -h $CD/Cache ]; then
-    TGT=$(readlink -f $CD/Cache)
-    [ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
-  else
-    TGT=/tmp/$USER${CD:${#HOME}}
-    mkdir -p $TGT
-    mv $CD/Cache $TGT
-    ln -s $TGT $CD/Cache
-  fi
-done
+[ -d $HOME/.mozilla/firefox ] && {
+    for CD in $HOME/.mozilla/firefox/*.default; do
+      if [ -h $CD/Cache ]; then
+        TGT=$(readlink -f $CD/Cache)
+        [ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
+      else
+        TGT=/tmp/$USER${CD:${#HOME}}
+        mkdir -p $TGT
+        mv $CD/Cache $TGT
+        ln -s $TGT $CD/Cache
+      fi
+    done
+fi
 
 SSH_ENV="$HOME/.ssh/environment"
 
