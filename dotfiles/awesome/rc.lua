@@ -237,11 +237,11 @@ awful.key({ }, "XF86MonBrightnessDown",
 
 -- GT
 awful.key({ }, "XF86Suspend",
-      function () awful.util.spawn("pm-suspend") end),
+      function () awful.util.spawn("suspend") end),
 awful.key({ modkey }, "e",
       function () awful.util.spawn("editor") end),
 awful.key({ modkey, "Shift" }, "F12",
-      function () awful.util.spawn("suspend") end),
+      function () awful.util.spawn("$HOME/bin/suspend") end),
 awful.key({ modkey, "Control" }, "F12",
       function () awful.util.spawn("hibernate") end),
 awful.key({ modkey }, "F12",
@@ -378,6 +378,6 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 --os.execute("xfce4-session")
 --os.execute("pidof nm-applet || nm-applet --sm-disable")
 --os.execute("pidof nautilus || nautilus")
-os.execute("pidof gnome-settings-daemon || gnome-settings-daemon &")
-os.execute("hostname | grep -q waterhouse && { pidof gnome-sound-applet || gnome-sound-applet & }")
+--os.execute("pidof gnome-settings-daemon || gnome-settings-daemon &")
+--os.execute("hostname | grep -q waterhouse && { pidof gnome-sound-applet || gnome-sound-applet & }")
 -- }}}

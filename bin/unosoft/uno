@@ -121,6 +121,7 @@ else
         )
     else
         (
+        ulimit -v $((512 * 1024))
         RDP=${RDP:-${XFREERDP}}
         echo "RDP=${RDP}"
         ${RDP} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} \

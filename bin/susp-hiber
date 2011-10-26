@@ -1,4 +1,5 @@
 #!/bin/sh
+logger $(basename $0) "$@"
 [ -x $(dirname $0)/remote-xlock ] && {
   remote-xlock &
   sleep 1
@@ -8,11 +9,17 @@ case "$1" in
 hibernate|Hibernate) CMD_initcap=Hibernate; CMD_lower=hibernate;;
 esac
 
-if pidof gnome-power-manager >/dev/null; then
+Z=1
+if [ pidof gnome-power-manager >/dev/null \
+    -o pidof xfce4-power-manager >/dev/null ]; then
   dbus-send --session --dest=org.freedesktop.PowerManagement \
     --type=method_call --print-reply --reply-timeout=1 \
     /org/freedesktop/PowerManagement \
     org.freedesktop.PowerManagement.${CMD_initcap}
-else
-  sudo pm-${CMD_lower}
+  Z=$?
+  logger 'dbus-send --dest=org.freedesktop.PowerManagement: '$Z
 fi
+[ $Z -eq 0 ] || {
+    logger 'calling pm-'${CMD_lower}
+    sudo pm-${CMD_lower}
+}
