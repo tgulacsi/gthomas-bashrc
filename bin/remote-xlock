@@ -1,10 +1,11 @@
 #!/bin/sh
-arch_user=$(cd /home/ && ls -d {tgulacsi,gthomas} 2>/dev/null)
 
 if which xlock 2>/dev/null; then
-  CMD=xlock
-else
-  CMD='gnome-screensaver-command --lock'
+    CMD=xlock
+elif which xscreensaver-command 2>/dev/null; then
+    CMD='xscreensaver-command -lock'
+elif which gnome-screensaver-command 2>/dev/null; then
+    CMD='gnome-screensaver-command --lock'
 fi
 
-XAUTHORITY=/home/$arch_user/.Xauthority DISPLAY=:0.0 $CMD "$@"
+XAUTHORITY=/home/$LOGNAME/.Xauthority DISPLAY=:0.0 $CMD "$@"

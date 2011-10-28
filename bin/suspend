@@ -1,3 +1,0 @@
-#!/bin/sh
-logger $0
-$(dirname $0)/susp-hiber suspend
