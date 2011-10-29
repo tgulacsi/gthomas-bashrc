@@ -5,9 +5,9 @@ logger $(basename $0) "$@"
   sleep 1
 }
 case "$1" in
-  suspend|Suspend) CMD_initcap=Suspend; CMD_lower=suspend
-      ;;
 hibernate|Hibernate) CMD_initcap=Hibernate; CMD_lower=hibernate
+    ;;
+*) CMD_initcap=Suspend; CMD_lower=suspend
     ;;
 esac
 
