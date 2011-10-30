@@ -21,7 +21,7 @@ if [ $(pidof gnome-power-manager >/dev/null) \
   Z=$?
   logger 'dbus-send --dest=org.freedesktop.PowerManagement: '$Z
 fi
-[ $Z -eq 0 ] || {
+[ $Z -ne 0 ] || {
     logger 'calling pm-'${CMD_lower}
     sudo pm-${CMD_lower}
 }

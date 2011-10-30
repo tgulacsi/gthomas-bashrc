@@ -45,7 +45,7 @@ fi
         ln -s $TGT $CD/Cache
       fi
     done
-fi
+}
 
 keychain
 
