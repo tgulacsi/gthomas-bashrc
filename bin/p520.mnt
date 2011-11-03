@@ -80,6 +80,7 @@ def mount_host_nm(base, host, nm, params):
 
         cmd = ['sshfs', userhost + ':/home/' + nm, path,
             '-o', 'idmap=user,follow_symlinks,large_read,direct_io']
+
         rc = execute(cmd)
         assert 0 == rc[0], 'sshfs rc:%s\ncmd: %s' % (tuple([rc]),
             ' '.join(cmd))
@@ -104,21 +105,33 @@ def mount_host_nm(base, host, nm, params):
 
 
 def main(umount=True, umount_only=False, use_sshfs=False):
-    if True or not os.environ.get('SSH_AGENT_PID'):
-        p = Popen(['sh', '-c', '. %s/uno-ssh ; set' % DN], stdout=PIPE)
-        for line in p.stdout:
-            line = line.decode(ENCODING)
-            if line.startswith('SSH'):
-                k, v = line.rstrip().split('=', 1)
-                os.environ[k] = v
+    #if True or not os.environ.get('SSH_AGENT_PID'):
+    #    p = Popen(['sh', '-c', '. %s/uno-ssh ; set' % DN], stdout=PIPE)
+    #    for line in p.stdout:
+    #        line = line.decode(ENCODING)
+    #        if line.startswith('SSH'):
+    #            k, v = line.rstrip().split('=', 1)
+    #            os.environ[k] = v
+    (out, err) = Popen(['keychain', '--eval', 'tgulacsi@unosoft', 'id_rsa'],
+            stdout=PIPE).communicate()
+    env = os.environ
+    for line in out.splitlines():
+        if not line.startswith('SSH_'):
+            continue
+        line = line.split(';', 1)[0]
+        k, v = line.split('=', 1)
+        env[k] = v
+    ssh_env = [tup for tup in env.iteritems() if tup[0].startswith('SSH_')]
+    LOG.info('ssh_env=%r', ssh_env)
+    assert ssh_env, 'ssh_env is empty!'
     assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])[0]
-    os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
-    rc = execute(['ssh-add', '-l'], catch_stdout=True)
-    LOG.debug('rc: %r', rc)
-    if not (0 == rc[0] and 'tgulacsi@unosoft' in unicode(rc[1], ENCODING)):
-        rc = execute(['ssh-add',
-            os.path.expandvars('$HOME/.ssh/tgulacsi@unosoft')])
-        LOG.debug(rc)
+    #os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
+    #rc = execute(['ssh-add', '-l'], catch_stdout=True)
+    #LOG.debug('rc: %r', rc)
+    #if not (0 == rc[0] and 'tgulacsi@unosoft' in unicode(rc[1], ENCODING)):
+    #    rc = execute(['ssh-add',
+    #        os.path.expandvars('$HOME/.ssh/tgulacsi@unosoft')])
+    #    LOG.debug(rc)
 
     if umount or umount_only:
         LOG.info('## umounts')
