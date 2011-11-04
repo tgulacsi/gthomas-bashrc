@@ -3,7 +3,7 @@ case $(uname -n) in
   tgulacsi-desktop)
 #/usr/bin/rdesktop -P -k en -e \
 ${RDP:-xfreerdp} -k 0x409 --plugin cliprdr -x m -a 16 -z \
-  -g 1878x1080 -d unosoft -u tgulacsi \
+  -g 1904x1080 -d unosoft -u tgulacsi \
   --plugin rdpdr --data scard --data disk:tmp:/tmp -- \
   ${1:-unots}
     break
