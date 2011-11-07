@@ -126,12 +126,12 @@ def main(umount=True, umount_only=False, use_sshfs=False):
     assert ssh_env, 'ssh_env is empty!'
     assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])[0]
     #os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
-    #rc = execute(['ssh-add', '-l'], catch_stdout=True)
-    #LOG.debug('rc: %r', rc)
-    #if not (0 == rc[0] and 'tgulacsi@unosoft' in unicode(rc[1], ENCODING)):
-    #    rc = execute(['ssh-add',
-    #        os.path.expandvars('$HOME/.ssh/tgulacsi@unosoft')])
-    #    LOG.debug(rc)
+    rc = execute(['ssh-add', '-l'], catch_stdout=True)
+    LOG.debug('rc: %r', rc)
+    if not (0 == rc[0] and 'tgulacsi@unosoft' in unicode(rc[1], ENCODING)):
+        rc = execute(['ssh-add',
+            os.path.expandvars('$HOME/.ssh/tgulacsi@unosoft')])
+        LOG.debug(rc)
 
     if umount or umount_only:
         LOG.info('## umounts')
