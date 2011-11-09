@@ -47,15 +47,16 @@ fi
     done
 }
 
-keychain
+eval $(keychain --eval -q)
 
 #. /home/gthomas/.profabevjava
 
-if [ -z "$DISPLAY" ]; then
-    if tmux list-session 2>&1 >/dev/null; then
-        tmux attach
-    else
-        tmux new-session
-    fi
+if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
+    tmux attach || tmux
+    #if (tmux list-session 2>&1 & sleep 1) | grep -q windows; then
+        #tmux attach
+    #else
+        #tmux new-session
+    #fi
 fi
 

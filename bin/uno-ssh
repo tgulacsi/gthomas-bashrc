@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if which keychain >/dev/null; then
-    keychain id_rsa tgulacsi@unosoft
+    eval $(keychain --eval -q id_rsa tgulacsi@unosoft)
     ssh-add -l | grep -q tgulacsi@unosoft  || ssh-add ~/.ssh/tgulacsi@unosoft
 else
     export SSH_AUTH_SOCK=/tmp/$USER-ssh-agent.sock

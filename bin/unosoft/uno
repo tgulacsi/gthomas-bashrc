@@ -124,10 +124,9 @@ else
         ulimit -v $((512 * 1024))
         RDP=${RDP:-${XFREERDP}}
         echo "RDP=${RDP}"
+          #-z -x m --plugin cliprdr --data disk:tmp:/tmp -- \
         ${RDP} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} \
-          -z -x m --plugin cliprdr \
-          --data disk:tmp:/tmp -- \
-          -u tgulacsi -d unosoft \
+          -z -x m -u tgulacsi -d unosoft \
           -t ${PORT} -k 0x409 localhost \
         || close
         )
