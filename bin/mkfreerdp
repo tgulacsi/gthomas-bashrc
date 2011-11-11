@@ -1,0 +1,9 @@
+#!/bin/sh
+cd /usr/local/src/${LOGNAME}/FreeRDP || exit 1
+OHEAD=$(git log|head -n 1)
+git pull || exit $?
+if [ "$OHEAD" != "$(git log|head -n 1)" ]; then
+  cd MK && ./c
+else
+  echo 'no change'
+fi
