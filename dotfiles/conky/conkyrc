@@ -5,7 +5,7 @@
 # Check http://conky.sf.net for an up-to-date-list.
 
 # set to yes if you want Conky to be forked in the background
-background yes
+#background yes
 
 # X font when Xft is disabled, you can pick one with program xfontsel
 #font 5x7
@@ -20,7 +20,8 @@ background yes
 use_xft yes
 
 # Xft font when Xft is enabled
-xftfont Bitstream Vera Sans Mono:size=8
+#xftfont Droid Sans Mono:size=8
+xftfont Inconsolata Medium:size=8
 
 # Text alpha when using Xft
 xftalpha 0.8
@@ -47,7 +48,7 @@ update_interval 5.0
 total_run_times 0
 
 # Create own window instead of using desktop (required in nautilus)
-own_window yes
+#own_window yes
 
 # If own_window is yes, you may use type normal, desktop or override
 own_window_type desktop
@@ -59,7 +60,7 @@ own_window_transparent yes
 # own_window_colour hotpink
 
 # If own_window is yes, these window manager hints may be used
-#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
 # Use double buffering (reduces flicker, may not work for everyone)
 double_buffer yes
@@ -126,13 +127,13 @@ override_utf8_locale no
 use_spacer none
 
 # Allow each port monitor to track at most this many connections (if 0 or not set, default is 256)
-#max_port_monitor_connections 256
+max_port_monitor_connections 256
 
 # Maximum number of special things, e.g. fonts, offsets, aligns, etc.
-#max_specials 512
+max_specials 512
 
 # Maximum size of buffer for user text, i.e. below TEXT line.
-#max_user_text 16384
+max_user_text 16384
 
 # Timing interval for music player thread, e.g. mpd, audacious
 #music_player_interval (update_interval is default)
@@ -151,7 +152,8 @@ ${color lightgrey}CPU Usage:${color #cc2222} $cpu% ${cpubar}
 ${color red}${cpugraph 0000ff 00ff00}
 ${color lightgrey}RAM Usage:$color $mem/$memmax - $memperc% ${membar}
 ${color lightgrey}Swap Usage:$color $swap/$swapmax - $swapperc% ${swapbar}
-${color lightgrey}Processes:$color $processes  ${color grey}Running:$color $running_processes
+${color lightgrey}Processes:$color $processes  ${color grey}Running:$color $running_processes ${if_existing /sys/class/power_supply/BAT0}${if_existing /sys/class/power_supply/AC/online 0}${if_match ${battery_percent BAT0} <= 10}${if_match ${battery_percent BAT0} <= 5}${if_match ${battery_percent BAT0} <= 3}${color red}${exec sudo /usr/sbin/pm-hibernate}${else}${color red}${execi 60 /usr/local/bin/criticalbat.py}${endif}${else}${color orange}${execi 120 /usr/local/bin/lowbat.py}${endif}${endif}${endif}  BAT0: ${battery_bar 6,100 BAT0} ${battery_percent BAT0}%
+${endif}
 $color$stippled_hr
 ${color lightgrey}Networking: ${if_existing /proc/net/route wlan0}wlan0
  Down:${color #8844ee} ${downspeed wlan0}${color lightgrey} ${offset 80}Up:${color #22ccff} ${upspeed wlan0}
