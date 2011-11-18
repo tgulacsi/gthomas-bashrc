@@ -63,10 +63,12 @@ def walk_hosts(root=BASE):
             if 'na' == fn:
                 continue
             host = fn
+            nm = None
             for fn in os.listdir(root + '/' + host):
-                if True or os.path.isdir(root + '/' + host + '/' + fn):
-                    nm = fn
-                    yield (root, host, nm)
+                nm = fn
+                yield (root, host, nm)
+            if nm is None:
+                yield (root, host, '')
 
 
 def mount_host_nm(base, host, nm, params):

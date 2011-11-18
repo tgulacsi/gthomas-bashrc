@@ -1,42 +1,46 @@
 #!/bin/sh
 
-if which keychain >/dev/null; then
-    eval $(keychain --eval -q id_rsa tgulacsi@unosoft)
-    ssh-add -l | grep -q tgulacsi@unosoft  || ssh-add ~/.ssh/tgulacsi@unosoft
+if ssh-add -l 2>/dev/null | grep -q tgulacsi@unosoft; then
+    echo
 else
-    export SSH_AUTH_SOCK=/tmp/$USER-ssh-agent.sock
-
-    SSH_ENV="$HOME/.ssh/environment"
-
-    start_agent () {
-         echo "Initialising new SSH agent..."
-         #/usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-         /usr/bin/ssh-agent >"${SSH_ENV}"
-         echo succeeded
-         chmod 600 "${SSH_ENV}"
-         . "${SSH_ENV}" > /dev/null
-         /usr/bin/ssh-add;
-    }
-
-    # Source SSH settings, if applicable
-
-    if [ -f "${SSH_ENV}" ]; then
-       . "${SSH_ENV}" > /dev/null
-       #ps ${SSH_AGENT_PID} doesn't work under cywgin
-       ps ${SSH_AGENT_PID} >/dev/null || {
-         start_agent;
-       }
+    if which keychain >/dev/null; then
+        eval $(keychain --eval -q id_rsa tgulacsi@unosoft)
+        ssh-add -l | grep -q tgulacsi@unosoft  || ssh-add ~/.ssh/tgulacsi@unosoft
     else
-       start_agent;
-    fi
+        export SSH_AUTH_SOCK=/tmp/$USER-ssh-agent.sock
 
-    echo SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
-    export SSH_AGENT_PID
-    export SSH_AUTH_SOCK
-    ssh-add
-    if ssh-add -l | grep -q 'd5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b'; then
-        echo "already there"
-    else
-        ssh-add $HOME/.ssh/tgulacsi@unosoft
+        SSH_ENV="$HOME/.ssh/environment"
+
+        start_agent () {
+             echo "Initialising new SSH agent..."
+             #/usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+             /usr/bin/ssh-agent >"${SSH_ENV}"
+             echo succeeded
+             chmod 600 "${SSH_ENV}"
+             . "${SSH_ENV}" > /dev/null
+             /usr/bin/ssh-add;
+        }
+
+        # Source SSH settings, if applicable
+
+        if [ -f "${SSH_ENV}" ]; then
+           . "${SSH_ENV}" > /dev/null
+           #ps ${SSH_AGENT_PID} doesn't work under cywgin
+           ps ${SSH_AGENT_PID} >/dev/null || {
+             start_agent;
+           }
+        else
+           start_agent;
+        fi
+
+        echo SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+        export SSH_AGENT_PID
+        export SSH_AUTH_SOCK
+        ssh-add
+        if ssh-add -l | grep -q 'd5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b'; then
+            echo "already there"
+        else
+            ssh-add $HOME/.ssh/tgulacsi@unosoft
+        fi
     fi
 fi
