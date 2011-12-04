@@ -1,0 +1,12 @@
+#!/bin/sh
+if which emacs 2>/dev/null; then
+    FLAG=-t
+    if tty -s; then
+	FLAG=-t
+    else
+	FLAG=-c
+    fi
+    emacsclient $FLAG -a '' "$@"
+else
+    vim "$@"
+fi
