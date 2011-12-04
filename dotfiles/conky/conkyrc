@@ -152,7 +152,7 @@ ${color lightgrey}CPU Usage:${color #cc2222} $cpu% ${cpubar}
 ${color red}${cpugraph 0000ff 00ff00}
 ${color lightgrey}RAM Usage:$color $mem/$memmax - $memperc% ${membar}
 ${color lightgrey}Swap Usage:$color $swap/$swapmax - $swapperc% ${swapbar}
-${color lightgrey}Processes:$color $processes  ${color grey}Running:$color $running_processes ${if_existing /sys/class/power_supply/BAT0}${if_existing /sys/class/power_supply/AC/online 0}${if_match ${battery_percent BAT0} <= 10}${if_match ${battery_percent BAT0} <= 5}${if_match ${battery_percent BAT0} <= 3}${color red}${exec sudo /usr/sbin/pm-hibernate}${else}${color red}${execi 60 /usr/local/bin/criticalbat.py}${endif}${else}${color orange}${execi 120 /usr/local/bin/lowbat.py}${endif}${endif}${endif}  BAT0: ${battery_bar 6,100 BAT0} ${battery_percent BAT0}%
+${color lightgrey}Processes:$color $processes  ${color grey}Running:$color $running_processes ${if_existing /sys/class/power_supply/BAT0}${if_existing /sys/class/power_supply/AC/online 0}${if_match ${battery_percent BAT0} <= 10}${if_match ${battery_percent BAT0} <= 5}${if_match ${battery_percent BAT0} <= 3}${color red}${exec sudo /usr/sbin/pm-hibernate}${else}${color red}${execi 60 /usr/local/bin/criticalbat.py}${endif}${else}${color orange}${execi 120 /usr/local/bin/lowbat.py}${endif}${endif}${endif}  BAT0: ${battery_bar 6,75 BAT0} ${battery_percent BAT0}%
 ${endif}
 $color$stippled_hr
 ${color lightgrey}Networking: ${if_existing /proc/net/route wlan0}wlan0

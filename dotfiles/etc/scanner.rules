@@ -1,0 +1,1 @@
+SUBSYSTEMS=="usb", ATTRS{manufacturer}=="Fujitsu ", ATTRS{product}=="ScanSnap S510", GROUP="scanner" SYMLINK="scanner"
