@@ -19,3 +19,6 @@
 [submodule "dotfiles/emacs/external/evil"]
 	path = dotfiles/emacs/external/evil
 	url = git://gitorious.org/evil/evil.git
+[submodule "dotfiles/emacs/external/solarized"]
+	path = dotfiles/emacs/external/solarized
+	url = https://github.com/sellout/emacs-color-theme-solarized.git
