@@ -13,3 +13,9 @@
 [submodule "dotfiles/vim/external/pathogen"]
 	path = dotfiles/vim/external/pathogen
 	url = http://github.com/tpope/vim-pathogen.git
+[submodule "dotfiles/emacs/external/emacs-prelude"]
+	path = dotfiles/emacs/external/emacs-prelude
+	url = git://github.com/bbatsov/emacs-prelude.git
+[submodule "dotfiles/emacs/external/evil"]
+	path = dotfiles/emacs/external/evil
+	url = git://gitorious.org/evil/evil.git
