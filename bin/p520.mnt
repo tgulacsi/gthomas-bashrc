@@ -71,13 +71,17 @@ def walk_hosts(root=BASE):
                 yield (root, host, '')
 
 
+def get_userhost(host, nm):
+    return (host if (uname == 'hackworth'
+                or host in ('unowebprd', 'unointra'))
+            else 'ablkd' if 'ablak3' == nm else nm + 'd')
+
+
 def mount_host_nm(base, host, nm, params):
     passwd = params.get('passwd')
     path = '/'.join((base, host, nm))
     if host in SSH_HOSTS and params['use_sshfs']:
-        userhost = (host if (uname == 'hackworth'
-                or host in ('unowebprd', 'unointra'))
-            else 'ablkd' if 'ablak3' == nm else nm + 'd')
+        userhost = get_userhost(host, nm)
         load_sshfs()
 
         cmd = ['sshfs', userhost + ':/home/' + nm, path,
@@ -141,7 +145,10 @@ def main(umount=True, umount_only=False, use_sshfs=False):
             path = base + '/' + host + '/' + nm
             LOG.info('# umounting %s', path)
             execute(['sudo', 'umount', '-lf', path])
-
+            execute(['sh', '-c', 'ps -ef|grep sshfs'])
+            kill_sshfs(path)
+            # execute(['ssh', '-O', 'exit', '-N', get_userhost(host, nm)])
+        LOG.info('# kill_sshfs')
         kill_sshfs()
 
     if not umount_only:
