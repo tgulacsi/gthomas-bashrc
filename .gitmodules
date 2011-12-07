@@ -15,10 +15,10 @@
 	url = http://github.com/tpope/vim-pathogen.git
 [submodule "dotfiles/emacs/external/emacs-prelude"]
 	path = dotfiles/emacs/external/emacs-prelude
-	url = git://github.com/bbatsov/emacs-prelude.git
+	url = http://github.com/bbatsov/emacs-prelude.git
 [submodule "dotfiles/emacs/external/evil"]
 	path = dotfiles/emacs/external/evil
-	url = git://gitorious.org/evil/evil.git
+	url = https://git.gitorious.org/evil/evil.git
 [submodule "dotfiles/emacs/external/solarized"]
 	path = dotfiles/emacs/external/solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git

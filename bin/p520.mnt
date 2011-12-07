@@ -43,12 +43,18 @@ def execute(cmd, timeout=None, catch_stdout=False):
     return (rc, stdout, stderr)
 
 
+def killall(pattern, signal=9):
+    return Popen(['killall', '-%s' % signal, pattern]).communicate()
+
+
 def kill_sshfs(mountpoint=None):
+    if not mountpoint:
+        return killall('sshfs')
     p = Popen(['ps', '-ef'], stdout=PIPE)
     for line in p.stdout:
         line = unicode(line, ENCODING)
         # LOG.debug('#  in line %r ?%s', line, 'sshfs' in line)
-        if 'sshfs' in line and (not mountpoint or mountpoint in line):
+        if 'sshfs' in line and mountpoint in line:
             LOG.debug('# pid from %r', line)
             pid = int(line.split(None, 2)[1])
             LOG.info('# killing %r', pid)

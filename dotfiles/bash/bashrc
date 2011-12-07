@@ -81,8 +81,8 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -lA'
-alias emt='emacsclient -t'
-alias emc='emacsclient -c'
+alias emt='emacsclient -t -a ""'
+alias emc='emacsclient -c -a ""'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
