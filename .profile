@@ -25,26 +25,28 @@ export LANGUAGE="en"
 export LANG="hu_HU.UTF-8"
 #export LC_ALL=hu_HU.UTF-8
 
-mkdir -p /tmp/$USER
-if [ -h $HOME/.cache ]; then
-  TGT=$(readlink -f $HOME/.cache)
-  [ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
-else
-  mv $HOME/.cache /tmp/$USER/
-  ln -s /tmp/$USER/.cache $HOME/
-fi
-[ -d $HOME/.mozilla/firefox ] && {
-    for CD in $HOME/.mozilla/firefox/*.default; do
-      if [ -h $CD/Cache ]; then
-        TGT=$(readlink -f $CD/Cache)
-        [ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
-      else
-        TGT=/tmp/$USER${CD:${#HOME}}
-        mkdir -p $TGT
-        mv $CD/Cache $TGT
-        ln -s $TGT $CD/Cache
-      fi
-    done
+mount | grep -q ' /tmp' && {
+    mkdir -p /tmp/$USER
+    if [ -h $HOME/.cache ]; then
+	TGT=$(readlink -f $HOME/.cache)
+	[ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
+    else
+	mv $HOME/.cache /tmp/$USER/
+	ln -s /tmp/$USER/.cache $HOME/
+    fi
+    [ -d $HOME/.mozilla/firefox ] && {
+	for CD in $HOME/.mozilla/firefox/*.default; do
+	    if [ -h $CD/Cache ]; then
+		TGT=$(readlink -f $CD/Cache)
+		[ -n "$TGT" ] && [ ! -e "$TGT" ] && mkdir $TGT
+	    else
+		TGT=/tmp/$USER${CD:${#HOME}}
+		mkdir -p $TGT
+		mv $CD/Cache $TGT
+		ln -s $TGT $CD/Cache
+	    fi
+	done
+    }
 }
 
 eval $(keychain --eval -q)
@@ -61,4 +63,3 @@ if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
         #tmux new-session
     #fi
 fi
-
