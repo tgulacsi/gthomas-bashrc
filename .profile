@@ -60,9 +60,4 @@ which emacs >/dev/null && emacs --daemon
 
 if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
     tmux attach || tmux
-    #if (tmux list-session 2>&1 & sleep 1) | grep -q windows; then
-        #tmux attach
-    #else
-        #tmux new-session
-    #fi
 fi
