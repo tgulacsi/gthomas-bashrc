@@ -43,13 +43,14 @@ def execute(cmd, timeout=None, catch_stdout=False):
     return (rc, stdout, stderr)
 
 
-def killall(pattern, signal=9):
-    return Popen(['killall', '-%s' % signal, pattern]).communicate()
+def killall(pattern, signal=9, sudo=False):
+    return Popen((['sudo'] if sudo else [])
+                 + ['killall', '-%s' % signal, pattern]).communicate()
 
 
 def kill_sshfs(mountpoint=None):
     if not mountpoint:
-        return killall('sshfs')
+        return killall('sshfs', sudo=True)
     p = Popen(['ps', '-ef'], stdout=PIPE)
     for line in p.stdout:
         line = unicode(line, ENCODING)

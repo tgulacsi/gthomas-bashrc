@@ -25,3 +25,4 @@ fi
     logger 'calling pm-'${CMD_lower}
     sudo pm-${CMD_lower}
 }
+[ $(uname -n) = 'tgulacsi-desktop' ] && killall -9 sshfs
