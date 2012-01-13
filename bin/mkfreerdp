@@ -1,5 +1,6 @@
 #!/bin/sh
 cd /usr/local/src/${LOGNAME}/FreeRDP || exit 1
+git checkout -f master
 OHEAD=$(git log|head -n 1)
 git stash
 git checkout -f master

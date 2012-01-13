@@ -11,6 +11,7 @@ mode = os.environ.get('MODE', 'dhcp')
 TYP_UNKNOWN = 0
 TYP_INITSCRIPT = 1
 TYP_UPSTART = 2
+TYP_SYSTEMD = 3
 daemons_type_d = {}
 
 
@@ -19,6 +20,8 @@ def get_daemon_type(name):
     if not name in daemons_type_d:
         if os.path.exists('/etc/init/' + name + '.conf'):
             typ = TYP_UPSTART
+        elif os.path.exists('/lib/systemd/system/' + name + '.service'):
+            typ = TYP_SYSTEMD
         elif os.path.exists('/etc/init.d/' + name):
             typ = TYP_INITSCRIPT
         daemons_type_d[name] = typ
@@ -55,6 +58,8 @@ def kill(name):
     typ = get_daemon_type(name)
     if TYP_UPSTART == typ:
         cmd = ['stop', name]
+    elif TYP_SYSTEMD == typ:
+        cmd = ['systemctl', 'stop', name + '.service']
     elif TYP_INITSCRIPT == typ:
         cmd = ['/etc/init.d/' + name, 'stop']
     else:
@@ -68,6 +73,8 @@ def start(name):
     typ = get_daemon_type(name)
     if TYP_UPSTART == typ:
         cmd = ['start', name]
+    elif TYP_SYSTEMD == typ:
+        cmd = ['systemctl', 'start', name + '.service']
     elif TYP_INITSCRIPT == typ:
         cmd = ['/etc/init.d/' + name, 'start']
     else:
