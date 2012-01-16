@@ -126,7 +126,7 @@ else
         echo "RDP=${RDP}"
           #-z -x m --plugin cliprdr --data disk:tmp:/tmp -- \
         ${RDP} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} \
-          -z -x m --plugin cliprdr --data disk:tmp:/tmp -- \
+          -z -x m --plugin rdpdr --data scard disk:tmp:/tmp -- \
           -t ${PORT} -k 0x409 localhost \
         || close
         )
@@ -134,5 +134,3 @@ else
     close
   }
 fi
-
-
