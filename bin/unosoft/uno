@@ -6,16 +6,18 @@ ID_FILE=$HOME/.ssh/tgulacsi@unosoft
 OPTS=${OPTS:-}
 #XFREERDP=${XFREERDP:-/usr/local/src/FreeRDP/freerdp/client/X11/xfreerdp}
 XFREERDP=${XFREERDP:-$(which xfreerdp)}
+export SSH_ASKPASS=${SSH_ASKPASS:-ssh-askpass}
 
 GEP=$1
 shift
-MORE=[ $# -ge 1 ]
+MORE=$([ $# -ge 1 ])
 CMD=${1:-connect}
 
 function conf {
   FELH=tgulacsi
   case "$1" in
     unots|ts) PORT=${PORT:-5001} ; GEP=unots ;;
+    unots2|ts2) PORT=${PORT:-5002} ; GEP=unots2 ;;
     te|te-gulacsit) PORT=${PORT:-5000} ; GEP=te-gulacsit ;;
     sql|sqlsrv) FELH2=administrator ; PORT=${PORT:-5004} ; GEP=sqlsrv ;;
     scan|unoscan) FELH2=administrator ; PORT=${PORT:-5003} ; GEP=unoscan ;;
@@ -69,7 +71,7 @@ else
   && {
     { #[ ! -a $ID_FILE ] && ~/bin/titok 1;
       echo ssh-add ${ID_FILE};
-      SSH_ASKPASS=ssh-askpass ssh-add ${ID_FILE};
+      ssh-add ${ID_FILE};
     } || { [ "x$NOCLOSE" = 'x1' ] || close; }
   }
   SSH="$SSH -C -f -N -L ${BINDADDR}${PORTGEP}.unosoft.local:3389 \
@@ -80,32 +82,34 @@ else
 
   echo "$SSH"
   trap close 1 2 3 6 9 15 17 19
-  SSH_ASKPASS=ssh-askpass $SSH || close
+  SSH_ASKPASS=$SSH_ASKPASS $SSH </dev/null
+  Z=$?
   echo SSH_PID=$!
+  [ $Z -eq 0 ] && echo "ssh OK" || { Z=$?; close; echo "!!$Z!!"; exit $Z; }
   NUM=$#
 
-  if [ -z "$SIZE" ]; then
-    X=$(xwininfo -root -metric|sed -ne '/Height\|Width/ {s/^.*: //;s/ (.*$//p}')
-    #echo "X=$X"
-    set $X
-    W=$1
-    H=$2
-    #echo "W=$W H=$H"
-    if pidof awesome >/dev/null && pidof gnome-panel >/dev/null; then
-      W=$(($W - 40))
-    else
-      if pidof metacity >/dev/null; then
-        H=$(($H - 24))
-      else
-        W=$(($W - 16))
-      fi
-    fi
-    echo "W=$W H=$H"
-    SIZE=${W}x${H}
-  fi
-  echo SIZE=$SIZE
   [ $NUM -lt 1 ] && {
     echo "RDP[$RDP]..."
+    if [ -z "$SIZE" ]; then
+      X=$(xwininfo -root -metric|sed -ne '/Height\|Width/ {s/^.*: //;s/ (.*$//p}')
+      #echo "X=$X"
+      set $X
+      W=$1
+      H=$2
+      #echo "W=$W H=$H"
+      if pidof awesome >/dev/null && pidof gnome-panel >/dev/null; then
+        W=$(($W - 40))
+      else
+        if pidof metacity >/dev/null; then
+          H=$(($H - 24))
+        else
+          W=$(($W - 16))
+        fi
+      fi
+      echo "W=$W H=$H"
+      SIZE=${W}x${H}
+    fi
+    echo SIZE=$SIZE
     if [ "x$RDP" = 'xrdesktop' ]; then
         mkdir -p /tmp/$USER/rdesktop ; ln -sf /tmp/$USER/rdesktop ~/.rdesktop/cache
         (#-g 95%
@@ -126,7 +130,7 @@ else
         echo "RDP=${RDP}"
           #-z -x m --plugin cliprdr --data disk:tmp:/tmp -- \
         ${RDP} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} \
-          -z -x m --plugin rdpdr --data scard disk:tmp:/tmp -- \
+          -z -x m --plugin rdpdr --data scard:scard disk:tmp:/tmp -- \
 	  --plugin cliprdr -t ${PORT} -k 0x409 localhost \
         || close
         )
