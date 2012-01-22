@@ -99,11 +99,13 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-complete -W "$(echo $(grep '^ssh ' .bash_history | sort -u | sed 's/^ssh //'))" ssh
-which sshu 2>&1 >/dev/null \
-&& complete -W "$(echo $(grep '^sshu ' .bash_history | sort -u | sed 's/^sshu //'))" sshu
+[ -e $HISTFILE ] && {
+    complete -W "$(echo $(grep '^ssh ' $HISTFILE | sort -u | sed 's/^ssh //'))" ssh
+    which sshu 2>&1 >/dev/null \
+	&& complete -W "$(echo $(grep '^sshu ' $HISTFILE | sort -u | sed 's/^sshu //'))" sshu
+}
 
 [ -x ~/bin/uno-ssh ] && ~/bin/uno-ssh
 
-export EDITOR=vim
+export EDITOR=$HOME/bin/edit
 export CHROMIUM_USER_FLAGS="--memory-model=low"
