@@ -2,7 +2,7 @@
 BASE=${BASE:-/var/backups/gibkp}
 
 if [ ! -x $BASE ]; then
-  mkdir -p $BASE && cd $BASE && git init || exit 1
+  mkdir -p $BASE && cd $BASE && git init || exit 7
 else
   cd $BASE || exit 2
   if git branch | grep -q master; then
@@ -16,4 +16,6 @@ for dn in "$@"; do
 done
 
 git add * || exit 5
-git commit -am "$(date '+%Y-%m-%dT%H:%M:%S')"
+[ $(git status --short | wc -l) -gt 1 ] && {
+  git commit -am "$(date '+%Y-%m-%dT%H:%M:%S')" || exit 6
+} || exit 0

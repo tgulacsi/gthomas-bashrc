@@ -16,8 +16,13 @@
 ;; py pep8
 (defun pyprep ()
   (when (and (stringp buffer-file-name)
-             (string-match "\\.py\\'" buffer-file-name))
+             (string-match "\\.py\\'" buffer-file-name)
+	     (functionp 'pep8))
     (pep8)))
+
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
