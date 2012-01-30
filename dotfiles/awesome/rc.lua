@@ -384,5 +384,6 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 --os.execute("hostname | grep -q waterhouse && { pidof gnome-sound-applet || gnome-sound-applet & }")
 os.execute("pidof xscreensaver || xscreensaver &")
 os.execute("which pidgin && { pidof pidgin || pidgin & }")
-os.execute("which conky && { pidof conky || conky -d -b }")
+os.execute("which conky && { pidof conky || conky -d -b & }")
+os.execute("which fbxkb && fbxkb &")
 -- }}}
