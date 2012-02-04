@@ -30,8 +30,8 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-(set-variable 'backupdir "/tmp/tgulacsi/emacsbackup")
-(if (not (file-directory-p backupdir)) (make-directory backupdir))
+(set-variable 'backupdir (concat "/tmp/" (getenv "USER") "/emacsbackup"))
+(if (not (file-directory-p backupdir)) (make-directory backupdir t))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -55,6 +55,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 78 :width normal :foundry "unknown" :family "Droid Sans Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "unknown" :family "Droid Sans Mono"))))
  '(paren-blink-off ((t nil)) t)
  '(paren-mismatch-face ((t nil)) t))
