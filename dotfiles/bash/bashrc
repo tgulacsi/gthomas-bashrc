@@ -105,7 +105,7 @@ fi
 	&& complete -W "$(echo $(grep '^sshu ' $HISTFILE | sort -u | sed 's/^sshu //'))" sshu
 }
 
-[ -x ~/bin/uno-ssh ] && ~/bin/uno-ssh
+[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
 export EDITOR=$HOME/bin/edit
 export CHROMIUM_USER_FLAGS="--memory-model=low"

@@ -1,12 +1,21 @@
 #!/bin/sh
 
 if ssh-add -l 2>/dev/null | grep -q tgulacsi@unosoft; then
-    echo
+    #echo 'key ok'
 else
+    #echo 'no key'
     if which keychain >/dev/null; then
-        eval $(keychain --eval -q id_rsa tgulacsi@unosoft)
-        ssh-add -l | grep -q tgulacsi@unosoft  || ssh-add ~/.ssh/tgulacsi@unosoft
+	#echo 'keychain'
+	ps -ef|grep -q ssh-agent || {
+	  rm -rf /tmp/ssh-????????????
+	  export SSH_AUTH_SOCK=
+	  export SSH_AGENT_PID=
+	}
+	CMD=$(keychain --eval -q -k others --inherit any-once --timeout 7200 tgulacsi@unosoft)
+	#echo CMD=$CMD
+	eval $CMD
     else
+	echo 'no keychain, trying environment'
         export SSH_AUTH_SOCK=/tmp/$USER-ssh-agent.sock
 
         SSH_ENV="$HOME/.ssh/environment"
@@ -33,7 +42,6 @@ else
            start_agent;
         fi
 
-        echo SSH_AGENT_PID=$SSH_AGENT_PID SSH_AUTH_SOCK=$SSH_AUTH_SOCK
         export SSH_AGENT_PID
         export SSH_AUTH_SOCK
         ssh-add

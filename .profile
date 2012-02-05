@@ -52,10 +52,6 @@ cache-to-tmp () {
 }
 cache-to-tmp
 
-eval $(keychain --eval -q -k others)
-
-#. /home/gthomas/.profabevjava
-
 which emacs >/dev/null && emacs --daemon
 
 if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
