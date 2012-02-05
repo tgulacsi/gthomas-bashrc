@@ -52,7 +52,7 @@ cache-to-tmp () {
 }
 cache-to-tmp
 
-eval $(keychain --eval -q)
+eval $(keychain --eval -q -k others)
 
 #. /home/gthomas/.profabevjava
 
