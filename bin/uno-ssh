@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if ssh-add -l 2>/dev/null | grep -q tgulacsi@unosoft; then
-    #echo 'key ok'
+    echo 'key ok'
 else
     #echo 'no key'
     if which keychain >/dev/null; then
