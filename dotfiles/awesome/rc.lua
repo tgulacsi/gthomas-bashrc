@@ -385,5 +385,5 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 os.execute("pidof xscreensaver || xscreensaver &")
 os.execute("which pidgin && { pidof pidgin || pidgin & }")
 os.execute("which conky && { pidof conky || conky -d -b & }")
-os.execute("which fbxkb && fbxkb &")
+os.execute("which fbxkb && { pidof fbxkb || fbxkb & }")
 -- }}}
