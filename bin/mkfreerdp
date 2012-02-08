@@ -1,9 +1,9 @@
 #!/bin/sh
 cd /usr/local/src/${LOGNAME}/FreeRDP || exit 1
+git stash
+git checkout -b lng-$(date '+%Y%m%d') master
 git checkout -f master
 OHEAD=$(git log|head -n 1)
-git stash
-git checkout -f master
 git pull || exit $?
 if [ "$OHEAD" != "$(git log|head -n 1)" ]; then
   cd MK && ./c
