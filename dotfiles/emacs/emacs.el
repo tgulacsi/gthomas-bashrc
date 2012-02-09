@@ -40,7 +40,6 @@
  ;; If there is more than one, they won't work right.
  '(after-save-hook (quote (pyprep)))
  '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
- '(backup-directory-alist (quote ((".*" . backupdir))))
  '(before-save-hook (quote (delete-trailing-whitespace)))
  '(blink-matching-delay 2)
  '(column-number-mode t)
