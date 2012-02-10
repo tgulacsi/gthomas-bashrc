@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # !! python2 !!
 
+from __future__ import with_statement
+from contextlib import contextmanager
+
 import time
 import os
 import sys
@@ -19,11 +22,21 @@ SSH_HOSTS = ('p520', 'gho', 'miranda', 'unointra', 'unowebprd')
 ENCODING = sys.getfilesystemencoding()
 
 
-def execute(cmd, timeout=None, catch_stdout=False):
-    LOG.debug('# executing %r', ' '.join('"%s"' % x if ' ' in x else x
+@contextmanager
+def mktempfn(suffix='.tmp', prefix='tmp'):
+    from tempfile import mkstemp
+    fd, fn = mkstemp(suffix, prefix)
+    os.close(fd)
+    yield fn
+    if os.path.exists(fn):
+        os.unlink(fn)
+
+
+def execute(cmd, timeout=None, catch_stdout=False, env=None):
+    LOG.debug('# executing %r, env=%r', ' '.join('"%s"' % x if ' ' in x else x
             for x in ('PASSWD=***' if x.startswith('PASSWD=') else x
-        for x in cmd)))
-    p = Popen(cmd, stdout=PIPE if catch_stdout else None)
+        for x in cmd)), env)
+    p = Popen(cmd, stdout=PIPE if catch_stdout else None, env=env)
     if timeout:
         pid = p.pid
         if pid:
@@ -98,21 +111,29 @@ def mount_host_nm(base, host, nm, params):
         assert 0 == rc[0], 'sshfs rc:%s\ncmd: %s' % (tuple([rc]),
             ' '.join(cmd))
     else:
+        username = USER
+        domain = '' if 'unointra' == host else 'unosoft'
         if not passwd:
             passwd = params['passwd'] = open(PASSWD, 'rU').readline().rstrip()
 
-        cred = ('user=' + USER if 'unointra' == host
-            else 'user=unosoft/' + USER + ',domain=unosoft')
-        opts = [cred, 'rw,iocharset=utf8', 'uid=' + USER,
-            'gid=users']
-        if 'unots' == host:
-            opts.append('nounix,sec=ntlmv2')
-        else:
-            opts.append('sfu')
-        rc = execute(['sudo', 'env', 'PASSWD=' + passwd,
-            'mount', '-t', 'cifs',
-            '//' + host + '/' + nm, path, '-o', ','.join(opts),
-            '--verbose'])
+        with mktempfn() as credfn:
+            os.chmod(credfn, 0600)
+            print >> open(credfn, 'wt'), (
+                'username=%s\npassword=%s\ndomain=%s'
+                % (username, passwd, domain))
+            os.chmod(credfn, 0400)
+            LOG.debug('credfile: %s (%r)', credfn, open(credfn, 'rb').read())
+            cred = ('user=' + USER if 'unointra' == host
+                else 'user=unosoft/' + USER + ',domain=unosoft')
+            opts = [cred, 'rw,iocharset=utf8', 'uid=' + USER,
+                'gid=users', 'credentials=%s' % credfn]
+            if host in ('unots', 'unots2'):
+                opts.append('nounix,sec=ntlmv2,credentials=%s' % credfn)
+            else:
+                opts.append('sfu')
+            rc = execute(['sudo', 'mount', '-t', 'cifs',
+                '//' + host + '/' + nm, path, '-o', ','.join(opts),
+                '--verbose'])
         if 0 != rc[0]:
             LOG.error('!!! rc=%r', rc)
 
@@ -137,7 +158,7 @@ def main(umount=True, umount_only=False, use_sshfs=False):
     ssh_env = [tup for tup in env.iteritems() if tup[0].startswith('SSH_')]
     LOG.info('ssh_env=%r', ssh_env)
     assert ssh_env, 'ssh_env is empty!'
-    assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])[0]
+    #assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])[0]
     #os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
     rc = execute(['ssh-add', '-l'], catch_stdout=True)
     LOG.debug('rc: %r', rc)

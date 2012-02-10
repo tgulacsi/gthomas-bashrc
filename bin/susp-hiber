@@ -25,4 +25,8 @@ fi
     logger 'calling pm-'${CMD_lower}
     sudo pm-${CMD_lower}
 }
-[ $(uname -n) = 'tgulacsi-desktop' ] && killall -9 sshfs
+[ $(uname -n) = 'tgulacsi-desktop' ] && {
+    killall -9 sshfs
+    logger 'calling p520.mnt'
+    ~/bin/p520.mnt
+}
