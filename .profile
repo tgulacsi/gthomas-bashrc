@@ -50,9 +50,12 @@ cache-to-tmp () {
 	}
     }
 }
-cache-to-tmp
-
-which emacs >/dev/null && emacs --daemon
+case hostname in
+    unowebprd) export LC_ALL=C; export TERM=xterm-color
+	;;
+    *) cache-to-tmp
+	which emacs >/dev/null && emacs --daemon
+esac
 
 if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
     tmux attach || tmux
