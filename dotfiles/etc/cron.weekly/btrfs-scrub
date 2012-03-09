@@ -1,0 +1,5 @@
+#!/bin/sh
+awk '/btrfs/ {print $2}' /proc/mounts | while read dn; do
+  echo $dn
+  btrfs scrub start -B $dn
+done

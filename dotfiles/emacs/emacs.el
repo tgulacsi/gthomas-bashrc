@@ -46,6 +46,7 @@
  '(custom-enabled-themes (quote (adwaita)))
  '(delete-old-versions t)
  '(font-use-system-font t)
+ '(make-backup-files nil)
  '(menu-bar-mode nil)
  '(tool-bar-mode nil)
  '(visible-bell t))
