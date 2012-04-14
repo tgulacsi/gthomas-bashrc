@@ -48,7 +48,7 @@
  '(delete-old-versions t)
  '(file-precious-flag t)
  '(font-use-system-font t)
- '(menu-bar-mode nil)
+ '(savehist-mode t)
  '(tool-bar-mode nil)
  '(visible-bell t))
 (custom-set-faces

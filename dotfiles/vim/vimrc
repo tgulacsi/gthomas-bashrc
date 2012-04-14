@@ -1,12 +1,12 @@
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+"call pathogen#runtime_append_all_bundles()
+"call pathogen#helptags()
 
 set background=dark
-let g:solarized_termtrans=1
-let g:solarized_termcolors=256
-let g:solarized_contrast="high"
-let g:solarized_visibility="high"
-colorscheme solarized
+"let g:solarized_termtrans=1
+"let g:solarized_termcolors=256
+"let g:solarized_contrast="high"
+"let g:solarized_visibility="high"
+"colorscheme solarized
 
 
 set nocompatible    " use vim defaults
@@ -40,43 +40,43 @@ set undolevels=200
 set cpoptions=$cF
 set wildignore=*.o,*.obj,*.bak,*.exe,*.pyc,*.DS_Store,*.db
 set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%02v,%04l/%L\ (%p%%)]
-filetype plugin indent on " turn on the indent plugins
+"filetype plugin indent on " turn on the indent plugins
 
 set noautoindent    " turn off by default, enable for specific filetypes
 set nosmartindent   " turn off by default, enable for specific filetypes
 set nocindent       " turn off by default, enable for specific filetypes
 
 " NERD_tree config
-let NERDTreeChDirMode=2
-let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', '\.swp$']
-let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
-let NERDTreeShowBookmarks=1
+"let NERDTreeChDirMode=2
+"let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', '\.swp$']
+"let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
+"let NERDTreeShowBookmarks=1
 
 " VCS Command Configs
-let mapleader = ","
+"let mapleader = ","
 
 " Syntax for multiple tag files are
 " set tags=/my/dir1/tags, /my/dir2/tags
 set tags=tags;$HOME/.vim/tags/ "recursively searches directory for 'tags' file
 
 " TagList Plugin Configuration
-let Tlist_Ctags_Cmd='/usr/bin/ctags' " point taglist to ctags
-let Tlist_GainFocus_On_ToggleOpen = 1      " Focus on the taglist when its toggled
-let Tlist_Close_On_Select = 1              " Close when something's selected
-let Tlist_Use_Right_Window = 1             " Project uses the left window
-let Tlist_File_Fold_Auto_Close = 1         " Close folds for inactive files
+"let Tlist_Ctags_Cmd='/usr/bin/ctags' " point taglist to ctags
+"let Tlist_GainFocus_On_ToggleOpen = 1      " Focus on the taglist when its toggled
+"let Tlist_Close_On_Select = 1              " Close when something's selected
+"let Tlist_Use_Right_Window = 1             " Project uses the left window
+"let Tlist_File_Fold_Auto_Close = 1         " Close folds for inactive files
 
 " SCMDiff Plugin Configuration
-let SCMDiffCommand = 'git'
+"let SCMDiffCommand = 'git'
 
 "set autowrite       " auto saves changes when quitting and swiching buffer
 set expandtab       " tabs are converted to spaces
 set sm              " show matching braces, somewhat annoying...
 
 " remove ALL auto-commands so there are no dupes
-autocmd!
+"autocmd!
 
-syntax on                 " syntax highlighing
+"syntax on                 " syntax highlighing
 if has("gui_running")
     " See ~/.gvimrc
     set guifont=Inconsolata\ 10.00  " use this font

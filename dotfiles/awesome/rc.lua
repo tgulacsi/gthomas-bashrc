@@ -378,7 +378,7 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 --os.execute("empathy -h &")
 --os.execute("killall pcmanfm &")
 --os.execute("xfce4-session")
---os.execute("pidof nm-applet || nm-applet --sm-disable")
+os.execute("pidof nm-applet || nm-applet &")
 --os.execute("pidof nautilus || nautilus")
 --os.execute("pidof gnome-settings-daemon || gnome-settings-daemon &")
 --os.execute("hostname | grep -q waterhouse && { pidof gnome-sound-applet || gnome-sound-applet & }")

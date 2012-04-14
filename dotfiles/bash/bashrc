@@ -108,4 +108,4 @@ fi
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
 export EDITOR=$HOME/bin/edit
-export CHROMIUM_USER_FLAGS="--memory-model=low"
+export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
