@@ -1,8 +1,8 @@
 #!/bin/sh
 cd /usr/local/src/${LOGNAME}/FreeRDP || exit 1
 git stash
-git checkout -b lng-$(date '+%Y%m%d') master
-git checkout -f master
+git checkout -b lng-$(date '+%Y%m%d') 1.0-stable
+git checkout -f 1.0-stable
 OHEAD=$(git log|head -n 1)
 git pull || exit $?
 if [ "$OHEAD" != "$(git log|head -n 1)" ]; then
