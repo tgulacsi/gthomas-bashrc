@@ -28,7 +28,7 @@
 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 (set-variable 'backupdir (concat "/tmp/" (getenv "USER") "/emacsbackup"))
 (if (not (file-directory-p backupdir)) (make-directory backupdir t))
@@ -48,7 +48,7 @@
  '(delete-old-versions t)
  '(file-precious-flag t)
  '(font-use-system-font t)
- '(savehist-mode t)
+ '(menu-bar-mode nil)
  '(tool-bar-mode nil)
  '(visible-bell t))
 (custom-set-faces

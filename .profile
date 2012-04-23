@@ -25,6 +25,14 @@ export LANGUAGE="en"
 export LANG="hu_HU.UTF-8"
 #export LC_ALL=hu_HU.UTF-8
 
+case hostname in
+    unowebprd) export LC_ALL=C; export TERM=xterm-color
+	;;
+    *) which emacs >/dev/null && emacs --daemon
+esac
+
+mkdir -p $(readlink .cache)
+
 if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
     tmux attach || tmux
 fi
