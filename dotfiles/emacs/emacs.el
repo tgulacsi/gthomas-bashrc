@@ -33,6 +33,11 @@
 (set-variable 'backupdir (concat "/tmp/" (getenv "USER") "/emacsbackup"))
 (if (not (file-directory-p backupdir)) (make-directory backupdir t))
 
+(setq inhibit-startup-message   t)   ; Don't want any startup message
+(setq make-backup-files         nil) ; Don't want any backup files
+(setq auto-save-list-file-name  nil) ; Don't want any .saves files
+(setq auto-save-default         nil) ; Don't want any auto saving
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -40,16 +45,17 @@
  ;; If there is more than one, they won't work right.
  '(after-save-hook (quote (pyprep)))
  '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
+ '(backup-by-copying-when-linked t)
  '(before-save-hook (quote (delete-trailing-whitespace)))
  '(blink-matching-delay 2)
  '(column-number-mode t)
  '(comint-input-autoexpand (quote history))
  '(custom-enabled-themes (quote (adwaita)))
  '(delete-old-versions t)
- '(file-precious-flag t)
+ '(file-precious-flag nil)
  '(font-use-system-font t)
+ '(menu-bar-mode t)
  '(savehist-mode t)
- ;'(menu-bar-mode nil)
  '(tool-bar-mode nil)
  '(visible-bell t))
 (custom-set-faces
