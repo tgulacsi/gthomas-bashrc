@@ -1,0 +1,10 @@
+#!/bin/sh
+# -*- coding: utf-8 -*-
+
+DEST=/tmp/xx-$$
+git clone "$1" $DEST \
+&& cd $DEST \
+&& python setup.py bdist_egg -k \
+&& cd build/bdist.linux-x86_64/egg \
+&& find . -name '*.py[cod]' -delete \
+&& zip -r9 $(ls ../../../dist/*.egg|head -n1|sed -e 's/-py.*\.egg$/.egg/') *

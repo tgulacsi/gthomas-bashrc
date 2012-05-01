@@ -5,7 +5,7 @@ logger $(basename $0) "$@"
   sleep 1
 )
 case "$1" in
-hibernate|Hibernate) CMD_initcap=Hibernate; CMD_lower=hibernate
+hiber|hibernate|Hibernate) CMD_initcap=Hibernate; CMD_lower=hibernate
     ;;
 *) CMD_initcap=Suspend; CMD_lower=suspend
     ;;
