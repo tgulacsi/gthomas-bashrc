@@ -1,0 +1,6 @@
+#!/bin/sh
+SRC="$1"
+DST=${2:-$(basename "$SRC").webm}
+CMD="avconv -i $SRC -qmax 32 -qmin 8 -qdiff 4 -deinterlace -acodec libvorbis -threads 4 $DST"
+echo $CMD
+$CMD
