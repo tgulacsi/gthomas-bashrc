@@ -1,12 +1,16 @@
 #!/bin/sh
-if which emacs 2>/dev/null; then
-    FLAG=-t
-    if tty -s; then
-	FLAG=-t
-    else
-	FLAG=-c
-    fi
-    emacsclient $FLAG -a '' "$@"
+CMD=vim
+if [ -x /usr/local/lib/SublimeText2/sublime_text ]; then
+  CMD=/usr/local/lib/SublimeText2/sublime_text
 else
-    vim "$@"
+    if which emacs 2>/dev/null; then
+        FLAG=-t
+        if tty -s; then
+	        FLAG=-t
+        else
+	        FLAG=-c
+        fi
+        CMD="emacsclient $FLAG -a ''"
+    fi
 fi
+$CMD "$@"
