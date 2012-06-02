@@ -1,0 +1,2 @@
+#!/bin/sh
+ntpdate -sB hu.pool.ntp.org europe.pool.ntp.org pool.ntp.org

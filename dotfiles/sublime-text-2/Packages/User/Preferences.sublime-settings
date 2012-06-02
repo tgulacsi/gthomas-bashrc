@@ -1,4 +1,10 @@
 {
-    // Columns in which to display vertical rulers
-    "rulers": [79]
+	"color_scheme": "Packages/Color Scheme - Default/Solarized (Light).tmTheme",
+	"rulers":
+	[
+		78
+	],
+	"translate_tabs_to_spaces": false,
+	"trim_trailing_white_space_on_save": true,
+	"ignored_packages": []
 }
