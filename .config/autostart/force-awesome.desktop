@@ -3,5 +3,6 @@ Type=Application
 Name=Awesome
 X-GNOME-Autostart-enabled=false
 Exec=sh -c 'killall metacity; awesome &'
-Comment[hu]=Forces Awesome window manager instead of Metacity
 Comment=Forces Awesome window manager instead of Metacity
+Hidden=true
+
