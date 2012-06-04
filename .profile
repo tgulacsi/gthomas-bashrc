@@ -36,4 +36,3 @@ mkdir -p $(readlink .cache)
 if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
     tmux attach || tmux
 fi
-. /home/gthomas/.profabevjava

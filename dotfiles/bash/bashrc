@@ -107,5 +107,9 @@ fi
 
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ]; then
+    { echo $PATH | grep -q "$HOME/bin:"; } || PATH="$HOME/bin:$PATH"
+fi
 export EDITOR=$HOME/bin/edit
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
