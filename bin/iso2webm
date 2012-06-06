@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+FIFO=/tmp/$(basename $0)-$$.fifo
+mkfifo $FIFO
+echo mencoder dvd://1 -dvd-device "$@" -oac copy -ovc copy $FIFO &
+mencoder dvd://1 -dvd-device "$@" -oac copy -ovc copy \
+	-o $FIFO &
+2webm $FIFO "$1".webm &
+sleep 5
+rm $FIFO
+wait
