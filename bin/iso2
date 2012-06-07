@@ -1,0 +1,19 @@
+#!/bin/sh
+SEC="$1"
+INP="$2"
+shift 2
+set -e
+
+FIFO=/tmp/$(basename $0)-$$.fifo
+mkfifo $FIFO
+CMD="mencoder dvd://1 -dvd-device $INP -noskip -oac pcm \
+	-ovc lavc -lavcopts vcodec=mpeg2video:autoaspect \
+	-of avi \
+	-o $FIFO $@"
+echo $CMD
+$CMD &
+OPTS=${OPTS:-'-aspect 1.7777'} 2${SEC} $FIFO "$INP".${SEC} &
+sleep 5
+rm $FIFO
+wait
+exit $?
