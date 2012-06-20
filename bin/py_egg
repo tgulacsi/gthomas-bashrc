@@ -10,4 +10,8 @@ cd $DEST \
 && python setup.py bdist_egg -k \
 && cd build/bdist.linux-x86_64/egg \
 && find . \( -name '*.py[cod]' -o -name '*.so' \) -delete \
-&& zip -r9 $(ls ../../../dist/*.egg|head -n1|sed -e 's/-py.*\.egg$/.egg/') *
+&& {
+  ZIP=$(ls ../../../dist/*.egg|head -n1|sed -e 's/-py.*\.egg$/.egg/')
+  echo ZIP=$ZIP
+  zip -r9 $ZIP *
+}

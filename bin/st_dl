@@ -6,7 +6,16 @@ else
   CMD='wget -O-'
 fi
 # http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202%20Build%202181%20x64.tar.bz2
-[ $(uname -m) = 'x86_64' ] && M='%20x64'
+if [ $(uname -m) = 'x86_64' ]; then
+  	pat=64
+  	M='%20x64'
+else
+	pat=32
+fi
+url=$(curl http://www.sublimetext.com/dev \
+	| sed -ne "/Linux $pat bit/ s/^.*href=\"\([^\"]*\).*$/\1/p" \
+	| sed -e 's/ /%20/g')
+echo "url: $url"
 cd ~/Downloads && rm -rf Sublime\ Text\ 2 \
-&& $CMD "http://www.sublimetext.com/Sublime%20Text%202%20Build%20${1}${M}.tar.bz2" \
-| tar xjf - && cd Sublime\ Text\ 2 && rsync -av * /usr/local/lib/SublimeText2/
+&& $CMD "$url" | tar xjf - \
+&& cd Sublime\ Text\ 2 && rsync -av * /usr/local/share/sublime-text-2/
