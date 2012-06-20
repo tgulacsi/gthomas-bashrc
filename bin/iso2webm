@@ -1,0 +1,25 @@
+#!/bin/sh
+INP="$1"
+shift
+set -e
+
+FIFO=/tmp/$(basename $0)-$$.fifo
+mkfifo $FIFO
+CMD="mencoder dvd://1 -dvd-device $INP -noskip -oac pcm \
+	-ovc lavc -lavcopts vcodec=mpeg2video:autoaspect \
+	-of avi \
+	-o $FIFO $@"
+echo $CMD
+$CMD &
+OPTS='-aspect 1.7777' 2webm $FIFO "$INP".webm &
+sleep 5
+rm $FIFO
+wait
+exit $?
+mencoder dvd://1 -dvd-device "$INP" -ovc lavc -of lavf -oac lavc \
+	-lavfopts format=web \
+	-lavcopts acodec=vorbis:vcodec=libvpx:threads=5 \
+	-ffourcc VP80 -o ace_ventura_1.iso.webm -sws 9 \
+	-o "$INP".webm \
+	"$@"
+
