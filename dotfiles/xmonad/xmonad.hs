@@ -16,7 +16,7 @@ main = xmonad $ xfceConfig
     , modMask = mod4Mask
     , terminal = "x-terminal-emulator"
     } `additionalKeys`
-    [ ((mod4Mask, xK_v), spawn "edit")
+    [ ((mod4Mask, xK_v), spawn "$HOME/bin/edit")
     , ((mod4Mask .|. shiftMask, xK_f), spawn "x-www-browser")
     , ((mod4Mask .|. shiftMask, xK_F12), spawn "$HOME/bin/susp-hiber susp")
     , ((mod4Mask .|. controlMask, xK_F12), spawn "$HOME/bin/susp-hiber hiber")
