@@ -107,6 +107,44 @@ fi
 	&& complete -W "$(echo $(grep '^sshu ' $HISTFILE | sort -u | sed 's/^sshu //'))" sshu
 }
 
+if ! systemd-notify --booted; then  # not using systemd
+  start() {
+    sudo rc.d start $1
+  }
+
+  restart() {
+    sudo rc.d restart $1
+  }
+
+  stop() {
+    sudo rc.d stop $1
+  }
+else
+  start() {
+    sudo systemctl start $1.service
+  }
+
+  restart() {
+    sudo systemctl restart $1.service
+  }
+
+  stop() {
+    sudo systemctl stop $1.service
+  }
+
+  enable() {
+    sudo systemctl enable $1.service
+  }
+
+  status() {
+    sudo systemctl status $1.service
+  }
+
+  disable() {
+    sudo systemctl disable $1.service
+  }
+fi
+
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
 # set PATH so it includes user's private bin if it exists
@@ -115,3 +153,5 @@ if [ -d "$HOME/bin" ]; then
 fi
 export EDITOR=$HOME/bin/edit
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
+export GOROOT=/usr/lib/go
+export GOPATH=~/projects/go
