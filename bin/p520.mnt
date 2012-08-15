@@ -105,7 +105,7 @@ def mount_host_nm(base, host, nm, params):
         load_sshfs()
 
         cmd = ['sshfs', userhost + ':/home/' + nm, path,
-            '-o', 'idmap=user,follow_symlinks,large_read,direct_io']
+            '-o', 'idmap=user,follow_symlinks,direct_io']
 
         rc = execute(cmd)
         assert 0 == rc[0], 'sshfs rc:%s\ncmd: %s' % (tuple([rc]),
@@ -158,8 +158,6 @@ def main(umount=True, umount_only=False, use_sshfs=False):
     ssh_env = [tup for tup in env.iteritems() if tup[0].startswith('SSH_')]
     LOG.info('ssh_env=%r', ssh_env)
     assert ssh_env, 'ssh_env is empty!'
-    #assert 0 == execute(['sudo', 'sh', '-c', 'echo sudo OK'])[0]
-    #os.environ['SSH_AUTH_SOCK'] = '/tmp/%s-ssh-agent.sock' % os.environ['USER']
     rc = execute(['ssh-add', '-l'], catch_stdout=True)
     LOG.debug('rc: %r', rc)
     if not (0 == rc[0] and 'tgulacsi@unosoft' in unicode(rc[1], ENCODING)):
@@ -186,6 +184,8 @@ def main(umount=True, umount_only=False, use_sshfs=False):
         # assert 0 == rc, rc
 
 sshfs_loaded = None
+
+
 def load_sshfs():
     global sshfs_loaded
     if sshfs_loaded is None:

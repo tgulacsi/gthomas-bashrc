@@ -3,7 +3,11 @@
 
 case "$1" in
   *://*) DEST=/tmp/xx-$$
-       git clone "$1" $DEST || exit $? ;;
+       git clone "$1" $DEST || {
+           wget -O ${DEST}.zip "$1" && (
+               cd $(dirname $DEST) && unzip ${DEST}.zip \
+               && mv $(basename $DEST)/* ./) 
+       } || exit $? ;;
   *) DEST="$1"
 esac
 cd $DEST \

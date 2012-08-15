@@ -2,7 +2,7 @@
 SSH=${SSH:-ssh}
 UNOSOFT=${UNOSOFT:-mail.unosoft.hu}
 UNOPORT=2222
-ID_FILE=$HOME/.ssh/tgulacsi@unosoft
+ID_FILE=$HOME/.ssh/tgulacsi-ssh@unosoft
 OPTS=${OPTS:-}
 #XFREERDP=${XFREERDP:-/usr/local/src/FreeRDP/freerdp/client/X11/xfreerdp}
 XFREERDP=${XFREERDP:-$(which xfreerdp)}
@@ -16,7 +16,6 @@ CMD=${1:-connect}
 function conf {
   FELH=tgulacsi
   case "$1" in
-    unots|ts) PORT=${PORT:-5001} ; GEP=unots ;;
     unots2|ts2) PORT=${PORT:-5002} ; GEP=unots2 ;;
     te|te-gulacsit) PORT=${PORT:-5000} ; GEP=te-gulacsit ;;
     sql|sqlsrv) FELH2=administrator ; PORT=${PORT:-5004} ; GEP=sqlsrv ;;
@@ -24,6 +23,7 @@ function conf {
     bddev|unobddev) FELH2=administrator ; PORT=${PORT:-5005} ; GEP=unobddev ;;
     brtest) ssh -i /home/gthomas/.ssh/unosoft.local.priv  kobe@brtest;
       exit;;
+    *) PORT=${PORT:-5001} ; GEP=unots ;;
   esac
   PORTGEP=${PORT}:${GEP}
   FELH2=${FELH2:-${FELH}}
@@ -78,6 +78,7 @@ else
        -o CompressionLevel=9 -o Compression=yes -o ConnectionAttempts=3 \
        -o ServerAliveInterval=5 -o ServerAliveCountMax=3 -o TCPKeepAlive=yes \
        -p ${UNOPORT} -i \"${ID_FILE}\" ${FELH}@${UNOSOFT} "
+  echo SSH=$SSH
   close
 
   echo "$SSH"

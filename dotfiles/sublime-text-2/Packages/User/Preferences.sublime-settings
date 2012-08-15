@@ -1,9 +1,12 @@
 {
+	"auto_complete_commit_on_tab": true,
 	"color_scheme": "Packages/Color Scheme - Default/Solarized (Light).tmTheme",
+	"default_line_ending": "unix",
 	"detect_slow_plugins": false,
 	"fallback_encoding": "Central European (ISO-8859-2)",
-	"font_size": 10,
+	"font_size": 8,
 	"highlight_line": true,
+	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
 	],
@@ -11,11 +14,7 @@
 	[
 		78
 	],
-	"translate_tabs_to_spaces": false,
+	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,
-	"vintage_start_in_command_mode": true,
-	"auto_complete_commit_on_tab": true,
-	"default_line_ending": "unix",
-	"highlight_modified_tabs": true,
-	"translate_tabs_to_spaces": true
+	"vintage_start_in_command_mode": true
 }

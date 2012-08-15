@@ -2,7 +2,7 @@
 Type=Application
 Name=Awesome
 X-GNOME-Autostart-enabled=false
-Exec=sh -c 'killall metacity; awesome &'
+Exec=sh -c 'killall metacity xfwm4; awesome &'
 Comment=Forces Awesome window manager instead of Metacity
-Hidden=true
+Hidden=false
 
