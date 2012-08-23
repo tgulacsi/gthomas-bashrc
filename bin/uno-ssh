@@ -11,9 +11,15 @@ else
 	  export SSH_AUTH_SOCK=
 	  export SSH_AGENT_PID=
 	}
-	CMD=$(keychain --eval -q -k others --inherit any-once --timeout 7200 tgulacsi@unosoft)
+	CMD=$(keychain --eval -q -k others --inherit any-once --timeout 7200 --ignore-missing \
+              tgulacsi@unosoft tgulacsi-ssh@unosoft)
 	#echo CMD=$CMD
 	eval $CMD
+        if ssh-add -l 2>/dev/null | grep -q d5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b; then
+            echo 'key ok'
+        else
+            ssh-add ~/.ssh/tgulacsi@unosoft
+        fi
     else
 	echo 'no keychain, trying environment'
         export SSH_AUTH_SOCK=/tmp/$USER-ssh-agent.sock

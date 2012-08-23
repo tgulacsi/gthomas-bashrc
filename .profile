@@ -24,10 +24,10 @@ fi
 #export LANGUAGE="hu_HU:en_US:en"
 export LANGUAGE="en"
 export LANG="hu_HU.UTF-8"
-#export LC_ALL=hu_HU.UTF-8
+export LC_ALL=
 
 case hostname in
-    unowebprd) export LC_ALL=C; export TERM=xterm-color
+    unowebprd) export TERM=xterm-color
 	;;
     *) which emacs >/dev/null && emacs --daemon
 esac
