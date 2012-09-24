@@ -1,0 +1,2 @@
+#!/bin/sh
+xfreerdp -u tgulacsi -d unosoft --plugin rdpdr --data disk:tmp:$HOME/projects/apostle/ -- kobe-splprn
