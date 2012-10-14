@@ -246,6 +246,8 @@ awful.key({ modkey, "Shift" }, "F12",
       function () awful.util.spawn("susp-hiber suspend") end),
 awful.key({ modkey, "Control" }, "F12",
       function () awful.util.spawn("susp-hiber hibernate") end),
+awful.key({ modkey }, "F2",
+      function () awful.util.spawn("grun") end),
 awful.key({ modkey }, "F12",
       function () awful.util.spawn("remote-xlock") end),
 awful.key({ modkey, "Shift" }, "f",
@@ -384,7 +386,7 @@ os.execute("pidof nm-applet || nm-applet &")
 os.execute("pidof xfce4-panel && xfce4-panel -q")
 --os.execute("hostname | grep -q waterhouse && { pidof gnome-sound-applet || gnome-sound-applet & }")
 os.execute("pidof xscreensaver || xscreensaver &")
-os.execute("which pidgin && { pidof pidgin || pidgin & }")
-os.execute("which conky && { pidof conky || conky -d -b & }")
+os.execute("which gajim && { pidof gajim || gajim & }")
+--os.execute("which conky && { pidof conky || conky -d -b & }")
 os.execute("which fbxkb && { pidof fbxkb || fbxkb & }")
 -- }}}

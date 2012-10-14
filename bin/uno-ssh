@@ -15,7 +15,7 @@ else
               tgulacsi@unosoft tgulacsi-ssh@unosoft)
 	#echo CMD=$CMD
 	eval $CMD
-        if ssh-add -l 2>/dev/null | grep -q d5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b; then
+        if ssh-add -l 2>/dev/null | grep -q tgulacsi@unosoft; then
             echo 'key ok'
         else
             ssh-add ~/.ssh/tgulacsi@unosoft

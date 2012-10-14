@@ -1,6 +1,7 @@
 #!/bin/sh
 logger $(basename $0) "$@"
 [ -x $(dirname $0)/remote-xlock ] && (
+  logger 'calling remote-xlock'
   remote-xlock &
   sleep 1
 )
@@ -12,18 +13,24 @@ hiber|hibernate|Hibernate) CMD_initcap=Hibernate; CMD_lower=hibernate
 esac
 
 Z=1
-if [ -n "$(pidof gnome-power-manager >/dev/null)" \
-    -o -n "$(pidof xfce4-power-manager >/dev/null)" ]; then
-  dbus-send --session --dest=org.freedesktop.PowerManagement \
-    --type=method_call --print-reply --reply-timeout=1 \
-    /org/freedesktop/PowerManagement \
-    org.freedesktop.PowerManagement.${CMD_initcap}
-  Z=$?
-  logger 'dbus-send --dest=org.freedesktop.PowerManagement: '$Z
-fi
+#if [ -n "$(pidof gnome-power-manager >/dev/null)" \
+#    -o -n "$(pidof xfce4-power-manager >/dev/null)" ]; then
+#  logger 'calling dbus-send --dest=org.freedesktop.PowerManagement'
+#  dbus-send --session --dest=org.freedesktop.PowerManagement \
+#    --type=method_call \
+#    --print-reply --reply-timeout=1000 \
+#    /org/freedesktop/PowerManagement \
+#    org.freedesktop.PowerManagement.${CMD_initcap}
+#  Z=$?
+#  logger 'dbus-send --dest=org.freedesktop.PowerManagement: '$Z
+#fi
 [ $Z -ne 0 ] && {
-    logger 'calling pm-'${CMD_lower}
-    sudo pm-${CMD_lower}
+    if [ "$CMD_lower" = "hibernate" ]; then
+        sudo s2disk
+    else
+        logger 'calling pm-'${CMD_lower}
+        sudo pm-${CMD_lower}
+    fi
 }
 [ $(uname -n) = 'tgulacsi-desktop' ] && {
     killall -9 sshfs
