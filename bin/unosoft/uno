@@ -132,11 +132,11 @@ else
         ${RDP} -a 16 -u ${FELH2} -d unosoft -g ${SIZE} -D \
           -z -x m --plugin rdpdr --data \
           disk:tmp:/tmp \
-          scard:scard \
           -- \
 	  --plugin cliprdr -t ${PORT} -k 0x409 \
           localhost \
         || close
+          #scard:scard \
         )
     fi
     close

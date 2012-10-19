@@ -7,6 +7,55 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
+--require("obvious.battery")
+
+local keydoc = require("keydoc")
+ 
+-- {{{ Run programm once
+if false and pcall(require("lfs")) then
+  local function processwalker()
+     local function yieldprocess()
+        for dir in lfs.dir("/proc") do
+          -- All directories in /proc containing a number, represent a process
+          if tonumber(dir) ~= nil then
+            local f, err = io.open("/proc/"..dir.."/cmdline")
+            if f then
+              local cmdline = f:read("*all")
+              f:close()
+              if cmdline ~= "" then
+                coroutine.yield(cmdline)
+              end
+            end
+          end
+        end
+      end
+      return coroutine.wrap(yieldprocess)
+  end
+
+  function run_once(process, cmd)
+     assert(type(process) == "string")
+     local regex_killer = {
+        ["+"]  = "%+", ["-"] = "%-",
+        ["*"]  = "%*", ["?"]  = "%?" }
+  
+     for p in processwalker() do
+        if p:find(process:gsub("[-+?*]", regex_killer)) then
+	   return
+        end
+     end
+     return awful.util.spawn(cmd or process)
+  end
+else
+  function run_once(process, cmd)
+    if not prg then
+        do return nil end
+    end
+    awful.util.spawn_with_shell("pgrep -f -u $USER -x " .. prg .. " || { " .. prg .. "; }")
+  end
+end
+
+-- }}}
+
 -- Load Debian menu entries
 -- require("debian.menu")
 
@@ -152,6 +201,7 @@ for s = 1, screen.count() do
         mytextclock,
         s == 1 and mysystray or nil,
         mytasklist[s],
+        --obvious.battery(),
         layout = awful.widget.layout.horizontal.rightleft
     }
 end
@@ -167,6 +217,7 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+    keydoc.group("Layout"),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -198,6 +249,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
+    keydoc.group("Normal"),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
@@ -223,6 +275,7 @@ globalkeys = awful.util.table.join(
               end)
 
 -- Hotkeys
+    , keydoc.group("Hotkeys")
 ,
 awful.key({ }, "XF86AudioMute",
       function () awful.util.spawn("amixer -q sset Master toggle") end),
@@ -246,7 +299,7 @@ awful.key({ modkey, "Shift" }, "F12",
       function () awful.util.spawn("susp-hiber suspend") end),
 awful.key({ modkey, "Control" }, "F12",
       function () awful.util.spawn("susp-hiber hibernate") end),
-awful.key({ modkey }, "F2",
+awful.key({ "Mod1" }, "F2",
       function () awful.util.spawn("grun") end),
 awful.key({ modkey }, "F12",
       function () awful.util.spawn("remote-xlock") end),
@@ -255,6 +308,7 @@ awful.key({ modkey, "Shift" }, "f",
 awful.key({ modkey }, "p",
      function () awful.util.spawn("screenshot") end)
 
+, awful.key({ modkey }, "F1", keydoc.display)
 
 )
 
@@ -377,16 +431,10 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 -- }}}
 
 -- {{{ Autostart
---os.execute("empathy -h &")
---os.execute("killall pcmanfm &")
---os.execute("xfce4-session")
 os.execute("pidof nm-applet || nm-applet &")
---os.execute("pidof nautilus || nautilus")
---os.execute("pidof gnome-settings-daemon || gnome-settings-daemon &")
-os.execute("pidof xfce4-panel && xfce4-panel -q")
---os.execute("hostname | grep -q waterhouse && { pidof gnome-sound-applet || gnome-sound-applet & }")
-os.execute("pidof xscreensaver || xscreensaver &")
-os.execute("which gajim && { pidof gajim || gajim & }")
+run_once("xscreensaver")
+run_once("gajim")
 --os.execute("which conky && { pidof conky || conky -d -b & }")
-os.execute("which fbxkb && { pidof fbxkb || fbxkb & }")
+run_once("fbxkb")
+run_once("nasaBackground.sh")
 -- }}}

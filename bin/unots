@@ -11,9 +11,9 @@ if [ $direct -gt 0 ]; then
 #/usr/bin/rdesktop -P -k en -e \
 ${RDP:-xfreerdp} -k 0x409 --plugin cliprdr -x m -a 16 -z \
   -g 1900x1080 --gdi hw -d unosoft -u tgulacsi \
-  --plugin rdpdr --data scard disk:tmp:/tmp -- \
+  --plugin rdpdr disk:tmp:/tmp -- \
   ${1:-unots}
-  #--plugin cliprdr \
+  # scard --plugin cliprdr \
 else
     exec $(dirname $0)/uno "${1:-unots}"; break
 fi
