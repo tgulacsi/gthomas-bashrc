@@ -10,48 +10,18 @@ require("naughty")
 --require("obvious.battery")
 
 local keydoc = require("keydoc")
- 
--- {{{ Run programm once
-if false and pcall(require("lfs")) then
-  local function processwalker()
-     local function yieldprocess()
-        for dir in lfs.dir("/proc") do
-          -- All directories in /proc containing a number, represent a process
-          if tonumber(dir) ~= nil then
-            local f, err = io.open("/proc/"..dir.."/cmdline")
-            if f then
-              local cmdline = f:read("*all")
-              f:close()
-              if cmdline ~= "" then
-                coroutine.yield(cmdline)
-              end
-            end
-          end
-        end
-      end
-      return coroutine.wrap(yieldprocess)
-  end
 
-  function run_once(process, cmd)
-     assert(type(process) == "string")
-     local regex_killer = {
-        ["+"]  = "%+", ["-"] = "%-",
-        ["*"]  = "%*", ["?"]  = "%?" }
-  
-     for p in processwalker() do
-        if p:find(process:gsub("[-+?*]", regex_killer)) then
-	   return
-        end
-     end
-     return awful.util.spawn(cmd or process)
-  end
-else
-  function run_once(process, cmd)
-    if not prg then
-        do return nil end
-    end
-    awful.util.spawn_with_shell("pgrep -f -u $USER -x " .. prg .. " || { " .. prg .. "; }")
-  end
+local function run_once(prg)
+  --if not prg then
+  --  do return nil end
+  --end
+  --if not cmd then
+  --  prg = cmd
+  --end
+  cmd = "which " .. prg .. " && { pgrep -f -u $USER -x " .. prg .. " || { " .. prg .. " & }; }"
+  os.execute("echo '" .. cmd .. "' >> $HOME/.xsession-errors")
+  awful.util.spawn_with_shell(cmd)
+  --os.execute(cmd)
 end
 
 -- }}}
@@ -431,10 +401,10 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 -- }}}
 
 -- {{{ Autostart
-os.execute("pidof nm-applet || nm-applet &")
+run_once("nm-applet")
 run_once("xscreensaver")
 run_once("gajim")
 --os.execute("which conky && { pidof conky || conky -d -b & }")
 run_once("fbxkb")
-run_once("nasaBackground.sh")
+os.execute("$HOME/bin/nasaBackground.sh")
 -- }}}
