@@ -8,8 +8,7 @@ require("beautiful")
 require("naughty")
 
 --require("obvious.battery")
-
-local keydoc = require("keydoc")
+--local keydoc = require("keydoc")
 
 local function run_once(prg)
   --if not prg then
@@ -187,7 +186,7 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    keydoc.group("Layout"),
+    --keydoc.group("Layout"),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -219,7 +218,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    keydoc.group("Normal"),
+    --keydoc.group("Normal"),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
@@ -245,7 +244,7 @@ globalkeys = awful.util.table.join(
               end)
 
 -- Hotkeys
-    , keydoc.group("Hotkeys")
+    --, keydoc.group("Hotkeys")
 ,
 awful.key({ }, "XF86AudioMute",
       function () awful.util.spawn("amixer -q sset Master toggle") end),
@@ -278,7 +277,7 @@ awful.key({ modkey, "Shift" }, "f",
 awful.key({ modkey }, "p",
      function () awful.util.spawn("screenshot") end)
 
-, awful.key({ modkey }, "F1", keydoc.display)
+--, awful.key({ modkey }, "F1", keydoc.display)
 
 )
 
