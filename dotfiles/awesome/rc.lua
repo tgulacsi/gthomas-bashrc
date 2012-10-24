@@ -405,5 +405,5 @@ run_once("xscreensaver")
 run_once("gajim")
 --os.execute("which conky && { pidof conky || conky -d -b & }")
 run_once("fbxkb")
-os.execute("$HOME/bin/nasaBackground.sh")
+os.execute("$HOME/bin/nasaBackground.sh &")
 -- }}}
