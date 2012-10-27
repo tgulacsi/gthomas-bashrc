@@ -153,5 +153,8 @@ if [ -d "$HOME/bin" ]; then
 fi
 export EDITOR=$HOME/bin/edit
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
-export GOROOT=/usr/lib/go
+
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
 export GOPATH=~/projects/go
+
