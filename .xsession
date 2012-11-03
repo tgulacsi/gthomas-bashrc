@@ -5,4 +5,5 @@
 xset b off
 ~/bin/xkbmap
 fbxkb &
-exec ck-launch-session dbus-launch awesome
+#exec ck-launch-session dbus-launch awesome
+exec ck-launch-session dbus-launch i3
