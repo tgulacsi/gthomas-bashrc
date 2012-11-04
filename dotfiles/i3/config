@@ -145,3 +145,13 @@ bar {
 #
 # class                 border  backgr. text    indicator
 client.focused          #4c7899 #ff6600 #ffffff #2e9ef4
+
+#
+# amix
+bindsym XF86AudioMute exec --no-startup-id amixer -q sset Master toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q sset Master 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 5%-
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight +20
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -20
+
+bindsym $mod+shift+v exec edit
