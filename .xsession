@@ -10,7 +10,7 @@ xscreensaver &
 which gajim 2>/dev/null && gajim &
 #exec ck-launch-session dbus-launch awesome
 if xrandr -q | grep -q 'HDMI1 connected'; then
-    ~/.screenlayout/unosoft.hu
+    ~/.screenlayout/unosoft.sh
 else 
     ~/.screenlayout/solitaire.sh
 fi
