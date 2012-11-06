@@ -9,5 +9,9 @@ nm-applet &
 xscreensaver &
 which gajim 2>/dev/null && gajim &
 #exec ck-launch-session dbus-launch awesome
-xrandr -q | grep -q 'HDMI1 connected' && xrandr --output LVDS1 --auto --left-of HDMI1
+if xrandr -q | grep -q 'HDMI1 connected'; then
+    ~/.screenlayout/unosoft.hu
+else 
+    ~/.screenlayout/solitaire.sh
+fi
 exec ck-launch-session dbus-launch i3
