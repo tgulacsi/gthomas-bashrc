@@ -14,4 +14,7 @@ if xrandr -q | grep -q 'HDMI1 connected'; then
 else 
     ~/.screenlayout/solitaire.sh
 fi
+/sbin/ifconfig eth0|grep -q 'inet addr:10\.' \
+&& for nm in ~/mnt/p520/*; do mount $nm; done
+
 exec ck-launch-session dbus-launch i3
