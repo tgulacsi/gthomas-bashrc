@@ -1,0 +1,5 @@
+#!/bin/sh
+for nm in ~/mnt/p520/* ~/mnt/unots/*; do 
+    { mount | grep -q $nm; } || mount $nm & 
+done
+wait

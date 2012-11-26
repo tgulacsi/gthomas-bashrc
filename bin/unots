@@ -7,10 +7,13 @@ case $(uname -n) in
         fi
 esac
 
+SIZE=${SIZE:-$(xrandr --current|grep ' connected '|sed -e 's/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/'|sort -r|head -n1)}
+echo SIZE=$SIZE
+
 if [ $direct -gt 0 ]; then
 #/usr/bin/rdesktop -P -k en -e \
 ${RDP:-xfreerdp} -k 0x409 --plugin cliprdr -x m -a 16 -z \
-  -g 1916x1056 --gdi hw -d unosoft -u tgulacsi \
+  -g $SIZE --gdi hw -d unosoft -u tgulacsi \
   --sec tls \
   ${1:-unots}
   # scard --plugin cliprdr \
