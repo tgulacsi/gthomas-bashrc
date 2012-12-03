@@ -92,11 +92,9 @@ else
   [ $NUM -lt 1 ] && {
     echo "RDP[$RDP]..."
     if [ -z "$SIZE" ]; then
-      X=$(xwininfo -root -metric|sed -ne '/Height\|Width/ {s/^.*: //;s/ (.*$//p}')
-      #echo "X=$X"
-      set $X
-      W=$1
-      H=$2
+      SIZE=$(getscreensize)
+      W=$(echo $SIZE | sed -e 's/x.*$//')
+      H=$(echo $SIZE | sed -e 's/^.*x//')
       #echo "W=$W H=$H"
       if pidof awesome >/dev/null && pidof gnome-panel >/dev/null; then
         W=$(($W - 40))

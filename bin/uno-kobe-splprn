@@ -1,2 +1,2 @@
 #!/bin/sh
-xfreerdp -u tgulacsi -d unosoft --plugin rdpdr --data disk:tmp:$HOME/projects/apostle/ -- kobe-splprn
+xfreerdp -z -g $(getscreensize) -u tgulacsi -d unosoft --plugin rdpdr --data disk:tmp:$HOME/projects/apostle/ -- ${1:-kobe}-splprn

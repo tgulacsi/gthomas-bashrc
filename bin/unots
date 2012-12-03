@@ -7,7 +7,7 @@ case $(uname -n) in
         fi
 esac
 
-SIZE=${SIZE:-$(xrandr --current|grep ' connected '|sed -e 's/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/'|sort -r|head -n1)}
+SIZE=${SIZE:-$(getscreensize)}
 echo SIZE=$SIZE
 
 if [ $direct -gt 0 ]; then
