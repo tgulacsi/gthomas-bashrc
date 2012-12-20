@@ -4,9 +4,14 @@
 # exec dbus-launch lxsession -a
 xset b off
 ~/bin/xkbmap
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 fbxkb &
 nm-applet &
-xscreensaver &
+if which groximity 2>/dev/null; then
+    groximity 20:13:E0:36:E7:53 &
+else
+    xscreensaver &
+fi
 which gajim 2>/dev/null && gajim &
 #exec ck-launch-session dbus-launch awesome
 if xrandr -q | grep -q 'HDMI1 connected'; then
