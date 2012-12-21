@@ -154,10 +154,19 @@ fi
 export EDITOR=$HOME/bin/edit
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
-[ -x /usr/local/go/bin/go ] && {
+if [ -x /usr/local/go/bin/go ]; then
     export GOROOT=/usr/local/go
     export PATH=$PATH:$GOROOT/bin
-}
+fi
 export GOPATH=~/projects/go
 
 ulimit -v 2048000 -m 2048000 -d 2048000
+
+ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe
+if [ -d $ORACLE_HOME ]; then
+    export ORACLE_HOME
+    export ORACLE_SID=XE
+    export ORACLE_BASE=/u01/app/oracle
+    export PATH=$ORACLE_HOME/bin:$PATH
+fi
+
