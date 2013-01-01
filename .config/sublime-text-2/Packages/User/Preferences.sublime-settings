@@ -1,0 +1,10 @@
+// Settings in here override those in "Default/Preferences.sublime-settings", and
+// are overridden in turn by file type specific settings.
+{
+    "font_face": "Droid Sans Mono",
+    "font_size": 8,
+    "highlight_line": true,
+    "trim_trailing_white_space_on_save": true,
+    "highlight_modified_tabs": true,
+    "ignored_packages": []
+}
