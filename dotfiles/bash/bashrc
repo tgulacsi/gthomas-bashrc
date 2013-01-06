@@ -170,3 +170,6 @@ if [ -d $ORACLE_HOME ]; then
     export PATH=$ORACLE_HOME/bin:$PATH
 fi
 
+if which xfce4-terminal >/dev/null; then
+    export TERMINAL=xfce4-terminal
+fi

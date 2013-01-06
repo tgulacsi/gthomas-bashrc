@@ -1,5 +1,5 @@
 #!/bin/sh
-CMD=vim
+CMD=vi
 #if [ -x /usr/local/share/sublime-text-2/sublime_text ]; then
 #  CMD=/usr/local/share/sublime-text-2/sublime_text
 #else
