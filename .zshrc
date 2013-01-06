@@ -23,6 +23,9 @@ alias l='ls -lA --color=auto'
 
 # PATH
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
+if [ -d $HOME/bin ]; then
+    export PATH=$HOME/bin:$PATH
+fi
 
 if [ -x /usr/local/go/bin/go ]; then
     export GOROOT=/usr/local/go
@@ -40,13 +43,14 @@ if [ -d $ORACLE_HOME ]; then
     export PATH=$ORACLE_HOME/bin:$PATH
 fi
 
-for nm in urxvtcd stterm xfce4-terminal; do
+for nm in st urxvtcd stterm xfce4-terminal; do
     if which $nm >/dev/null; then
         export TERMINAL=$nm
         break
     fi
 done
 
+[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>/dev/null; then
     if [ -z "$TMUX" ]; then
