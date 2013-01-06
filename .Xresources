@@ -1,5 +1,6 @@
 
-#define SOLARIZED_DARK
+#define SOLARIZED_LIGHT
+!! #define SOLARIZED_DARK
 
 !! drop in Solarized colorscheme for Xresources/Xdefaults
 
