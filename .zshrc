@@ -45,11 +45,11 @@ for nm in stterm xfce4-terminal; do
         export TERMINAL=$nm
         break
     fi
-fi
+done
 
 # tmux
 if which tmux 2>/dev/null; then
     if [ -z "$TMUX" ]; then
-        tmux
+        exec tmux
     fi
 fi
