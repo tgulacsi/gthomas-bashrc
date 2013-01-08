@@ -1,3 +1,11 @@
+URxvt.scrollstyle: plain
+URxvt*.transparent: false
+URxvt.depth: 32
+URxvt*.tintColor:
+!URxvt*.shading: 110
+URxvt*.perl-ext:
+URxvt*.perl-ext-common:
+
 
 #define SOLARIZED_LIGHT
 !! #define SOLARIZED_DARK

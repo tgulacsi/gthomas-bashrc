@@ -18,7 +18,7 @@ else
         if ssh-add -l 2>/dev/null | grep -q tgulacsi@unosoft; then
             echo 'key ok'
         else
-            ssh-add ~/.ssh/tgulacsi@unosoft
+            ssh-add ~/.ssh/id_rsa ~/.ssh/tgulacsi@unosoft
         fi
     else
 	echo 'no keychain, trying environment'
@@ -54,7 +54,7 @@ else
         if ssh-add -l | grep -q 'd5:dd:2a:1a:07:3c:75:fd:c8:d8:d6:4b:ed:a3:0d:3b'; then
             echo "already there"
         else
-            ssh-add $HOME/.ssh/tgulacsi@unosoft
+            ssh-add ~/.ssh/id_rsa $HOME/.ssh/tgulacsi@unosoft
         fi
     fi
 fi
