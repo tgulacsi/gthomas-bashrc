@@ -35,6 +35,7 @@ which gajim 2>/dev/null && gajim &
 #/sbin/ifconfig eth0|grep -q 'inet addr:10\.' \
 #&& for nm in ~/mnt/p520/*; do mount $nm & done
 
+which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
 
 exec ck-launch-session dbus-launch i3
 
