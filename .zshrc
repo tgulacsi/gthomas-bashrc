@@ -43,7 +43,7 @@ if [ -d $ORACLE_HOME ]; then
     export PATH=$ORACLE_HOME/bin:$PATH
 fi
 
-for nm in urxvtcd lxterminal xfce4-terminal; do
+for nm in lxterminal xfce4-terminal urxvtcd; do
     if which $nm >/dev/null; then
         export TERMINAL=$nm
         break
@@ -53,7 +53,7 @@ done
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>/dev/null; then
-    if [ -z "$TMUX" ]; then
+    if [ -z "$TMUX" ] && [ "$TERM" = urxvt-unicode ]; then
         exec tmux
     fi
 fi
