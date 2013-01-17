@@ -3,6 +3,7 @@
 for nm in sakura urxvtcd lxterminal xfce4-terminal; do
     if which $nm 2>/dev/null; then
         export TERMINAL=$nm
+        break
     fi
 done
 
