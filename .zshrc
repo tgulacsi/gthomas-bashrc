@@ -50,6 +50,13 @@ for nm in sakura lxterminal xfce4-terminal urxvtcd; do
     fi
 done
 
+if readlink ~/.cache >/dev/null; then
+    mkdir -p $(readlink ~/.cache)
+else
+    D=/tmp/${USER}
+    mkdir -p $D && mv ~/.cache $D/ && ln -s $D/.cache ~/.cache
+fi
+
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>/dev/null; then
