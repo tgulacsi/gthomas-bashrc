@@ -1,6 +1,6 @@
 # exec startlxde
 # exec dbus-launch lxsession -a
-for nm in urxvtcd lxterminal xfce4-terminal; do
+for nm in sakura urxvtcd lxterminal xfce4-terminal; do
     if which $nm 2>/dev/null; then
         export TERMINAL=$nm
     fi
@@ -30,7 +30,13 @@ fi
 sleep 1
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh &
 sleep 1
-which gajim 2>/dev/null && gajim &
+#if which centerim-utf8 2>/dev/null; then
+#    if [ -n "$TERMINAL" ]; then
+#        $TERMINAL -e centerim-utf8 &
+#    fi
+#else
+    which gajim 2>/dev/null && gajim &
+#fi
 ) &
 #/sbin/ifconfig eth0|grep -q 'inet addr:10\.' \
 #&& for nm in ~/mnt/p520/*; do mount $nm & done

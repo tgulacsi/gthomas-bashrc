@@ -43,7 +43,7 @@ if [ -d $ORACLE_HOME ]; then
     export PATH=$ORACLE_HOME/bin:$PATH
 fi
 
-for nm in lxterminal xfce4-terminal urxvtcd; do
+for nm in sakura lxterminal xfce4-terminal urxvtcd; do
     if which $nm >/dev/null; then
         export TERMINAL=$nm
         break
