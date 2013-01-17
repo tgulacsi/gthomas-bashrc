@@ -67,7 +67,7 @@ fi
 
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
-if which tmux 2>/dev/null; then
+if which tmux 2>&1 >/dev/null; then
     if [ -z "$TMUX" ] && [ "$TERM" = urxvt-unicode ]; then
         exec tmux
     fi
