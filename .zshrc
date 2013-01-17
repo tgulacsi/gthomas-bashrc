@@ -54,7 +54,15 @@ if readlink ~/.cache >/dev/null; then
     mkdir -p $(readlink ~/.cache)
 else
     D=/tmp/${USER}
-    mkdir -p $D && mv ~/.cache $D/ && ln -s $D/.cache ~/.cache
+    if [ -d $D/.cache ]; then
+        echo 'Deleting ~/.cache'
+        rm -rf ~/.cache && ln -fs $D/.cache ~/.cache
+    else
+        echo "Deleting $D/.cache"
+        rm -rf $D/.cache
+        echo "Moving ~/.cache to $D/.cache"
+        mkdir -p $D && mv ~/.cache $D/ && ln -fs $D/.cache ~/.cache
+    fi
 fi
 
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
