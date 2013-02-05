@@ -127,13 +127,12 @@ else
         ulimit -v $((512 * 1024))
         RDP=${RDP:-${XFREERDP}}
         echo "RDP=${RDP}"
-        ${RDP} --bpp 16 -u ${FELH2} -d unosoft --size ${SIZE} \
-          --disable-decorations \
-          --compression --network modem --plugin rdpdr --data \
-          disk:tmp:/tmp \
-          -- \
-	  --plugin cliprdr --port ${PORT} --kbd 0x409 \
-          -v localhost \
+        ${RDP} /bpp:16 /u:${FELH2} /d:unosoft /size:${SIZE} \
+          /clipboard /a:drive,tmp,/tmp \
+          /compression /network:modem \
+          -themes /gdi:hw disk:tmp:/tmp \
+	  /kbd:0x409 \
+          /v:localhost:${PORT} \
         || close
           #scard:scard \
         )
