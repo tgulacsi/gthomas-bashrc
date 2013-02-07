@@ -50,20 +50,27 @@ for nm in sakura lxterminal xfce4-terminal urxvtcd; do
     fi
 done
 
-if readlink ~/.cache >/dev/null; then
-    mkdir -p $(readlink ~/.cache)
-else
-    D=/tmp/${USER}
-    if [ -d $D/.cache ]; then
-        echo 'Deleting ~/.cache'
-        rm -rf ~/.cache && ln -fs $D/.cache ~/.cache
+
+function makelink {
+    DN=$1
+    if readlink ~/$DN >/dev/null; then
+        mkdir -p $(readlink ~/$DN)
     else
-        echo "Deleting $D/.cache"
-        rm -rf $D/.cache
-        echo "Moving ~/.cache to $D/.cache"
-        mkdir -p $D && mv ~/.cache $D/ && ln -fs $D/.cache ~/.cache
+        D=/tmp/${USER}
+        if [ -d $D/$DN ]; then
+            echo "Deleting ~/$DN"
+            rm -rf ~/$DN && ln -fs $D/$DN ~/$DN
+        else
+            echo "Deleting $D/$DN"
+            rm -rf $D/$DN
+            echo "Moving ~/$DN to $D/$DN"
+            mkdir -p $D && mv ~/$DN $D/ && ln -fs $D/$DN ~/$DN
+        fi
     fi
-fi
+}
+
+makelink .cache
+makelink Downloads
 
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
