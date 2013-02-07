@@ -1,0 +1,4 @@
+#!/bin/sh
+DST=$1
+[ $# -ge 1 ] && shift 
+${RDP:-xfreerdp} /compression /size:$(getscreensize) /u:tgulacsi /d:unosoft /a:drive,apostle,$HOME/projects/apostle/ /v:${DST:-kobe}-splprn "$@"
