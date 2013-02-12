@@ -12,7 +12,7 @@ echo SIZE=$SIZE
 
 if [ $direct -gt 0 ]; then
 	if lsusb | grep -q Gemplus; then
-		OPTS="$OPTS -a smartcard,Gemplus"
+		OPTS="$OPTS /a:smartcard,Gemplus"
 	fi
 	#exec /usr/local/src/tgulacsi/FreeRDP/MK/client/X11/xfreerdp \
 	exec ${RDP:-xfreerdp} \
