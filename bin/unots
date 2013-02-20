@@ -29,3 +29,4 @@ if [ $direct -gt 0 ]; then
 else
     exec $(dirname $0)/uno "${1:-unots}"; break
 fi
+#ssh -o ControlPersist=no -L 3389:unots:3389 -o Port=2222 portforward@mail.unosoft.hu -N

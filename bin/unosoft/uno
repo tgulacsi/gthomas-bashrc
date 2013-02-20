@@ -23,7 +23,7 @@ function conf {
     bddev|unobddev) FELH2=administrator ; PORT=${PORT:-5005} ; GEP=unobddev ;;
     brtest) ssh -i /home/gthomas/.ssh/unosoft.local.priv  kobe@brtest;
       exit;;
-    *) PORT=${PORT:-5001} ; GEP=unots ;;
+    *) PORT=${PORT:-3389} ; GEP=unots ;;
   esac
   PORTGEP=${PORT}:${GEP}
   FELH2=${FELH2:-${FELH}}
@@ -78,15 +78,17 @@ else
        -o CompressionLevel=9 -o Compression=yes -o ConnectionAttempts=3 \
        -o ServerAliveInterval=5 -o ServerAliveCountMax=3 -o TCPKeepAlive=yes \
        -p ${UNOPORT} -i \"${ID_FILE}\" ${FELH}@${UNOSOFT} "
+  SSH="ssh -N unordp"
   echo SSH=$SSH
-  close
+  #close
 
   echo "$SSH"
-  trap close 1 2 3 6 9 15 17 19
-  SSH_ASKPASS=$SSH_ASKPASS $SSH </dev/null
+  ssh -O exit unordp
+  #trap close 1 2 3 6 9 15 17 19
+  ssh -N unordp 
+  #SSH_ASKPASS=$SSH_ASKPASS $SSH </dev/null
   Z=$?
-  echo SSH_PID=$!
-  [ $Z -eq 0 ] && echo "ssh OK" || { Z=$?; close; echo "!!$Z!!"; exit $Z; }
+  #[ $Z -eq 0 ] && echo "ssh OK" || { Z=$?; close; echo "!!$Z!!"; exit $Z; }
   NUM=$#
 
   [ $NUM -lt 1 ] && {
