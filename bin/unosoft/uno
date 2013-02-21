@@ -2,7 +2,6 @@
 SSH=${SSH:-ssh}
 UNOSOFT=${UNOSOFT:-mail.unosoft.hu}
 UNOPORT=2222
-ID_FILE=$HOME/.ssh/tgulacsi-ssh@unosoft
 OPTS=${OPTS:-}
 #XFREERDP=${XFREERDP:-/usr/local/src/FreeRDP/freerdp/client/X11/xfreerdp}
 XFREERDP=${XFREERDP:-$(which xfreerdp)}
@@ -23,7 +22,7 @@ function conf {
     bddev|unobddev) FELH2=administrator ; PORT=${PORT:-5005} ; GEP=unobddev ;;
     brtest) ssh -i /home/gthomas/.ssh/unosoft.local.priv  kobe@brtest;
       exit;;
-    *) PORT=${PORT:-3389} ; GEP=unots ;;
+    *) PORT=${PORT:-5001} ; GEP=unots ;;
   esac
   PORTGEP=${PORT}:${GEP}
   FELH2=${FELH2:-${FELH}}
@@ -57,36 +56,17 @@ conf $GEP
 if [ "$CMD" = "close" ]; then
   close
 else
-  ssh-add -l || if [ $? -eq 2 ]; then
-    ssh-agent -k
-    unset SSH_AUTH_SOCK
-    unset SSH_AGENT_PID
-    eval $(ssh-agent -s -t 7200)
-  fi
-  #FELH=$FELH ~/bin/unosoft.connect ${PORT} ${GEP} tgulacsi
-  id_hash='40:f2:e4:2f:90:0b:76:78:6c:fb:39:5b:c8:0d:74:3b'
-  Z=$(ssh-add -l | grep $id_hash | wc -l)
-  echo "id_hash=$id_hash; grep: $Z"
-  [ $Z -eq 0 ] \
-  && {
-    { #[ ! -a $ID_FILE ] && ~/bin/titok 1;
-      echo ssh-add ${ID_FILE};
-      ssh-add ${ID_FILE};
-    } || { [ "x$NOCLOSE" = 'x1' ] || close; }
-  }
-  SSH="$SSH -C -f -N -L ${BINDADDR}${PORTGEP}.unosoft.local:3389 \
+  SSH="$SSH -C -f -N -L ${BINDADDR}${PORTGEP}:3389 \
        -o CompressionLevel=9 -o Compression=yes -o ConnectionAttempts=3 \
        -o ServerAliveInterval=5 -o ServerAliveCountMax=3 -o TCPKeepAlive=yes \
-       -p ${UNOPORT} -i \"${ID_FILE}\" ${FELH}@${UNOSOFT} "
-  SSH="ssh -N unordp"
+       -o ControlPersist=no -v \
+       -p ${UNOPORT} portforward@${UNOSOFT} "
   echo SSH=$SSH
   #close
 
   echo "$SSH"
-  ssh -O exit unordp
-  #trap close 1 2 3 6 9 15 17 19
-  ssh -N unordp 
-  #SSH_ASKPASS=$SSH_ASKPASS $SSH </dev/null
+  trap close 1 2 3 6 9 15 17 19
+  SSH_ASKPASS=$SSH_ASKPASS $SSH </dev/null
   Z=$?
   #[ $Z -eq 0 ] && echo "ssh OK" || { Z=$?; close; echo "!!$Z!!"; exit $Z; }
   NUM=$#
