@@ -19,6 +19,7 @@ PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_c
 
 #aliases
 alias l='ls -lA --color=auto'
+alias go-windows-386='CGO_ENABLED=1 GOOS=windows GOARCH=386 go "$@"'
 
 
 # PATH
