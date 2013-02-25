@@ -27,6 +27,12 @@ if [ $direct -gt 0 ]; then
 #  # scard --plugin cliprdr \
 #  #--plugin rdpdr disk:tmp:/tmp -- \
 else
-    exec $(dirname $0)/uno "${1:-unots}"; break
+	xfreerdp /size:$SIZE /drive:tmp,/tmp --help /clipboard /smartcard:Gemalto \
+		/v:unots \
+		/u:tgulacsi /d:unosoft \
+		/g:mail.unosoft.hu /gu:tgulacsi /gd:unosoft \
+		/gp:$(cat ~/.ssh/rdpgw.pwd) \
+		/sec:rdp
+    #exec $(dirname $0)/uno "${1:-unots}"; break
 fi
 #ssh -o ControlPersist=no -L 3389:unots:3389 -o Port=2222 portforward@mail.unosoft.hu -N
