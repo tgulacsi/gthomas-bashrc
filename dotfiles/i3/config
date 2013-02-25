@@ -159,7 +159,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -20
 
 bindsym $mod+shift+v exec edit
 bindsym $mod+F12 exec --no-startup-id xscreensaver-command -lock
-bindsym $mod+Control+F12 exec --no-startup-id sudo pm-hibernate
 bindsym $mod+Shift+F12 exec --no-startup-id sudo pm-suspend
-bindsym $mod+Control+Shift+F12 exec --no-startup-id sudo pm-suspend-hybrid
+bindsym $mod+Control+F12 exec --no-startup-id sudo pm-hibernate
+bindsym $mod+Shift+Control+F12 exec --no-startup-id sudo pm-suspend-hybrid
 
