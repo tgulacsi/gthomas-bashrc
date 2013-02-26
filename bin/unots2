@@ -1,0 +1,4 @@
+#!/bin/sh
+#xfreerdp -k 0x409 -x m -a 16 -z -g 1900x1080 -d unosoft -u tgulacsi --ignore-certificate --sec tls unots2
+xfreerdp /size:$(getscreensize) /cert-ignore /sec:tls /drive:tmp,/tmp /clipboard /u:tgulacsi /d:unosoft /v:unots2
+#xfreerdp -g workarea --ignore-certificate --sec tls --plugin rdpdr --data scard disk:tmp:/tmp -- --plugin cliprdr unots2
