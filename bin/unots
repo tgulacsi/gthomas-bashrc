@@ -28,7 +28,7 @@ if [ $direct -gt 0 ]; then
 #  #--plugin rdpdr disk:tmp:/tmp -- \
 else
 	xfreerdp /size:$SIZE /drive:tmp,/tmp --help /clipboard /smartcard:Gemalto \
-		/v:unots \
+		/v:${1:-unots2} \
 		/u:tgulacsi /d:unosoft \
 		/g:mail.unosoft.hu /gu:tgulacsi /gd:unosoft \
 		/gp:$(cat ~/.ssh/rdpgw.pwd) \

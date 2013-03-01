@@ -28,11 +28,11 @@ if [ -d $HOME/bin ]; then
     export PATH=$HOME/bin:$PATH
 fi
 
+export GOPATH=~/projects/go
 if [ -x /usr/local/go/bin/go ]; then
     export GOROOT=/usr/local/go
-    export PATH=$PATH:$GOROOT/bin
+    export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 fi
-export GOPATH=~/projects/go
 
 ulimit -v 2048000 -m 2048000 -d 2048000
 
