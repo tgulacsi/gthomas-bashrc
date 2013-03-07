@@ -1,3 +1,4 @@
+(setq create-lockfiles nil)
 
 ;(setq viper-mode t)
 ;(require 'viper)
@@ -9,7 +10,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(make-backup-files nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -23,7 +24,8 @@
 (add-to-list 'auto-mode-alist '("\\.go" . go-mode))
 (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 
-(add-hook 'after-init-hook #'(lambda() (flycheck-mode t)))
+(add-hook 'after-init-hook #'(lambda() (flycheck-mode t)
+			       (golden-ratio-enable)))
 
 ;; packages
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")

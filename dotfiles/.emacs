@@ -1,4 +1,3 @@
-
 ;(setq viper-mode t)
 ;(require 'viper)
 (line-number-mode t)
