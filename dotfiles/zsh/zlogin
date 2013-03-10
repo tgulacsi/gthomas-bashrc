@@ -1,0 +1,4 @@
+source ~/dotfiles/zsh/zprezto/runcoms/zlogin
+
+godoc -http=:6060 &!
+emacs --daemon

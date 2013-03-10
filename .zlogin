@@ -1,1 +1,1 @@
-dotfiles/zsh/zprezto/runcoms/zlogin
+dotfiles/zsh/zlogin
