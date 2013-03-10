@@ -320,6 +320,12 @@ buffer manually.
 
     (flycheck-teardown))))
 
+;; Add Flycheck Mode as customization option to basic modes
+;;;###autoload
+(custom-add-option 'text-mode-hook #'flycheck-mode)
+;;;###autoload
+(custom-add-option 'prog-mode-hook #'flycheck-mode)
+
 (defun flycheck-handle-change (beg end _len)
   "Handle a buffer change between BEG and END.
 
@@ -705,6 +711,33 @@ configuration file a buffer." checker)
      (put (quote ,symbol) 'safe-local-variable #'stringp)
      (make-variable-buffer-local (quote ,symbol))))
 
+;;;###autoload
+(defmacro flycheck-def-option-var (symbol init-value checker docstring
+                                          &rest custom-args)
+  "Define SYMBOL as option variable with INIT-VALUE for CHECKER.
+
+INIT-VALUE is the initial value for the new variable.  DOCSTRING
+is its docstring.
+
+The variable is declared with `defcustom', and declared
+buffer-local.  CUSTOM-ARGS are forwarded to `defcustom'.
+
+Use this together with the `option' cell in syntax checker
+commands."
+  (declare (indent 3)
+           (doc-string 4))
+  `(progn
+     (let ((options (flycheck-checker-option-vars (quote ,checker))))
+       (put (quote ,checker) :flycheck-option-vars
+            (-uniq (cons (quote ,symbol) options))))
+     (defcustom ,symbol ,init-value
+       ,(format "%s
+
+This variable is an option for the syntax checker `%s'." docstring checker)
+       :group 'flycheck-options
+       ,@custom-args)
+     (make-variable-buffer-local (quote ,symbol))))
+
 (defun flycheck-error-pattern-p (pattern)
   "Check whether PATTERN is a valid error pattern."
   (and
@@ -718,15 +751,24 @@ configuration file a buffer." checker)
   "Check whether PATTERNS is a list of valid error patterns."
   (-all? 'flycheck-error-pattern-p patterns))
 
+(defun flycheck-command-argument-cell-p (cell)
+  "Determine whether CELL is a valid argument cell."
+  (let ((tag (car cell))
+        (args (cdr cell)))
+    (case tag
+      (config-file (and (stringp (car args))
+                        (symbolp (cadr args))))
+      (option (and (stringp (car args))
+                   (symbolp (cadr args))
+                   (or (null (caddr args)) (symbolp (caddr args)))))
+      (eval (= (length args) 1)))))
+
 (defun flycheck-command-argument-p (arg)
   "Check whether ARG is a valid command argument."
   (or
    (memq arg '(source source-inplace source-original))
    (stringp arg)
-   (and (listp arg)
-        (case (car arg)
-          (config-file (= 3 (length arg)))
-          (eval (= 2 (length arg)))))))
+   (and (listp arg) (flycheck-command-argument-cell-p arg))))
 
 (defun flycheck-command-arguments-list-p (arguments)
   "Check whether ARGUMENTS is a list of valid arguments."
@@ -776,6 +818,17 @@ error if not."
 
 
 ;;;; Checker API
+(defun flycheck-declared-checkers ()
+  "Find all declared syntax checkers.
+
+The returned list is sorted alphapetically by the symbol name of
+the syntax checkers."
+  (let (declared-checkers)
+    (mapatoms (lambda (symbol)
+                (when (flycheck-valid-checker-p symbol)
+                  (push symbol declared-checkers))))
+    (sort declared-checkers #'string<)))
+
 (defun flycheck-registered-checker-p (checker)
   "Determine whether CHECKER is registered.
 
@@ -865,6 +918,12 @@ Return nil if CHECKER has no associated configuration file
 variable."
   (get checker :flycheck-config-file-var))
 
+(defun flycheck-checker-option-vars (checker)
+  "Get the associated option variables of CHECKER.
+
+Return a (possibly empty) list of variable symbols."
+  (get checker :flycheck-option-vars))
+
 (defun flycheck-check-modes (checker)
   "Check the allowed modes of CHECKER.
 
@@ -950,13 +1009,22 @@ and ARGS the arguments for this tag.
 
 If CELL is a form `(config-file OPTION VARIABLE)' search the
 configuration file bound to VARIABLE with
-`flycheck-find-config-file' and return a list of options that
+`flycheck-find-config-file' and return a list of arguments that
 pass this configuration file to the syntax checker, or nil if the
 configuration file was not found.  If OPTION ends with a =
 character, the returned list contains a single element only,
 being the concatenation of OPTION and the path of the
 configuration file.  Otherwise the list has two items, the first
 being OPTION, the second the path of the configuration file.
+
+If CELL is a form `(eval OPTION VARIABLE [FILTER])' retrieve the
+value of VARIABLE and return a list of arguments that pass this
+value as value for OPTION to the syntax checker.  FILTER is an
+optional function to be applied to the value of VARIABLE.  This
+function must return nil or a string.  In the former case, return
+nil.  In the latter case, return a list of arguments as described
+above.  If OPTION ends with a =, process it like in a
+`config-file' cell (see above).
 
 If CELL is a form `(eval FORM), return the result of evaluating
 FORM in the buffer to be checked.  FORM must either return a
@@ -975,6 +1043,18 @@ In all other cases, signal an error."
              (file-name (flycheck-find-config-file (symbol-value (cadr args)))))
          (when file-name
            (flycheck-option-with-value-argument option-name file-name))))
+      (option
+       (let* ((option-name (car args))
+              (variable (cadr args))
+              (value (symbol-value variable))
+              (filter (or (nth 2 args) #'identity)))
+         (unless (null value)
+           (setq value (funcall filter value)))
+         (when value
+           (unless (stringp value)
+             (error "Value %S of %S for %s is not a string"
+                    value variable option-name))
+           (flycheck-option-with-value-argument option-name value))))
       (eval
        (let* ((form (car args))
               (result (eval form)))
@@ -1088,6 +1168,16 @@ Return the command of CHECKER as single string, suitable for
 shell execution."
   (s-join " " (-map #'flycheck-substitute-shell-argument
                     (flycheck-checker-command checker))))
+
+
+;;;; Option filters
+(defun flycheck-option-int (value)
+  "Convert an integral option VALUE to a string.
+
+If VALUE is nil, return nil.  Otherwise return VALUE converted to
+a string."
+  (when value
+    (number-to-string value)))
 
 
 ;;;; Checker selection
@@ -1223,8 +1313,8 @@ Pop up a help buffer with the documentation of CHECKER."
    (let* ((checker (flycheck-checker-at-point))
           (enable-recursive-minibuffers t)
           (prompt (if (symbolp checker)
-                      (format "Describe checker (default %s): " checker)
-                    "Describe checker: "))
+                      (format "Describe syntax checker (default %s): " checker)
+                    "Describe syntax checker: "))
           (reply (read-flycheck-checker prompt)))
      (list (or reply checker))))
   (if (or (null checker) (not (flycheck-valid-checker-p checker)))
@@ -1237,7 +1327,9 @@ Pop up a help buffer with the documentation of CHECKER."
               (filename (flycheck-checker-file checker))
               (modes (flycheck-checker-modes checker))
               (predicate (flycheck-checker-predicate checker))
-              (config-file-var (flycheck-checker-config-file-var checker)))
+              (config-file-var (flycheck-checker-config-file-var checker))
+              (option-vars (sort (flycheck-checker-option-vars checker)
+                                 #'string<)))
           ;; TODO: Find and output declaring file
           (princ (format "%s is a Flycheck syntax checker" checker))
           (when filename
@@ -1267,8 +1359,13 @@ Pop up a help buffer with the documentation of CHECKER."
             (save-excursion
               (goto-char (point-min))
               (forward-paragraph)
-              (fill-region-as-paragraph (point) (point-max)))))
-        (princ (format "\n\nDocumentation:\n%s"
+              (fill-region-as-paragraph (point) (point-max))))
+          (princ "\n")
+          (when option-vars
+            (princ "\n  This syntax checker can be configured with these options:\n\n")
+            (--each option-vars
+              (princ (format "     * `%s'\n" it)))))
+        (princ (format "\nDocumentation:\n%s"
                        (flycheck-checker-documentation checker)))))))
 
 
@@ -2131,6 +2228,17 @@ See URL `http://php.net/manual/en/features.commandline.php'."
   :modes '(php-mode php+-mode)
   :next-checkers '((warnings-only . php-phpcs)))
 
+(flycheck-def-option-var flycheck-phpcs-standard nil php-phpcs
+  "The coding standard for PHP CodeSniffer.
+
+When nil, use the default standard from the global PHP
+CodeSniffer configuration.  When set to a string, pass the string
+to PHP CodeSniffer which will interpret it as name as a standard,
+or as path to a standard specification."
+  :type '(choice (const :tag "Default standard" nil)
+                 (string :tag "Standard name or file")))
+(put 'flycheck-phpcs-standard 'safe-local-variable #'stringp)
+
 (flycheck-declare-checker php-phpcs
   "A PHP syntax checker using PHP_CodeSniffer.
 
@@ -2141,11 +2249,41 @@ have issues that prevent Flycheck from parsing the output
 correctly.
 
 See URL `https://github.com/lunaryorn/flycheck/issues/78'."
-  :command '("phpcs" "--report=checkstyle" source)
+  :command '("phpcs" "--report=checkstyle"
+             (option "--standard=" flycheck-phpcs-standard)
+             source)
   :error-parser 'flycheck-parse-checkstyle
   :modes '(php-mode php+-mode))
 
 (flycheck-def-config-file-var flycheck-flake8rc python-flake8 ".flake8rc")
+
+(flycheck-def-option-var flycheck-flake8-maximum-complexity nil python-flake8
+  "The maximum McCabe complexity of methods.
+
+If nil, do not check the complexity of methods.  If set to an
+integer, report any complexity greater than the value of this
+variable as warning.
+
+If set to an integer, this variable overrules any similar setting
+in the configuration file denoted by `flycheck-flake8rc'."
+  :type '(choice (const :tag "Do not check McCabe complexity" nil)
+                 (integer :tag "Maximum complexity")))
+(put 'flycheck-flake8-maximum-complexity 'safe-local-variable #'integerp)
+
+(flycheck-def-option-var flycheck-flake8-maximum-line-length nil python-flake8
+  "The maximum length of lines.
+
+If set to an integer, the value of this variable denotes the
+maximum length of lines, overruling any similar setting in the
+configuration file denoted by `flycheck-flake8rc'.  An error will
+be reported for any line longer than the value of this variable.
+
+If set to nil, use the maximum line length from the configuration
+file denoted by `flycheck-flake8rc', or the PEP 8 recommendation
+of 79 characters if there is no configuration with this setting."
+  :type '(choice (const :tag "Default value")
+                 (integer :tag "Maximum line length in characters")))
+(put 'flycheck-flake8-maximum-line-length 'safe-local-variable #'integerp)
 
 (flycheck-declare-checker python-flake8
   "A Python syntax and style checker using the flake8 utility.
@@ -2153,7 +2291,15 @@ See URL `https://github.com/lunaryorn/flycheck/issues/78'."
 For best error reporting, use Flake8 2.0 or newer.
 
 See URL `http://pypi.python.org/pypi/flake8'."
-  :command '("flake8" (config-file "--config" flycheck-flake8rc) source-inplace)
+  :command '("flake8"
+             (config-file "--config" flycheck-flake8rc)
+             (option "--max-complexity"
+                     flycheck-flake8-maximum-complexity
+                     flycheck-option-int)
+             (option "--max-line-length"
+                     flycheck-flake8-maximum-line-length
+                     flycheck-option-int)
+             source-inplace)
   :error-patterns
   '(("^\\(?1:.*?\\):\\(?2:[0-9]+\\):\\(?:\\(?3:[0-9]+\\):\\)? \\(?4:E[0-9]+.*\\)$"
      error)
@@ -2162,7 +2308,7 @@ See URL `http://pypi.python.org/pypi/flake8'."
     ("^\\(?1:.*?\\):\\(?2:[0-9]+\\):\\(?:\\(?3:[0-9]+\\):\\)? \\(?4:W[0-9]+.*\\)$"
      warning)                           ; Flake8 < 2.0
     ("^\\(?1:.*?\\):\\(?2:[0-9]+\\):\\(?:\\(?3:[0-9]+\\):\\)? \\(?4:C[0-9]+.*\\)$"
-     warning)                           ; McCabe complexity in Flake8 < 2.0
+     warning)                           ; McCabe complexity in Flake8 > 2.0
     ;; Syntax errors in Flake8 < 2.0, in Flake8 >= 2.0 syntax errors are caught
     ;; by the E.* pattern above
     ("^\\(?1:.*\\):\\(?2:[0-9]+\\): \\(?4:.*\\)$" error))

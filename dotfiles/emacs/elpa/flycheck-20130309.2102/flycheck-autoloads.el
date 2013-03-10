@@ -3,8 +3,9 @@
 ;;; Code:
 
 
-;;;### (autoloads (flycheck-info flycheck-def-config-file-var flycheck-declare-checker
-;;;;;;  flycheck-mode) "flycheck" "flycheck.el" (20792 59882))
+;;;### (autoloads (flycheck-info flycheck-def-option-var flycheck-def-config-file-var
+;;;;;;  flycheck-declare-checker flycheck-mode) "flycheck" "flycheck.el"
+;;;;;;  (20796 59930))
 ;;; Generated autoloads from flycheck.el
 
 (defconst flycheck-mode-line-lighter " FlyC" "\
@@ -29,6 +30,10 @@ buffer manually.
 \\{flycheck-mode-map}
 
 \(fn &optional ARG)" t nil)
+
+(custom-add-option 'text-mode-hook #'flycheck-mode)
+
+(custom-add-option 'prog-mode-hook #'flycheck-mode)
 
 (autoload 'flycheck-declare-checker "flycheck" "\
 Declare SYMBOL as syntax checker with DOCSTRING and PROPERTIES.
@@ -108,6 +113,24 @@ commands.
 
 (put 'flycheck-def-config-file-var 'lisp-indent-function '3)
 
+(autoload 'flycheck-def-option-var "flycheck" "\
+Define SYMBOL as option variable with INIT-VALUE for CHECKER.
+
+INIT-VALUE is the initial value for the new variable.  DOCSTRING
+is its docstring.
+
+The variable is declared with `defcustom', and declared
+buffer-local.  CUSTOM-ARGS are forwarded to `defcustom'.
+
+Use this together with the `option' cell in syntax checker
+commands.
+
+\(fn SYMBOL INIT-VALUE CHECKER DOCSTRING &rest CUSTOM-ARGS)" nil (quote macro))
+
+(put 'flycheck-def-option-var 'doc-string-elt '4)
+
+(put 'flycheck-def-option-var 'lisp-indent-function '3)
+
 (autoload 'flycheck-info "flycheck" "\
 Open the Flycheck manual.
 
@@ -115,7 +138,7 @@ Open the Flycheck manual.
 
 ;;;***
 
-;;;### (autoloads nil nil ("flycheck-pkg.el") (20792 59882 144364))
+;;;### (autoloads nil nil ("flycheck-pkg.el") (20796 59930 506638))
 
 ;;;***
 
