@@ -22,7 +22,8 @@
 (add-to-list 'auto-mode-alist '("\\.go" . go-mode))
 (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 
-(add-hook 'after-init-hook #'(lambda() (flycheck-mode t)))
+(add-hook 'after-init-hook #'(lambda() (flycheck-mode t)
+			       (golden-ratio-enable)))
 
 ;; packages
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
