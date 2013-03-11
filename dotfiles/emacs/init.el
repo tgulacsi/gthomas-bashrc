@@ -1,5 +1,5 @@
-;(setq viper-mode t)
-;(require 'viper)
+(setq viper-mode t)
+(require 'viper)
 (line-number-mode t)
 (column-number-mode t)
 
