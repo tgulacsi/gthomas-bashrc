@@ -1,1 +1,1 @@
-dotfiles/zsh/zprezto/runcoms/zshenv
+.zprezto/runcoms/zshenv

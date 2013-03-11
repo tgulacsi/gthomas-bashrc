@@ -6,7 +6,8 @@
 #
 
 # Source Prezto.
-source "$HOME/dotfiles/zsh/zprezto/init.zsh"
+export ZDOTDIR=$HOME/.zprezto
+source "$HOME/.zprezto/init.zsh"
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
