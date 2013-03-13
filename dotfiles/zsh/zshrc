@@ -15,6 +15,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory extendedglob nomatch notify clobber
 unsetopt autocd
+alias rm='nocorrect rm'
 bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -32,7 +33,7 @@ alias l='ls -lA --color=auto'
 alias go-windows-386='CGO_ENABLED=1 GOOS=windows GOARCH=386 go "$@"'
 #alias go-linux-386='CGO_ENABLED=1 GOOS=linux GOARCH=386 go "$@"'
 export EDITOR='emacsclient -t'
-alias vi='emacsclient -t'
+alias vi='emacsclient --alternate-editor= -t '
 
 
 # PATH
