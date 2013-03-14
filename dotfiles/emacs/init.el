@@ -8,6 +8,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(python-mode-hook (quote ((lambda nil (flycheck-mode t)) (lambda nil (indent-tabs-mode nil)))))
  '(tab-width 4))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -24,8 +25,8 @@
 
 (add-hook 'after-init-hook #'(lambda() (golden-ratio-enable)))
 
-(add-hook 'python-mode-hook #'(lambda() (flycheck-mode t)))
-(add-hook 'go-mode-hook #'(lambda() (flycheck-mode t)))
+(add-hook 'python-mode-hook #'(lambda() (flycheck-mode t) (indent-tabs-mode nil)))
+(add-hook 'go-mode-hook #'(lambda() (flycheck-mode t) (indent-tabs-mode t)))
 
 ;; packages
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
