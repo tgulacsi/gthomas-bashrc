@@ -9,7 +9,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(python-mode-hook (quote ((lambda nil (flycheck-mode t)) (lambda nil (indent-tabs-mode nil)))))
- '(tab-width 4))
+ '(tab-width 4)
+ '(vc-suppress-confirm t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

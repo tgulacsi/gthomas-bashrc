@@ -13,19 +13,19 @@ source "$ZDOTDIR/.zprezto/init.zsh"
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory extendedglob nomatch notify
+setopt appendhistory extendedglob nomatch notify clobber
 unsetopt autocd
+alias rm='nocorrect rm'
 bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/gthomas/.zshrc'
 
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
 # End of lines added by compinstall
 
 #colors and prompt
-#autoload -U colors && colors
+autoload -U colors && colors
 #PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
 
 #aliases
@@ -33,7 +33,7 @@ alias l='ls -lA --color=auto'
 alias go-windows-386='CGO_ENABLED=1 GOOS=windows GOARCH=386 go "$@"'
 #alias go-linux-386='CGO_ENABLED=1 GOOS=linux GOARCH=386 go "$@"'
 export EDITOR='emacsclient -t'
-alias vi='emacsclient -t'
+alias vi='emacsclient --alternate-editor= -t '
 
 
 # PATH
