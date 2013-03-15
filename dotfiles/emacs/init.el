@@ -9,6 +9,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(python-mode-hook (quote ((lambda nil (flycheck-mode t)) (lambda nil (indent-tabs-mode nil)))))
  '(tab-width 4)
  '(vc-suppress-confirm t))
 (custom-set-faces
@@ -26,8 +27,8 @@
 
 (add-hook 'after-init-hook #'(lambda() (golden-ratio-enable)))
 
-(add-hook 'python-mode-hook #'(lambda() (flycheck-mode t)))
-(add-hook 'go-mode-hook #'(lambda() (flycheck-mode t)))
+(add-hook 'python-mode-hook #'(lambda() (flycheck-mode t) (indent-tabs-mode nil)))
+(add-hook 'go-mode-hook #'(lambda() (flycheck-mode t) (indent-tabs-mode t)))
 
 ;; packages
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
