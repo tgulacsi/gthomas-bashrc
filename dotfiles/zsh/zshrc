@@ -32,8 +32,8 @@ autoload -U colors && colors
 alias l='ls -lA --color=auto'
 alias go-windows-386='CGO_ENABLED=1 GOOS=windows GOARCH=386 go "$@"'
 #alias go-linux-386='CGO_ENABLED=1 GOOS=linux GOARCH=386 go "$@"'
-export EDITOR='emacsclient -t'
-alias vi='emacsclient --alternate-editor= -t '
+#export EDITOR='emacsclient -t'
+#alias vi='emacsclient --alternate-editor= -t '
 
 
 # PATH

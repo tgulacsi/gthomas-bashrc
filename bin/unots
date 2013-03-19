@@ -1,40 +1,4 @@
 #!/bin/sh
-direct=0
-case $(uname -n) in
-    nell|tgulacsi-desktop)
-        if /sbin/ifconfig | grep -q 'inet addr:10.65.25.'; then # unosoft
-            direct=1
-        fi
-esac
-
-SIZE=${SIZE:-$(getscreensize)}
-echo SIZE=$SIZE
-
-if [ $direct -gt 0 ]; then
-	if lsusb | grep -q Gemplus; then
-		OPTS="$OPTS /a:smartcard,Gemplus"
-	fi
-	#exec /usr/local/src/tgulacsi/FreeRDP/MK/client/X11/xfreerdp \
-	exec ${RDP:-xfreerdp} \
-		/u:UNOSOFT\\TGulacsi /size:$SIZE /a:drive,tmp,/tmp \
-                /clipboard /fonts -themes -wallpaper /gdi:hw \
-		/kbd:0x409 \
-  		/sec:tls $OPTS /v:${1:-unots}
-##/usr/bin/rdesktop -P -k en -e \
-#${RDP:-xfreerdp} -k 0x409 --plugin cliprdr -x m -a 16 -z \
-#  -g $SIZE --gdi hw -d unosoft -u tgulacsi \
-#  --sec tls \
-#  ${1:-unots}
-#  # scard --plugin cliprdr \
-#  #--plugin rdpdr disk:tmp:/tmp -- \
-else
-	xfreerdp /size:$SIZE /drive:tmp,/tmp --help /clipboard /smartcard:Gemalto \
-		/v:${1:-unots2} \
-		/u:tgulacsi /d:unosoft \
-		/g:mail.unosoft.hu /gu:tgulacsi /gd:unosoft \
-		/gp:$(cat ~/.ssh/rdpgw.pwd) \
-		/kbd:0x409 \
-		/sec:rdp
-    #exec $(dirname $0)/uno "${1:-unots}"; break
-fi
-#ssh -o ControlPersist=no -L 3389:unots:3389 -o Port=2222 portforward@mail.unosoft.hu -N
+#xfreerdp -k 0x409 -x m -a 16 -z -g 1900x1080 -d unosoft -u tgulacsi --ignore-certificate --sec tls unots2
+xfreerdp /size:$(getscreensize) /cert-ignore /sec:tls /drive:tmp,/tmp +clipboard /u:tgulacsi /d:unosoft /smartcard,Gemalto /v:unots2
+#xfreerdp -g workarea --ignore-certificate --sec tls --plugin rdpdr --data scard disk:tmp:/tmp -- --plugin cliprdr unots2
