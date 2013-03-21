@@ -1,3 +1,6 @@
+set colorcolumn=79
+
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
 "       Amir Salihefendic
@@ -49,6 +52,15 @@ set history=700
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
+
+" Some Linux distributions set filetype in /etc/vimrc.
+" Clear filetype flags before changing runtimepath to force Vim to reload them.
+filetype off
+filetype plugin indent off
+set runtimepath+=$GOROOT/misc/vim
+filetype plugin indent on
+syntax on
+
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -124,7 +136,7 @@ set tm=500
 syntax enable 
 
 colorscheme desert
-set background=dark
+set background=light
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -243,7 +255,7 @@ set viminfo^=%
 set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ (%l,%v)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
