@@ -18,6 +18,7 @@ if lsusb | grep -q Gemplus; then
     OPTS="$OPTS /a:smartcard,Gemplus"
 fi
 
+echo "direct=$direct"
 if [ $direct -gt 0 ]; then
 	#exec /usr/local/src/tgulacsi/FreeRDP/MK/client/X11/xfreerdp \
 	exec ${RDP:-xfreerdp} /u:UNOSOFT\\TGulacsi \

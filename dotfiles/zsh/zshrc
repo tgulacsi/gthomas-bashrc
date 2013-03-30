@@ -6,7 +6,9 @@
 #
 
 # Source Prezto.
-export ZDOTDIR=$HOME
+if [[ -z "$ZDOTDIR" ]]; then
+    export ZDOTDIR=$HOME
+fi
 source "$ZDOTDIR/.zprezto/init.zsh"
 
 # Lines configured by zsh-newuser-install
@@ -36,35 +38,7 @@ alias go-windows-386='CGO_ENABLED=1 GOOS=windows GOARCH=386 go "$@"'
 #alias vi='emacsclient --alternate-editor= -t '
 
 
-# PATH
-export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
-if [ -d $HOME/bin ]; then
-    export PATH=$HOME/bin:$PATH
-fi
-
-export GOPATH=~/projects/go
-if [ -x /usr/local/go/bin/go ]; then
-    export GOROOT=/usr/local/go
-    export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
-fi
-
 ulimit -v 2048000 -m 2048000 -d 2048000
-
-ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe
-if [ -d $ORACLE_HOME ]; then
-    export ORACLE_HOME
-    export ORACLE_SID=XE
-    export ORACLE_BASE=/u01/app/oracle
-    export PATH=$ORACLE_HOME/bin:$PATH
-fi
-
-for nm in sakura lxterminal xfce4-terminal urxvtcd; do
-    if which $nm >/dev/null; then
-        export TERMINAL=$nm
-        break
-    fi
-done
-
 
 function makelink {
     DN=$1
