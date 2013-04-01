@@ -1,0 +1,14 @@
+[Unit]
+Description=Golang's godoc server
+Type=simple
+StopWhenUnneeded=true
+
+[Service]
+Requires=network.target
+After=multi-user.target
+Nice=15
+ExecStart=/usr/local/go/bin/godoc -http=:6060
+
+[Install]
+WantedBy=multi-user.target
+Wants=network.target
