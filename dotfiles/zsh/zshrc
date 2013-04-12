@@ -61,6 +61,19 @@ function makelink {
 makelink .cache
 makelink Downloads
 
+(cd $HOME
+for nm in .mozilla/firefox/*/Cache; do
+    if readlink $nm >/dev/null; then
+    else
+        mkdir -p .cache/mozilla/firefox
+        LN=$HOME/.cache/mozilla/firefox/$(dirname $nm)
+        echo "Moving $nm to $LN"
+        mv $nm $LN
+        rm -rf $nm
+        ln -fs $LN $nm
+    fi
+done)
+
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>&1 >/dev/null; then
