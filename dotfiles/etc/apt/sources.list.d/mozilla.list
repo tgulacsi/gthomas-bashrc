@@ -1,0 +1,2 @@
+deb http://backports.debian.org/debian-backports squeeze-backports main
+deb http://mozilla.debian.net/ experimental iceweasel-beta iceweasel-aurora
