@@ -7,4 +7,5 @@ ulimit -m unlimited
  [ -L logs ] || { rm -rf logs; ln -s /tmp/JustCloud/logs; }
  [ -L temp ] || { tm -rf temp; ln -s /tmp/JustCloud temp; }
  )
+( sleep 30; cpulimit -e mainframe -l 30; ) &
 exec nice -n19 ionice -c3 /usr/bin/justcloud
