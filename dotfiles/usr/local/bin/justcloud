@@ -1,0 +1,10 @@
+#!/bin/sh
+ulimit -d unlimited 
+ulimit -v unlimited 
+ulimit -m unlimited
+(cd /opt/JustCloud
+ mkdir -p /opt/JustCloud
+ [ -L logs ] || { rm -rf logs; ln -s /tmp/JustCloud/logs; }
+ [ -L temp ] || { tm -rf temp; ln -s /tmp/JustCloud temp; }
+ )
+exec nice -n19 ionice -c3 /usr/bin/justcloud
