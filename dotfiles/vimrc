@@ -2,28 +2,8 @@ set colorcolumn=79
 
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer: 
-"       Amir Salihefendic
-"       http://amix.dk - amix@amix.dk
-"
-" Version: 
-"       5.0 - 29/05/12 15:43:36
-"
 " Blog_post: 
 "       http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
-"
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-"
-" Raw_version: 
-"       http://amix.dk/vim/vimrc.txt
 "
 " Sections:
 "    -> General
@@ -61,6 +41,23 @@ set runtimepath+=$GOROOT/misc/vim
 filetype plugin indent on
 syntax on
 
+if !exists("autocommands_loaded")
+    let autocommands_loaded = 1
+	function! Highlight_cursor ()
+		set cursorline
+		redraw
+		sleep 1
+		set nocursorline
+	endfunction
+	function! Autosave ()
+		if &modified && g:autosave_on_focus_change
+			write
+			echo "Autosaved file while you were absent" 
+		endif
+	endfunction
+
+    autocmd BufWritePost *.go :silent %!gofmt
+endif
 
 " Set to auto read when a file is changed from the outside
 set autoread
