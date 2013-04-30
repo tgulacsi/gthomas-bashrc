@@ -1,1 +1,1 @@
-.zprezto/runcoms/zprofile
+dotfiles/zsh/zprofile

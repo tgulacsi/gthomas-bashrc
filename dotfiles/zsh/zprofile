@@ -1,0 +1,41 @@
+#
+# Executes commands at login pre-zshrc.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+function makelink {
+    DN=$1
+    if readlink ~/$DN >/dev/null; then
+        mkdir -p $(readlink ~/$DN)
+    else
+        D=/tmp/${USER}
+        if [ -d $D/$DN ]; then
+            echo "Deleting ~/$DN"
+            rm -rf ~/$DN && ln -fs $D/$DN ~/$DN
+        else
+            echo "Deleting $D/$DN"
+            rm -rf $D/$DN
+            echo "Moving ~/$DN to $D/$DN"
+            mkdir -p $D && mv ~/$DN $D/ && ln -fs $D/$DN ~/$DN
+        fi
+    fi
+}
+
+makelink .cache
+makelink Downloads
+
+(cd $HOME
+for nm in .mozilla/firefox/*/Cache; do
+    if readlink $nm >/dev/null; then
+    else
+        mkdir -p .cache/mozilla/firefox
+        LN=$HOME/.cache/mozilla/firefox/$(dirname $nm)
+        echo "Moving $nm to $LN"
+        mv $nm $LN
+        rm -rf $nm
+        ln -fs $LN $nm
+    fi
+done)
+
