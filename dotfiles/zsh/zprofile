@@ -5,7 +5,7 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-function makelink {
+makelink () {
     DN=$1
     if readlink ~/$DN >/dev/null; then
         mkdir -p $(readlink ~/$DN)
@@ -13,10 +13,10 @@ function makelink {
         D=/tmp/${USER}
         if [ -d $D/$DN ]; then
             echo "Deleting ~/$DN"
-            rm -rf ~/$DN && ln -fs $D/$DN ~/$DN
+            rm -ri ~/$DN && ln -fs $D/$DN ~/$DN
         else
             echo "Deleting $D/$DN"
-            rm -rf $D/$DN
+            rm -ri $D/$DN
             echo "Moving ~/$DN to $D/$DN"
             mkdir -p $D && mv ~/$DN $D/ && ln -fs $D/$DN ~/$DN
         fi
@@ -29,12 +29,13 @@ makelink Downloads
 (cd $HOME
 for nm in .mozilla/firefox/*/Cache; do
     if readlink $nm >/dev/null; then
+        echo Ok
     else
         mkdir -p .cache/mozilla/firefox
         LN=$HOME/.cache/mozilla/firefox/$(dirname $nm)
         echo "Moving $nm to $LN"
-        mv $nm $LN
-        rm -rf $nm
+        mv -i $nm $LN
+        rm -ri $nm
         ln -fs $LN $nm
     fi
 done)
