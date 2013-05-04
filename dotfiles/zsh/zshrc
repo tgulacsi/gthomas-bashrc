@@ -40,6 +40,44 @@ alias go-windows-386='CGO_ENABLED=1 GOOS=windows GOARCH=386 go "$@"'
 
 ulimit -v 2048000 -m 2048000 -d 2048000
 
+makelink () {
+    DN=$1
+    if readlink ~/$DN >/dev/null; then
+        dd=$(readlink ~/$DN)
+        if [ ! -d $dd ]; then
+            mkdir -p $dd
+        fi
+    else
+        D=/tmp/${USER}
+        if [ -d $D/$DN ]; then
+            echo "Deleting ~/$DN"
+            rm -ri ~/$DN && ln -fs $D/$DN ~/$DN
+        else
+            echo "Deleting $D/$DN"
+            rm -ri $D/$DN
+            echo "Moving ~/$DN to $D/$DN"
+            mkdir -p $D && mv ~/$DN $D/ && ln -fs $D/$DN ~/$DN
+        fi
+    fi
+}
+
+makelink .cache
+makelink Downloads
+
+(cd $HOME
+for nm in .mozilla/firefox/*/Cache; do
+    if readlink $nm >/dev/null; then
+        echo Ok
+    else
+        mkdir -p .cache/mozilla/firefox
+        LN=$HOME/.cache/mozilla/firefox/$(dirname $nm)
+        echo "Moving $nm to $LN"
+        mv -i $nm $LN
+        rm -ri $nm
+        ln -fs $LN $nm
+    fi
+done)
+
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>&1 >/dev/null; then
