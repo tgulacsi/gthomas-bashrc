@@ -3,13 +3,15 @@
 #xfreerdp /size:$(getscreensize) /cert-ignore /sec:tls /drive:tmp,/tmp +clipboard /u:tgulacsi /d:unosoft /smartcard,Gemalto /v:unots2
 #xfreerdp -g workarea --ignore-certificate --sec tls --plugin rdpdr --data scard disk:tmp:/tmp -- --plugin cliprdr unots2
 #!/bin/sh
-direct=0
+if [ -z $direct ]; then
+    direct=0
 case $(uname -n) in
     nell|tgulacsi-desktop)
         if /sbin/ifconfig | grep -q 'inet addr:10.65.25.'; then # unosoft
             direct=1
         fi
 esac
+fi
 
 SIZE=${SIZE:-$(getscreensize)}
 echo SIZE=$SIZE
@@ -31,12 +33,14 @@ if [ $direct -gt 0 ]; then
 #  # scard --plugin cliprdr \
 #  #--plugin rdpdr disk:tmp:/tmp -- \
 else
-	xfreerdp $OPTS \
+	CMD="xfreerdp $OPTS \
 		/v:${1:-unots2} \
 		/u:tgulacsi /d:unosoft \
 		/g:mail.unosoft.hu /gu:tgulacsi /gd:unosoft \
 		/gp:$(cat ~/.ssh/rdpgw.pwd) \
-		/sec:rdp
+		/sec:rdp"
     #exec $(dirname $0)/uno "${1:-unots}"; break
+    echo $CMD
+    exec $CMD
 fi
 #ssh -o ControlPersist=no -L 3389:unots:3389 -o Port=2222 portforward@mail.unosoft.hu -N
