@@ -1,0 +1,25 @@
+#!/bin/sh
+set -e
+for dir in $(cat /root/tarsnap-dirs) ; do
+	nice -n19 ionice -c3 tarsnap -c -f $(hostname -s)-$(date -u +%Y%m%d_%H%M%S)-$(echo $dir | tr -d '/') --one-file-system -C / $dir
+done
+
+tarsnap --print-stats
+
+exit $?
+#Delete backups more than n days old
+n=10
+tarsnap --list-archives > /tmp/tarsnap-archives.$$
+if [ $? != 0 ]; then
+	echo "Error found while listing tarsnap archives! Old archives will not be cleared this time."
+	rm /tmp/tarsnap-archives.$$
+	break
+else
+	cat /tmp/tarsnap-archives.$$ | cut -d- -f3 | sort | uniq | while read nm; do
+		fgrep $nm /tmp/tarsnap-archives.$$ | sort | tail -n +$n | while read fn; do
+			echo Deleting $fn
+			tarsnap -d -f $fn
+		done
+	done
+	rm /tmp/tarsnap-archives.$$ /tmp/tarsnap-archives-uniq.$$
+fi
