@@ -24,7 +24,7 @@ else
     fi
 fi
 
-  
+
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
@@ -48,3 +48,4 @@ unset C
 if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
     tmux attach || tmux
 fi
+[ -e ~/.profabevjava ] && . ~/.profabevjava
