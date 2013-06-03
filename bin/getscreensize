@@ -1,2 +1,10 @@
 #!/bin/sh
-xrandr --current|grep ' connected '|sed -e 's/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/'|sort -r|head -n1
+SIZE=$(xrandr --current|grep ' connected '\
+    |sed -e 's/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/'|sort -r|head -n1)
+if [ -n "$1" ]; then
+    W=$(echo $SIZE|cut -dx -f1)
+    H=$(echo $SIZE|cut -dx -f2)
+    echo ${W}x$(($H - "$1"))
+else
+    echo "$SIZE"
+fi

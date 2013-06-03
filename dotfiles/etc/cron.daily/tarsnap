@@ -1,25 +1,101 @@
 #!/bin/sh
 set -e
-for dir in $(cat /root/tarsnap-dirs) ; do
-	nice -n19 ionice -c3 tarsnap -c -f $(hostname -s)-$(date -u +%Y%m%d_%H%M%S)-$(echo $dir | tr -d '/') --one-file-system -C / $dir
+
+# Tarsnap backup script
+# Written by Tim Bishop, 2009.
+
+# Directories to backup
+DIRS="/root/tarsnap-dirs"
+
+# Number of daily backups to keep
+DAILY=7
+
+# Number of weekly backups to keep
+WEEKLY=4
+# Which day to do weekly backups on
+# 1-7, Monday = 1
+WEEKLY_DAY=1
+
+# Number of monthly backups to keep
+MONTHLY=3
+# Which day to do monthly backups on
+# 01-31 (leading 0 is important)
+MONTHLY_DAY=01
+
+# Path to tarsnap
+#TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
+TARSNAP="/usr/bin/tarsnap"
+
+# end of config
+
+# day of week: 1-7, monday = 1
+DOW=`date +%u`
+# day of month: 01-31
+DOM=`date +%d`
+# month of year: 01-12
+MOY=`date +%m`
+# year
+YEAR=`date +%Y`
+# time
+TIME=`date +%H%M%S`
+
+# Backup name
+if [ X"$DOM" = X"$MONTHLY_DAY" ]; then
+	# monthly backup
+	BACKUP="$YEAR$MOY$DOM-$TIME-monthly"
+elif [ X"$DOW" = X"$WEEKLY_DAY" ]; then
+	# weekly backup
+	BACKUP="$YEAR$MOY$DOM-$TIME-weekly"
+else
+	# daily backup
+	BACKUP="$YEAR$MOY$DOM-$TIME-daily"
+fi
+
+# Do backups
+for dir in $DIRS; do
+	EXTRA_FLAGS=
+	base=$dir
+	if cat "$dir" | grep -q ' '; then
+		base=${dir%% *}
+		dir=${dir#* }
+		EXTRA_FLAGS="-C $base"
+	fi
+
+	echo "==> create $BACKUP-$base-$dir"
+	$TARSNAP $EXTRA_FLAGS --one-file-system -c -f $BACKUP-$base $dir
 done
 
 tarsnap --print-stats
+# Backups done, time for cleaning up old archives
 
-exit $?
-#Delete backups more than n days old
-n=10
-tarsnap --list-archives > /tmp/tarsnap-archives.$$
+# using tail to find archives to delete, but its
+# +n syntax is out by one from what we want to do
+# (also +0 == +1, so we're safe :-)
+DAILY=`expr $DAILY + 1`
+WEEKLY=`expr $WEEKLY + 1`
+MONTHLY=`expr $MONTHLY + 1`
+
+# Do deletes
+TMPFILE=/tmp/tarsnap.archives.$$
+$TARSNAP --list-archives > $TMPFILE
 if [ $? != 0 ]; then
 	echo "Error found while listing tarsnap archives! Old archives will not be cleared this time."
-	rm /tmp/tarsnap-archives.$$
+	rm $TMPFILE
 	break
 else
-	cat /tmp/tarsnap-archives.$$ | cut -d- -f3 | sort | uniq | while read nm; do
-		fgrep $nm /tmp/tarsnap-archives.$$ | sort | tail -n +$n | while read fn; do
-			echo Deleting $fn
-			tarsnap -d -f $fn
+	# for dir in $DIRS; do
+	cat $TMPFILE | cut -d- -f4- | sort | uniq | while read dir; do
+		for params in "daily $DAILY" "weekly $WEEKLY" "monthly $MONTHLY"; do
+			txt=${params%% *}
+			num=${params#* }
+			for i in $(grep -E "^[[:digit:]]{8}-[[:digit:]]{6}-$txt-$dir" $TMPFILE | sort -rn \
+					| tail -n +$num); do
+				echo "==> delete $i"
+				$TARSNAP -d -f $i
+			done
 		done
 	done
-	rm /tmp/tarsnap-archives.$$ /tmp/tarsnap-archives-uniq.$$
 fi
+rm $TMPFILE
+
+tarsnap --print-stats
