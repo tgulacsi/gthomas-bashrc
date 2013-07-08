@@ -14,6 +14,7 @@ if [ -n "$ZSH_VERSION" ]; then
     if [ -f "$HOME/.zshrc" ]; then
 	. "$HOME/.zshrc"
     fi
+    return 0
 else
     # if running bash
     if [ -n "$BASH_VERSION" ]; then

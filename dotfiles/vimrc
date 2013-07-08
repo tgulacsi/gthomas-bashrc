@@ -1,3 +1,29 @@
+" Vundle
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+
+" My Bundles
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/nerdtree'
+Bundle 'bling/vim-airline'
+Bundle 'tpope/vim-fugitive'
+"Bundle
+
+filetype plugin indent on  " required!
+
+" NERDTree
+map <F2> :NERDTreeToggle<CR>
+
+set autochdir
+
+" Syntastic
+let g:syntastic_python_checkers=['pyflakes', 'pyflake', 'flake8']
+
+
 set colorcolumn=79
 
 "

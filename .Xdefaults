@@ -1,0 +1,5 @@
+XTerm*termName: xterm-256color
+URxvt*saveLines: 12000
+URxvt*font: xft:DejaVu Sans Mono:pixelsize=10:antialias=true:hinting=true
+URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=10:antialias=true:hinting=true
+URxvt*scrollBar: true
