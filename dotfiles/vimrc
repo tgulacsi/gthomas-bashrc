@@ -3,17 +3,19 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+" required
 Bundle 'gmarik/vundle'
 
 " My Bundles
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
+" Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
-Bundle 'tpope/vim-fugitive'
 "Bundle
 
-filetype plugin indent on  " required!
+" required!
+filetype plugin indent on
 
 " NERDTree
 map <F2> :NERDTreeToggle<CR>
@@ -22,6 +24,7 @@ set autochdir
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'pyflake', 'flake8']
+"let g:airline_externals_fugitive=''
 
 
 set colorcolumn=79
