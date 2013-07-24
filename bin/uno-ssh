@@ -1,5 +1,4 @@
 #!/bin/sh
-
 if ssh-add -l 2>/dev/null | grep -q tgulacsi@unosoft; then
     echo 'key ok'
 else

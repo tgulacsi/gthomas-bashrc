@@ -46,6 +46,22 @@ C=$(readlink .cache)
 [ -n "$C" ] && mkdir -p $C
 unset C
 
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+    . "${HOME}/.gpg-agent-info"
+else
+    gpg-agent --daemon --enable-ssh-support \
+              --write-env-file "${HOME}/.gpg-agent-info"
+fi
+export GPG_AGENT_INFO
+export SSH_AUTH_SOCK
+export SSH_AGENT_PID
+if ssh-add -l | grep -q tgulacsi@unosoft; then
+else
+    ssh-add ~/.ssh/id_rsa
+    ssh-add tgulacsi@unosoft
+fi
+
+
 if [ -z "$DISPLAY" -a -z "$TMUX" ]; then
     tmux attach || tmux
 fi

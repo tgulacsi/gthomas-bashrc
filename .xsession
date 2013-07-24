@@ -25,7 +25,7 @@ fi
 sleep 1
 if xrandr -q | grep -q 'HDMI1 connected'; then
     ~/.screenlayout/unosoft.sh &
-else 
+else
     ~/.screenlayout/solitaire.sh &
 fi
 sleep 1
@@ -43,6 +43,8 @@ sleep 1
 #&& for nm in ~/mnt/p520/*; do mount $nm & done
 
 which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
+gpg-agent --daemon --enable-ssh-support \
+                   --write-env-file "${HOME}/.gpg-agent-info"
 
 exec ck-launch-session dbus-launch i3
 
