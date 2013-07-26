@@ -42,6 +42,9 @@ ulimit -v 2048000 -m 2048000 -d 2048000
 
 makelink () {
     DN=$1
+    if [ -L $DN ]; then
+        return
+    fi
     if readlink ~/$DN >/dev/null; then
         dd=$(readlink ~/$DN)
         if [ ! -d $dd ]; then
@@ -63,20 +66,6 @@ makelink () {
 
 makelink .cache
 makelink Downloads
-
-(cd $HOME
-for nm in .mozilla/firefox/*/Cache; do
-    if readlink $nm >/dev/null; then
-        echo Ok
-    else
-        mkdir -p .cache/mozilla/firefox
-        LN=$HOME/.cache/mozilla/firefox/$(dirname $nm)
-        echo "Moving $nm to $LN"
-        mv -i $nm $LN
-        rm -ri $nm
-        ln -fs $LN $nm
-    fi
-done)
 
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux

@@ -110,7 +110,7 @@ gpg_agent_info=/tmp/$USER/.gpg-agent-info
 if [ -f "$gpg_agent_info" ]; then
     . "$gpg_agent_info"
     if [ $(readlink /proc/$SSH_AGENT_PID/exe) = '/usr/bin/gpg-agent' ]; then
-        echo "$gpg_agent_info OK"
+        #echo "$gpg_agent_info OK"
         . "$gpg_agent_info"
         export GPG_AGENT_INFO
         export SSH_AUTH_SOCK
