@@ -46,15 +46,24 @@ C=$(readlink .cache)
 [ -n "$C" ] && mkdir -p $C
 unset C
 
-if [ -f "${HOME}/.gpg-agent-info" ]; then
-    . "${HOME}/.gpg-agent-info"
-else
-    gpg-agent --daemon --enable-ssh-support \
-              --write-env-file "${HOME}/.gpg-agent-info"
+gpg_agent_info=/tmp/$USER/.gpg-agent-info
+if [ -f $gpg_agent_info ]; then
+    . $gpg_agent_info
+    if readlink /proc/$SSH_AGENT_PID/exe >/dev/null; then
+        echo "$gpg_agent_info ok"
+        . "$gpg_agent_info"
+        export GPG_AGENT_INFO
+        export SSH_AUTH_SOCK
+        export SSH_AGENT_PID
+    else
+        rm $gpg_agent_info
+    fi
 fi
-export GPG_AGENT_INFO
-export SSH_AUTH_SOCK
-export SSH_AGENT_PID
+if [ ! -f $gpg_agent_info ]; then
+    echo "starting gpg-agent"
+    eval $(gpg-agent --daemon --enable-ssh-support \
+        --write-env-file "$gpg_agent_info")
+fi
 if ssh-add -l | grep -q tgulacsi@unosoft; then
 else
     ssh-add ~/.ssh/id_rsa
