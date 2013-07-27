@@ -47,17 +47,21 @@ C=$(readlink .cache)
 unset C
 
 gpg_agent_info=/tmp/$USER/.gpg-agent-info
-if [ -f $gpg_agent_info ]; then
-    . $gpg_agent_info
-    if readlink /proc/$SSH_AGENT_PID/exe >/dev/null; then
-        echo "$gpg_agent_info ok"
-        . "$gpg_agent_info"
-        export GPG_AGENT_INFO
-        export SSH_AUTH_SOCK
-        export SSH_AGENT_PID
-    else
-        rm $gpg_agent_info
+if [ -d /tmp/$USER ]; then
+    if [ -f $gpg_agent_info ]; then
+        . $gpg_agent_info
+        if readlink /proc/$SSH_AGENT_PID/exe >/dev/null; then
+            echo "$gpg_agent_info ok"
+            . "$gpg_agent_info"
+            export GPG_AGENT_INFO
+            export SSH_AUTH_SOCK
+            export SSH_AGENT_PID
+        else
+            rm $gpg_agent_info
+        fi
     fi
+else
+    mkdir -p /tmp/$USER
 fi
 if [ ! -f $gpg_agent_info ]; then
     echo "starting gpg-agent"
