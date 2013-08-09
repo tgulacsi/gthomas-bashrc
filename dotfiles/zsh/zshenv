@@ -102,7 +102,7 @@ for oh in /usr/lib/oracle/11.2/client64 /u01/app/oracle/product/11.2.0/xe; do
     fi
 done
 
-for nm in sakura lxterminal xfce4-terminal urxvtcd; do
+for nm in urxvtcd sakura lxterminal xfce4-terminal; do
     if which $nm >/dev/null; then
         export TERMINAL=$nm
         break

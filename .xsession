@@ -1,6 +1,6 @@
 # exec startlxde
 # exec dbus-launch lxsession -a
-for nm in sakura urxvtcd lxterminal xfce4-terminal; do
+for nm in urxvtcd sakura lxterminal xfce4-terminal; do
     if which $nm 2>/dev/null; then
         export TERMINAL=$nm
         break
@@ -11,15 +11,19 @@ xset b off
 ~/bin/xkbmap
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
-[ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
+if [ -f ~/.Xresources ]; then
+    xrdb -merge ~/.Xresources
+fi
 
 fbxkb &
 nm-applet &
-if which groximity 2>/dev/null; then
-    groximity 20:13:E0:36:E7:53 &
-else
-    xscreensaver &
-fi
+#if which groximity 2>/dev/null; then
+#    groximity 20:13:E0:36:E7:53 &
+#else
+    if which xscreensaver 2>/dev/null; then
+        xscreensaver &
+    fi
+vi
 #exec ck-launch-session dbus-launch awesome
 (
 sleep 1
@@ -42,7 +46,8 @@ sleep 1
 #/sbin/ifconfig eth0|grep -q 'inet addr:10\.' \
 #&& for nm in ~/mnt/p520/*; do mount $nm & done
 
-which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
+#which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
+which autocutsel 2>/dev/null && autocutsel -fork
 gpg-agent --daemon --enable-ssh-support \
                    --write-env-file "${HOME}/.gpg-agent-info"
 
