@@ -91,15 +91,13 @@ if [[ -d "$GOPATH" ]]; then
     fi
 fi
 
-for oh in /usr/lib/oracle/11.2/client64 /u01/app/oracle/product/11.2.0/xe; do
-    if [ -d $oh ]; then
-        ORACLE_HOME=$oh
-        export ORACLE_HOME
-        export ORACLE_SID=XE
-        export ORACLE_BASE=/u01/app/oracle
-        export PATH=$ORACLE_HOME/bin:$PATH
-        break
-    fi
+ls -d /u01/app/oracle/product/*/xe /usr/lib/oracle/*/client64 \
+    | head -n1 | while read dn; do
+    export ORACLE_HOME=$dn
+    export ORACLE_SID=XE
+    export ORACLE_BASE=/u01/app/oracle
+    export PATH=$ORACLE_HOME/bin:$PATH
+    break
 done
 
 for nm in urxvtcd sakura lxterminal xfce4-terminal; do

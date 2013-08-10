@@ -162,13 +162,14 @@ export GOPATH=~/projects/go
 
 ulimit -v 2048000 -m 2048000 -d 2048000
 
-ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe
-if [ -d $ORACLE_HOME ]; then
-    export ORACLE_HOME
+ls -d /u01/app/oracle/product/*/xe /usr/lib/oracle/*/client64 \
+    | head -n1 | while read dn; do
+    export ORACLE_HOME=$dn
     export ORACLE_SID=XE
     export ORACLE_BASE=/u01/app/oracle
     export PATH=$ORACLE_HOME/bin:$PATH
-fi
+    break
+done
 
 if which xfce4-terminal >/dev/null; then
     export TERMINAL=xfce4-terminal
