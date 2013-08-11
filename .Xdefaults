@@ -91,9 +91,9 @@ URxvt*color15:                #002b36
 !URxvt*color15:#fdf6e3
 
 XTerm*termName: xterm-256color
-xterm*faceName: Droid Sans Mono:size=12
-URxvt*font: xft:Droid Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
-URxvt*boldFont: xft:Droid Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
+xterm*faceName: DejaVu Sans Mono:size=12
+URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
+!URxvt*boldFont: xft:Droid Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
 URxvt.letterSpace: -2
 !URxvt*scrollBar: true
 URxvt.intensityStyles: false
