@@ -100,7 +100,7 @@ if [[ -z "$ORACLE_HOME" ]]; then
             odirs[$(( $#odirs + 1 ))]=$dn
         fi
     done
-    echo "odirs=$odirs[*]"
+    #echo "odirs=$odirs[*]"
     find "$odirs[@]" -maxdepth 2 -type d \( -name xe -o -name client64 \) 2>/dev/null \
         | head -n1 | while read dn; do
         export ORACLE_HOME=$dn
