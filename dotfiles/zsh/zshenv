@@ -82,23 +82,34 @@ if [[ -d $HOME/bin ]]; then
     export PATH=$HOME/bin:$PATH
 fi
 
-GOPATH=~/projects/go
-if [[ -d "$GOPATH" ]]; then
-    export GOPATH
-    if [[ -x /usr/local/go/bin/go ]]; then
-        export GOROOT=/usr/local/go
-        export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+if [[ -z "$GOPATH" ]]; then
+    GOPATH=~/projects/go
+    if [[ -d "$GOPATH" ]]; then
+        export GOPATH
+        if [[ -x /usr/local/go/bin/go ]]; then
+            export GOROOT=/usr/local/go
+            export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+        fi
     fi
 fi
 
-ls -d /u01/app/oracle/product/*/xe /usr/lib/oracle/*/client64 \
-    | head -n1 | while read dn; do
-    export ORACLE_HOME=$dn
-    export ORACLE_SID=XE
-    export ORACLE_BASE=/u01/app/oracle
-    export PATH=$ORACLE_HOME/bin:$PATH
-    break
-done
+if [[ -z "$ORACLE_HOME" ]]; then
+    set -A odirs
+    for dn in /u01/app/oracle/product /usr/lib/oracle; do
+        if [ -d $dn ]; then
+            odirs[$(( $#odirs + 1 ))]=$dn
+        fi
+    done
+    echo "odirs=$odirs[*]"
+    find "$odirs[@]" -maxdepth 2 -type d \( -name xe -o -name client64 \) 2>/dev/null \
+        | head -n1 | while read dn; do
+        export ORACLE_HOME=$dn
+        export ORACLE_SID=XE
+        export ORACLE_BASE=/u01/app/oracle
+        export PATH=$ORACLE_HOME/bin:$PATH
+        break
+    done
+fi
 
 for nm in urxvtcd sakura lxterminal xfce4-terminal; do
     if which $nm >/dev/null; then
@@ -107,28 +118,30 @@ for nm in urxvtcd sakura lxterminal xfce4-terminal; do
     fi
 done
 
-gpg_agent_info=/tmp/$USER/.gpg-agent-info
-if [ -d /tmp/$USER ]; then
-    if [ -f "$gpg_agent_info" ]; then
-        . "$gpg_agent_info"
-        if [ $(readlink /proc/$SSH_AGENT_PID/exe) = '/usr/bin/gpg-agent' ]; then
-            #echo "$gpg_agent_info OK"
+if [[ -z "$SSH_AGENT_PID" ]]; then
+    gpg_agent_info=/tmp/$USER/.gpg-agent-info
+    if [[ -d /tmp/$USER ]]; then
+        if [[ -f "$gpg_agent_info" ]]; then
             . "$gpg_agent_info"
-            export GPG_AGENT_INFO
-            export SSH_AUTH_SOCK
-            export SSH_AGENT_PID
-        else
-            echo "stale $gpg_agent_info"
-            rm $gpg_agent_info
+            if [[ $(readlink /proc/$SSH_AGENT_PID/exe) = '/usr/bin/gpg-agent' ]]; then
+                #echo "$gpg_agent_info OK"
+                . "$gpg_agent_info"
+                export GPG_AGENT_INFO
+                export SSH_AUTH_SOCK
+                export SSH_AGENT_PID
+            else
+                echo "stale $gpg_agent_info"
+                rm $gpg_agent_info
+            fi
         fi
+    else
+        mkdir -p /tmp/$USER
     fi
-else
-    mkdir -p /tmp/$USER
-fi
-if [ ! -f "$gpg_agent_info" ]; then
-    echo "starting new gpg-agent"
-    eval $(gpg-agent --daemon --enable-ssh-support \
-        --write-env-file "$gpg_agent_info")
+    if [[ ! -f "$gpg_agent_info" ]]; then
+        echo "starting new gpg-agent"
+        eval $(gpg-agent --daemon --enable-ssh-support \
+            --write-env-file "$gpg_agent_info")
+    fi
 fi
 if ssh-add -l | grep -q tgulacsi@unosoft; then
 else
@@ -137,7 +150,7 @@ else
 fi
 
 # TERM
-if [ -n "$TMUX" ]; then
+if [[ -n "$TMUX" ]]; then
     export TERM=screen-256color
 else
     export TERM=xterm-256color

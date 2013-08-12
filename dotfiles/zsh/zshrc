@@ -42,17 +42,17 @@ ulimit -v 2048000 -m 2048000 -d 2048000
 
 makelink () {
     DN=$1
-    if [ -L $DN -a -d $(readlink ~/$DN) ]; then
+    if [[ ( -L $DN ) && ( -d $(readlink ~/$DN) ) ]]; then
         return
     fi
     if readlink ~/$DN >/dev/null; then
         dd=$(readlink ~/$DN)
-        if [ ! -d $dd ]; then
+        if [[ ! -d $dd ]]; then
             mkdir -p $dd
         fi
     else
         D=/tmp/${USER}
-        if [ -d $D/$DN ]; then
+        if [[ -d $D/$DN ]]; then
             echo "Deleting ~/$DN"
             rm -ri ~/$DN && ln -fs $D/$DN ~/$DN
         else
@@ -70,7 +70,7 @@ makelink Downloads
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>&1 >/dev/null; then
-    if [ -z "$TMUX" ] && [ "$TERM" = urxvt-unicode ]; then
+    if [[ ( -z "$TMUX" ) && ( "$TERM" = urxvt-unicode ) ]]; then
         exec tmux
     fi
 fi
