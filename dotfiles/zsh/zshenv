@@ -118,7 +118,8 @@ for nm in urxvtcd sakura lxterminal xfce4-terminal; do
     fi
 done
 
-if [[ -z "$SSH_AGENT_PID" ]]; then
+if [[ ( -z "$SSH_AGENT_PID" ) || \
+    ( $(readlink /proc/$SSH_AGENT_PID/exe) != '/usr/bin/gpg-agent' ) ]]; then
     gpg_agent_info=/tmp/$USER/.gpg-agent-info
     if [[ -d /tmp/$USER ]]; then
         if [[ -f "$gpg_agent_info" ]]; then
