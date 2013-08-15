@@ -89,6 +89,8 @@ if [[ -z "$GOPATH" ]]; then
         if [[ -x /usr/local/go/bin/go ]]; then
             export GOROOT=/usr/local/go
             export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+        else
+            export PATH=$PATH:$GOPATH/bin
         fi
     fi
 fi

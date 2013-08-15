@@ -1,5 +1,11 @@
 #!/bin/sh
-for nm in ~/mnt/p520/* ~/mnt/unots2/*; do 
-    { mount | grep -q $nm; } || mount $nm & 
+mnt=$(mount)
+for nm in ~/mnt/p520/* ~/mnt/unots2/*; do
+    if [ $(echo "$mnt" | grep $nm | grep -v autofs | wc -l) -ge 0 ]; then
+        echo "$nm ok."
+    else
+        echo "mounting $nm"
+        mount $nm &
+    fi
 done
 wait
