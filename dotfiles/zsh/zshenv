@@ -152,6 +152,10 @@ else
     ssh-add tgulacsi@unosoft
 fi
 
+if [[ -z "$SUDO_ASKPASS" ]]; then
+    export SUDO_ASKPASS=/usr/bin/ssh-askpass
+fi
+
 # TERM
 if [[ -n "$TMUX" ]]; then
     export TERM=screen-256color
