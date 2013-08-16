@@ -1,7 +1,7 @@
 #!/bin/sh
 mnt=$(mount)
 for nm in ~/mnt/p520/* ~/mnt/unots2/*; do
-    if [ $(echo "$mnt" | grep $nm | grep -v autofs | wc -l) -ge 0 ]; then
+    if [ $(echo "$mnt" | grep $nm | grep -v autofs | wc -l) -ge 1 ]; then
         echo "$nm ok."
     else
         echo "mounting $nm"
