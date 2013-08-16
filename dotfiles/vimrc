@@ -1,6 +1,7 @@
 " Vundle
 set nocompatible
 filetype off
+set rtp+=/usr/share/vim/addons/
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 " required
@@ -66,7 +67,7 @@ filetype indent on
 " Clear filetype flags before changing runtimepath to force Vim to reload them.
 filetype off
 filetype plugin indent off
-set runtimepath+=$GOROOT/misc/vim
+"set runtimepath+=$GOROOT/misc/vim
 filetype plugin indent on
 syntax on
 
