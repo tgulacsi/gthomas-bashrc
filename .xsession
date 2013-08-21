@@ -26,7 +26,7 @@ nm-applet &
 vi
 #exec ck-launch-session dbus-launch awesome
 (
-sleep 1
+sleep 0.5
 if xrandr -q | grep -q 'HDMI1 connected'; then
     ~/.screenlayout/unosoft.sh &
 else
@@ -35,17 +35,39 @@ fi
 sleep 1
 [ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh &
 sleep 1
-#if which centerim-utf8 2>/dev/null; then
-#    if [ -n "$TERMINAL" ]; then
-#        $TERMINAL -e centerim-utf8 &
-#    fi
-#else
-    which gajim 2>/dev/null && gajim &
-#fi
-) &
-#/sbin/ifconfig eth0|grep -q 'inet addr:10\.' \
-#&& for nm in ~/mnt/p520/*; do mount $nm & done
 
+for nm in pidgin gajim centerim-utf8; do
+    if which $nm 2>/dev/null; then
+        if [ "$nm" = centerim-utf8 ]; then
+            $TERMINAL -e centerim-utf8 &
+        else
+            $nm &
+        fi
+        break
+    fi
+done
+) &
+
+(
+for i in seq 120; do
+    addr=$(/sbin/ifconfig eth0 | grep 'inet addr:')
+    if [ -z "$addr" ]; then
+        sleep 1
+        continue
+    fi
+    if echo "$addr" | grep -q 'addr:10\.'; then
+        p520.mountall
+    fi
+    break
+done
+) &
+
+if [ -x ~/bin/nasaBackground.sh ]; then
+    (
+    sleep 3
+    ~/bin/nasaBackground.sh
+    ) &
+fi
 #which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
 which autocutsel 2>/dev/null && autocutsel -fork
 gpg-agent --daemon --enable-ssh-support \
