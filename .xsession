@@ -69,7 +69,7 @@ if [ -x ~/bin/nasaBackground.sh ]; then
     ) &
 fi
 #which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
-which autocutsel 2>/dev/null && autocutsel -fork
+which autocutsel 2>/dev/null && autocutsel -s PRIMARY -fork
 gpg-agent --daemon --enable-ssh-support \
                    --write-env-file "${HOME}/.gpg-agent-info"
 
