@@ -122,7 +122,7 @@ done
 
 if [[ ( -z "$SSH_AGENT_PID" ) || \
     ( $(readlink /proc/$SSH_AGENT_PID/exe) != '/usr/bin/gpg-agent' ) ]]; then
-    gpg_agent_info=/tmp/$USER/.gpg-agent-info
+gpg_agent_info=/tmp/$USER/.gpg-agent-info-$(hostname)
     if [[ -d /tmp/$USER ]]; then
         if [[ -f "$gpg_agent_info" ]]; then
             . "$gpg_agent_info"
