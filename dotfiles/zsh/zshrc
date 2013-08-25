@@ -70,7 +70,9 @@ makelink Downloads
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>&1 >/dev/null; then
-    if [[ ( -z "$TMUX" ) && ( "$TERM" = urxvt-unicode ) ]]; then
-        exec tmux
+    if [[ -z "$TMUX" ]]; then
+        if [[ "$TERM" != 'sakura' ]]; then
+            exec tmux
+        fi
     fi
 fi
