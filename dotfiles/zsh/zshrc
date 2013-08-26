@@ -67,11 +67,37 @@ makelink () {
 makelink .cache
 makelink Downloads
 
+
+#!/bin/bash.sh
+#
+
+
+#####################################################################
+# Print warning message.
+
+warning () {
+    echo "$*" >&2
+}
+
+#####################################################################
+# Print error message and exit.
+
+error () {
+    echo "$*" >&2
+    exit 1
+}
+
+
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>&1 >/dev/null; then
     if [[ -z "$TMUX" ]]; then
         if [[ "$TERM" != 'sakura' ]]; then
+            last=$(tmux list-sessions -F '#S #{session_attached}' \
+                | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)
+            if [[ -n "$last" ]]; then
+                exec tmux attach-session -t "$last"
+            fi
             exec tmux
         fi
     fi
