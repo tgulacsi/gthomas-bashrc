@@ -25,7 +25,7 @@ if [ -z "$_CACHE" ]; then
 
     makelink () {
         DN=$1
-        if [[ ( -L $DN ) && ( -d $(readlink ~/$DN) ) ]]; then
+        if [ -L $DN -a -d $(readlink ~/$DN) ]; then
             return
         fi
         if readlink ~/$DN >/dev/null; then
