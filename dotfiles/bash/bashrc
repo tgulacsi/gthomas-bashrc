@@ -83,8 +83,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -lA'
-alias emt='emacsclient -t -a ""'
-alias emc='emacsclient -c -a ""'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -101,12 +99,6 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-[ -e $HISTFILE ] && {
-    complete -W "$(echo $(grep '^ssh ' $HISTFILE | sort -u | sed 's/^ssh //'))" ssh
-    which sshu 2>&1 >/dev/null \
-	&& complete -W "$(echo $(grep '^sshu ' $HISTFILE | sort -u | sed 's/^sshu //'))" sshu
-}
-
 if ! systemd-notify --booted; then  # not using systemd
   start() {
     sudo rc.d start $1
@@ -145,32 +137,70 @@ else
   }
 fi
 
-[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
+#[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then
-    { echo $PATH | grep -q "$HOME/bin:"; } || PATH="$HOME/bin:$PATH"
+    { echo $PATH | grep -q "$HOME/bin:"; } || export PATH="$HOME/bin:$PATH"
 fi
-export EDITOR=$HOME/bin/edit
+export EDITOR=vi
+export VISUAL=view
+export PAGER='less'
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
-if [ -x /usr/local/go/bin/go ]; then
-    export GOROOT=/usr/local/go
-    export PATH=$PATH:$GOROOT/bin
+if [[ -z "$GOPATH" ]]; then
+    GOPATH=~/projects/go
+    if [[ -d "$GOPATH" ]]; then
+        export GOPATH
+        if [[ -x /usr/local/go/bin/go ]]; then
+            export GOROOT=/usr/local/go
+            export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+        else
+            export PATH=$PATH:$GOPATH/bin
+        fi
+    fi
 fi
-export GOPATH=~/projects/go
+
+if [[ -z "$ORACLE_HOME" ]]; then
+    for bdn in /u01/app/oracle/product /usr/lib/oracle; do
+        if [ ! -d $bdn ]; then
+            continue
+        fi
+        find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) 2>/dev/null \
+            | head -n1 | while read dn; do
+            export ORACLE_HOME=$dn
+            export ORACLE_SID=XE
+            export ORACLE_BASE=/u01/app/oracle
+            export PATH=$ORACLE_HOME/bin:$PATH
+            break
+        done
+    done
+fi
+
+if [[ -z "$SUDO_ASKPASS" ]]; then
+    export SUDO_ASKPASS=/usr/bin/ssh-askpass
+fi
+
 
 ulimit -v 2048000 -m 2048000 -d 2048000
 
-ls -d /u01/app/oracle/product/*/xe /usr/lib/oracle/*/client64 \
-    | head -n1 | while read dn; do
-    export ORACLE_HOME=$dn
-    export ORACLE_SID=XE
-    export ORACLE_BASE=/u01/app/oracle
-    export PATH=$ORACLE_HOME/bin:$PATH
-    break
-done
+set -o vi
 
-if which xfce4-terminal >/dev/null; then
-    export TERMINAL=xfce4-terminal
+#[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
+# tmux
+if which tmux 2>&1 >/dev/null; then
+    if [[ -n "$TMUX" ]]; then
+        export TERM=screen-256color
+    else
+        export TERM=xterm-256color
+        if [[ "$TERM" != 'sakura' ]]; then
+            last=$(tmux list-sessions -F '#S #{session_attached}' \
+                | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)
+            if [[ -n "$last" ]]; then
+                exec tmux attach-session -t "$last"
+            fi
+            exec tmux
+        fi
+    fi
 fi
+
