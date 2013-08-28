@@ -160,6 +160,8 @@ done
 
 ulimit -v 2048000 -m 2048000 -d 2048000
 
+set -o vi
+
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>&1 >/dev/null; then
@@ -174,7 +176,4 @@ if which tmux 2>&1 >/dev/null; then
         fi
     fi
 fi
-
-set -o vi
-
 
