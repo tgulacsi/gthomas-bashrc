@@ -144,18 +144,42 @@ if [ -d "$HOME/bin" ]; then
     { echo $PATH | grep -q "$HOME/bin:"; } || PATH="$HOME/bin:$PATH"
 fi
 export EDITOR=vi
-export VISUAL=$EDITOR
+export VISUAL=view
+export PAGER='less'
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
-export GOPATH=~/projects/go
-ls -d /u01/app/oracle/product/*/xe /usr/lib/oracle/*/client64 2>&1 \
-    | head -n1 | while read dn; do
-    export ORACLE_HOME=$dn
-    export ORACLE_SID=XE
-    export ORACLE_BASE=/u01/app/oracle
-    export PATH=$ORACLE_HOME/bin:$PATH
-    break
-done
+if [[ -z "$GOPATH" ]]; then
+    GOPATH=~/projects/go
+    if [[ -d "$GOPATH" ]]; then
+        export GOPATH
+        if [[ -x /usr/local/go/bin/go ]]; then
+            export GOROOT=/usr/local/go
+            export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+        else
+            export PATH=$PATH:$GOPATH/bin
+        fi
+    fi
+fi
+
+if [[ -z "$ORACLE_HOME" ]]; then
+    for bdn in /u01/app/oracle/product /usr/lib/oracle; do
+        if [ ! -d $bdn ]; then
+            continue
+        fi
+        find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) 2>/dev/null \
+            | head -n1 | while read dn; do
+            export ORACLE_HOME=$dn
+            export ORACLE_SID=XE
+            export ORACLE_BASE=/u01/app/oracle
+            export PATH=$ORACLE_HOME/bin:$PATH
+            break
+        done
+    done
+fi
+
+if [[ -z "$SUDO_ASKPASS" ]]; then
+    export SUDO_ASKPASS=/usr/bin/ssh-askpass
+fi
 
 
 ulimit -v 2048000 -m 2048000 -d 2048000
@@ -165,7 +189,10 @@ set -o vi
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if which tmux 2>&1 >/dev/null; then
-    if [[ -z "$TMUX" ]]; then
+    if [[ -n "$TMUX" ]]; then
+        export TERM=screen-256color
+    else
+        export TERM=xterm-256color
         if [[ "$TERM" != 'sakura' ]]; then
             last=$(tmux list-sessions -F '#S #{session_attached}' \
                 | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)

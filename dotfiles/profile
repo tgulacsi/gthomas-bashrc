@@ -53,8 +53,7 @@ if [ -z "$_CACHE" ]; then
 fi
 
 if [ -z "$_SSH_AGENT" ]; then
-start_gpg_agent () {
-    gpg_agent_info=/tmp/$USER/.gpg-agent-info
+    gpg_agent_info=/tmp/$USER/.gpg-agent-info-$(hostname)
     if [ -d /tmp/$USER ]; then
         if [ -f $gpg_agent_info ]; then
             . $gpg_agent_info
@@ -65,6 +64,7 @@ start_gpg_agent () {
                 export SSH_AUTH_SOCK
                 export SSH_AGENT_PID
             else
+                echo "stale $gpg_agent_info"
                 rm $gpg_agent_info
             fi
         fi
@@ -72,15 +72,15 @@ start_gpg_agent () {
         mkdir -p /tmp/$USER
     fi
     if [ ! -f $gpg_agent_info ]; then
-        echo "starting gpg-agent"
+        echo "starting new gpg-agent"
         eval $(gpg-agent --daemon --enable-ssh-support \
             --write-env-file "$gpg_agent_info")
     fi
-}
-if ! ssh-add -l | grep -q tgulacsi@unosoft; then
-    ssh-add ~/.ssh/id_rsa
-    ssh-add tgulacsi@unosoft
-fi
+
+    if ! ssh-add -l | grep -q tgulacsi@unosoft; then
+        ssh-add ~/.ssh/id_rsa
+        ssh-add tgulacsi@unosoft
+    fi
     export _SSH_AGENT=1
 fi
 
