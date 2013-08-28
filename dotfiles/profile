@@ -30,12 +30,12 @@ if [ -z "$_CACHE" ]; then
         fi
         if readlink ~/$DN >/dev/null; then
             dd=$(readlink ~/$DN)
-            if [[ ! -d $dd ]]; then
+            if [ ! -d $dd ]; then
                 mkdir -p $dd
             fi
         else
             D=/tmp/${USER}
-            if [[ -d $D/$DN ]]; then
+            if [ -d $D/$DN ]; then
                 echo "Deleting ~/$DN"
                 rm -ri ~/$DN && ln -fs $D/$DN ~/$DN
             else

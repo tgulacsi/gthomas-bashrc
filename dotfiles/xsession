@@ -28,13 +28,17 @@ nm-applet &
 #fi
 #exec ck-launch-session dbus-launch awesome
 (
-sleep 0.5
-if xrandr -q | grep -q 'HDMI1 connected'; then
-    ~/.screenlayout/unosoft.sh &
-else
-    ~/.screenlayout/solitaire.sh &
+if [ -d ~/.screenlayout ]; then
+    sleep 0.5
+    if xrandr -q | grep -q 'HDMI1 connected'; then
+        ~/.screenlayout/unosoft.sh &
+    else
+        if [ -x ~/.screenlayout/solitaire.sh ]; then
+            ~/.screenlayout/solitaire.sh &
+        fi
+    fi
+    sleep 1
 fi
-sleep 1
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh &
 #sleep 1
 
