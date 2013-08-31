@@ -163,17 +163,21 @@ fi
 
 if [[ -z "$ORACLE_HOME" ]]; then
     for bdn in /u01/app/oracle/product /usr/lib/oracle; do
+        #echo "#bdn=$bdn"
         if [ ! -d $bdn ]; then
             continue
         fi
-        find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) 2>/dev/null \
-            | head -n1 | while read dn; do
+        find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) \
+                2>/dev/null | head -n1 | while read dn; do
+            #echo "#dn=$dn"
+            export ORACLE_BASE=$bdn
             export ORACLE_HOME=$dn
-            export ORACLE_SID=XE
-            export ORACLE_BASE=/u01/app/oracle
+            #export ORACLE_SID=XE
             export PATH=$ORACLE_HOME/bin:$PATH
+            #echo "H=$ORACLE_HOME"
             break
         done
+        break
     done
 fi
 
