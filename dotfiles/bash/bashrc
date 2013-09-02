@@ -149,15 +149,17 @@ export PAGER='less'
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
 if [[ -z "$GOPATH" ]]; then
-    GOPATH=~/projects/go
+    GOPATH=$HOME
     if [[ -d "$GOPATH" ]]; then
         export GOPATH
         if [[ -x /usr/local/go/bin/go ]]; then
             export GOROOT=/usr/local/go
-            export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
-        else
+            PATH=$GOROOT/bin:$PATH
+        fi
+        if [[ $GOPATH != $HOME ]]; then
             export PATH=$PATH:$GOPATH/bin
         fi
+        export PATH
     fi
 fi
 
