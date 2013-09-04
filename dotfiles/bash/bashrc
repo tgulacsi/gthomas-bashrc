@@ -165,7 +165,6 @@ fi
 
 if [[ -z "$ORACLE_HOME" ]]; then
     for bdn in /u01/app/oracle/product /usr/lib/oracle; do
-        #echo "#bdn=$bdn"
         if [ ! -d $bdn ]; then
             continue
         fi
