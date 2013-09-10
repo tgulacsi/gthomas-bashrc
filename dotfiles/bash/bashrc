@@ -182,6 +182,8 @@ if [[ -z "$ORACLE_HOME" ]]; then
     done
 fi
 
+export CDPATH=.:~:$GOPATH/src/github.com/tgulacsi
+
 if [[ -z "$SUDO_ASKPASS" ]]; then
     export SUDO_ASKPASS=/usr/bin/ssh-askpass
 fi
