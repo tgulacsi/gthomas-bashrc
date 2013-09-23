@@ -52,7 +52,7 @@ if [ -z "$_CACHE" ]; then
     export _CACHE=1
 fi
 
-if [ -z "$_SSH_AGENT" ]; then
+ga() {
     gpg_agent_info=/tmp/$USER/.gpg-agent-info-$(hostname)
     if [ -d /tmp/$USER ]; then
         if [ -f $gpg_agent_info ]; then
@@ -81,6 +81,10 @@ if [ -z "$_SSH_AGENT" ]; then
         ssh-add ~/.ssh/id_rsa
         ssh-add tgulacsi@unosoft
     fi
+}
+
+if [ -z "$_SSH_AGENT" ]; then
+    ga
     export _SSH_AGENT=1
 fi
 
