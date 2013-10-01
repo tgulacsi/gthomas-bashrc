@@ -189,7 +189,7 @@ if [[ -z "$SUDO_ASKPASS" ]]; then
 fi
 
 
-ulimit -v 2048000 -m 2048000 -d 2048000
+#ulimit -v 2048000 -m 2048000 -d 2048000
 
 set -o vi
 
