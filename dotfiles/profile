@@ -18,6 +18,11 @@ export LANG="hu_HU.UTF-8"
 export LC_ALL=
 export ENV=$HOME/.profile
 
+export EDITOR=vi
+export VISUAL=view
+export PAGER='less'
+export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
+
 if [ -z "$_CACHE" ]; then
     C=$(readlink .cache)
     if [ -n "$C" ]; then
@@ -96,17 +101,25 @@ fi
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
+if [ -n "$BASH_VERSION" ]; then
+    # append to the history file, don't overwrite it
+    shopt -s histappend
+
+    # check the window size after each command and, if necessary,
+    # update the values of LINES and COLUMNS.
+    shopt -s checkwinsize
+
+    # enable programmable completion features (you don't need to enable
+    # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+    # sources /etc/bash.bashrc).
+    if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+        . /etc/bash_completion
+    fi
+fi
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -181,12 +194,6 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
 if ! systemd-notify --booted; then  # not using systemd
   start() {
     sudo rc.d start $1
@@ -231,10 +238,6 @@ fi
 if [ -d "$HOME/bin" ]; then
     { echo $PATH | grep -q "$HOME/bin:"; } || export PATH="$HOME/bin:$PATH"
 fi
-export EDITOR=vi
-export VISUAL=view
-export PAGER='less'
-export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
 if [[ -z "$GOPATH" ]]; then
     GOPATH=$HOME
@@ -251,7 +254,7 @@ if [[ -z "$GOPATH" ]]; then
     fi
 fi
 
-if [[ -z "$ORACLE_HOME" ]]; then
+if [ -z "$ORACLE_HOME" ]; then
     for bdn in /u01/app/oracle/product /usr/lib/oracle; do
         if [ ! -d $bdn ]; then
             continue
@@ -283,6 +286,8 @@ set -o vi
 
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
+#echo TERM="$TERM"
+if [ "$TERM" != 'dumb' ]; then
 if which tmux 2>&1 >/dev/null; then
     if [[ -n "$TMUX" ]]; then
         export TERM=screen-256color
@@ -298,4 +303,4 @@ if which tmux 2>&1 >/dev/null; then
         fi
     fi
 fi
-
+fi
