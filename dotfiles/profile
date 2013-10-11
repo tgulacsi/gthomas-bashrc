@@ -9,9 +9,7 @@
 #umask 022
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
+if [ -z "$_PROFILE_HAS_BEEN_SET" ]; then
 #export LANGUAGE="hu_HU:en_US:en"
 export LANGUAGE="en"
 export LANG="hu_HU.UTF-8"
@@ -235,11 +233,11 @@ fi
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ]; then
-    { echo $PATH | grep -q "$HOME/bin:"; } || export PATH="$HOME/bin:$PATH"
+if [ -d "$HOME/bin" ] && echo "$PATH" | grep -vq $HOME/bin; then
+    export PATH="$HOME/bin:$PATH"
 fi
 
-if [[ -z "$GOPATH" ]]; then
+if [ -z "$GOPATH" ]; then
     GOPATH=$HOME
     if [[ -d "$GOPATH" ]]; then
         export GOPATH
@@ -254,8 +252,10 @@ if [[ -z "$GOPATH" ]]; then
     fi
 fi
 
+#echo OH=$ORACLE_HOME
 if [ -z "$ORACLE_HOME" ]; then
     for bdn in /u01/app/oracle/product /usr/lib/oracle; do
+        #echo "bdn=$bdn"
         if [ ! -d $bdn ]; then
             continue
         fi
@@ -266,12 +266,13 @@ if [ -z "$ORACLE_HOME" ]; then
             export ORACLE_HOME=$dn
             #export ORACLE_SID=XE
             export PATH=$ORACLE_HOME/bin:$PATH
-            #echo "H=$ORACLE_HOME"
+            echo "H=$ORACLE_HOME"
             break
         done
         break
     done
 fi
+#echo OH=$ORACLE_HOME
 
 export CDPATH=.:~:$GOPATH/src/github.com/tgulacsi
 
@@ -280,27 +281,9 @@ if [[ -z "$SUDO_ASKPASS" ]]; then
 fi
 
 
-#ulimit -v 2048000 -m 2048000 -d 2048000
-
-set -o vi
-
-#[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
-# tmux
-#echo TERM="$TERM"
-if [ "$TERM" != 'dumb' ]; then
-if which tmux 2>&1 >/dev/null; then
-    if [[ -n "$TMUX" ]]; then
-        export TERM=screen-256color
-    else
-        export TERM=xterm-256color
-        if [[ "$TERM" != 'sakura' ]]; then
-            last=$(tmux list-sessions -F '#S #{session_attached}' \
-                | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)
-            if [[ -n "$last" ]]; then
-                exec tmux attach-session -t "$last"
-            fi
-            exec tmux
-        fi
-    fi
+    export _PROFILE_HAS_BEEN_SET=1
 fi
-fi
+
+case "$-" in
+    *i*) . .bashrc
+esac

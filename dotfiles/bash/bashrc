@@ -1,8 +1,42 @@
+#!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-. .profile
+if [ -z "$_PROFILE_HAS_BEEN_SET" ]; then
+    . $HOME/.profile
+    export _PROFILE_HAS_BEEN_SET=1
+fi
+
+if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+#ulimit -v 2048000 -m 2048000 -d 2048000
+
+set -o vi
+
+#[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
+# tmux
+#echo TERM="$TERM"
+if [[ "$TERM" != 'dumb' ]]; then
+if which tmux 2>&1 >/dev/null; then
+    if [[ -n "$TMUX" ]]; then
+        export TERM=screen-256color
+    else
+        export TERM=xterm-256color
+        if [[ "$TERM" != 'sakura' ]]; then
+            last=$(tmux list-sessions -F '#S #{session_attached}' \
+                | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)
+            if [[ -n "$last" ]]; then
+                exec tmux attach-session -t "$last"
+            fi
+            exec tmux
+        fi
+    fi
+fi
+fi
+
 
 
 
