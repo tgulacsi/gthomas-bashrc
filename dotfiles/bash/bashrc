@@ -5,11 +5,44 @@
 
 if [ -z "$_PROFILE_HAS_BEEN_SET" ]; then
     . $HOME/.profile
-    export _PROFILE_HAS_BEEN_SET=1
+    _PROFILE_HAS_BEEN_SET=1
 fi
 
 if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
     export PATH="$HOME/bin:$PATH"
+fi
+
+if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
+    # enable color support of ls and also add handy aliases
+    if [[ -x /usr/bin/dircolors ]]; then
+        if [[ -r ~/.dircolors ]]; then
+            eval "$(dircolors -b ~/.dircolors)"
+        else
+            eval "$(dircolors -b)"
+        fi
+        alias ls='ls --color=auto'
+        #alias dir='dir --color=auto'
+        #alias vdir='vdir --color=auto'
+
+        alias grep='grep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias egrep='egrep --color=auto'
+    fi
+
+    # some more ls aliases
+    alias ll='ls -alF'
+    alias la='ls -A'
+    alias l='ls -lA'
+
+    # Alias definitions.
+    # You may want to put all your additions into a separate file like
+    # ~/.bash_aliases, instead of adding them here directly.
+    # See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+    if [[ -f ~/.bash_aliases ]]; then
+        . ~/.bash_aliases
+    fi
+    _ALIASES_HAS_BEEN_SET=1
 fi
 
 #ulimit -v 2048000 -m 2048000 -d 2048000
@@ -20,21 +53,21 @@ set -o vi
 # tmux
 #echo TERM="$TERM"
 if [[ "$TERM" != 'dumb' ]]; then
-if which tmux 2>&1 >/dev/null; then
-    if [[ -n "$TMUX" ]]; then
-        export TERM=screen-256color
-    else
-        export TERM=xterm-256color
-        if [[ "$TERM" != 'sakura' ]]; then
-            last=$(tmux list-sessions -F '#S #{session_attached}' \
-                | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)
-            if [[ -n "$last" ]]; then
-                exec tmux attach-session -t "$last"
+    if which tmux 2>&1 >/dev/null; then
+        if [[ -n "$TMUX" ]]; then
+            export TERM=screen-256color
+        else
+            export TERM=xterm-256color
+            if [[ "$TERM" != 'sakura' ]]; then
+                last=$(tmux list-sessions -F '#S #{session_attached}' \
+                    | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)
+                if [[ -n "$last" ]]; then
+                    exec tmux attach-session -t "$last"
+                fi
+                exec tmux
             fi
-            exec tmux
         fi
     fi
-fi
 fi
 
 
