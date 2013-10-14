@@ -259,5 +259,5 @@ fi
 fi
 
 case "$-" in
-    *i*) . .bashrc
+    *i*) . $HOME/.bashrc
 esac

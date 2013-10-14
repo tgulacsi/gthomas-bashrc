@@ -12,7 +12,7 @@ if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
     export PATH="$HOME/bin:$PATH"
 fi
 
-#if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
+if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     # enable color support of ls and also add handy aliases
     if [[ -x /usr/bin/dircolors ]]; then
         if [[ -r ~/.dircolors ]]; then
@@ -43,7 +43,7 @@ fi
         . ~/.bash_aliases
     fi
     _ALIASES_HAS_BEEN_SET=1
-#fi
+fi
 
 #ulimit -v 2048000 -m 2048000 -d 2048000
 
