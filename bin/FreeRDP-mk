@@ -1,0 +1,11 @@
+#!/bin/sh
+cd $(dirname $0)
+rm -rf MK
+mkdir MK
+cd MK || exit $?
+cmake -DWITH_PCSC=ON -DWITH_MANPAGES:BOOL=OFF -DWITH_DEBUG_TSG:BOOL=OFF \
+    -DWITH_DEBUG_CERTIFICATE:BOOL=OFF -DWITH_DEBUG_ALL:BOOL=OFF \
+    -DCLIENT_INTERFACE_SHARED:BOOL=OFF \
+    -DWITH_DEBUG_SCARD:BOOL=OFF -DWITH_GSTREAMER=OFF \
+    --enable-smartcard .. \
+&& make -j5 && sudo make install && sudo ldconfig

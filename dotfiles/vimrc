@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 set nocompatible
