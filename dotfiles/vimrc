@@ -6,36 +6,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-sensible'
 call plug#end()
 
-" Vundle
 set nocompatible
-filetype off
-"set rtp+=/usr/share/vim/addons/
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-" required
-"Bundle 'gmarik/vundle'
-
-" My Bundles
-"Bundle 'altercation/vim-colors-solarized'
-"Bundle 'scrooloose/syntastic'
-"Bundle 'scrooloose/nerdtree'
-" Bundle 'tpope/vim-fugitive'
-"Bundle 'bling/vim-airline'
-"Bundle
-
-" required!
-filetype plugin indent on
-
-" NERDTree
-map <F2> :NERDTreeToggle<CR>
-
 set autochdir
-
-" Syntastic
-let g:syntastic_python_checkers=['pyflakes', 'pyflake', 'flake8']
-"let g:airline_externals_fugitive=''
-
-
 set colorcolumn=79
 
 "
@@ -67,16 +39,16 @@ set colorcolumn=79
 " Sets how many lines of history VIM has to remember
 set history=700
 
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
-
 " Some Linux distributions set filetype in /etc/vimrc.
 " Clear filetype flags before changing runtimepath to force Vim to reload them.
 filetype off
-filetype plugin indent off
+filetype plugin off
+filetype indent off
 "set runtimepath+=$GOROOT/misc/vim
-filetype plugin indent on
+set runtimepath+=/usr/share/vim
+filetype on
+filetype plugin on
+filetype indent on
 syntax on
 
 if !exists("autocommands_loaded")
