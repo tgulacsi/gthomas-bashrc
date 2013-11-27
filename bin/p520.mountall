@@ -1,11 +1,13 @@
 #!/bin/sh
-if [ x"$1" = x-k ]; then
+echo "Checking state"
+if [ x"$1" = x-k ] || ! ls ~/mnt/*/* >/dev/null; then
+    echo 'Unmounting'
     sudo umount -lf ~/mnt/*/*
     sudo killall -9 /sbin/mount.cifs
+    echo 'Unmounted'
 fi
-ls ~/mnt/*/* >/dev/null
 mnt=$(mount)
-for nm in ~/mnt/p520/* ~/mnt/unots2/* ~/mnt/vPCS/*; do
+for nm in ~/mnt/p520/* ~/mnt/unots2/* ~/mnt/vPCS/* ~/mnt/webdb3/*; do
     if [ $(echo "$mnt" | grep $nm | grep -v autofs | wc -l) -ge 1 ]; then
         echo "$nm ok."
     else

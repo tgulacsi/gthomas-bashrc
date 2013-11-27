@@ -1,4 +1,4 @@
 #!/bin/sh
 DST=$1
-[ $# -ge 1 ] && shift 
-${RDP:-xfreerdp} /compression /size:$(getscreensize) /u:tgulacsi /d:unosoft /a:drive,apostle,$HOME/projects/apostle/ /v:${DST:-kobe}-splprn "$@"
+[ $# -ge 1 ] && shift
+${RDP:-xfreerdp} /compression /size:$(getscreensize 0 16) /u:tgulacsi /d:unosoft /drive:tmp,/tmp +clipboard +async-update +async-input /drive:apostle,$HOME/src/github.com/tgulacsi/apostle /drive:agostle,$HOME/src/github.com/tgulacsi/agostle /v:${DST:-kobe}-splprn "$@"

@@ -20,6 +20,7 @@ fi
 
 fbxkb &
 nm-applet &
+pulseaudio --daemonize &
 #if which groximity 2>/dev/null; then
 #    groximity 20:13:E0:36:E7:53 &
 #else
