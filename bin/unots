@@ -20,11 +20,15 @@ if lsusb | grep -q Gemplus; then
     OPTS="$OPTS /a:smartcard,Gemplus"
 fi
 
+dest=${1:-unots2}
+prog=${RDP:-xfreerdp}
+
+pkill -f "${prog}.*/v:${dest}"
+
 echo "direct=$direct"
 if [ $direct -gt 0 ]; then
 	#exec /usr/local/src/tgulacsi/FreeRDP/MK/client/X11/xfreerdp \
-	exec ${RDP:-xfreerdp} /u:UNOSOFT\\TGulacsi \
-  		/cert-ignore /sec:tls $OPTS /v:${1:-unots2}
+	exec ${prog} /u:UNOSOFT\\TGulacsi /cert-ignore /sec:tls $OPTS /v:${dest}
 ##/usr/bin/rdesktop -P -k en -e \
 #${RDP:-xfreerdp} -k 0x409 --plugin cliprdr -x m -a 16 -z \
 #  -g $SIZE --gdi hw -d unosoft -u tgulacsi \
@@ -33,8 +37,8 @@ if [ $direct -gt 0 ]; then
 #  # scard --plugin cliprdr \
 #  #--plugin rdpdr disk:tmp:/tmp -- \
 else
-	CMD="xfreerdp $OPTS \
-		/v:${1:-unots2} \
+	CMD="${prog} $OPTS \
+		/v:${dest} \
 		/u:tgulacsi /d:unosoft \
 		/g:mail.unosoft.hu /gu:tgulacsi /gd:unosoft \
 		/gp:$(cat ~/.ssh/rdpgw.pwd) \

@@ -104,7 +104,7 @@ if !exists("autocommands_loaded")
 
     " NERDTree
     nmap <F3> :NERDTreeToggle<CR>
-    au VimEnter * NERDTreeToggle
+    "au VimEnter * NERDTreeToggle
 
     " Close vim if the only remaining buffer is NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
