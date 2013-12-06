@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/local/sbin/btrfs-snap /home daily 5

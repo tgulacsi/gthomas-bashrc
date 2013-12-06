@@ -1,0 +1,25 @@
+#!/bin/sh
+host=betatest-server.tarsnap.com
+port=9279
+PID=
+if nc -z $host $port; then
+	echo 'Accessible'
+else
+	echo ssh -v sshtun@gthomas.gotdns.org -n -N -L $port:$host:$port -f
+	ssh sshtun@gthomas.gotdns.org -n -N -L $port:$host:$port -f
+	PID=$!
+	echo PID=$PID
+fi
+CMD=/usr/bin/tarsnap
+if [ $(id -u) -ne 0 ]; then
+	CMD="sudo $CMD --keyfile=/root/tarsnap-nell.key"
+fi
+echo "$CMD $@"
+$CMD "$@"
+Z=$?
+echo "done $Z"
+[ -n "$PID" ] && {
+	echo kill "$PID"
+	kill "$PID"
+}
+exit $Z

@@ -4,7 +4,10 @@ SC=
 if lsusb | grep -q Gem; then
     SC=/smartcard:Gemalto
 fi
-CMD="${XFREERDP:-xfreerdp} /codec-cache:nsc +async-input +async-update /size:$(getscreensize 2 16) /cert-ignore /sec:tls /drive:tmp,/tmp +clipboard /u:tgulacsi /d:unosoft $SC /v:unots2 "$@""
+prog=${XFREERDP:-xfreerdp}
+host=${HOST:-unots2}
+pkill -f "${prog}.*/v:${host}"
+CMD="${prog} /codec-cache:nsc +async-input +async-update /size:$(getscreensize 2 16) /cert-ignore /sec:tls /drive:tmp,/tmp +clipboard /u:tgulacsi /d:unosoft $SC /v:${host} "$@""
 echo "$CMD"
 $CMD
 #xfreerdp -g workarea --ignore-certificate --sec tls --plugin rdpdr --data scard disk:tmp:/tmp -- --plugin cliprdr unots2
