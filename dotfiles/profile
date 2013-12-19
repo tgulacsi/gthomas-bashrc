@@ -17,7 +17,7 @@ export LC_ALL=
 export ENV=$HOME/.profile
 
 export EDITOR=vi
-export VISUAL=view
+export VISUAL=vi
 export PAGER='less'
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
