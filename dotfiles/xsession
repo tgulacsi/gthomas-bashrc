@@ -80,5 +80,9 @@ fi
 which autocutsel 2>/dev/null && autocutsel -s PRIMARY -fork
 #gpg-agent --daemon --enable-ssh-support --write-env-file "${HOME}/.gpg-agent-info-"$(hostname)
 
+if [ -x $HOME/bin/xflux ] && ! pidof xflux >/dev/null; then
+    $HOME/bin/xflux -l 47.498333 -g 19.040833
+fi
+
 exec ck-launch-session dbus-launch i3
 
