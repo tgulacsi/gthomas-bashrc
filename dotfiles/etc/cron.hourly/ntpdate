@@ -1,2 +1,12 @@
 #!/bin/sh
-ntpdate -sB hu.pool.ntp.org europe.pool.ntp.org pool.ntp.org
+if ! ifconfig | grep 'inet addr:' | grep -q -v '127.0.0.1'; then
+	exit 0
+fi
+if [ -x /usr/bin/ntpdate ]; then
+	ntpdate hu.pool.ntp.org 10.65.25.1 europe.pool.ntp.org pool.ntp.org
+elif [ -x /usr/bin/chronyc ]; then
+	if [ -x /etc/network/if-up.d/chrony ]; then
+		/etc/network/if-up.d/chrony >/dev/null
+	fi
+fi
+
