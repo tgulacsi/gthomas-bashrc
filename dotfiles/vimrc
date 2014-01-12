@@ -185,6 +185,8 @@ syntax enable
 
 colorscheme desert
 set background=light
+highlight IncSearch ctermbg=242
+highlight Search ctermbg=242
 
 " Set extra options when running in GUI mode
 if has("gui_running")
