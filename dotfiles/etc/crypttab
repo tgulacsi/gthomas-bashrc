@@ -1,0 +1,3 @@
+# <target name>	<source device>		<key file>	<options>
+#cryptswap /dev/sda6 none swap,cipher=aes-cbc-essiv:sha256,luks,hash=ripemd160,timeout=30
+cryptswap /dev/sda6 none swap,luks,timeout=30
