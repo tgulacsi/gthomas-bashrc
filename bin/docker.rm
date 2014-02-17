@@ -1,0 +1,6 @@
+#!/bin/sh -e
+ids=$(docker ps -n 100|cut -c1-12|grep -v '^CONTAINER')
+if [ -z "$ids" ]; then
+    exit 0
+fi
+docker rm $(echo $ids)
