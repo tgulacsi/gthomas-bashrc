@@ -33,6 +33,7 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     alias ll='ls -alF'
     alias la='ls -A'
     alias l='ls -lA'
+    alias cp='cp --reflink=auto'
 
     # Alias definitions.
     # You may want to put all your additions into a separate file like
