@@ -1,6 +1,10 @@
 #!/bin/sh
 DIR=/tmp/.${USER}-backgrounds
 if [ -e "$DIR" ]; then
+    n=$(ls -t $DIR | wc -l)
+    if [ $n -gt 2 ]; then
+        (cd $DIR && rm $(ls -tr $DIR | head -n $(( $n - 1 ))))
+    fi
     feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
 else
     mkdir -p $DIR
@@ -17,7 +21,8 @@ set -e
 
 rss=$(wget -q -O - http://www.nasa.gov/rss/lg_image_of_the_day.rss)
 
-img_url=$(echo $rss | egrep -o '<enclosure [^>]*?>' | grep -o 'http://[^\"]*' \
+echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*'
+img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*' \
     | shuf -n1)
 
 img_name=$(echo $img_url | grep -o [^/]*\.\w*$)

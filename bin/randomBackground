@@ -1,6 +1,10 @@
 #!/bin/sh
 DIR=/tmp/.${USER}-backgrounds
 if [ -e "$DIR" ]; then
+    n=$(ls -t $DIR | wc -l)
+    if [ $n -gt 2 ]; then
+        (cd $DIR && rm $(ls -tr $DIR | head -n $(( $n - 1 ))))
+    fi
     feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
 else
     mkdir -p $DIR
