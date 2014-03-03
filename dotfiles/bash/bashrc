@@ -47,7 +47,7 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 fi
 
 #ulimit -v 2048000 -m 2048000 -d 2048000
-ulimit -d 4000000
+ulimit -d $(awk '/MemTotal/ {print $2}' /proc/meminfo)
 
 set -o vi
 
