@@ -5,12 +5,12 @@
 #!/bin/sh
 if [ -z $direct ]; then
     direct=0
-case $(uname -n) in
-    nell|tgulacsi-desktop)
-        if /sbin/ifconfig | grep -q 'inet addr:10.65.25.'; then # unosoft
-            direct=1
-        fi
-esac
+    case $(uname -n) in
+        nell|tgulacsi-desktop)
+            if /sbin/ifconfig | grep -q 'inet addr:10.65.25.'; then # unosoft
+                direct=1
+            fi
+    esac
 fi
 
 SIZE=${SIZE:-$(getscreensize 2 16)}
