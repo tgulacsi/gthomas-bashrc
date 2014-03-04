@@ -1,19 +1,30 @@
 #!/bin/sh
 killall -9 mount
 echo "Checking state"
-if [ x"$1" = x-k ] || ! timeout 3 ls ~/mnt/*/* >/dev/null; then
+if [ x"$1" = x-k ] || ! timeout -s9 3 ls ~/mnt/*/* >/dev/null; then
     echo 'Unmounting'
     sudo umount -lf ~/mnt/*/*
     sudo killall -9 /sbin/mount.cifs
-    sudo killall sshfs
+    sudo killall -9 sshfs
+    rm -f /tmp/ssh-$USER-*
     echo 'Unmounted'
 fi
 mnt=$(mount)
 for nm in ~/mnt/p520/* ~/mnt/brn-dev-lnx/* ~/mnt/unots2/* ~/mnt/vPCS/* ~/mnt/webdb3/*; do
+    echo "Checking $nm"
+    if timeout -s9 2 ls $nm; then
+        echo "$nm OK"
+    else
+        echo "Unmounting $nm"
+        sudo umount -lf $nm
+        pgrep $nm
+        #sudo pkill -9 $nm
+        echo "Unmounted $nm"
+    fi
     if [ $(echo "$mnt" | grep $nm | grep -v autofs | wc -l) -ge 1 ]; then
         echo "$nm ok."
     else
         echo "mounting $nm"
-        mount $nm &
+        mount $nm || echo "ERROR mounting $nm: $?"
     fi
 done
