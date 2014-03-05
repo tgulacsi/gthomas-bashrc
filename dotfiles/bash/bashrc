@@ -3,11 +3,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-if [ -z "$_PROFILE_HAS_BEEN_SET" ]; then
-    . $HOME/.profile
-    _PROFILE_HAS_BEEN_SET=1
-fi
-
 if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
     export PATH="$HOME/bin:$PATH"
 fi
@@ -46,10 +41,13 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     _ALIASES_HAS_BEEN_SET=1
 fi
 
-#ulimit -v 2048000 -m 2048000 -d 2048000
-ulimit -d $(awk '/MemTotal/ {print $2}' /proc/meminfo)
+if [[ -z "$_ULIMIT_HAS_BEEN_SET" ]]; then
+    #ulimit -v 2048000 -m 2048000 -d 2048000
+    ulimit -d $(awk '/MemTotal/ {print $2}' /proc/meminfo)
 
-set -o vi
+    set -o vi
+    _ULIMIT_HAS_BEEN_SET=1
+fi
 
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
