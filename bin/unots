@@ -13,7 +13,7 @@ if [ -z $direct ]; then
     esac
 fi
 
-SIZE=${SIZE:-$(getscreensize 2 16)}
+SIZE=${SIZE:-$(getscreensize 2 32)}
 echo SIZE=$SIZE
 OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes /fonts /gdi:hw /drive:tmp,/tmp /size:$SIZE"
 if lsusb | grep -q Gemplus; then
