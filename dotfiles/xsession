@@ -1,10 +1,13 @@
 #!/bin/bash
+echo 'calling .profile'
+#_NORC=1
 . $HOME/.profile
+echo '.profile DONE'
 
 # exec startlxde
 # exec dbus-launch lxsession -a
 for nm in urxvtcd sakura lxterminal xfce4-terminal; do
-    if which $nm 2>/dev/null; then
+    if which $nm >/dev/null 2>/dev/null; then
         export TERMINAL=$nm
         break
     fi
@@ -57,6 +60,7 @@ done
 ) &
 
 (
+    ga || return $?
 for i in seq 120; do
     addr=$(/sbin/ifconfig eth0 | grep 'inet addr:')
     if [ -z "$addr" ]; then
