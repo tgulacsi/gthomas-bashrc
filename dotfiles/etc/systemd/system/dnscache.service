@@ -1,0 +1,14 @@
+[Unit]
+Description=DNS cache
+Requires=networking.service
+
+[Service]
+Nice=10
+#User=Gdnscache
+#Capabilities=cap_net_bind_service=+ep
+#ExecStart=/usr/bin/dnscache
+Environment=CACHESIZE=1000000 DATALIMIT=3000000 IP=127.0.0.1 IPSEND=0.0.0.0 ROOT=/etc/dnscache UID=Gdnscache GID=Gdnscache
+ExecStart=/bin/sh -c 'openssl rand 128 | /usr/bin/dnscache'
+
+[Install]
+WantedBy=networking.target

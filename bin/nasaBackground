@@ -10,8 +10,6 @@ else
     mkdir -p $DIR
 fi
 
-set -e
-
 # grabs the nasa image of the day by RSS feed and updates the gnome
 # background. add this to your cron jobs to have this happen daily.  this is,
 # obviously, a hack, that is likely to break at the slightest change of NASA's
@@ -20,10 +18,19 @@ set -e
 #EDITED FOR feh
 
 rss=$(wget -q -O - http://www.nasa.gov/rss/lg_image_of_the_day.rss)
+if [ -z "$rss" ]; then
+    echo "no image of the day"
+    exit 1
+fi
+
 
 echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*'
 img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*' \
     | shuf -n1)
+if [ -z "$img_url" ]; then
+    echo "no image url in"
+    echo "$rss"
+fi
 
 img_name=$(echo $img_url | grep -o [^/]*\.\w*$)
 echo "img_url=$img_url img_name=$img_name"
