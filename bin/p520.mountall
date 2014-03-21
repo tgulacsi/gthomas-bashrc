@@ -12,7 +12,7 @@ fi
 mnt=$(mount)
 for nm in ~/mnt/p520/* ~/mnt/brn-dev-lnx/* ~/mnt/unots2/* ~/mnt/vPCS/* ~/mnt/webdb3/*; do
     echo "Checking $nm"
-    if timeout -s9 2 ls $nm; then
+    if timeout -s9 2 ls $nm >/dev/null; then
         echo "$nm OK"
     else
         echo "Unmounting $nm"
