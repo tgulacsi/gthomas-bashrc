@@ -9,6 +9,20 @@ if [[ -z "$_SSH_AGENT" ]]; then
     export _SSH_AGENT=$$
 fi
 
+if [[ -z "$GOPATH" ]]; then
+    GOPATH=$HOME
+    if [ -d "$GOPATH" ]; then
+        export GOPATH
+        if [[ -x /usr/local/go/bin/go ]]; then
+            export GOROOT=/usr/local/go
+            PATH=$GOROOT/bin:$PATH
+        fi
+        if [[ $GOPATH != $HOME ]]; then
+            export PATH=$PATH:$GOPATH/bin
+        fi
+        export PATH
+    fi
+fi
 
 if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
     export CDPATH=.:~:$GOPATH/src/github.com/tgulacsi
@@ -19,23 +33,6 @@ if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
     _PATH_HAS_BEEN_SET=1
 fi
 
-if [[ -z "_GOPATH_HAS_BEEN_SET" ]]; then
-    if [[ -z "$GOPATH" ]]; then
-        GOPATH=$HOME
-        if [ -d "$GOPATH" ]; then
-            export GOPATH
-            if [[ -x /usr/local/go/bin/go ]]; then
-                export GOROOT=/usr/local/go
-                PATH=$GOROOT/bin:$PATH
-            fi
-            if [[ $GOPATH != $HOME ]]; then
-                export PATH=$PATH:$GOPATH/bin
-            fi
-            export PATH
-        fi
-    fi
-    _GOPATH_HAS_BEEN_SET=1
-fi
 
 if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
     #echo OH=$ORACLE_HOME
