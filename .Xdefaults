@@ -25,14 +25,14 @@ URxvt*scrollBar: false
 URxvt*borderless: true
 
 !! Font
-URxvt.allow_bold: false
+URxvt.allow_bold: true
 !URxvt*font: xft:Droid Sans Mono:size=9
 !URxvt*boldFont: xft:Droid Sans Mono:size=9
 
 !! Scrollbar
 URxvt.scrollStyle: rxvt
 URxvt.scrollBar: false
-URxvt*saveLines: 10000
+URxvt*saveLines: 1000
 
 !! Perl extensions
 !URxvt.perl-ext-common: default,matcher,clipboard
@@ -43,7 +43,7 @@ URxvt*saveLines: 10000
 
 !! Cursor
 URxvt.cursorBlink: true
-URxvt.cursorColor: #657b83
+URxvt.cursorColor: #758b93
 URxvt.cursorUnderline: false
 
 !! Pointer
@@ -74,7 +74,8 @@ URxvt.pointerBlank: true
 URxvt*background: #001b26
 !URxvt*foreground: #657b83
 !URxvt*foreground: #859ba3
-URxvt*foreground: #95abb3
+!URxvt*foreground: #95abb3
+URxvt*foreground: #a5bbc3
 !URxvt*foreground: #ffffff
 !URxvt*fadeColor: #002b36
 URxvt*fadeColor: #103b46
