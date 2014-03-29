@@ -17,7 +17,7 @@ fi
 
 #EDITED FOR feh
 
-rss=$(wget -q -O - http://www.nasa.gov/rss/lg_image_of_the_day.rss)
+rss=$(wget -q -O - http://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss | gzip -dc -)
 if [ -z "$rss" ]; then
     echo "no image of the day"
     exit 1
