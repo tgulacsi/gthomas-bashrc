@@ -17,7 +17,14 @@ fi
 
 #EDITED FOR feh
 
-rss=$(wget -q -O - http://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss | gzip -dc -)
+rssFN=/tmp/$(basename $0)-$$.rss
+wget -q -O $rssFN http://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss
+if [ $(file --mime-type $rssFN | grep gzip | wc -l) -ge 1 ]; then
+    rss=$(gzip -dc $rssFN)
+else
+    rss=$(cat $rssFN)
+fi
+rm $rssFN
 if [ -z "$rss" ]; then
     echo "no image of the day"
     exit 1
