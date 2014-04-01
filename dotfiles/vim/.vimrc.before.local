@@ -1,0 +1,2 @@
+let g:spf13_bundle_groups=['general', 'programming','python']
+let g:autoclose_on = 0

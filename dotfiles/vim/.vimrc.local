@@ -1,5 +1,17 @@
-" Go {}"
+" Go {"
 au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
 au Filetype go nnoremap <leader>s :sp <CR>:exe "GoDef"<CR>
 au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
 " }"
+
+" Signify {"
+let g:signify_vcs_list = [ 'git' ]
+let g:signify_disable_by_default = 1
+" }
+
+" Python {"
+let g:pymode_lint_on_write = 0
+let g:pymode_lint_sort = ['E', 'C', 'I']
+" }"
+
+set mouse=v
