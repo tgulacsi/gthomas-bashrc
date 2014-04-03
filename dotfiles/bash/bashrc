@@ -144,6 +144,7 @@ if [[ -z "$_PROMPT_HAS_BEEN_SET" ]]; then
     # set a fancy prompt (non-color, unless we know we "want" color)
     case "$TERM" in
         xterm|xterm-color) color_prompt=yes; export TERM=xterm-256color;;
+        rxvt*) color_prompt=yes; export TERM=rxvt-unicode-256color;;
     esac
 
     # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -188,7 +189,7 @@ fi
 #echo TERM="$TERM"
 if [[ "$TERM" != 'dumb' ]]; then
     if which tmux 2>&1 >/dev/null; then
-        if [[ -n "$TMUX" ]]; then
+        if ! [[ -n "$TMUX" ]]; then
             export TERM=screen-256color
         else
             export TERM=xterm-256color

@@ -1,4 +1,4 @@
 let g:spf13_bundle_groups=['general', 'programming','python']
 let g:autoclose_on = 0
 "let g:airline_powerline_fonts = 1
-"let g:multi_cursor_use_default_mapping = 0
+let g:multi_cursor_use_default_mapping = 0

@@ -14,4 +14,10 @@ let g:pymode_lint_on_write = 0
 let g:pymode_lint_sort = ['E', 'C', 'I']
 " }"
 
-set mouse=v
+let g:autoclose_on = 0
+
+"set mouse=v
+set term=rxvt-unicode-256color
+"set t_Co=256
+"color solarized
+color molokai
