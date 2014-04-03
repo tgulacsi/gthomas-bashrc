@@ -1,1 +1,1 @@
-/home/tgulacsi/.spf13-vim-3/.vim
+dotfiles/vim/.vim
