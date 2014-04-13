@@ -5,10 +5,7 @@ set -e
 # Written by Tim Bishop, 2009.
 
 # Directories to backup
-DIRS=
-
-# Directories file (first entry is the base on every line)
-DIRSFILE="/root/tarsnap-dirs"
+DIRS="/root/tarsnap-dirs"
 
 # Number of daily backups to keep
 DAILY=7
@@ -54,15 +51,10 @@ else
 	BACKUP="$YEAR$MOY$DOM-$TIME-daily"
 fi
 
-# Do backups
-for dir in $DIRS; do
-    EXTRA_FLAGS=
-	echo "==> create $BACKUP-$dir"
-	echo $TARSNAP $EXTRA_FLAGS --one-file-system -c -f $BACKUP-$dir $dir
-	$TARSNAP $EXTRA_FLAGS --one-file-system -c -f $BACKUP-$dir $dir
-done
+$TARSNAP --fsck
 
-cat $DIRSFILE | while read dir; do
+# Do backups
+cat $DIRS | while read dir; do
 	EXTRA_FLAGS=
 	base=$dir
 	if echo "$dir" | grep -q ' '; then
@@ -76,7 +68,7 @@ cat $DIRSFILE | while read dir; do
 	$TARSNAP $EXTRA_FLAGS --one-file-system -c -f $BACKUP-$base $dir
 done
 
-tarsnap --print-stats
+$TARSNAP --print-stats
 # Backups done, time for cleaning up old archives
 
 # using tail to find archives to delete, but its
@@ -109,4 +101,4 @@ else
 fi
 rm $TMPFILE
 
-tarsnap --print-stats
+$TARSNAP --print-stats
