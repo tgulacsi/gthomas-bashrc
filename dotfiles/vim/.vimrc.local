@@ -22,4 +22,7 @@ let g:indent_guides_enable_on_vim_startup = 0
 "set term=rxvt-unicode-256color
 "set t_Co=256
 "color solarized
+
+set nospell
+
 color molokai
