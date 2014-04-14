@@ -2,13 +2,26 @@
 host=betatest-server.tarsnap.com
 port=9279
 PID=
-if nc -z $host $port; then
-	echo 'Accessible'
+PID=$(ps -ef | fgrep sshtun@gthomas.gotdns.org | fgrep -v grep | head -n1 | awk '{print $2}')
+if [ -n "$PID" ]; then
+	echo "sshtun already running? (pid=$PID)"
 else
-	echo ssh -v sshtun@gthomas.gotdns.org -n -N -L $port:$host:$port -f
-	ssh sshtun@gthomas.gotdns.org -n -N -L $port:$host:$port -f
-	PID=$!
-	echo PID=$PID
+	IFACE=$(cat /proc/net/route|awk '{if ($2 == "00000000") {print $1}}')
+	if cat /proc/net/arp|fgrep -q '10.65.25'; then
+		DNSSRV=10.65.25.1
+	else
+		DNSSRV=8.8.8.8
+	fi
+	ip=$(host $host $DNSSRV | fgrep address | grep -v : | sed -e 's/^.* \([0-9.]*\)$/\1/')
+	echo "nc -z ${ip:-$host} $port"
+	if timeout 10 nc -z ${ip:-$host} $port; then
+		echo 'Accessible'
+	else
+		echo ssh -v sshtun@gthomas.gotdns.org -n -N -L $port:$host:$port -f
+		ssh sshtun@gthomas.gotdns.org -n -N -L $port:$host:$port -f
+		PID=$!
+		echo PID=$PID
+	fi
 fi
 CMD=/usr/bin/tarsnap
 if [ $(id -u) -ne 0 ]; then

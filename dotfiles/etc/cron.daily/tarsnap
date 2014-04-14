@@ -24,7 +24,11 @@ MONTHLY_DAY=01
 
 # Path to tarsnap
 #TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
-TARSNAP="nice -n15 ionice -c3 /usr/bin/tarsnap"
+TSNAP=/usr/bin/tarsnap
+if [ -x /usr/local/sbin/tsnap ]; then
+	TSNAP=/usr/local/sbin/tsnap
+fi
+TARSNAP="nice -n15 ionice -c3 $TSNAP"
 
 # end of config
 
