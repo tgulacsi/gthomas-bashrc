@@ -18,6 +18,7 @@ export ENV=$HOME/.profile
 export EDITOR=vi
 export VISUAL=vi
 export PAGER='less'
+export NMON=lm4
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
 if [ -z "$_CACHE" ]; then
