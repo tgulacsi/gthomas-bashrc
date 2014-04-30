@@ -21,6 +21,11 @@ export PAGER='less'
 export NMON=lm4
 export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 
+if [ -d /usr/local/plan9 ]; then
+    export PLAN9=/usr/local/plan9
+    export PATH=$PATH:$PLAN9/bin
+fi
+
 if [ -z "$_CACHE" ]; then
     C=$(readlink .cache)
     if [ -n "$C" ]; then

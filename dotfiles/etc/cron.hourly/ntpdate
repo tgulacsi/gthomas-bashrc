@@ -1,12 +1,11 @@
 #!/bin/sh
-if ! ifconfig | grep 'inet addr:' | grep -q -v '127.0.0.1'; then
-	exit 0
-fi
 if [ -x /usr/bin/ntpdate ]; then
-	ntpdate hu.pool.ntp.org 10.65.25.1 europe.pool.ntp.org pool.ntp.org
-elif [ -x /usr/bin/chronyc ]; then
-	if [ -x /etc/network/if-up.d/chrony ]; then
-		/etc/network/if-up.d/chrony >/dev/null
-	fi
+	exec ntpdate -sB hu.pool.ntp.org europe.pool.ntp.org pool.ntp.org
 fi
-
+password=$(cat /etc/chrony/chrony.keys | head -n1 | awk '{print $2}')
+chronyc >/dev/null <<EOF
+password ${password}
+burst 3/6
+sourcestats
+makestep
+EOF
