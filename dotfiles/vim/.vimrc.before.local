@@ -4,3 +4,6 @@ let g:autoclose_on = 0
 let g:multi_cursor_use_default_mapping = 0
 " get rid of sneak
 let g:loaded_sneak_plugin = 1
+
+" no Python-Rope
+let g:pymode_rope = 0
