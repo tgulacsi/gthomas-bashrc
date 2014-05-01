@@ -1,32 +1,14 @@
 #!/bin/sh
-DIR=/tmp/.${USER}-backgrounds
+DIR=$HOME/.cache/wallpapers
 if [ -e "$DIR" ]; then
     n=$(ls -t $DIR | wc -l)
-    if [ $n -gt 2 ]; then
-        (cd $DIR && rm $(ls -tr $DIR | head -n $(( $n - 1 ))))
+    if [ $n -ge 1 ]; then
+        exec feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
+    fi
+    if [ $n -le 20 ]; then
+        grabwallpapers
     fi
     feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
 else
     mkdir -p $DIR
 fi
-
-shuf -i 1-30000 -n 100 | while read id; do
-    fn=$DIR/img-$id.jpeg
-    echo "# wget -q -O $fn 'http://free-linux-wallpapers.com/?action=download&id='$id'&size=1280%20x%20800'"
-    wget -q -O $fn 'http://free-linux-wallpapers.com/?action=download&id='$id'&size=1280%20x%20800'
-    EC=$?
-    if [ $EC -eq 0 ]; then
-        size=$(ls -ks $fn | cut -d\  -f1)
-        echo "# size of $fn is $size"
-        if [ $size -ge 100 ]; then
-            break
-        fi
-    fi
-    rm -f $fn
-done
-
-if [ -z "$fn" ]; then
-    fn=$(shuf -e $DIR/* -n1)
-fi
-echo "# feh --bg-scale $fn"
-feh --bg-scale $fn
