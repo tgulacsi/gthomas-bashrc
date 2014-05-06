@@ -1,7 +1,7 @@
 #!/bin/sh
 DIR=$HOME/.cache/wallpapers
 if [ -e "$DIR" ]; then
-    n=$(ls -t $DIR | wc -l)
+    n=$(find $DIR -type f -mtime -2 | wc -l)
     if [ $n -ge 1 ]; then
         exec feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
     fi
@@ -9,6 +9,7 @@ if [ -e "$DIR" ]; then
         grabwallpapers
     fi
     feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
+    (cd $DIR && touch $(ls -t | head -n1))
 else
     mkdir -p $DIR
 fi
