@@ -22,7 +22,11 @@ if [ -f ~/.Xresources ]; then
 fi
 
 fbxkb &
-nm-applet &
+if which nm-applet >/dev/null 2>&1; then
+    nm-applet &
+else
+    connman-ui-gtk &
+fi
 pulseaudio --daemonize &
 #if which groximity 2>/dev/null; then
 #    groximity 20:13:E0:36:E7:53 &
