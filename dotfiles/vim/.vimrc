@@ -50,6 +50,8 @@ syntax on
 " show statusline always
 set laststatus=2  
 
+set tabstop=4
+
 " backup to spec dirset backupdir=~/.vimbackup
 set backupdir=~/.vimbackup
 set backup writebackup
