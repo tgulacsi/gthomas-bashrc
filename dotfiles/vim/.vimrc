@@ -49,10 +49,32 @@ syntax on
 
 " show statusline always
 set laststatus=2  
-
 set tabstop=4
+filetype plugin on
+filetype indent on
+
+" search
+set incsearch ignorecase hlsearch
+
+" F12 to toggle paste mode
+set pastetoggle=<F12>
 
 " backup to spec dirset backupdir=~/.vimbackup
-set backupdir=~/.vimbackup
+let backup_dir=expand("~/.vimbackup")
+if !filewritable(backup_dir)
+  silent execute expand('!mkdir ' . backup_dir)
+endif
+execute expand('set backupdir=' . backup_dir)
 set backup writebackup
 
+augroup backup
+	autocmd!
+	autocmd BufWritePre,FileWritePre * let &l:backupext = '~' . strftime('%F_%R') . '~'
+augroup END
+
+" color
+if hostname() =~ ".*lnx.*"
+	colorscheme zellner
+else
+	colorscheme solarized
+endif
