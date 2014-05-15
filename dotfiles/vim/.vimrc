@@ -59,6 +59,9 @@ set incsearch ignorecase hlsearch
 " F12 to toggle paste mode
 set pastetoggle=<F12>
 
+" aganist "No write since last change"
+set hidden
+
 " backup to spec dirset backupdir=~/.vimbackup
 let backup_dir=expand("~/.vimbackup")
 if !filewritable(backup_dir)
@@ -72,9 +75,17 @@ augroup backup
 	autocmd BufWritePre,FileWritePre * let &l:backupext = '~' . strftime('%F_%R') . '~'
 augroup END
 
+" Go
+let g:go_auto_type_info = 0
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 0
+au FileType go au BufWritePre <buffer> exe "Fmt"
+
 " color
 if hostname() =~ ".*lnx.*"
 	colorscheme zellner
 else
 	colorscheme solarized
+	set autochdir
 endif
