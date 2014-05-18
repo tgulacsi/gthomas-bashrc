@@ -49,7 +49,8 @@ syntax on
 
 " show statusline always
 set laststatus=2  
-set tabstop=4
+set shiftwidth=4 tabstop=4 softtabstop=4
+set fileencodings=utf-8,iso-8859-2
 filetype plugin on
 filetype indent on
 
@@ -78,9 +79,9 @@ augroup END
 " Go
 let g:go_auto_type_info = 0
 let g:go_fmt_autosave = 1
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "gofmt"
 let g:go_fmt_fail_silently = 0
-au FileType go au BufWritePre <buffer> exe "Fmt"
+"au FileType go au BufWritePre <buffer> exe "Fmt"
 
 " color
 if hostname() =~ ".*lnx.*"
