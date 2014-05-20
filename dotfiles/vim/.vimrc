@@ -45,23 +45,23 @@ filetype off                  " required
 " Put your non-Plugin stuff after this line
 "
 
-syntax on
 
 " show statusline always
 set laststatus=2  
-set shiftwidth=4 tabstop=4 softtabstop=4
+" indents
+set shiftwidth=4 tabstop=4 softtabstop=4 autoindent
 set fileencodings=utf-8,iso-8859-2
+set number showmatch
+" search
+set incsearch hlsearch
+" F12 to toggle paste mode
+set pastetoggle=<F12>
+" aganist "No write since last change"
+set hidden
+syntax on
 filetype plugin on
 filetype indent on
 
-" search
-set incsearch ignorecase hlsearch
-
-" F12 to toggle paste mode
-set pastetoggle=<F12>
-
-" aganist "No write since last change"
-set hidden
 
 " backup to spec dirset backupdir=~/.vimbackup
 let backup_dir=expand("~/.vimbackup")
