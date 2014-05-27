@@ -2,6 +2,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " Setting up Vundle - the vim plugin bundler
+if 1 " expression evaluation is compiled in
     let iCanHazVundle=1
     let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
     if !filereadable(vundle_readme)
@@ -31,6 +32,7 @@ filetype off                  " required
         echo ""
         :PluginInstall
     endif
+endif
 " Setting up Vundle - the vim plugin bundler end
 
 "filetype plugin on
@@ -51,7 +53,8 @@ set laststatus=2
 " indents
 set shiftwidth=4 tabstop=4 softtabstop=4 autoindent
 set fileencodings=utf-8,iso-8859-2
-set number showmatch
+set showmatch
+set ruler showmode showcmd
 " search
 set incsearch hlsearch
 " F12 to toggle paste mode
@@ -81,7 +84,7 @@ let g:go_auto_type_info = 0
 let g:go_fmt_autosave = 1
 let g:go_fmt_command = "gofmt"
 let g:go_fmt_fail_silently = 0
-"au FileType go au BufWritePre <buffer> exe "Fmt"
+au FileType go au BufWritePre <buffer> exe "Fmt"
 
 " color
 if hostname() =~ ".*lnx.*"
