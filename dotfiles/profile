@@ -135,3 +135,4 @@ fi
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
 . $HOME/.bashrc
+. /home/tgulacsi/.profabevjava
