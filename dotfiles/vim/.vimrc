@@ -84,7 +84,7 @@ let g:go_auto_type_info = 0
 let g:go_fmt_autosave = 1
 let g:go_fmt_command = "gofmt"
 let g:go_fmt_fail_silently = 0
-au FileType go au BufWritePre <buffer> exe "Fmt"
+"au FileType go au BufWritePre <buffer> exe "Fmt"
 
 " color
 if hostname() =~ ".*lnx.*"
