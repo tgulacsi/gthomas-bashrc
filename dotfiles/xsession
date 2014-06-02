@@ -27,6 +27,9 @@ if which nm-applet >/dev/null 2>&1; then
 else
     connman-ui-gtk &
 fi
+if which dropbox >/dev/null 2>&1; then
+	(sleep 5; dropbox start) &
+fi
 pulseaudio --daemonize &
 #if which groximity 2>/dev/null; then
 #    groximity 20:13:E0:36:E7:53 &
@@ -77,11 +80,6 @@ for i in seq 120; do
     break
 done
 ) &
-
-which dropbox >/dev/null && {
-	sleep 5;
-	dropbox start
-} &
 
 if [ -x ~/bin/nasaBackground.sh ]; then
     (

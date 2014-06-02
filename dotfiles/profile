@@ -20,7 +20,13 @@ export EDITOR=vi
 export VISUAL=vi
 export PAGER='less'
 export NMON=cdm4
-export CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
+CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
+if [ -e /usr/lib/pepperflashplugin-nonfree/etc-chromium-default.txt ]; then
+	. /usr/lib/pepperflashplugin-nonfree/etc-chromium-default.txt
+	export CHROMIUM_FLAGS
+	CHROMIUM_USER_FLAGS="$CHROMIUM_USER_FLAGS $CHROMIUM_FLAGS"
+fi
+export CHROMIUM_USER_FLAGS
 
 if [ -d /usr/local/plan9 ]; then
     export PLAN9=/usr/local/plan9
@@ -61,8 +67,6 @@ if [ -z "$_CACHE" ]; then
     makelink Downloads
     export _CACHE=1
 fi
-
-#[ -e ~/.profabevjava ] && . ~/.profabevjava
 
 ga() {
     gpg_agent_info=/tmp/$USER/.gpg-agent-info-$(hostname)
@@ -136,4 +140,6 @@ fi
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 
 . $HOME/.bashrc
-. /home/tgulacsi/.profabevjava
+if [ -e ~/.profabevjava ]; then
+	. ~/.profabevjava
+fi
