@@ -1,7 +1,11 @@
 #!/bin/bash
 echo 'calling .profile'
 #_NORC=1
-. $HOME/.profile
+if [ -e "$HOME/.profile" ]; then
+	. $HOME/.profile
+elif [ -e "$HOME/.bash_profile" ]; then
+	. $HOME/.bash_profile
+fi
 echo '.profile DONE'
 
 # exec startlxde

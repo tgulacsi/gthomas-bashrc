@@ -14,10 +14,14 @@ export TMPDIR=${TMPDIR:-/tmp}
 export EDITOR=vi
 export VISUAL=vi
 export PAGER='less'
-export NMON=cdm4
-if [ -d /usr/local/plan9 ]; then
+
+if [[ -z "$SUDO_ASKPASS" ]]; then
+    export SUDO_ASKPASS=/usr/bin/ssh-askpass
+fi
+
+if [[ -d /usr/local/plan9 ]]; then
     export PLAN9=/usr/local/plan9
-    export PATH=$PATH:$PLAN9/bin
+    PATH=$PATH:$PLAN9/bin
 fi
 
 if [[ -z "$GOPATH" ]]; then
@@ -29,17 +33,42 @@ if [[ -z "$GOPATH" ]]; then
             PATH=$GOROOT/bin:$PATH
         fi
         if [[ $GOPATH != $HOME ]]; then
-            export PATH=$PATH:$GOPATH/bin
+            PATH=$PATH:$GOPATH/bin
         fi
-        export PATH
     fi
 fi
+if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
+    #echo OH=$ORACLE_HOME
+    if [[ -z "$ORACLE_HOME" ]]; then
+        for bdn in /u01/app/oracle/product /usr/lib/oracle; do
+            #echo "bdn=$bdn"
+            if [[ ! -d $bdn ]]; then
+                continue
+            fi
+            find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) \
+                    2>/dev/null | head -n1 | while read dn; do
+                #echo "#dn=$dn"
+                export ORACLE_BASE=$bdn
+                export ORACLE_HOME=$dn
+                #export ORACLE_SID=XE
+                export PATH=$ORACLE_HOME/bin:$PATH
+                #echo "H=$ORACLE_HOME"
+                break
+            done
+            break
+        done
+    fi
+    #echo OH=$ORACLE_HOME
+    _OHOME_HAS_BEEN_SET=1
+fi
+
 
 if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
     export CDPATH=.:~:$GOPATH/src/github.com/tgulacsi
 
     if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
-        export PATH="$HOME/bin:$PATH"
+        PATH="$HOME/bin:$PATH"
     fi
+	export PATH
     _PATH_HAS_BEEN_SET=1
 fi
