@@ -25,7 +25,7 @@ if 1 " expression evaluation is compiled in
 
     Plugin 'fatih/vim-go'
 
-    Plugin 'klen/python-mode'
+    "Plugin 'klen/python-mode'
     "...All your other bundles...
     if iCanHazVundle == 0
         echo "Installing Bundles, please ignore key map error messages"

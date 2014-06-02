@@ -78,6 +78,11 @@ for i in seq 120; do
 done
 ) &
 
+which dropbox >/dev/null && {
+	sleep 5;
+	dropbox start
+} &
+
 if [ -x ~/bin/nasaBackground.sh ]; then
     (
     sleep 3
