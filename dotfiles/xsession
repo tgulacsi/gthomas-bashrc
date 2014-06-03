@@ -9,6 +9,10 @@ else
 	. $HOME/.profile
 	echo '.profile DONE'
 fi
+if ! which randomBackground; then
+	echo 'NO PATH?!?!' "(PATH=$PATH)"
+	. $HOME/.bashrc
+fi
 
 # exec startlxde
 # exec dbus-launch lxsession -a
