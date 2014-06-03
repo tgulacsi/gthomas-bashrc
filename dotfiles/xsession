@@ -1,12 +1,14 @@
 #!/bin/bash
-echo 'calling .profile'
 #_NORC=1
-if [ -e "$HOME/.profile" ]; then
-	. $HOME/.profile
-elif [ -e "$HOME/.bash_profile" ]; then
+if [ -e "$HOME/.bash_profile" ]; then
+	echo 'calling .bash_profile'
 	. $HOME/.bash_profile
+	echo '.bash_profile DONE'
+else
+	echo 'calling .profile'
+	. $HOME/.profile
+	echo '.profile DONE'
 fi
-echo '.profile DONE'
 
 # exec startlxde
 # exec dbus-launch lxsession -a
