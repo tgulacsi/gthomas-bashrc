@@ -1,0 +1,2 @@
+#!/bin/sh
+exec nice -n 15 ionice -c3 firefox "$@"
