@@ -1,2 +1,2 @@
 #!/bin/sh
-exec nice -n 15 ionice -c3 firefox "$@"
+exec nice -n 15 ionice -c3 iceweasel "$@"
