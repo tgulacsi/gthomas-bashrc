@@ -72,3 +72,10 @@ if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
 	export PATH
     _PATH_HAS_BEEN_SET=1
 fi
+
+if [[ -z $CGO_CFLAGS ]]; then
+	fn=$GOPATH/src/github.com/tgulacsi/gocilib/env
+	if [[ -x $fn ]]; then
+		. $fn
+	fi
+fi

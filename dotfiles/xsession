@@ -107,5 +107,10 @@ elif [ -x $HOME/bin/xflux ] && ! pidof xflux >/dev/null; then
     $HOME/bin/xflux -l 47.498333 -g 19.040833
 fi
 
+(
+sleep 10
+nice -n19 ionice -c3 godoc -analysis=type -http=:6060 2>/dev/null >/dev/null &!
+) &
+
 exec ck-launch-session dbus-launch i3
 
