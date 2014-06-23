@@ -29,8 +29,8 @@ if [[ -z "$GOPATH" ]]; then
     if [ -d "$GOPATH" ]; then
         export GOPATH
         if [[ -x /usr/local/go/bin/go ]]; then
-            export GOROOT=/usr/local/go
-            PATH=$GOROOT/bin:$PATH
+            #export GOROOT=/usr/local/go
+            PATH=/usr/local/go/bin:$PATH
         fi
         if [[ $GOPATH != $HOME ]]; then
             PATH=$PATH:$GOPATH/bin
