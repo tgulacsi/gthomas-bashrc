@@ -108,14 +108,12 @@ elif [ -x $HOME/bin/xflux ] && ! pidof xflux >/dev/null; then
 fi
 
 (
-exit 0
-
 sleep 10
 gopts=
 if [ $(godoc -h 2>&1 | fgrep -analysis | wc -l) -ge 1 ]; then
 	gopts='-analysis=type'
 fi
-nice -n 19 ionice -c 3 env GOROOT=$(go env GOROOT) godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
+nice -n 19 ionice -c 3 godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
 ) &
 
 exec ck-launch-session dbus-launch i3
