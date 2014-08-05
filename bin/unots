@@ -23,6 +23,7 @@ fi
 
 dest=${1:-unots2}
 prog=${RDP:-xfreerdp}
+SEC=${SEC:-/sec:rdp}
 
 pkill -f "${prog}.*/v:${dest}"
 
@@ -43,7 +44,7 @@ else
 		/u:tgulacsi /d:unosoft \
 		/g:mail.unosoft.hu /gu:tgulacsi /gd:unosoft \
 		/gp:$(cat ~/.ssh/rdpgw.pwd) \
-		/sec:rdp"
+		$SEC"
     #exec $(dirname $0)/uno "${1:-unots}"; break
     echo $CMD
     exec $CMD
