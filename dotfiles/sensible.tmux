@@ -81,10 +81,10 @@ main() {
 	fi
 
 	# enable all mouse features for terminals that support it
-	tmux set-window-option -g mode-mouse on
-	tmux set-option -g mouse-resize-pane on
-	tmux set-option -g mouse-select-pane on
-	tmux set-option -g mouse-select-window on
+	#tmux set-window-option -g mode-mouse on
+	#tmux set-option -g mouse-resize-pane on
+	#tmux set-option -g mouse-select-pane on
+	#tmux set-option -g mouse-select-window on
 
 	# emacs key bindings in tmux command prompt (prefix + :) are better than
 	# vi keys, even for vim users
