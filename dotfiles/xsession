@@ -113,7 +113,11 @@ gopts=
 if [ $(godoc -h 2>&1 | fgrep -analysis | wc -l) -ge 1 ]; then
 	gopts='-analysis=type'
 fi
-nice -n 19 ionice -c 3 env GOPATH= godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
+gopath=
+if [ $(uname -n) = 'waterhouse' ]; then
+	gopath="$GOPATH"
+fi
+nice -n 19 ionice -c 3 env GOPATH="$GOPATH" godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
 ) &
 
 exec ck-launch-session dbus-launch i3
