@@ -1,6 +1,11 @@
 #!/bin/sh -e
 set -x
+noswap=0
 if [ $(grep "^/" /proc/swaps | fgrep -v zram | wc -l) -eq 0 ]; then
+	noswap=1
 	sudo -A swapon -a
 fi
 sudo -A /lib/systemd/systemd-sleep hibernate
+if [ $noswap -eq 1 ]; then
+	sudo -A swapoff $(grep '^/' /proc/swaps | fgrep -v zram)
+fi
