@@ -1,4 +1,4 @@
 #!/bin/sh
-killall iceweasel firefox
-killall -9 iceweasel firefox
-exec nice -n 15 ionice -c3 iceweasel "$@"
+killall iceweasel firefox chromium
+killall -9 iceweasel firefox chromium
+exec nice -n 15 ionice -c3 "${1:-iceweasel}"

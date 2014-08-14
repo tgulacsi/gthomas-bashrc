@@ -1,0 +1,6 @@
+#!/bin/sh -e
+set -x
+if [ $(grep "^/" /proc/swaps | fgrep -v zram | wc -l) -eq 0 ]; then
+	sudo -A swapon -a
+fi
+sudo -A /lib/systemd/systemd-sleep hibernate

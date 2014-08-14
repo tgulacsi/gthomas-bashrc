@@ -14,6 +14,10 @@ if ! which randomBackground; then
 	. $HOME/.bashrc
 fi
 
+if [ -x ~/bin/screens.sh ]; then
+	~/bin/screens.sh
+fi
+
 # exec startlxde
 # exec dbus-launch lxsession -a
 for nm in urxvtcd sakura lxterminal xfce4-terminal; do
@@ -110,12 +114,12 @@ fi
 (
 sleep 10
 gopts=
-if [ $(godoc -h 2>&1 | fgrep -analysis | wc -l) -ge 1 ]; then
-	gopts='-analysis=type'
-fi
 gopath=
 if [ $(uname -n) = 'waterhouse' ]; then
 	gopath="$GOPATH"
+	if [ $(godoc -h 2>&1 | fgrep -analysis | wc -l) -ge 1 ]; then
+		gopts='-analysis=type'
+	fi
 fi
 nice -n 19 ionice -c 3 env GOPATH="$GOPATH" godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
 ) &
