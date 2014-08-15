@@ -9,3 +9,6 @@ sudo -A /lib/systemd/systemd-sleep hibernate
 if [ $noswap -eq 1 ]; then
 	sudo -A swapoff $(grep '^/' /proc/swaps | fgrep -v zram)
 fi
+if [ -x $HOME/bin/screens.sh ]; then
+	$HOME/bin/screens.sh
+fi
