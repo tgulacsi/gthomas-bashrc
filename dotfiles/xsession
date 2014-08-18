@@ -116,12 +116,11 @@ sleep 10
 gopts=
 gopath=
 if [ $(uname -n) = 'waterhouse' ]; then
-	gopath="$GOPATH"
 	if [ $(godoc -h 2>&1 | fgrep -analysis | wc -l) -ge 1 ]; then
 		gopts='-analysis=type'
 	fi
 fi
-nice -n 19 ionice -c 3 env GOPATH="$GOPATH" godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
+nice -n 19 ionice -c 3 cpulimit -l 10 -- godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
 ) &
 
 exec ck-launch-session dbus-launch i3
