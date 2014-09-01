@@ -15,7 +15,7 @@ fi
 
 SIZE=${SIZE:-$(getscreensize 2 32)}
 echo SIZE=$SIZE
-OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes /fonts /gdi:hw /drive:tmp,/tmp /size:$SIZE \
+OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes /fonts /gdi:sw /drive:tmp,/tmp /size:$SIZE \
     +async-channels +async-transport +auto-reconnect +heartbeat +multitransport"
 if lsusb | grep -q Gemplus; then
     OPTS="$OPTS /a:smartcard,Gemplus"
