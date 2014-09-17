@@ -1,4 +1,5 @@
 #!/bin/sh
-killall iceweasel firefox chromium
+killall iceweasel firefox chromium && sleep 0.5
 killall -9 iceweasel firefox chromium
+sleep 0.5
 exec nice -n 15 ionice -c3 "${1:-iceweasel}"
