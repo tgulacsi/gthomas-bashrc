@@ -11,8 +11,8 @@ export LC_ALL=
 export ENV=$HOME/.profile
 
 export TMPDIR=${TMPDIR:-/tmp}
-export EDITOR=vi
-export VISUAL=vi
+export EDITOR=emacsclient
+export VISUAL=emacsclient
 export PAGER='less'
 
 if [[ -z "$SUDO_ASKPASS" ]]; then

@@ -95,6 +95,10 @@ for i in seq 120; do
 done
 ) &
 
+if which emacs; fi
+	emacs --daemon &
+fi
+
 if [ -x ~/bin/nasaBackground.sh ]; then
     (
     sleep 3
