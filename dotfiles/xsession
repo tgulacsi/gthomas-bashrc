@@ -68,16 +68,16 @@ fi
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh &
 #sleep 1
 
-for nm in pidgin gajim centerim-utf8; do
-    if which $nm 2>/dev/null; then
-        if [ "$nm" = centerim-utf8 ]; then
-            $TERMINAL -e centerim-utf8 &
-        else
-            $nm &
-        fi
-        break
-    fi
-done
+#for nm in pidgin gajim centerim-utf8; do
+#    if which $nm 2>/dev/null; then
+#        if [ "$nm" = centerim-utf8 ]; then
+#            $TERMINAL -e centerim-utf8 &
+#        else
+#            $nm &
+#        fi
+#        break
+#    fi
+#done
 ) &
 
 (
