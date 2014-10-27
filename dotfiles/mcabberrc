@@ -3,5 +3,5 @@ set ssl = 0
 set ssl_verify = 0
 set ssl_ignore_checks = 1
 set port = 5222
-set jid = tgulacsi@unointra
+set jid = tgulacsi@unointra/nell
 set password = goody8
