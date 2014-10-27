@@ -127,5 +127,9 @@ fi
 nice -n 19 ionice -c 3 cpulimit -l 10 -- godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
 ) &
 
+if synclient -l | grep -q 'RightEdge.*= 1175$'; then
+	synclient ClickPad=1 BottomEdge=600
+fi
+
 exec ck-launch-session dbus-launch i3
 
