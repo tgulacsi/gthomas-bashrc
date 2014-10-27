@@ -19,45 +19,12 @@ if [ -e /usr/lib/pepperflashplugin-nonfree/etc-chromium-default.txt ]; then
 	CHROMIUM_USER_FLAGS="$CHROMIUM_USER_FLAGS $CHROMIUM_FLAGS"
 fi
 export CHROMIUM_USER_FLAGS
-
-if [ -z "$_CACHE" ]; then
-    C=$(readlink .cache)
-    if [ -n "$C" ]; then
-        mkdir -p $C
-    fi
-
-    makelink () {
-        DN=$1
-        if [ -L $DN -a -d $(readlink ~/$DN) ]; then
-            return
-        fi
-        if readlink ~/$DN >/dev/null; then
-            dd=$(readlink ~/$DN)
-            if [ ! -d $dd ]; then
-                mkdir -p $dd
-            fi
-        else
-            D=/tmp/${USER}
-            if [ -d $D/$DN ]; then
-                echo "Deleting ~/$DN"
-                rm -ri ~/$DN && ln -fs $D/$DN ~/$DN
-            else
-                echo "Deleting $D/$DN"
-                rm -ri $D/$DN
-                echo "Moving ~/$DN to $D/$DN"
-                mkdir -p $D && mv ~/$DN $D/ && ln -fs $D/$DN ~/$DN
-            fi
-        fi
-    }
-
-    makelink .cache
-    makelink Downloads
-    export _CACHE=1
-fi
+export USER_RUN_DIR=/var/run/user/$(id -u)
 
 ga() {
-    gpg_agent_info=/tmp/$USER/.gpg-agent-info-$(hostname)
-    if [ -d /tmp/$USER ]; then
+	mkdir -p $USER_RUN_DIR/gpg
+    gpg_agent_info=$USER_RUN_DIR/gpg/.gpg-agent-info
+    if [ -d $(dirname $gpg_agent_info) ]; then
         if [ -f $gpg_agent_info ]; then
             . $gpg_agent_info
             if readlink /proc/$SSH_AGENT_PID/exe >/dev/null; then
@@ -72,7 +39,7 @@ ga() {
             fi
         fi
     else
-        mkdir -p /tmp/$USER
+        mkdir -p $(dirname $gpg_agent_info)
     fi
     if [ ! -f $gpg_agent_info ]; then
         echo "starting new gpg-agent"
