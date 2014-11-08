@@ -1,0 +1,11 @@
+#!/bin/sh
+fn=/run/user/$(id -u)/.gpg-agent-info
+mkdir -p $(dirname $fn)
+if [ -e $fn ]; then
+	gpg-connect-agent /bye || rm $fn
+fi
+if [ ! -e $fn ]; then
+	gpg-agent --daemon --use-standard-socket --enable-ssh-support \
+		--write-env-file=$fn
+fi
+sed -e 's/^/export /' $fn

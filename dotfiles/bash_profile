@@ -21,84 +21,11 @@ fi
 export CHROMIUM_USER_FLAGS
 export USER_RUN_DIR=/var/run/user/$(id -u)
 
-ga() {
-	mkdir -p $USER_RUN_DIR/gpg
-    #gpg_agent_info=$USER_RUN_DIR/gpg/.gpg-agent-info
-	gpg_agent_info=$HOME/.gnupg/gpg-agent-info-$(hostname -s)
-    if [ -d $(dirname $gpg_agent_info) ]; then
-        if [ -f $gpg_agent_info ]; then
-            . $gpg_agent_info
-            if readlink /proc/$SSH_AGENT_PID/exe >/dev/null; then
-                echo "$gpg_agent_info ok"
-                export GPG_AGENT_INFO
-                export SSH_AUTH_SOCK
-                export SSH_AGENT_PID
-            else
-                echo "stale $gpg_agent_info"
-                rm $gpg_agent_info
-            fi
-        fi
-    else
-        mkdir -p $(dirname $gpg_agent_info)
-    fi
-    if [ ! -f $gpg_agent_info ]; then
-        echo "starting new gpg-agent"
-        eval $(gpg-agent --daemon --enable-ssh-support \
-            --write-env-file "$gpg_agent_info")
-    fi
-
+eval $(~/bin/invoke-gpg-agent)
     if ! ssh-add -l | grep -q tgulacsi@unosoft; then
         ssh-add ~/.ssh/id_rsa
         ssh-add tgulacsi@unosoft
     fi
-}
-
-if ! systemd-notify --booted; then  # not using systemd
-  start() {
-    sudo rc.d start $1
-  }
-
-  restart() {
-    sudo rc.d restart $1
-  }
-
-  stop() {
-    sudo rc.d stop $1
-  }
-else
-  start() {
-    sudo systemctl start $1.service
-  }
-
-  restart() {
-    sudo systemctl restart $1.service
-  }
-
-  stop() {
-    sudo systemctl stop $1.service
-  }
-
-  enable() {
-    sudo systemctl enable $1.service
-  }
-
-  status() {
-    sudo systemctl status $1.service
-  }
-
-  disable() {
-    sudo systemctl disable $1.service
-  }
-fi
-
-#[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
-
-#echo _SSH_AGENT=$_SSH_AGENT
-if [[ -z "$_SSH_AGENT" ]]; then
-	ga
-    export _SSH_AGENT=$$
-fi
-
 
 if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     # enable color support of ls and also add handy aliases
@@ -243,3 +170,4 @@ if [[ "$TERM" != 'dumb' ]]; then
         fi
     fi
 fi
+gpg-connect-agent /bye || gpg-agent --daemon --use-standard-socket --enable-ssh-support --write-env-file=/run/user/$(id -un)/.gpg-agent-info
