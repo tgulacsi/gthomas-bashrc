@@ -23,13 +23,13 @@ export USER_RUN_DIR=/var/run/user/$(id -u)
 
 ga() {
 	mkdir -p $USER_RUN_DIR/gpg
-    gpg_agent_info=$USER_RUN_DIR/gpg/.gpg-agent-info
+    #gpg_agent_info=$USER_RUN_DIR/gpg/.gpg-agent-info
+	gpg_agent_info=$HOME/.gnupg/gpg-agent-info-$(hostname -s)
     if [ -d $(dirname $gpg_agent_info) ]; then
         if [ -f $gpg_agent_info ]; then
             . $gpg_agent_info
             if readlink /proc/$SSH_AGENT_PID/exe >/dev/null; then
                 echo "$gpg_agent_info ok"
-                . "$gpg_agent_info"
                 export GPG_AGENT_INFO
                 export SSH_AUTH_SOCK
                 export SSH_AGENT_PID
