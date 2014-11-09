@@ -22,10 +22,10 @@ export CHROMIUM_USER_FLAGS
 export USER_RUN_DIR=/var/run/user/$(id -u)
 
 eval $(~/bin/invoke-gpg-agent)
-    if ! ssh-add -l | grep -q tgulacsi@unosoft; then
-        ssh-add ~/.ssh/id_rsa
-        ssh-add tgulacsi@unosoft
-    fi
+if ! ssh-add -l | grep -q tgulacsi@unosoft; then
+	ssh-add ~/.ssh/id_rsa
+	ssh-add ~/.ssh/tgulacsi@unosoft
+fi
 
 if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     # enable color support of ls and also add handy aliases
