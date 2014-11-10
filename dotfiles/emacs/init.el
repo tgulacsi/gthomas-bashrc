@@ -1,35 +1,35 @@
+(add-to-list 'load-path (concat user-emacs-directory "config"))
+(add-to-list 'load-path (concat user-emacs-directory "config" "/languages"))
+
 ;; packages
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
-                        ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ;; ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(byte-recompile-directory "~/.emacs.d")
+(require 'package)
 (package-initialize)
 
-(defun require-package (package)
-  (setq-default highlight-tabs t)
-  "Install given PACKAGE."
-  (unless (package-installed-p package)
-    (unless (assoc package package-archive-contents)
-      (package-refresh-contents))
-    (package-install package)))
+(setq package-enable-at-startup nil)
+(unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
 
-(color-theme-approximate-on)
-;; change cursor color depending on mode
-(setq evil-emacs-state-cursor '("red" box))
-(setq evil-normal-state-cursor '("green" box))
-(setq evil-visual-state-cursor '("orange" box))
-(setq evil-insert-state-cursor '("red" bar))
-(setq evil-replace-state-cursor '("red" bar))
-(setq evil-operator-state-cursor '("red" hollow))
+(require 'use-package)
+
+(require 'my-core)
+(require 'auto-complete)
+(require 'go-mode)
+
+(require 'my-dired)
+(require 'my-buffers)
+(require 'my-magit)
+(require 'my-package-list)
+
+(require 'my-evil)
 
 (load-theme 'misterioso t)
-
-(evil-mode)
-(global-evil-leader-mode)
-(evil-leader/set-leader ",")
-(require 'evil-search-highlight-persist)
-(global-evil-search-highlight-persist t)
-(evil-leader/set-key "SPC" 'evil-search-highlight-persist-remove-all)
 
 ;; save bookmarks
 (setq bookmark-default-file "~/.emacs.d/bookmarks"
@@ -103,3 +103,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(evil-mode 1)
