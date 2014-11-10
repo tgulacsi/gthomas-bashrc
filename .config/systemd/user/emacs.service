@@ -1,1 +1,11 @@
-../../../dotfiles/config/systemd/user/emacs.service
+[Unit]
+Description=Emacs daemon
+
+[Service]
+Type=forking
+WorkingDirectory=%h
+ExecStart=/usr/bin/emacs --daemon
+Restart=yes
+
+[Install]
+WantedBy=console.target
