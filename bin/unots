@@ -20,7 +20,7 @@ fi
 
 dest=${1:-unots2}
 prog=${RDP:-xfreerdp}
-SEC=${SEC:-/sec:rdp}
+SEC=${SEC:-/sec:tls}
 
 pkill -f "${prog}.*/v:${dest}"
 
