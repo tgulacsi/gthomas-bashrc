@@ -22,6 +22,7 @@ if [ -e $ifn ]; then
 fi
 if [ ! -e $ifn ]; then
 	killall -9 ssh-agent
-	ssh-agent -t 7200 -a $sfn | grep '^SSH_' > tee $ifn
+	rm -f $sfn
+	ssh-agent -t 7200 -a $sfn | grep '^SSH_' > $ifn
 fi
 cat $ifn
