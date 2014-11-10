@@ -1,0 +1,27 @@
+#!/bin/sh
+dn=/run/user/$(id -u)
+mkdir -p $dn
+
+fn=$dn/.gpg-agent-info
+if [ -e $fn ]; then
+	gpg-connect-agent /bye || rm $fn
+fi
+if [ ! -e $fn ]; then
+	gpg-agent --daemon --use-standard-socket --write-env-file=$fn
+fi
+sed -ne '/^GPG/ s/^/export /p' $fn
+
+ifn=$dn/E.ssh-agent
+sfn=$dn/S.ssh-agent
+if [ -e $ifn ]; then
+	. $ifn
+	ssh-add -l >/dev/null
+	if [ $? -eq 2 ]; then
+		rm -f $ifn $sfn
+	fi
+fi
+if [ ! -e $ifn ]; then
+	killall -9 ssh-agent
+	ssh-agent -t 7200 -a $sfn | grep '^SSH_' > tee $ifn
+fi
+cat $ifn
