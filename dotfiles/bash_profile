@@ -22,7 +22,7 @@ export CHROMIUM_USER_FLAGS
 export USER_RUN_DIR=/var/run/user/$(id -u)
 
 eval $(~/bin/invoke-gpg-agent)
-if ! ssh-add -l | grep -q tgulacsi@unosoft; then
+if ! ssh-add -l | fgrep -q 40:f2:e4:2f:90:0b:76:78:6c:fb:39:5b:c8:0d:74:3b; then
 	ssh-add ~/.ssh/id_rsa
 	ssh-add ~/.ssh/tgulacsi@unosoft
 fi

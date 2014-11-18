@@ -6,10 +6,12 @@ fn=$dn/.gpg-agent-info
 if [ -e $fn ]; then
 	gpg-connect-agent /bye || rm $fn
 fi
-if [ ! -e $fn ]; then
+if [ ! -e $fn ] && ! gpg-connect-agent /bye; then
 	gpg-agent --daemon --use-standard-socket --write-env-file=$fn
 fi
-sed -ne '/^GPG/ s/^/export /p' $fn
+if [ -e $fn ]; then
+	sed -ne '/^GPG/ s/^/export /p' $fn
+fi
 
 ifn=$dn/E.ssh-agent
 sfn=$dn/S.ssh-agent
