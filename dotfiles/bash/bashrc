@@ -81,3 +81,5 @@ if [[ -z $CGO_CFLAGS ]]; then
 		. $fn
 	fi
 fi
+
+alias l='ls -lA --color=auto'

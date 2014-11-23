@@ -1,8 +1,4 @@
 #!/bin/sh
-#xfreerdp -k 0x409 -x m -a 16 -z -g 1900x1080 -d unosoft -u tgulacsi --ignore-certificate --sec tls unots2
-#xfreerdp /size:$(getscreensize) /cert-ignore /sec:tls /drive:tmp,/tmp +clipboard /u:tgulacsi /d:unosoft /smartcard,Gemalto /v:unots2
-#xfreerdp -g workarea --ignore-certificate --sec tls --plugin rdpdr --data scard disk:tmp:/tmp -- --plugin cliprdr unots2
-#!/bin/sh
 if [ -z $direct ]; then
     direct=0
 	if ip route | fgrep -q 10.65.25; then
@@ -12,30 +8,35 @@ fi
 
 SIZE=${SIZE:-$(getscreensize 2 32)}
 echo SIZE=$SIZE
-OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes /fonts /gdi:sw /drive:tmp,/tmp /size:$SIZE \
-    +async-channels +async-transport +auto-reconnect +heartbeat +multitransport"
-if lsusb | grep -q Gemplus; then
-    OPTS="$OPTS /a:smartcard,Gemplus"
+use_sign=$(xfreerdp -h 2>/dev/null 1>/dev/null)
+if $use_sign; then
+	OPTS="$OPTS -k 0x409 -g $SIZE --ignore-certificate"
+	SEC=${SEC:---sec tls}
+	destP=
+	userP='-u '
+	domainP='-d '
+else
+	OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
+		/fonts /gdi:sw /drive:tmp,/tmp /size:$SIZE /cert-ignore \
+		+async-channels +async-transport +auto-reconnect +heartbeat +multitransport"
+	SEC=${SEC:-/sec:tls}
+	destP=/v:
+	userP=/u:
+	domainP=/d:
+	if lsusb | grep -q Gemplus; then
+		OPTS="$OPTS /a:smartcard,Gemplus"
+	fi
 fi
 
 dest=${1:-unots2}
 prog=${RDP:-xfreerdp}
-SEC=${SEC:-/sec:tls}
 
-pkill -f "${prog}.*/v:${dest}"
+pkill -f "${prog}.*0x409 .* ${dest_prefix}${dest}"
 
 echo "direct=$direct"
 set -x
 if [ $direct -gt 0 ]; then
-	#exec /usr/local/src/tgulacsi/FreeRDP/MK/client/X11/xfreerdp \
-	exec ${prog} /u:UNOSOFT\\TGulacsi /cert-ignore ${SEC} $OPTS /v:${dest}
-##/usr/bin/rdesktop -P -k en -e \
-#${RDP:-xfreerdp} -k 0x409 --plugin cliprdr -x m -a 16 -z \
-#  -g $SIZE --gdi hw -d unosoft -u tgulacsi \
-#  --sec tls \
-#  ${1:-unots}
-#  # scard --plugin cliprdr \
-#  #--plugin rdpdr disk:tmp:/tmp -- \
+	exec ${prog} ${userP}TGulacsi ${domainP}unosoft ${SEC} $OPTS ${destP}${dest}
 else
 	CMD="${prog} $OPTS \
 		/v:${dest} \

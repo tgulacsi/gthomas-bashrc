@@ -2,15 +2,17 @@
 dn=/run/user/$(id -u)
 mkdir -p $dn
 
-fn=$dn/.gpg-agent-info
-if [ -e $fn ]; then
-	gpg-connect-agent /bye || rm $fn
-fi
-if [ ! -e $fn ] && ! gpg-connect-agent /bye; then
-	gpg-agent --daemon --use-standard-socket --write-env-file=$fn
-fi
-if [ -e $fn ]; then
-	sed -ne '/^GPG/ s/^/export /p' $fn
+if which gpg-connect-agent 2>/dev/null; then
+	fn=$dn/.gpg-agent-info
+	if [ -e $fn ]; then
+		gpg-connect-agent /bye || rm $fn
+	fi
+	if [ ! -e $fn ] && ! gpg-connect-agent /bye; then
+		gpg-agent --daemon --use-standard-socket --write-env-file=$fn
+	fi
+	if [ -e $fn ]; then
+		sed -ne '/^GPG/ s/^/export /p' $fn
+	fi
 fi
 
 ifn=$dn/E.ssh-agent
