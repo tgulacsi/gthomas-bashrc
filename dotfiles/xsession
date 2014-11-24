@@ -130,5 +130,11 @@ if synclient -l | grep -q 'RightEdge.*= 1175$'; then
 	synclient ClickPad=1 BottomEdge=600
 fi
 
-exec ck-launch-session dbus-launch i3
+if which xfsettingsd 2>/dev/null; then
+	xfsettingsd &
+fi
+if which ck-launch-session 2>/dev/null; then
+	exec ck-launch-session dbus-launch i3
+fi
+exec i3
 

@@ -2,7 +2,7 @@
 dn=/run/user/$(id -u)
 mkdir -p $dn
 
-if which gpg-connect-agent 2>/dev/null; then
+if [ -x /usr/bin/gpg-connect-agent ]; then
 	fn=$dn/.gpg-agent-info
 	if [ -e $fn ]; then
 		gpg-connect-agent /bye || rm $fn

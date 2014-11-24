@@ -170,4 +170,3 @@ if [[ "$TERM" != 'dumb' ]]; then
         fi
     fi
 fi
-gpg-connect-agent /bye || gpg-agent --daemon --use-standard-socket --enable-ssh-support --write-env-file=/run/user/$(id -un)/.gpg-agent-info

@@ -159,7 +159,7 @@ bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight +20
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -20
 
 bindsym $mod+shift+v exec edit
-bindsym $mod+F12 exec --no-startup-id sync && xscreensaver-command -lock
+bindsym $mod+F12 exec --no-startup-id sync && slock
 bindsym $mod+Shift+F12 exec --no-startup-id sync && sudo -A /lib/systemd/systemd-sleep suspend
 bindsym $mod+Control+F12 exec --no-startup-id sync && $HOME/bin/hibernate
 bindsym $mod+Shift+Control+F12 exec --no-startup-id sync && sudo -A /lib/systemd/systemd-sleep hybrid-sleep
