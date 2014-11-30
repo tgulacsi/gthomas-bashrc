@@ -108,6 +108,10 @@ fi
 #which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
 which autocutsel >/dev/null && autocutsel -s PRIMARY -fork
 
+if [ -x /usr/bin/parcellite ]; then
+	parcellite &
+fi
+
 if which redshift >/dev/null; then
     redshift -l 17.498333:19.040833 -t 6500:3600 -l manual &
 elif [ -x $HOME/bin/xflux ] && ! pidof xflux >/dev/null; then

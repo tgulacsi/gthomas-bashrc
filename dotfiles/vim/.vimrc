@@ -13,3 +13,16 @@ set incsearch hlsearch
 set pastetoggle=<F12>
 " aganist "No write since last change"
 set hidden
+
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'fatih/vim-go'
+call vundle#end()
+filetype plugin indent on
+
+set t_Co=256
+syntax on
+set background=dark
+colorscheme zellner
