@@ -9,7 +9,7 @@ sz=${SIZE:-1920x1080}
 pos=${sz%x*}
 scale=
 if [ ${pos} -gt 1366 ]; then
-    scale=--scale 0.75x0.75
+    scale='--scale 0.75x0.75'
 fi
 case "${N:-1}" in
   1) CMD="xrandr --output HDMI1 --off --output $nm --mode $sz $scale --pos 0x0 --rotate normal" ;;

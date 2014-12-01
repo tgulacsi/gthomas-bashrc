@@ -65,37 +65,20 @@ if [ -d ~/.screenlayout ]; then
     fi
     sleep 1
 fi
-#[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh &
-#sleep 1
-
-#for nm in pidgin gajim centerim-utf8; do
-#    if which $nm 2>/dev/null; then
-#        if [ "$nm" = centerim-utf8 ]; then
-#            $TERMINAL -e centerim-utf8 &
-#        else
-#            $nm &
-#        fi
-#        break
-#    fi
-#done
 ) &
 
 (
-    ga || return $?
 for i in seq 120; do
-    addr=$(/sbin/ifconfig eth0 | grep 'inet addr:')
-    if [ -z "$addr" ]; then
-        sleep 1
-        continue
-    fi
-    if echo "$addr" | grep -q 'addr:10\.'; then
+	if ip route | fgrep 10.65.25.0; then
         p520.mountall
+		break
+    else
+	    sleep 2
     fi
-    break
 done
 ) &
 
-if which emacs; then
+if [ -x /usr/bin/emacs ]; then
 	emacs --daemon &
 fi
 
@@ -105,7 +88,6 @@ if [ -x ~/bin/nasaBackground.sh ]; then
     ~/bin/nasaBackground.sh
     ) &
 fi
-#which xflux 2>/dev/null &&  ./xflux -l 47.710686 -g 19.15161
 which autocutsel >/dev/null && autocutsel -s PRIMARY -fork
 
 if which redshift >/dev/null; then
@@ -130,8 +112,8 @@ if synclient -l | grep -q 'RightEdge.*= 1175$'; then
 	synclient ClickPad=1 BottomEdge=600
 fi
 
-if which xfsettingsd 2>/dev/null; then
-	xfsettingsd &
+if [ -x /usr/bin/xfsettingsd ]; then
+	{ sleep 2; xfsettingsd; } &
 fi
 if which ck-launch-session 2>/dev/null; then
 	exec ck-launch-session dbus-launch i3
