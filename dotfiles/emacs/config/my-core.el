@@ -63,9 +63,8 @@
 ;; I know what I'm doing; don't litter my fscking tree!
 
 (defvar my-auto-save-folder "~/.emacs.d/.saves/")
-(setq backup-directory-alist `(("." . "~/.emacs.d/.saves")))
-(setq auto-save-file-name-transforms
-      `((".*" ,my-auto-save-folder t)))
+(setq backup-directory-alist `(("." . "~/.cache/emacs/saves"))) 
+(setq auto-save-file-name-transforms `((".*", my-auto-save-folder t)))
 
 ;; (setq make-backup-files nil)
 
