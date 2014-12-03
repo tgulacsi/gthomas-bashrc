@@ -94,6 +94,9 @@ augroup backup
 	autocmd BufWritePre,FileWritePre * let &l:backupext = '~' . strftime('%F_%R') . '~'
 augroup END
 
+" Python
+autocmd FileType python set et
+
 " Go
 let g:go_auto_type_info = 0
 let g:go_fmt_autosave = 1
