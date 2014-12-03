@@ -8,17 +8,16 @@ fi
 
 SIZE=${SIZE:-$(getscreensize 2 32)}
 echo SIZE=$SIZE
-use_sign=$(xfreerdp -h 2>/dev/null 1>/dev/null)
+use_sign=$(xfreerdp --help 2>/dev/null 1>/dev/null | fgrep --version)
 if $use_sign; then
-	OPTS="$OPTS -k 0x409 -g $SIZE --ignore-certificate"
+	OPTS="$OPTS -k 0x409 -g $SIZE "
 	SEC=${SEC:---sec tls}
 	destP=
 	userP='-u '
 	domainP='-d '
 else
 	OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
-		/fonts /gdi:sw /drive:tmp,/tmp /size:$SIZE /cert-ignore \
-		+async-channels +async-transport +auto-reconnect +heartbeat +multitransport"
+		/fonts /gdi:sw /drive:tmp,/tmp /size:$SIZE /cert-ignore"
 	SEC=${SEC:-/sec:tls}
 	destP=/v:
 	userP=/u:
@@ -31,6 +30,11 @@ fi
 dest=${1:-unots2}
 prog=${RDP:-xfreerdp}
 
+port=2503
+if [ "$dest" = unots2 ]; then
+	port=2504
+fi
+
 pkill -f "${prog}.*0x409 .* ${dest_prefix}${dest}"
 
 echo "direct=$direct"
@@ -39,10 +43,8 @@ if [ $direct -gt 0 ]; then
 	exec ${prog} ${userP}TGulacsi ${domainP}unosoft ${SEC} $OPTS ${destP}${dest}
 else
 	CMD="${prog} $OPTS \
-		/v:${dest} \
+		/v:outside.unosoft.hu:$port \
 		/u:tgulacsi /d:unosoft \
-		/g:mail.unosoft.hu /gu:tgulacsi /gd:unosoft \
-		/gp:$(cat ~/.ssh/rdpgw.pwd) \
 		$SEC"
     #exec $(dirname $0)/uno "${1:-unots}"; break
     echo $CMD
