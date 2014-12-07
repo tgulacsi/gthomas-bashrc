@@ -1,5 +1,17 @@
 #!/bin/sh
-killall iceweasel firefox chromium && sleep 0.5
-killall -9 iceweasel firefox chromium
+fn=
+for nm in "$1" iceweasel firefox chromium; do
+	if [ -z "$nm" ]; then
+		continue
+	fi
+	if ! [ -x /usr/bin/$nm ]; then
+		continue
+	fi
+	fn=/usr/bin/$nm
+	break
+done
+killall $nm
 sleep 0.5
-exec nice -n 15 ionice -c3 "${1:-$(which iceweasel firefox 2>/dev/null)}"
+killall -9 $nm
+sleep 0.5
+exec nice -n 15 ionice -c 3 "$fn"
