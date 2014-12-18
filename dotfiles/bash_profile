@@ -170,3 +170,4 @@ if [[ "$TERM" != 'dumb' ]]; then
         fi
     fi
 fi
+. /home/tgulacsi/.profabevjava
