@@ -1,0 +1,2 @@
+#!/bin/sh
+exec sudo pkexec xfpm-power-backlight-helper --set-brightness ${1:-80}
