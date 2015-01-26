@@ -1,4 +1,4 @@
-set server = unowebprd
+set server = unowebprd.unosoft.local
 set ssl = 0
 set ssl_verify = 0
 set ssl_ignore_checks = 1

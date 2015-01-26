@@ -6,7 +6,7 @@ if [ x"$1" = x-k ] || ! timeout -s9 3 ls ~/mnt/*/* >/dev/null; then
     sudo umount -lf ~/mnt/*/*
     sudo killall -9 /sbin/mount.cifs
     sudo killall -9 sshfs
-    rm -f /tmp/ssh-$USER-*
+	rm -f /tmp/ssh-$USER-* /run/user/$(id -u)/ssh-$USER-*
     echo 'Unmounted'
 fi
 mnt=$(mount)
