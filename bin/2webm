@@ -2,6 +2,7 @@
 SRC="$1"
 DST=${2:-$(basename "$SRC").webm}
 set -x
-avconv -i $SRC -qmax 32 -qmin 16 -qdiff 4 -filter:v yadif \
+avconv -hwaccel auto \
+	-i $SRC -qmax 32 -qmin 16 -qdiff 4 -filter:v yadif \
 	-acodec libvorbis -threads ${THREADS:-1} -y $OPTS "$DST"
 touch -r "$SRC" "$DST"

@@ -100,18 +100,6 @@ elif [ -x $HOME/bin/xflux ] && ! pidof xflux >/dev/null; then
     $HOME/bin/xflux -l 47.498333 -g 19.040833
 fi
 
-(
-sleep 10
-gopts=
-gopath=
-if [ $(uname -n) = 'waterhouse' ]; then
-	if [ $(godoc -h 2>&1 | fgrep -analysis | wc -l) -ge 1 ]; then
-		gopts='-analysis=type'
-	fi
-fi
-nice -n 19 ionice -c 3 cpulimit -l 10 -- godoc $gopts -http=:6060 2>/dev/null >/dev/null &!
-) &
-
 if synclient -l | grep -q 'RightEdge.*= 1175$'; then
 	synclient ClickPad=1 BottomEdge=600
 fi
