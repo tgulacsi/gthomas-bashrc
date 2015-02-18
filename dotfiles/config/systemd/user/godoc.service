@@ -1,0 +1,13 @@
+[Unit]
+Description=Start godoc
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/godoc -analysis=type -http=:6060
+Nice=19
+IOSchedulingClass=3
+CPUSchedulingPolicy=idle
+Restart=on-success
+
+[Install]
+WantedBy=basic.target
