@@ -15,42 +15,40 @@ set pastetoggle=<F12>
 set hidden
 
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
 
-" Setting up Vundle - the vim plugin bundler
 if 1 " eval compiled in
-    let iCanHazVundle=1
-    let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-    if !filereadable(vundle_readme)
-        echo "Installing Vundle.."
+    let iCanHazVimPlug=1
+    let vimplug_file=expand('~/.vim/autoload/plug.vim')
+    if !filereadable(vimplug_file)
+        echo "Installing vim-plug..."
         echo ""
-        silent !mkdir -p ~/.vim/bundle
-        silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-        let iCanHazVundle=0
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        let iCanHazVimPlug=0
     endif
-    set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
-    Plugin 'gmarik/vundle'
+
+	call plug#begin('~/.vim/plugged')
+	" Make sure you use single quotes
+
     "Add your bundles here
-    Plugin 'gmarik/Vundle.vim'
-    Plugin 'altercation/vim-colors-solarized'
-    Plugin 'bling/vim-airline'
-    Plugin 'scrooloose/syntastic'
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'tpope/vim-markdown'
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'tpope/vim-vividchalk'
 
-    Plugin 'fatih/vim-go'
+    Plug 'bling/vim-airline'
+    Plug 'scrooloose/syntastic'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-markdown'
 
-    "Plugin 'klen/python-mode'
-    "...All your other bundles...
-    if iCanHazVundle == 0
-        echo "Installing Bundles, please ignore key map error messages"
+    Plug 'fatih/vim-go'
+
+	call plug#end()
+
+    if iCanHazVimPlug == 0
+        echo "Installing vim-plug, please ignore key map error messages"
         echo ""
-        :PluginInstall
+        :PlugInstall
     endif
 endif
-" Setting up Vundle - the vim plugin bundler end
-
+"
 "filetype plugin on
 "
 " Brief help
