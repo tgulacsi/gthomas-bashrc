@@ -1,0 +1,10 @@
+[Unit]
+Description=runit-runsvdir
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/runsvdir-start
+Restart=always
+
+[Install]
+WantedBy=basic.service
