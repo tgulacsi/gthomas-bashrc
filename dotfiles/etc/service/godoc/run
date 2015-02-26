@@ -1,2 +1,2 @@
 #!/bin/sh
-env GOPATH=${GOPATH:-$HOME} godoc -http=:6060 -analysis=type,pointer
+env GOMAXPROCS=${GOMAXPROCS:-2} GOPATH=${GOPATH:-$HOME} godoc -http=:6060 
