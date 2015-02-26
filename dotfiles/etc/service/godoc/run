@@ -1,0 +1,2 @@
+#!/bin/sh
+env GOPATH=${GOPATH:-$HOME} godoc -http=:6060 -analysis=type,pointer
