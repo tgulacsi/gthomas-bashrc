@@ -110,6 +110,7 @@ if hostname() =~ ".*lnx.*"
 	set t_Co=256
 else
 	colorscheme solarized
+	set background=light
 endif
 
 " do not clear screen on exit
