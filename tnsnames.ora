@@ -1,0 +1,9 @@
+tequila =
+(DESCRIPTION = 
+	(ADDRESS_LIST = 
+		(ADDRESS = (PROTOCOL=TCP)(HOST=git.gthomas.eu)(PORT=49161))
+	)
+	(CONNECT_DATA = 
+		(SERVICE_NAME=xe)
+	)
+)

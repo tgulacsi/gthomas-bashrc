@@ -45,6 +45,7 @@ if [[ -z "$GOPATH" ]]; then
     fi
 fi
 if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
+	export TNS_ADMIN=$HOME
     #echo OH=$ORACLE_HOME
     if [[ -z "$ORACLE_HOME" ]]; then
         for bdn in /u01/app/oracle/product /usr/lib/oracle; do
@@ -88,4 +89,4 @@ if [[ -z $CGO_CFLAGS ]]; then
 fi
 
 alias l='ls -lA --color=auto'
-export PS1="`if [ $? = 0 ];then echo '\[\033[01;32m\]\ʕ◔ϖ◔ʔ/'; else echo '\[\033[01;31m\]ʕ╯◔ϖ◔ʔ╯'; fi`\[\033[00m\]$ "
+export PS1="$(if [ $? -eq 0 ]; then echo '\[\033[01;32m\]\ʕ◔ϖ◔ʔ/'; else echo '\[\033[01;31m\]\nʕ╯◔ϖ◔ʔ╯'; fi)\[\033[00m\]$ "
