@@ -1,7 +1,7 @@
 set nocompatible              " be iMproved, required
 
 " show statusline always
-set laststatus=2  
+set laststatus=2
 " indents
 set shiftwidth=4 tabstop=4 softtabstop=4 autoindent
 set fileencodings=utf-8,iso-8859-2
@@ -39,6 +39,7 @@ if 1 " eval compiled in
     Plug 'tpope/vim-markdown'
     Plug 'tpope/vim-vinegar'
 	Plug 'ludovicchabant/vim-gutentags'
+	Plug 'csexton/trailertrash.vim'
 
     Plug 'fatih/vim-go'
 
@@ -65,7 +66,7 @@ endif
 
 
 " show statusline always
-set laststatus=2  
+set laststatus=2
 " indents
 set shiftwidth=4 tabstop=4 softtabstop=4 autoindent
 set fileencodings=utf-8,iso-8859-2
@@ -93,6 +94,9 @@ augroup backup
 	autocmd!
 	autocmd BufWritePre,FileWritePre * let &l:backupext = '~' . strftime('%F_%R') . '~'
 augroup END
+
+" Remove trailing witespace
+autocmd BufWritePre * TrailerTrim
 
 " Python
 autocmd FileType python set et
