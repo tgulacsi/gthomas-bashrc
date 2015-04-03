@@ -37,6 +37,8 @@ if 1 " eval compiled in
     Plug 'scrooloose/syntastic'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-markdown'
+    Plug 'tpope/vim-vinegar'
+	Plug 'ludovicchabant/vim-gutentags'
 
     Plug 'fatih/vim-go'
 
@@ -109,8 +111,8 @@ if hostname() =~ ".*lnx.*"
 	colorscheme zellner
 	set t_Co=256
 else
-	colorscheme solarized
 	set background=light
+	colorscheme solarized
 endif
 
 " do not clear screen on exit
