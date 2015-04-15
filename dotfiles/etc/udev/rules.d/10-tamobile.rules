@@ -1,0 +1,5 @@
+SUBSYSTEMS=="usb", ATTRS{bInterfaceNumber}=="?*", ENV{.MM_USBIFNUM}="$attr{bInterfaceNumber}"
+# Alcatel One Touch 6036Y
+ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f017", ENV{.MM_USBIFNUM}=="03", ENV{ID_MM_LONGCHEER_PORT_TYPE_MODEM}="0"
+ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f017", ENV{.MM_USBIFNUM}=="01", ENV{ID_MM_LONGCHEER_PORT_TYPE_AUX}="1"
+ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f017", ENV{ID_MM_LONGCHEER_TAGGED}="1"
