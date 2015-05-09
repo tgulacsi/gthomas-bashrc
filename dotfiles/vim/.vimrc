@@ -115,7 +115,7 @@ if hostname() =~ ".*lnx.*"
 	colorscheme zellner
 	set t_Co=256
 else
-	set background=light
+	set t_Co=256
 	colorscheme solarized
 endif
 

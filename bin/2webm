@@ -1,7 +1,10 @@
-#!/bin/sh
+#!/bin/sh -e
+set -u
 SRC="$1"
 DST=${2:-$(basename "$SRC").webm}
 set -x
+# https://sites.google.com/a/webmproject.org/wiki/ffmpeg/vp9-encoding-guide
+
 avconv -hwaccel auto \
 	-i $SRC -qmax 32 -qmin 16 -qdiff 4 -filter:v yadif \
 	-acodec libvorbis -threads ${THREADS:-1} -y $OPTS "$DST"
