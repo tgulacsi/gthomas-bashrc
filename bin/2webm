@@ -1,11 +1,14 @@
 #!/bin/sh -e
 set -u
 SRC="$1"
-DST=${2:-$(basename "$SRC").webm}
+DST=${2:-$(dirname "$SRC")/$(basename "$SRC" .MTS).webm}
 set -x
-# https://sites.google.com/a/webmproject.org/wiki/ffmpeg/vp9-encoding-guide
-
-avconv -hwaccel auto \
-	-i $SRC -qmax 32 -qmin 16 -qdiff 4 -filter:v yadif \
-	-acodec libvorbis -threads ${THREADS:-1} -y $OPTS "$DST"
+if which avconv >/dev/null 2>&1; then
+	avconv -i "$SRC" -qmax 48 -qmin 16 -qdiff 4 -filter:v yadif \
+		-acodec libvorbis -threads ${THREADS:-1} -y ${OPTS:-} "$DST"
+else
+	OPTS="-y -c:v libvpx-vp9 ${OPTS:-} -c:a opus -qmin 16 -qmax 48 -qdiff 4 -filter:v yadif -f webm"
+	ffmpeg -i "$SRC" -pass 1 $OPTS /dev/null && \
+	ffmpeg -i "$SRC" -pass 2 $OPTS "$DST"
+fi
 touch -r "$SRC" "$DST"

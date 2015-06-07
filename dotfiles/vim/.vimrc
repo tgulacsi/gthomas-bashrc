@@ -1,5 +1,11 @@
 set nocompatible              " be iMproved, required
 
+let mapleader = "\<Space>"
+" save a file
+nnoremap <Leader>w :w<CR>
+" Stop that stupid window from popping up
+map q: :q
+
 " show statusline always
 set laststatus=2
 " indents
@@ -108,9 +114,12 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 0
 autocmd FileType go setlocal fileencoding=utf-8 encoding=utf-8 noet nolist
 
+" airline
+let g:airline_theme='powerlineish'
+
 set autochdir
 " color
-set background=dark
+set background=light
 if hostname() =~ ".*lnx.*"
 	colorscheme zellner
 	set t_Co=256

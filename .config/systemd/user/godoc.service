@@ -3,7 +3,7 @@ Description=Start godoc
 
 [Service]
 Type=simple
-ExecStart=/bin/sh -c 'exec /usr/bin/env GOPATH=/home/$(id -un) /usr/bin/godoc -analysis=type -http=:6060'
+ExecStart=/bin/sh -c 'exec /usr/bin/env GOPATH=/home/$(id -un) /usr/bin/godoc -http=:6060'
 Nice=19
 IOSchedulingClass=3
 CPUSchedulingPolicy=idle
