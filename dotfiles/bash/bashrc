@@ -93,3 +93,4 @@ fi
 
 alias l='ls -lA --color=auto'
 export PS1="$(if [ $? -eq 0 ]; then echo '\[\033[01;32m\]\ʕ◔ϖ◔ʔ/'; else echo '\[\033[01;31m\]\nʕ╯◔ϖ◔ʔ╯'; fi)\[\033[00m\]$ "
+alias travis='docker run --rm -v $PWD:/repo -v ~/.travis:/travis andredumas/travis-ci-cli'
