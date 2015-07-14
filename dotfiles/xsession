@@ -27,15 +27,19 @@ for nm in urxvtcd sakura lxterminal xfce4-terminal; do
     fi
 done
 
-xset b off
+if which xset; then
+	xset b off
+fi
 ~/bin/xkbmap
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
-if [ -f ~/.Xresources ]; then
+if which xrdb && [ -f ~/.Xresources ]; then
     xrdb -merge ~/.Xresources
 fi
 
-fbxkb &
+if which fbxkb; then
+	fbxkb &
+fi
 if which nm-applet >/dev/null 2>&1; then
     nm-applet &
 else
@@ -44,7 +48,9 @@ fi
 if which dropbox >/dev/null 2>&1; then
 	(sleep 5; dropbox start) &
 fi
-pulseaudio --daemonize &
+if which pulseaudio; then
+	pulseaudio --daemonize &
+fi
 #if which groximity 2>/dev/null; then
 #    groximity 20:13:E0:36:E7:53 &
 #else
@@ -67,31 +73,14 @@ if [ -d ~/.screenlayout ]; then
 fi
 ) &
 
-(
-for i in seq 120; do
-	if ip route | fgrep 10.65.25.0; then
-        p520.mountall
-		break
-    else
-	    sleep 2
-    fi
-done
-) &
-
-if [ -x /usr/bin/emacs ]; then
-	emacs --daemon &
-fi
-
-if [ -x ~/bin/nasaBackground.sh ]; then
+if [ -x ~/bin/nasaBackground ]; then
     (
     sleep 3
-    ~/bin/nasaBackground.sh
+    ~/bin/nasaBackground
     ) &
 fi
-which autocutsel >/dev/null && autocutsel -s PRIMARY -fork
-
-if [ -x /usr/bin/parcellite ]; then
-	parcellite &
+if which autocutsel >/dev/null; then
+	autocutsel -s PRIMARY -fork
 fi
 
 if which redshift >/dev/null; then
