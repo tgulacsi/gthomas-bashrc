@@ -11,9 +11,11 @@ scale=
 if [ ${pos} -gt 1366 ]; then
     scale='--scale 0.75x0.75'
 fi
+NAME=$(xrandr | fgrep connected | cut -d\  -f1 | fgrep -v eDP1)
+NAME=${NAME:-HDMI1}
 case "${N:-1}" in
-  1) CMD="xrandr --output HDMI1 --off --output $nm --mode $sz $scale --pos 0x0 --rotate normal" ;;
-  2) CMD="xrandr --output HDMI1 --mode $sz --pos ${pos}x0 --rotate normal --output $nm --mode $sz $scale --pos 0x0 --rotate normal" ;;
+  1) CMD="xrandr --output $NAME --off --output $nm --mode $sz $scale --pos 0x0 --rotate normal" ;;
+  2) CMD="xrandr --output $NAME --mode $sz --pos ${pos}x0 --rotate normal --output $nm --mode $sz $scale --pos 0x0 --rotate normal" ;;
   *) echo "unknown number of connected outputs: $N >&2" ; exit $N ;;
 esac
 echo $CMD

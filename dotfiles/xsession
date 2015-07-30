@@ -28,7 +28,8 @@ for nm in urxvtcd sakura lxterminal xfce4-terminal; do
 done
 
 if which xset; then
-	xset b off
+	# disable bell
+	xset -b
 fi
 ~/bin/xkbmap
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
@@ -44,6 +45,9 @@ if which nm-applet >/dev/null 2>&1; then
     nm-applet &
 else
     connman-ui-gtk &
+fi
+if which Telegram >/dev/null 2>&1; then
+	Telegram &
 fi
 if which dropbox >/dev/null 2>&1; then
 	(sleep 5; dropbox start) &

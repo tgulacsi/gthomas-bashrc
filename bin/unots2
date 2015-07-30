@@ -5,7 +5,7 @@ if lsusb | grep -q Gem; then
     SC=/smartcard:Gemalto
 fi
 prog=${XFREERDP:-xfreerdp}
-host=${HOST:-unots2}
+host=${HOST:-unots2.unosoft.local}
 pkill -f "${prog}.*/v:${host}"
 CMD="${prog} /codec-cache:nsc +async-input +async-update /size:$(getscreensize 2 16) /cert-ignore /sec:tls /drive:tmp,/tmp +clipboard /u:tgulacsi /d:unosoft $SC /v:${host} "$@""
 echo "$CMD"

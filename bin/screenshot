@@ -1,4 +1,4 @@
 #!/bin/sh
 DEST=~/Documents/shots
 mkdir -p $DEST
-scrot '%Y-%m-%d_$wx$h_screenshot.png' -e 'mv $f '"$DEST"
+scrot '%Y%m%d_%H%M%S-$wx$h_screenshot.png' -e 'mv $f '"$DEST"

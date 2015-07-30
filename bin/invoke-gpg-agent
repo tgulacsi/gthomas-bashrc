@@ -1,4 +1,5 @@
 #!/bin/sh
+#set -x
 dn=/run/user/$(id -u)
 mkdir -p $dn
 
@@ -19,8 +20,9 @@ ifn=$dn/E.ssh-agent
 sfn=$dn/S.ssh-agent
 if [ -e $ifn ]; then
 	. $ifn
-	ssh-add -l >/dev/null
-	if [ $? -eq 2 ]; then
+	rc=0
+	ssh-add -l >/dev/null || rc=$?
+	if [ $rc -eq 2 ]; then
 		rm -f $ifn $sfn
 	fi
 fi
