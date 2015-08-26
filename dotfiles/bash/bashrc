@@ -33,6 +33,7 @@ fi
 
 if [[ -z "$GOPATH" ]]; then
     GOPATH=$HOME
+	export GO15VENDOREXPERIMENT=1
     if [[ -d "$GOPATH" ]]; then
         export GOPATH
         if [[ -x /usr/local/go/bin/go ]]; then
