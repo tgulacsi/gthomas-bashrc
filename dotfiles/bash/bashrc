@@ -86,7 +86,7 @@ if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
 fi
 
 if [[ -z $CGO_CFLAGS ]]; then
-	fn=$GOPATH/src/gopkg.in/rana/ora.v2/env.sh
+	fn=$GOPATH/src/gopkg.in/goracle.v1/env
 	if [[ -x $fn ]]; then
 		. $fn
 	fi
