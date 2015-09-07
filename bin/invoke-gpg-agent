@@ -12,7 +12,8 @@ if [ -x /usr/bin/gpg-connect-agent ]; then
 		gpg-connect-agent --no-autostart /bye || rm $fn
 	fi
 	if [ ! -s $fn ] || ! gpg-connect-agent --no-autostart /bye; then
-		gpg-agent --daemon --enable-ssh-support --extra-socket $dn/S.gpg-agent
+		gpg-agent --daemon --enable-ssh-support --extra-socket $dn/S.gpg-agent \
+			2>&1 | fgrep -v already >&2
 	fi
 fi
 
