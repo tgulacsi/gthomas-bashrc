@@ -85,13 +85,18 @@ if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
     _PATH_HAS_BEEN_SET=1
 fi
 
-if [[ -z $CGO_CFLAGS ]]; then
+if [[ -z $ORA_CGO_CFLAGS ]]; then
 	fn=$GOPATH/src/gopkg.in/goracle.v1/env
 	if [[ -x $fn ]]; then
 		. $fn
+		export ORA_CGO_CFLAGS=$CGO_CFLAGS
+		export ORA_CGO_LDFLAGS=$CGO_LDFLAGS
+		unset CGO_CFLAGS
+		unset CGO_LDFLAGS
 	fi
 fi
 
-alias l='ls -lA --color=auto'
-export PS1="$(if [ $? -eq 0 ]; then echo '\[\033[01;32m\]\ʕ◔ϖ◔ʔ/'; else echo '\[\033[01;31m\]\nʕ╯◔ϖ◔ʔ╯'; fi)\[\033[00m\]$ "
 alias travis='docker run --rm -v $PWD:/repo -v ~/.travis:/travis andredumas/travis-ci-cli'
+alias l='ls -lA --color=auto'
+
+export PS1="\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\`if [ \$? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi\` \\$ "
