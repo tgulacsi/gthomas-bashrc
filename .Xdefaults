@@ -113,10 +113,12 @@ URxvt*color14:#a3b1b1
 URxvt*color15:#fdf6f3
 
 !XTerm*termName: xterm-256color
-!xterm*faceName: DejaVu Sans Mono:size=12
-xterm*faceName: Inconsolata:size=14
+xterm*faceName: DejaVu Sans Mono:size=12
+!xterm*faceName: Inconsolata:size=14
+!xterm*faceName: Hack:size=8
 !URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
 URxvt*font: xft:Inconsolata:pixelsize=14:antialias=true:hinting=true:autohint=true
+!URxvt*font: xft:Hack:pixelsize=10:antialias=true:hinting=true:autohint=true
 !URxvt*boldFont: xft:Droid Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
 !URxvt.letterSpace: -2
 !URxvt*scrollBar: true
