@@ -38,9 +38,12 @@ if which xrdb && [ -f ~/.Xresources ]; then
     xrdb -merge ~/.Xresources
 fi
 
-if which fbxkb; then
-	fbxkb &
-fi
+for nm in fbxkb gxkb; do
+	if which $nm; then
+		$nm &
+		break
+	fi
+done
 if which nm-applet >/dev/null 2>&1; then
     nm-applet &
 else
