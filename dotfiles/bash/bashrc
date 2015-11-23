@@ -98,7 +98,3 @@ if [[ -z $ORA_CGO_CFLAGS ]]; then
 	fi
 fi
 
-alias travis='docker run --rm -v $PWD:/repo -v ~/.travis:/travis andredumas/travis-ci-cli'
-alias l='ls -lA --color=auto'
-
-export PS1="\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\`if [ \$? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi\` \\$ "

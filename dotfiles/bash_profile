@@ -11,6 +11,10 @@
 . $HOME/.bashrc
 
 export NMON=cdm4
+alias travis='docker run --rm -v $PWD:/repo -v ~/.travis:/travis andredumas/travis-ci-cli'
+alias l='ls -lA --color=auto'
+
+export PS1=":\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\$(if [ \$? = 0 ]; then echo '$'; else echo '!'; fi) "
 
 CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
 if [ -e /usr/lib/pepperflashplugin-nonfree/etc-chromium-default.txt ]; then
