@@ -97,4 +97,3 @@ if [[ -z $ORA_CGO_CFLAGS ]]; then
 		unset CGO_LDFLAGS
 	fi
 fi
-

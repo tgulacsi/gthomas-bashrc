@@ -41,11 +41,14 @@ if 1 " eval compiled in
 
     Plug 'bling/vim-airline'
     Plug 'scrooloose/syntastic'
+	Plug 'scrooloose/nerdtree'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-markdown'
     Plug 'tpope/vim-vinegar'
 	Plug 'ludovicchabant/vim-gutentags'
 	Plug 'csexton/trailertrash.vim'
+	Plug 'majutsushi/tagbar'
+	Plug 'ervandew/supertab'
 
     Plug 'fatih/vim-go'
 
@@ -114,6 +117,35 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 0
 autocmd FileType go setlocal fileencoding=utf-8 encoding=utf-8 noet nolist
 
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+
 " airline
 let g:airline_theme='powerlineish'
 
@@ -127,6 +159,14 @@ else
 	set t_Co=256
 	colorscheme solarized
 endif
+
+" NERDTree
+"au VimEnter * NERDTreeToggle
+nmap <F3> :NERDTreeToggle<CR>
+let g:SuperTabDefaultCompletionType = "context"
+
+" md
+au BufRead,BufNewFile *.md set filetype=markdown
 
 " do not clear screen on exit
 set t_ti= t_te=
