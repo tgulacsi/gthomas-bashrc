@@ -4,7 +4,7 @@ dn=/run/user/$(id -u)
 mkdir -p $dn
 
 ifn=$dn/E.ssh-agent
-sfn=$dn/S.ssh-agent
+#sfn=$dn/S.ssh-agent
 
 if [ -x /usr/bin/gpg-connect-agent ]; then
 	fn=$dn/.gpg-agent-info
@@ -15,8 +15,8 @@ if [ -x /usr/bin/gpg-connect-agent ]; then
 		gpg-agent --daemon \
 			--pinentry-program /usr/bin/pinentry \
 			--enable-ssh-support \
-			--extra-socket $dn/S.gpg-agent \
 			2>&1 | fgrep -v already >&2
+			#--extra-socket $dn/S.gpg-agent \
 	fi
 fi
 
@@ -31,7 +31,8 @@ fi
 if [ ! -s $ifn ]; then
 	killall -9 ssh-agent
 	rm -f $sfn
-	ssh-agent -t 86400 -a $sfn | grep '^SSH_' > $ifn
+	. $ifn
+	ssh-agent -t 86400 -a $SSH_AUTH_SOCK | grep '^SSH_' > $ifn
 fi
 . $ifn
 cat $ifn
