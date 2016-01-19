@@ -1,10 +1,8 @@
 #!/bin/sh
-#set -x
 dn=/run/user/$(id -u)
 mkdir -p $dn
 
 ifn=$dn/E.ssh-agent
-#sfn=$dn/S.ssh-agent
 
 if [ -x /usr/bin/gpg-connect-agent ]; then
 	fn=$dn/.gpg-agent-info
@@ -15,24 +13,25 @@ if [ -x /usr/bin/gpg-connect-agent ]; then
 		gpg-agent --daemon \
 			--pinentry-program /usr/bin/pinentry \
 			--enable-ssh-support \
+			-s >$ifn \
 			2>&1 | fgrep -v already >&2
-			#--extra-socket $dn/S.gpg-agent \
 	fi
 fi
 
-if [ -s $ifn ]; then
-	. $ifn
-	rc=0
-	ssh-add -l >/dev/null || rc=$?
-	if [ $rc -eq 2 ]; then
-		rm -f $ifn $sfn
-	fi
-fi
-if [ ! -s $ifn ]; then
-	killall -9 ssh-agent
-	rm -f $sfn
-	. $ifn
-	ssh-agent -t 86400 -a $SSH_AUTH_SOCK | grep '^SSH_' > $ifn
-fi
 . $ifn
-cat $ifn
+now=$(date '+%s')
+if [ -z "$_LAST_GPG_CHECK" ] || [ "$_LAST_GPG_CHECK" -le  $(( $now - 60 )) ]; then
+	export _LAST_GPG_CHECK=$now
+	echo "export _LAST_GPG_CHECK=$now" >>$ifn
+	if [ -s $ifn ]; then
+		rc=0
+		time ssh-add -l >/dev/null || rc=$?
+		if [ $rc -eq 2 ]; then
+			rm -f $ifn $sfn
+		fi
+	fi
+	if [ ! -s $ifn ]; then
+		killall -9 ssh-agent
+	fi
+	cat $ifn
+fi
