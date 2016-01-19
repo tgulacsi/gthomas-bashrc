@@ -10,7 +10,7 @@ if [ -x /usr/bin/gpg-connect-agent ]; then
 		gpg-connect-agent --no-autostart /bye || rm $fn
 	fi
 	if [ ! -s $fn ] || ! gpg-connect-agent --no-autostart /bye; then
-		set -x
+		#set -x
 		{
 			gpg-agent --daemon \
 				--pinentry-program /usr/bin/pinentry \
