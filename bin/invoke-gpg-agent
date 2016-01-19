@@ -10,11 +10,13 @@ if [ -x /usr/bin/gpg-connect-agent ]; then
 		gpg-connect-agent --no-autostart /bye || rm $fn
 	fi
 	if [ ! -s $fn ] || ! gpg-connect-agent --no-autostart /bye; then
-		gpg-agent --daemon \
-			--pinentry-program /usr/bin/pinentry \
-			--enable-ssh-support \
-			-s >$ifn \
-			2>&1 | fgrep -v already >&2
+		set -x
+		{
+			gpg-agent --daemon \
+				--pinentry-program /usr/bin/pinentry \
+				--enable-ssh-support \
+				-s | fgrep -v already >$ifn
+		} 2>&1 | fgrep -v already >&2
 	fi
 fi
 
