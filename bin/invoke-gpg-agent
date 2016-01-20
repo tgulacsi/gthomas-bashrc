@@ -3,40 +3,21 @@ dn=/run/user/$(id -u)
 mkdir -p $dn
 
 ifn=$dn/E.ssh-agent
-
-if [ -x /usr/bin/gpg-connect-agent ]; then
-	fn=$dn/.gpg-agent-info
-	if [ -e $fn ]; then
-		gpg-connect-agent --no-autostart /bye || rm $fn
-	fi
-	if [ ! -s $fn ] || ! gpg-connect-agent --no-autostart /bye; then
-		#set -x
-		{
-			gpg-agent --daemon \
-				--pinentry-program /usr/bin/pinentry \
-				--enable-ssh-support \
-				-s | fgrep -v already >$ifn
-		} 2>&1 | fgrep -v already >&2
-	fi
-fi
-
+sfn=$dn/S.ssh-agent
 . $ifn
-now=$(date '+%s')
-if [ -z "$_LAST_GPG_CHECK" ] || [ "$_LAST_GPG_CHECK" -le  $(( $now - 60 )) ]; then
-	export _LAST_GPG_CHECK=$now
-	echo "export _LAST_GPG_CHECK=$now" >>$ifn
-	if [ -s $ifn ]; then
-		rc=0
-		time ssh-add -l >/dev/null || rc=$?
-		if [ $rc -eq 2 ]; then
-			rm -f $ifn $sfn
-		fi
+if [ -s $ifn ]; then
+	rc=0
+	ssh-add -l >/dev/null || rc=$?
+	if [ $rc -eq 2 ]; then
+		rm -f $ifn $sfn
 	fi
-	if [ ! -s $ifn ]; then
-		killall -9 ssh-agent
-	fi
-	cat $ifn
 fi
+if [ ! -s $ifn ]; then
+	killall -9 ssh-agent
+	ssh-agent -s -a $sfn >$ifn
+	. $ifn
+fi
+cat $ifn
 
 ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' \
-	|| ssh-add ~/.ssh/tgulacsi@unosoft
+	|| ssh-add ~/.ssh/tgulacsi2@unosoft
