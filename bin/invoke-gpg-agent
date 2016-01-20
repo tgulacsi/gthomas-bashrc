@@ -37,3 +37,6 @@ if [ -z "$_LAST_GPG_CHECK" ] || [ "$_LAST_GPG_CHECK" -le  $(( $now - 60 )) ]; th
 	fi
 	cat $ifn
 fi
+
+ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' \
+	|| ssh-add ~/.ssh/tgulacsi@unosoft
