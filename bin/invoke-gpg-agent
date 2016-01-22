@@ -4,8 +4,8 @@ mkdir -p $dn
 
 ifn=$dn/E.ssh-agent
 sfn=$dn/S.ssh-agent
-. $ifn
 if [ -s $ifn ]; then
+	. $ifn
 	rc=0
 	ssh-add -l >/dev/null || rc=$?
 	if [ $rc -eq 2 ]; then
@@ -14,10 +14,12 @@ if [ -s $ifn ]; then
 fi
 if [ ! -s $ifn ]; then
 	killall -9 ssh-agent
-	ssh-agent -s -a $sfn >$ifn
+	ssh-agent -s -a $sfn | grep -E '^(GPG|SSH)' >$ifn
 	. $ifn
 fi
 cat $ifn
 
 ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' \
 	|| ssh-add ~/.ssh/tgulacsi2@unosoft
+ssh-add -l | fgrep -q 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' \
+	|| ssh-add ~/.ssh/tgulacsi@unosoft
