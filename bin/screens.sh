@@ -11,7 +11,7 @@ scale=
 if [ ${pos} -gt 1366 ]; then
     scale='--scale 0.75x0.75'
 fi
-NAME=$(xrandr | fgrep connected | cut -d\  -f1 | fgrep -v eDP1)
+NAME=$(xrandr | fgrep -v VIRTUAL | fgrep connected | cut -d\  -f1 | fgrep -v eDP1)
 NAME=${NAME:-HDMI1}
 case "${N:-1}" in
   1) CMD="xrandr --output $NAME --off --output $nm --mode $sz $scale --pos 0x0 --rotate normal" ;;
