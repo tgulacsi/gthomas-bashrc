@@ -147,7 +147,7 @@ let g:tagbar_type_go = {
 \ }
 
 " airline
-let g:airline_theme='powerlineish'
+"let g:airline_theme='powerlineish'
 
 set autochdir
 " color
