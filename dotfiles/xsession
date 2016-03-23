@@ -46,11 +46,6 @@ for nm in fbxkb gxkb; do
 done
 if which nm-applet >/dev/null 2>&1; then
     nm-applet &
-else
-    connman-ui-gtk &
-fi
-if which Telegram >/dev/null 2>&1; then
-	Telegram &
 fi
 if which dropbox >/dev/null 2>&1; then
 	(sleep 5; dropbox start) &
@@ -65,7 +60,6 @@ fi
         xscreensaver &
     fi
 #fi
-#exec ck-launch-session dbus-launch awesome
 (
 if [ -d ~/.screenlayout ]; then
     sleep 0.5

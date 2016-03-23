@@ -105,6 +105,9 @@ if [[ -z "$_PROMPT_HAS_BEEN_SET" ]]; then
     _PROMPT_HAS_BEEN_SET=1
 fi
 
+# no ! history expansion
+set +H
+
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 #echo TERM="$TERM"
