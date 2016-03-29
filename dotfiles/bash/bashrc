@@ -11,11 +11,7 @@ export LC_ALL=
 #export ENV=$HOME/.profile
 
 export TMPDIR=${TMPDIR:-/tmp}
-if [ -x /usr/bin/emacsclient ]; then
-	EDITOR='emacsclient -nw'
-else
-	EDITOR='vim'
-fi
+EDITOR='vim'
 export EDITOR
 export VISUAL=$EDITOR
 export PAGER='less'
