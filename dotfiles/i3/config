@@ -176,3 +176,5 @@ bindsym $mod+Shift+F12 exec --no-startup-id sync && sudo -A /lib/systemd/systemd
 bindsym $mod+Control+F12 exec --no-startup-id sync && sudo -A /lib/systemd/systemd-sleep hibernate
 bindsym $mod+Shift+Control+F12 exec --no-startup-id sync && sudo -A /lib/systemd/systemd-sleep hybrid-sleep
 
+bindsym $mod+F5 exec --no-startup-id killall -STOP firefox
+bindsym $mod+F6 exec --no-startup-id killall -CONT firefox
