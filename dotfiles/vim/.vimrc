@@ -45,7 +45,7 @@ if 1 " eval compiled in
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-markdown'
     Plug 'tpope/vim-vinegar'
-	Plug 'ludovicchabant/vim-gutentags'
+	"Plug 'ludovicchabant/vim-gutentags'
 	Plug 'csexton/trailertrash.vim'
 	Plug 'majutsushi/tagbar'
 	Plug 'ervandew/supertab'
