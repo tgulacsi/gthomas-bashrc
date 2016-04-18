@@ -11,8 +11,6 @@
 . $HOME/.bashrc
 
 export NMON=cdm4
-alias travis='docker run --rm -v $PWD:/repo -v ~/.travis:/travis andredumas/travis-ci-cli'
-alias l='ls -lA --color=auto'
 
 export PS1=":\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\$(if [ \$? = 0 ]; then echo '$'; else echo '!'; fi) "
 
@@ -49,6 +47,8 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     alias la='ls -A'
     alias l='ls -lA'
     alias cp='cp --reflink=auto'
+
+	alias gl='go list -f '\''{{range .Imports}}{{println .}}{{end}}'\'''
 
     # Alias definitions.
     # You may want to put all your additions into a separate file like
