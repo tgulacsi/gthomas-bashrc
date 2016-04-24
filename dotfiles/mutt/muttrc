@@ -1,6 +1,15 @@
-# A basic .muttrc for use with Gmail
+# A basic .muttrc
 
+set mbox_type=Maildir
 source ~/.ssh/tgulacsi78@gmail.com.muttrc
+
+folder-hook 'gmail.com' 'source ~/.mutt/tgulacsi78@gmail.com'
+folder-hook 'unosoft.hu' 'source ~/.mutt/t.gulacsi@unosoft.hu'
+# switch to default account on startup
+source ~/.mutt/tgulacsi78@gmail.com
+
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/tgulacsi78@gmail.com<enter><change-folder>!<enter>'
+macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/t.gulacsi@unosoft.hu<enter><change-folder>!<enter>'
 
 # Change the following line to a different editor you prefer (and update the Dockerfile accordingly, of course).
 set editor = "vim"
@@ -47,16 +56,9 @@ set mailcap_path = ~/.mutt/mailcap
 
 # Gmail-style keyboard shortcuts
 macro index,pager Gi "<change-folder>=INBOX<enter>" "Go to Inbox"
-macro index,pager Ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to All Mail"
-macro index,pager Gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to Drafts"
-macro index,pager Gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to Sent Mail"
 
 macro index,pager a "<enter-command>unset resolve<enter><enter-command>unset trash<enter><clear-flag>N<enter-command>set resolve<enter><delete-message><enter>"
-macro index,pager d ";s+[Gmail]/Trash<enter><enter>" "Trash"
 macro index,pager u ";s+INBOX<enter><enter>" "Move to Inbox"
-macro index,pager !  <save-message>=[Gmail]/Spam<enter><enter> "Report spam"
-macro index,pager +  <save-message>=[Gmail]/Important<enter><enter> "Mark as Important"
-macro index,pager *  <save-message>=[Gmail]/Starred<enter><enter> "Star Message"
 
 # colors
 source ~/.mutt/mutt-colors-solarized-dark-16.muttrc
