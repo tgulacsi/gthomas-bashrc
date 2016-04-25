@@ -10,6 +10,7 @@ source ~/.mutt/tgulacsi78@gmail.com
 
 macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/tgulacsi78@gmail.com<enter><change-folder>!<enter>'
 macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/t.gulacsi@unosoft.hu<enter><change-folder>!<enter>'
+macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/waberer@unosoft.hu<enter><change-folder>!<enter>'
 
 # Change the following line to a different editor you prefer (and update the Dockerfile accordingly, of course).
 set editor = "vim"
