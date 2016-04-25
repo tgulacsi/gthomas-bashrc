@@ -1,0 +1,22 @@
+source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
+#
+set imap_user = "t.gulacsi@unosoft.hu\\cig@unosoft.hu"
+set smtp_url = "smtps://$imap_user@smtp.outlook.com:465/"
+set smtp_pass = "$imap_pass" # leave blank for prompt
+set from = "cig@unosoft.hu"
+set realname = "UNO-SOFT"
+
+set folder = "imaps://imap.outlook.com:993"
+set spoolfile = "+INBOX"
+set imap_check_subscribed
+set hostname = unosoft.hu
+set mail_check = 60
+set timeout = 300
+set imap_keepalive = 300
+set postponed = "+Drafts"
+set record = "+Sent" # gmail automatically handles saving sent emails
+
+# Gmail-style keyboard shortcuts
+#macro index,pager Ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to All Mail"
+#macro index,pager Gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to Drafts"
+#macro index,pager Gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to Sent Mail"
