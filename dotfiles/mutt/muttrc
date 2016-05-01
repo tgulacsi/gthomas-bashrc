@@ -19,12 +19,10 @@ set editor = "vim"
 
 # I like seeing some headers. :)
 ignore *
-unignore date subject x- user-agent posted-to content-type
+unignore date subject user-agent posted-to content-type
 unignore to cc bcc reply-to from
+ignore x-ms- x-microsoft-
 set edit_headers = yes
-my_hdr X-Docker-Image: jess/mutt
-my_hdr X-Hack-The-Planet: Yes
-my_hdr X-Acid-Burn: Yes
 
 # TODO figure out how to use the sidebar more effectively :)
 #set sidebar_visible = no
