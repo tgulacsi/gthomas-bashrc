@@ -1,0 +1,1 @@
+message/rfc822; formail -b < %s > %s.mbox && mutt -f '%s.mbox'; needsterminal
