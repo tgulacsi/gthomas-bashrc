@@ -1,0 +1,5 @@
+#!/bin/sh
+fn="/tmp/muttview-$$.mbox"
+formail -b < "$1" > "$fn"
+mutt -f "$fn"
+rm -f "$fn"

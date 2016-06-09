@@ -1,12 +1,12 @@
 source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
 #
 set imap_user = "t.gulacsi@unosoft.hu"
-set smtp_url = "smtps://$imap_user@smtp.outlook.com:465/"
+set smtp_url = "smtps://$imap_user@smtp.office365.com:587"
 set smtp_pass = "$imap_pass" # leave blank for prompt
 set from = "T.Gulacsi@unosoft.hu"
 set realname = "Tamás Gulácsi"
 
-set folder = "imaps://imap.outlook.com:993"
+set folder = "imaps://outlook.office365.com:993"
 set spoolfile = "+INBOX"
 set imap_check_subscribed
 set hostname = unosoft.hu

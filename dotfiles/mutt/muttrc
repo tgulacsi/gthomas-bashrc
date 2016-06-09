@@ -3,8 +3,8 @@
 set mbox_type=Maildir
 source ~/.ssh/tgulacsi78@gmail.com.muttrc
 
-folder-hook 'gmail.com' 'source ~/.mutt/tgulacsi78@gmail.com'
-folder-hook 'unosoft.hu' 'source ~/.mutt/t.gulacsi@unosoft.hu'
+#folder-hook 'gmail.com' 'source ~/.mutt/tgulacsi78@gmail.com'
+#folder-hook 'unosoft.hu' 'source ~/.mutt/t.gulacsi@unosoft.hu'
 # switch to default account on startup
 source ~/.mutt/tgulacsi78@gmail.com
 
@@ -13,6 +13,7 @@ macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/t.gulacsi@unosoft.
 macro index \emc '<sync-mailbox><enter-command>source ~/.mutt/cig@unosoft.hu<enter><change-folder>!<enter>'
 macro index \emk '<sync-mailbox><enter-command>source ~/.mutt/kobe@unosoft.hu<enter><change-folder>!<enter>'
 macro index \emw '<sync-mailbox><enter-command>source ~/.mutt/waberer@unosoft.hu<enter><change-folder>!<enter>'
+macro index \em1 '<sync-mailbox><enter-command>source ~/.mutt/unosoft.test1@gmail.com<enter><change-folder>!<enter>'
 
 # Change the following line to a different editor you prefer (and update the Dockerfile accordingly, of course).
 set editor = "vim"

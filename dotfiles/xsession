@@ -18,6 +18,13 @@ if [ -x ~/bin/screens.sh ]; then
 	~/bin/screens.sh
 fi
 
+if which xset >/dev/null 2>&1; then
+	# disable bell
+	xset -b
+fi
+~/bin/xkbmap
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+
 # exec startlxde
 # exec dbus-launch lxsession -a
 for nm in urxvtcd sakura lxterminal xfce4-terminal; do
@@ -26,13 +33,6 @@ for nm in urxvtcd sakura lxterminal xfce4-terminal; do
         break
     fi
 done
-
-if which xset; then
-	# disable bell
-	xset -b
-fi
-~/bin/xkbmap
-/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
 if which xrdb && [ -f ~/.Xresources ]; then
     xrdb -merge ~/.Xresources

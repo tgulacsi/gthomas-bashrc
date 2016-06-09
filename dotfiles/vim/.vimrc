@@ -74,6 +74,7 @@ endif
 "
 
 
+set autochdir
 syntax on
 filetype plugin on
 filetype indent on
@@ -137,7 +138,6 @@ let g:tagbar_type_go = {
 " airline
 "let g:airline_theme='powerlineish'
 
-set autochdir
 " color
 set background=light
 if hostname() =~ ".*lnx.*"
