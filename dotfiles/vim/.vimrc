@@ -25,10 +25,10 @@ filetype off
 if 1 " eval compiled in
     let iCanHazVimPlug=1
     let vimplug_file=expand('~/.vim/autoload/plug.vim')
-    if !filereadable(vimplug_file)
+    if !filereadable(vimplug_file) && empty(glob("~/.vim/plugged"))
         echo "Installing vim-plug..."
         echo ""
-        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         let iCanHazVimPlug=0
     endif
 
