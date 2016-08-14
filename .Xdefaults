@@ -120,6 +120,6 @@ xterm*faceName: DejaVu Sans Mono:size=12
 URxvt*font: xft:Inconsolata:pixelsize=14:antialias=true:hinting=true:autohint=true
 !URxvt*font: xft:Hack:pixelsize=10:antialias=true:hinting=true:autohint=true
 !URxvt*boldFont: xft:Droid Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
-!URxvt.letterSpace: -2
+!URxvt.letterSpace: 0
 !URxvt*scrollBar: true
 !URxvt.intensityStyles: false
