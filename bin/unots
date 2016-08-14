@@ -20,6 +20,16 @@ fi
 dest=${1:-unots2}
 prog=${RDP:-xfreerdp}
 
+destIP=$(ping -c1 -n "$dest" | grep '^PING' | head -n1 | cut -d\( -f2 | cut -d\) -f1)
+if [ "$destIP" = '10.65.25.3' ]; then
+	if ! ip route | fgrep -q "$destIP"; then
+		def=$(ip route | grep '^default via ' | head -n1 | cut -d\  -f2-5)
+		if echo "$def" | fgrep 192.168.2.; then
+			sudo -A ip route add "$destIP" $def
+		fi
+	fi
+fi
+
 port=2503
 if [ "$dest" = unots2 ]; then
 	port=2504
