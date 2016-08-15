@@ -114,6 +114,10 @@ if has('persistent_undo')
   execute expand('set undodir=' . undo_dir)
 endif
 
+if expand('$LANG') =~ '[Ii][Ss][Oo]-*8859-*2$'
+	set encoding=iso8859-2
+endif
+
 " Colorscheme
 let g:rehash256 = 1
 let g:molokai_original = 1
@@ -203,7 +207,7 @@ augroup go
   autocmd!
 
   " Show by default 4 spaces for a tab
-  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 fileencoding=utf-8
 
   " :GoBuild and :GoTestCompile
   autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
