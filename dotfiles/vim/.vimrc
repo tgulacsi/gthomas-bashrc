@@ -35,7 +35,7 @@ if 1 " eval compiled in
     "Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-markdown'
     "Plug 'tpope/vim-vinegar'
-	"Plug 'csexton/trailertrash.vim'
+	Plug 'csexton/trailertrash.vim'
 	"Plug 'majutsushi/tagbar'
 	"Plug 'ervandew/supertab'
 	call plug#end()
