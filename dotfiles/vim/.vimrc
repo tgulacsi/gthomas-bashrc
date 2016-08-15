@@ -115,10 +115,15 @@ if has('persistent_undo')
 endif
 
 " Colorscheme
-set t_Co=256
 let g:rehash256 = 1
 let g:molokai_original = 1
-colorscheme molokai
+if hostname() =~ "[.]unosoft[.]local$"
+	set t_Co=8
+	colorscheme zellner
+else
+	set t_Co=256
+	colorscheme molokai
+endif
 syntax enable
 
 " do not clear screen on exit
@@ -243,15 +248,3 @@ function! s:build_go_files()
     call go#cmd#Build(0)
   endif
 endfunction
-
-
-" color
-" set background=light
-" if hostname() =~ ".*lnx.*"
-" 	colorscheme zellner
-" 	set t_Co=256
-" else
-" 	set t_Co=256
-" 	colorscheme solarized
-" endif
-
