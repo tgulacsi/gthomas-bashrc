@@ -10,6 +10,10 @@ else
     mkdir -p $DIR
 fi
 
+img_url=$(curl http://imgur.com/r/wallpapers | fgrep 'src="//i.imgur.com' \
+	| sed -e 's,^.*src=",http:,;s:".*$::;s:.jpg$:.png:' | shuf -n1)
+
+if true; then
 # grabs the nasa image of the day by RSS feed and updates the gnome
 # background. add this to your cron jobs to have this happen daily.  this is,
 # obviously, a hack, that is likely to break at the slightest change of NASA's
@@ -34,6 +38,7 @@ fi
 echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*'
 img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*' \
     | shuf -n1)
+fi
 if [ -z "$img_url" ]; then
     echo "no image url in"
     echo "$rss"

@@ -114,6 +114,7 @@ if has('persistent_undo')
   execute expand('set undodir=' . undo_dir)
 endif
 
+set encoding=utf-8
 if expand('$LANG') =~ '[Ii][Ss][Oo]-*8859-*2$'
 	set encoding=iso8859-2
 endif
@@ -187,7 +188,18 @@ autocmd FileType python set et
 au BufRead,BufNewFile *.md set filetype=markdown
 
 " vim-go
-let g:go_fmt_command = "goimports"
+if &encoding=~"iso-*8859-2"
+    let gi2=expand('~/bin/goimports2')
+    if !filereadable(gi2)
+		let content = ['#!/bin/sh', 'iconv -f iso-8859-2 -t utf-8 "$2" >"$2".utf8 && gofmt "$1" "$2".utf8 && iconv -f utf-8 -t iso-8859-2 "$2".utf8 >"$2"']
+		call writefile(content, gi2)
+		silent execute '!chmod 0755 ' . gi2
+	endif
+	let g:go_fmt_command = "goimports2"
+else
+	let g:go_fmt_command = "goimports"
+endif
+
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix"
 
@@ -197,6 +209,7 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
+let g:go_metalinter_enabled = ['vet', 'errcheck']
 
 " Open :GoDeclsDir with ctrl-g
 nmap <C-g> :GoDeclsDir<cr>
@@ -252,3 +265,5 @@ function! s:build_go_files()
     call go#cmd#Build(0)
   endif
 endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
