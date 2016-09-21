@@ -39,7 +39,7 @@ whb_dev,whb_dev_br_if_crashpert,whb_dev_br_pub,whb_dev_br_rep,whb_dev_br_sec,whb
       (PORT=1521)
     )
     (CONNECT_DATA=
-      (SERVICE_NAME=whb.unosoft.local)
+      (SERVICE_NAME=whb_dev.unosoft.local)
     )
  )
 
