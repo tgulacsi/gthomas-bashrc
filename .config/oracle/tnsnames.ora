@@ -1,0 +1,45 @@
+ablkd=
+  (DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=p520.unosoft.local)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVICE_NAME=ablkd.unosoft.local)
+    )
+ )
+cig_dev,cig_dev_br_if_crashpert,cig_dev_br_pub,cig_dev_br_rep,cig_dev_br_sec,cig_dev_br_trzs,cig_dev_bruno,cig_dev_br_websrv,cig_dev_br_inca,cig_dev_br_mon,cig_dev_br_ktny=
+  (DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=lnx-dev-cig.unosoft.local)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVICE_NAME=cig_dev.unosoft.local)
+    )
+ )
+kbe_dev,kbe_dev_br_if_crashpert,kbe_dev_br_pub,kbe_dev_br_rep,kbe_dev_br_sec,kbe_dev_br_trzs,kbe_dev_bruno,kbe_dev_br_websrv,kbe_dev_br_inca,kbe_dev_br_mon,kbe_dev_br_ktny=
+  (DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=lnx-dev-kbe.unosoft.local)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVICE_NAME=kbe_dev.unosoft.local)
+    )
+ )
+whb_dev,whb_dev_br_if_crashpert,whb_dev_br_pub,whb_dev_br_rep,whb_dev_br_sec,whb_dev_br_trzs,whb_dev_bruno,whb_dev_br_websrv,whb_dev_br_inca,whb_dev_br_mon,whb_dev_br_ktny=
+  (DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=lnx-dev-brn.unosoft.local)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVICE_NAME=whb_dev.unosoft.local)
+    )
+ )
+
