@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 setxkbmap -v -layout us,hu \
-	-option 'grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp' \
-	 -e 'clear Lock' -e 'keycode 0x42 = Escape'
+	-option 'grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp'
+xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
