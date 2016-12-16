@@ -1,8 +1,10 @@
-source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
+#source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
 #
-set imap_user = "t.gulacsi@unosoft.hu\\cig@unosoft.hu"
+#set imap_user = "t.gulacsi@unosoft.hu\\cig@unosoft.hu"
+source ~/.ssh/mantis@unosoft.hu.muttrc
+set imap_user = "mantis@unosoft.hu\\cig@unosoft.hu"
+set imap_pass = "$imap_pass"
 set smtp_url = "smtps://$imap_user@smtp.outlook.com:587/"
-set smtp_pass = "$imap_pass" # leave blank for prompt
 set from = "cig@unosoft.hu"
 set realname = "UNO-SOFT"
 

@@ -11,6 +11,8 @@ echo SIZE=$SIZE
 OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
 	/bpp:15 /decorations /network:lan /fonts \
 	/codec-cache:nsc /nsc \
+	/smart-sizing /compression /cert-ignore \
+	/async-channels /async-transport /async-update /async-input \
 	/gdi:hw /drive:tmp,/tmp /size:$SIZE /cert-ignore"
 SEC=${SEC:-/sec:nla}
 if lsusb | grep -q Gemplus; then
