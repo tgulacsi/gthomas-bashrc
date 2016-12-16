@@ -6,6 +6,8 @@ if [ -z $direct ]; then
 	fi
 fi
 
+u=tgulacsi
+dest=${1:-unots2}
 SIZE=${SIZE:-$(getscreensize 2 32)}
 echo SIZE=$SIZE
 OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
@@ -15,11 +17,18 @@ OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
 	/async-channels /async-transport /async-update /async-input \
 	/gdi:hw /drive:tmp,/tmp /size:$SIZE /cert-ignore"
 SEC=${SEC:-/sec:nla}
+if [ -n "SUDO_ASKPASS" ]; then
+	set -x
+	p=$($SUDO_ASKPASS "$u@$dest")
+	set +x
+	if [ -n "$p" ]; then
+		OPTS="$OPTS /p:$p"
+	fi
+fi
 if lsusb | grep -q Gemplus; then
 	OPTS="$OPTS /a:smartcard,Gemplus"
 fi
 
-dest=${1:-unots2}
 prog=${RDP:-xfreerdp}
 
 destIP=$(ping -c1 -n "$dest" | grep '^PING' | head -n1 | cut -d\( -f2 | cut -d\) -f1)
@@ -46,7 +55,7 @@ if [ $direct -gt 0 ]; then
 else
 	CMD="${prog} $OPTS \
 		/v:outside.unosoft.hu:$port \
-		/u:tgulacsi /d:unosoft \
+		/u:$u /d:unosoft \
 		$SEC"
     #exec $(dirname $0)/uno "${1:-unots}"; break
     echo $CMD
