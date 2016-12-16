@@ -12,7 +12,7 @@ OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
 	/bpp:15 /decorations /network:lan /fonts \
 	/codec-cache:nsc /nsc \
 	/gdi:hw /drive:tmp,/tmp /size:$SIZE /cert-ignore"
-SEC=${SEC:-/sec:tls}
+SEC=${SEC:-/sec:nla}
 if lsusb | grep -q Gemplus; then
 	OPTS="$OPTS /a:smartcard,Gemplus"
 fi
@@ -21,7 +21,7 @@ dest=${1:-unots2}
 prog=${RDP:-xfreerdp}
 
 destIP=$(ping -c1 -n "$dest" | grep '^PING' | head -n1 | cut -d\( -f2 | cut -d\) -f1)
-if [ "$destIP" = '10.65.25.3' ]; then
+if [ "$destIP" = '10.65.25.3' ] || [ "$destIP" = '10.65.25.6' ]; then
 	if ! ip route | fgrep -q "$destIP"; then
 		def=$(ip route | grep '^default via ' | head -n1 | cut -d\  -f2-5)
 		if echo "$def" | fgrep 192.168.2.; then

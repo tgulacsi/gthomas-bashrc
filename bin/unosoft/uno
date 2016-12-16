@@ -113,7 +113,7 @@ else
           /clipboard /a:drive,tmp,/tmp \
           /compression /network:modem \
           -themes /gdi:hw disk:tmp:/tmp \
-	  /kbd:0x409 \
+		  /kbd:0x409 \
           /v:localhost:${PORT} \
         || close
           #scard:scard \

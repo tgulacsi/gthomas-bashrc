@@ -16,6 +16,7 @@ EDITOR='vim'
 export EDITOR
 export VISUAL=$EDITOR
 export PAGER='less'
+export CCACHE_COMPRESS=1
 
 eval $($HOME/bin/invoke-gpg-agent)
 
