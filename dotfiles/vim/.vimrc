@@ -192,6 +192,7 @@ if &encoding=~"iso-*8859-2"
     let gi2=expand('~/bin/goimports2')
     if !filereadable(gi2)
 		let content = ['#!/bin/sh', 'iconv -f iso-8859-2 -t utf-8 "$2" >"$2".utf8 && gofmt "$1" "$2".utf8 && iconv -f utf-8 -t iso-8859-2 "$2".utf8 >"$2"']
+		silent execute '!mkdir -p ~/bin'
 		call writefile(content, gi2)
 		silent execute '!chmod 0755 ' . gi2
 	endif
