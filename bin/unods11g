@@ -1,2 +1,1 @@
-#!/bin/sh
-exec $(dirname $0)/unots unods11g
+windevrds
