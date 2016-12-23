@@ -7,22 +7,23 @@ if [ -z $direct ]; then
 fi
 
 u=tgulacsi
-dest=${1:-unots2}
+dest=${1:-windevrds}
 SIZE=${SIZE:-$(getscreensize 2 32)}
 echo SIZE=$SIZE
 OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
-	/bpp:15 /decorations /network:lan /fonts \
+	/bpp:15 /decorations /fonts \
 	/codec-cache:nsc /nsc \
 	/smart-sizing /compression /cert-ignore \
 	/async-channels /async-transport /async-update /async-input \
-	/gdi:hw /drive:tmp,/tmp /size:$SIZE /cert-ignore"
+	/gdi:hw /drive:tmp,/tmp /size:$SIZE /cert-ignore "
 SEC=${SEC:-/sec:nla}
 if [ -n "SUDO_ASKPASS" ]; then
-	set -x
 	p=$($SUDO_ASKPASS "$u@$dest")
-	set +x
 	if [ -n "$p" ]; then
-		OPTS="$OPTS /p:$p"
+		OPTS="$OPTS /u:$u /d:unosoft /p:$p /gp:$p"
+		if [ -n "$GW" ]; then
+			OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
+		fi
 	fi
 fi
 if lsusb | grep -q Gemplus; then
@@ -51,11 +52,10 @@ pkill -f "${prog}.*0x409 .* ${dest_prefix}${dest}"
 echo "direct=$direct"
 set -x
 if [ $direct -gt 0 ]; then
-	exec ${prog} /u:TGulacsi /d:unosoft ${SEC} $OPTS /v:${dest}
+	exec ${prog} ${SEC} $OPTS /v:${dest}
 else
 	CMD="${prog} $OPTS \
-		/v:outside.unosoft.hu:$port \
-		/u:$u /d:unosoft \
+		/v:mail.unosoft.hu:$port \
 		$SEC"
     #exec $(dirname $0)/uno "${1:-unots}"; break
     echo $CMD
