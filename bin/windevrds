@@ -1,0 +1,53 @@
+#!/bin/sh
+if [ -z $direct ]; then
+    direct=0
+	if ip route | fgrep -q 10.65.25; then
+		direct=1
+	fi
+fi
+
+u=tgulacsi
+dest=${1:-win-dev-rds.unosoft.local}
+SIZE=${SIZE:-$(getscreensize 2 32)}
+echo SIZE=$SIZE
+OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
+	/bpp:15 /decorations /fonts \
+	/codec-cache:nsc /nsc \
+	/compression /cert-ignore \
+	/async-channels /async-transport /async-update /async-input \
+	/gdi:hw /drive:tmp,/tmp /size:$SIZE /v:$dest"
+SEC=${SEC:-/sec:nla}
+if [ -z "$GW" ]; then
+	if ! ip route | fgrep -q 10.65.85.; then
+		GW=mail.unosoft.hu
+	fi
+fi
+
+if [ -n "SUDO_ASKPASS" ]; then
+	p=$($SUDO_ASKPASS "$u@$dest")
+	if [ -n "$p" ]; then
+		OPTS="$OPTS /u:$u /d:unosoft /p:$p /gp:$p"
+		if [ -n "$GW" ]; then
+			OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
+		fi
+	fi
+fi
+
+prog=${RDP:-xfreerdp}
+
+if [ -z "$GW" ]; then
+	destIP=$(ping -c1 -n "$dest" | grep '^PING' | head -n1 | cut -d\( -f2 | cut -d\) -f1)
+	if [ "$destIP" = '10.65.25.3' ] || [ "$destIP" = '10.65.25.6' ]; then
+		if ! ip route | fgrep -q "$destIP"; then
+			def=$(ip route | grep '^default via ' | head -n1 | cut -d\  -f2-5)
+			if echo "$def" | fgrep 192.168.2.; then
+				sudo -A ip route add "$destIP" $def
+			fi
+		fi
+	fi
+fi
+
+pkill -f "${prog}.*0x409 .* ${dest_prefix}${dest}"
+
+set -x
+exec ${prog} ${SEC} $OPTS
