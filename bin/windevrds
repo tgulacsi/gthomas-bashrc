@@ -49,5 +49,13 @@ fi
 
 pkill -f "${prog}.*0x409 .* ${dest_prefix}${dest}"
 
-set -x
+if which cpulimit >/dev/null 2>/dev/null; then
+	prog="cpulimit -f -l 50 -- $prog"
+fi
+
+echo "+ ${prog} ${SEC} $OPTS" >&2
+if [ "${DEBUG:-0}" -ne 1 ]; then
+	exec >/dev/null 2>/dev/null
+fi
+
 exec ${prog} ${SEC} $OPTS
