@@ -12,6 +12,7 @@ source ~/.mutt/tgulacsi78@gmail.com
 
 macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/tgulacsi78@gmail.com<enter><change-folder>!<enter>'
 macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/t.gulacsi@unosoft.hu<enter><change-folder>!<enter>'
+macro index \ema '<sync-mailbox><enter-command>source ~/.mutt/aegon@unosoft.hu<enter><change-folder>!<enter>'
 macro index \emc '<sync-mailbox><enter-command>source ~/.mutt/cig@unosoft.hu<enter><change-folder>!<enter>'
 macro index \emk '<sync-mailbox><enter-command>source ~/.mutt/kobe@unosoft.hu<enter><change-folder>!<enter>'
 macro index \emw '<sync-mailbox><enter-command>source ~/.mutt/waberer@unosoft.hu<enter><change-folder>!<enter>'

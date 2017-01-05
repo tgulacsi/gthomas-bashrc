@@ -23,6 +23,13 @@ fi
 export CHROMIUM_USER_FLAGS
 export USER_RUN_DIR=/var/run/user/$(id -u)
 
+if ! [ -L ~/.cache ]; then
+	mv ~/.cache $USER_RUN_DIR/
+	rm -rf ~/.cache
+	ln -sf $USER_RUN_DIR/.cache
+	mkdir -p $USER_RUN_DIR/.cache
+fi
+
 eval $(~/bin/invoke-gpg-agent)
 
 if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
