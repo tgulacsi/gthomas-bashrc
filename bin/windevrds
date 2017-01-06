@@ -26,7 +26,7 @@ fi
 if [ -n "SUDO_ASKPASS" ]; then
 	p=$($SUDO_ASKPASS "$u@$dest")
 	if [ -n "$p" ]; then
-		OPTS="$OPTS /u:$u /d:unosoft /p:$p /gp:$p"
+		OPTS="$OPTS /u:$u /d:unosoft /p:$p"
 		if [ -n "$GW" ]; then
 			OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
 		fi
@@ -34,18 +34,6 @@ if [ -n "SUDO_ASKPASS" ]; then
 fi
 
 prog=${RDP:-xfreerdp}
-
-if [ -z "$GW" ]; then
-	destIP=$(ping -c1 -n "$dest" | grep '^PING' | head -n1 | cut -d\( -f2 | cut -d\) -f1)
-	if [ "$destIP" = '10.65.25.3' ] || [ "$destIP" = '10.65.25.6' ]; then
-		if ! ip route | fgrep -q "$destIP"; then
-			def=$(ip route | grep '^default via ' | head -n1 | cut -d\  -f2-5)
-			if echo "$def" | fgrep 192.168.2.; then
-				sudo -A ip route add "$destIP" $def
-			fi
-		fi
-	fi
-fi
 
 pkill -f "${prog}.*0x409 .* ${dest_prefix}${dest}"
 

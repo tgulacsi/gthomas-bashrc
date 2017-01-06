@@ -28,6 +28,8 @@ if ! [ -L ~/.cache ]; then
 	rm -rf ~/.cache
 	ln -sf $USER_RUN_DIR/.cache
 	mkdir -p $USER_RUN_DIR/.cache
+else
+	mkdir -p $(readlink ~/.cache)
 fi
 
 eval $(~/bin/invoke-gpg-agent)
