@@ -1,15 +1,16 @@
 #!/bin/sh
 if [ -z $direct ]; then
     direct=0
-	if ip route | fgrep -q 10.65.25; then
+	if ip route | fgrep -q 10.65.85; then
 		direct=1
 	fi
 fi
 
+dest='10.65.85.40'
 u=tgulacsi
-dest=${1:-win-dev-rds.unosoft.local}
 SIZE=${SIZE:-$(getscreensize 2 32)}
-echo SIZE=$SIZE
+echo "dest=$dest SIZE=$SIZE"
+
 OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
 	/bpp:15 /decorations /fonts \
 	/codec-cache:nsc /nsc \
