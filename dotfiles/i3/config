@@ -169,8 +169,11 @@ bindsym XF86AudioMute exec --no-startup-id sh -c 'amixer -q sset Master toggle &
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q sset Master 5%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 5%-
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
+
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight +20
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -20
+bindsym $mod+F10 exec --no-startup-id xbacklight -20
+bindsym $mod+F11 exec --no-startup-id xbacklight +20
 
 bindsym $mod+shift+v exec edit
 bindsym $mod+F12 exec --no-startup-id sync && slock

@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -x /usr/bin/xbacklight ]; then
+	exec /usr/bin/xbacklight "$@"
+fi
+B=/sys/class/backlight/intel_backlight/brightness
+echo $(($(cat $B) $1)) | sudo tee $B
