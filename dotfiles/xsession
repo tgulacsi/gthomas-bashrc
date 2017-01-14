@@ -98,6 +98,10 @@ if [ -x /usr/bin/mate-power-manager ]; then
 	/usr/bin/mate-power-manager &
 fi
 
+if [ -x /usr/bin/xinput ] && [ $(hostname) = redpath ]; then
+	xinput --set-prop 12 275 1
+fi
+
 #if [ -x /usr/bin/xfsettingsd ]; then
 	#{ sleep 2; xfsettingsd; } &
 #fi
