@@ -10,7 +10,9 @@ for nm in "$1" firefox google-chrome chromium-browser chromium iceweasel; do
 	fn=/usr/bin/$nm
 	break
 done
+set -x
 killall $nm
+ps -ef | grep "$nm" | fgrep '     1 ' | awk '{print $2}' | xargs -n8 -- kill -9
 sleep 0.5
 killall -9 $nm
 sleep 0.5
