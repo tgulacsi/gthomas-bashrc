@@ -3,8 +3,8 @@ Description=Start godoc
 
 [Service]
 Type=simple
-ExecStartPre=-/bin/sh -c 'test -x /home/$(id -un)/bin/godoc || env GOPATH=/home/$(id -un) go get -u golang.org/x/tools/cmd/godoc'
-ExecStart=/bin/sh -c 'exec /usr/bin/env GOPATH=/home/$(id -un) /home/$(id -un)/bin/godoc -http=:6060'
+#ExecStartPre=-/bin/sh -c 'test -x /home/$(id -un)/bin/godoc || env GOPATH=/home/$(id -un) go get -u golang.org/x/tools/cmd/godoc'
+ExecStart=/bin/sh -c 'exec /usr/bin/env GOPATH=/home/$(id -un) $(go env GOROOT)/bin/godoc -http=:6060'
 Nice=19
 IOSchedulingClass=3
 CPUSchedulingPolicy=idle
