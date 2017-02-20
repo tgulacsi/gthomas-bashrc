@@ -20,7 +20,7 @@ OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
 SEC=${SEC:-/sec:nla}
 if [ -z "$GW" ]; then
 	if ! ip route | fgrep -q 10.65.85.; then
-		GW=mail.unosoft.hu
+		GW=rdg.unosoft.hu:4443
 	fi
 fi
 

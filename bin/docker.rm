@@ -1,1 +1,14 @@
-../src/github.com/tgulacsi/docks/docker.rm
+#!/bin/sh
+ids=$(docker ps -n 1000|grep -v ' Up '|cut -c1-12|grep -v '^CONTAINER')
+if [ -n "$ids" ]; then
+    docker rm $(echo $ids)
+else
+    echo 'no containers'
+fi
+
+ids=$(docker images|grep '^<none>'|awk '{print $3}')
+if [ -z "$ids" ]; then
+    echo 'no images'
+    exit 0
+fi
+docker rmi $(echo $ids)
