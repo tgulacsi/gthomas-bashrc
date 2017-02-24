@@ -1,19 +1,31 @@
 #!/bin/sh
+SETBG='feh --bg-fill'
+which himago >/dev/null 2>/dev/null || go get -u github.com/tscott0/himago/cmd/himago
 DIR=/tmp/.${USER}-backgrounds
-if [ -e "$DIR" ]; then
+
+setbg () {
+	set -x
+	$SETBG $(feh -l -r --min-dimension 800x600 $DIR | awk '{print $8}' | tail -n+2 | head -n1)
+	set +x
+}
+
+if [ ! -e "$DIR" ]; then
+    mkdir -p $DIR
+else
     n=$(ls -t $DIR | wc -l)
     if [ $n -gt 2 ]; then
         (cd $DIR && rm $(ls -tr $DIR | head -n $(( $n - 1 ))))
     fi
-    feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
-else
-    mkdir -p $DIR
+	setbg
 fi
+
+n=$(seq 31 | shuf -n 1)
+himago -h 4 -d $n -o $DIR/himago-$n.png &
 
 img_url=$(curl http://imgur.com/r/wallpapers | fgrep 'src="//i.imgur.com' \
 	| sed -e 's,^.*src=",http:,;s:".*$::;s:.jpg$:.png:' | shuf -n1)
+(cd $DIR && wget -q "$img_url") &
 
-if true; then
 # grabs the nasa image of the day by RSS feed and updates the gnome
 # background. add this to your cron jobs to have this happen daily.  this is,
 # obviously, a hack, that is likely to break at the slightest change of NASA's
@@ -35,19 +47,20 @@ if [ -z "$rss" ]; then
 fi
 
 
-echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*'
+#echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*'
 img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*' \
     | shuf -n1)
-fi
 if [ -z "$img_url" ]; then
     echo "no image url in"
     echo "$rss"
+else
+	img_name=$(echo $img_url | grep -o [^/]*\.\w*$)
+	echo "img_url=$img_url img_name=$img_name"
+
+	# this command will overwrite the image if it already exists
+	wget -q -O $DIR/$img_name $img_url &
 fi
 
-img_name=$(echo $img_url | grep -o [^/]*\.\w*$)
-echo "img_url=$img_url img_name=$img_name"
+wait
 
-# this command will overwrite the image if it already exists
-wget -q -O $DIR/$img_name $img_url
-
-feh --bg-scale $DIR/$img_name
+setbg
