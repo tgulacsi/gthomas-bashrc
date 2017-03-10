@@ -1,7 +1,8 @@
 #!/bin/sh
+set -x
 connected=$(xrandr | grep -F ' connected')
 N=${1:-$(echo "$connected" | wc -l)}
-main=$(echo "$connected" | cut -d\  -f1,3 | grep -v -F HDMI1)
+main=$(echo "$connected" | cut -d\  -f1,3 | grep -v -F HDMI)
 nm=${main% *}
 sz=${main#* }
 sz=${sz%%+*}
@@ -11,7 +12,7 @@ scale=
 if [ ${pos} -gt 1366 ]; then
     scale='--scale 0.75x0.75'
 fi
-NAME=$(xrandr | fgrep -v VIRTUAL | fgrep connected | cut -d\  -f1 | fgrep -v eDP1)
+NAME=$(xrandr | fgrep -v VIRTUAL | fgrep connected | cut -d\  -f1 | fgrep -v eDP)
 NAME=${NAME:-HDMI1}
 case "${N:-1}" in
   1) CMD="xrandr --output $NAME --off --output $nm --mode $sz $scale --pos 0x0 --rotate normal" ;;
