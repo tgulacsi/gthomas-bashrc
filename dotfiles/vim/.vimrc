@@ -6,6 +6,7 @@
 " needs. Think of a vimrc as a garden that needs to be maintained and fostered
 " throughout years. Keep it clean and useful - Fatih Arslan
 
+" Plug {{{
 if 1 " eval compiled in
     let iCanHazVimPlug=1
     let vimplug_file=expand('~/.vim/autoload/plug.vim')
@@ -38,6 +39,7 @@ if 1 " eval compiled in
 	Plug 'csexton/trailertrash.vim'
 	"Plug 'majutsushi/tagbar'
 	"Plug 'ervandew/supertab'
+	Plug 'sjl/gundo.vim'
 	call plug#end()
 
     if iCanHazVimPlug == 0
@@ -46,14 +48,14 @@ if 1 " eval compiled in
         :PlugInstall
     endif
 endif
+" }}}
 
-""""""""""""""""""""""
-"      Settings      "
-""""""""""""""""""""""
+" Settings {{{
 set nocompatible                " Enables us Vim specific features
 filetype off                    " Reset filetype detection first ...
 filetype plugin indent on       " ... and enable filetype detection
 set ttyfast                     " Indicate fast terminal conn for faster redraw
+set lazyredraw					" don't redraw in the middle of macros
 "set ttymouse=xterm2              " Indicate terminal type for mouse codes
 "set ttyscroll=4                 " Speedup scrolling
 set laststatus=2                " Show status line always
@@ -67,6 +69,7 @@ set hlsearch                    " Highlight found searches
 set noerrorbells                " No beeps
 set number                      " Show line numbers
 set showcmd                     " Show me what I'm typing
+set wildmenu					" completion menu in command bar
 set noswapfile                  " Don't use swapfile
 set nobackup                    " Don't create annoying backup files
 set splitright                  " Vertical windows should be split to right
@@ -74,8 +77,8 @@ set splitbelow                  " Horizontal windows should split to bottom
 set autowrite                   " Automatically save before :next, :make etc.
 set hidden                      " Buffer should still exist if window is closed
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
-set noshowmatch                 " Do not show matching brackets by flickering
-set noshowmode                  " We show the mode with airline or lightline
+set showmatch                 " Do not show matching brackets by flickering
+set showmode                  " We show the mode with airline or lightline
 set showcmd
 set ruler
 set ignorecase                  " Search case insensitive...
@@ -83,13 +86,15 @@ set smartcase                   " ... but not it begins with upper case
 set completeopt=menu,menuone    " Show popup menu, even if there is one entry
 set pumheight=10                " Completion window max size
 set nocursorcolumn              " Do not highlight column (speeds up highlighting)
-set nocursorline                " Do not highlight cursor (speeds up highlighting)
+set cursorline                " Do not highlight cursor (speeds up highlighting)
 set lazyredraw                  " Wait to redraw
-set shiftwidth=4 tabstop=4 softtabstop=4
+set shiftwidth=4 tabstop=4 softtabstop=4 noet
 set pastetoggle=<F12>			" F12 to toggle paste mode
 set backup
 set writebackup
+" }}}
 
+" Backup {{{
 " backup to spec dirset backupdir=~/.vimbackup
 let backup_dir=expand("~/.vimbackup")
 if !filewritable(backup_dir)
@@ -97,13 +102,23 @@ if !filewritable(backup_dir)
 endif
 execute expand('set backupdir=' . backup_dir)
 
+augroup backup
+	autocmd!
+	autocmd BufWritePre,FileWritePre * let &l:backupext = '~' . strftime('%F_%R') . '~'
+augroup END
+
+" }}}
+
+" Clipboard {{{
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
 if has('unnamedplus')
   set clipboard^=unnamed
   set clipboard^=unnamedplus
 endif
+" }}}
 
+" Undo {{{
 " This enables us to undo files even if you exit Vim.
 if has('persistent_undo')
   set undofile
@@ -113,13 +128,16 @@ if has('persistent_undo')
   endif
   execute expand('set undodir=' . undo_dir)
 endif
+" }}}
 
+" Encoding {{{
 set encoding=utf-8
 if expand('$LANG') =~ '[Ii][Ss][Oo]-*8859-*2$'
 	set encoding=iso8859-2
 endif
+" }}}
 
-" Colorscheme
+" Colorscheme {{{
 let g:rehash256 = 1
 let g:molokai_original = 1
 if hostname() =~ "[.]unosoft[.]local$"
@@ -130,18 +148,16 @@ else
 	colorscheme molokai
 endif
 syntax enable
+" }}}
 
 " do not clear screen on exit
 set t_ti= t_te=
 
 
-""""""""""""""""""""""
-"      Mappings      "
-""""""""""""""""""""""
-
+" Mappings {{{
 " Set leader shortcut to a comma ','. By default it's the backslash
-"let mapleader = ","
-let mapleader = "\<Space>"
+let mapleader = ","
+"let mapleader = "\<Space>"
 
 " Jump to next error with Ctrl-n and previous error with Ctrl-p. Close the
 " quickfix window with <leader>a
@@ -149,7 +165,7 @@ map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
 " save a file
-nnoremap <Leader>w :w<CR>
+nnoremap <leader>w :w<CR>
 
 " Visual linewise up and down by default (and use gj gk to go quicker)
 noremap <Up> gk
@@ -157,37 +173,53 @@ noremap <Down> gj
 noremap j gj
 noremap k gk
 
+" highlight last inserted text
+nnoremap gV `[v`]
+
 " Search mappings: These will make it so that going to the next one in a
 " search will center on the line it's found in.
 nnoremap n nzzzv
 nnoremap N Nzzzv
+
+" stop highlighting old search
+nnoremap <leader><space> :nohlsearch<CR>
+
+" toggle undo
+nnoremap <leader>u :GundoToggle<CR>
+
+" source vimrc
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Act like D and C
 nnoremap Y y$
 
 " Enter automatically into the files directory
 autocmd BufEnter * silent! lcd %:p:h
+" }}}
 
-
-"""""""""""""""""""""
-"      Plugins      "
-"""""""""""""""""""""
-
-augroup backup
-	autocmd!
-	autocmd BufWritePre,FileWritePre * let &l:backupext = '~' . strftime('%F_%R') . '~'
-augroup END
+" TMUX {{{
+if exists('$TMUX')
+	let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+	let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+	let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+	let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+" }}}
 
 " Remove trailing witespace
 autocmd BufWritePre * TrailerTrim
 
-" Python
+" Python {{{
 autocmd FileType python set et
+au BufRead,BufNewFile *.py set filetype=python
+" }}}
 
-" Markdown
+" Markdown {{{
 au BufRead,BufNewFile *.md set filetype=markdown
+" }}}
 
-" vim-go
+" Go {{{
 if &encoding=~"iso-*8859-2"
     let gi2=expand('~/bin/goimports2')
     if !filereadable(gi2)
@@ -268,3 +300,37 @@ function! s:build_go_files()
 endfunction
 
 autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+" }}}
+
+augroup configgroup
+    autocmd!
+    autocmd VimEnter * highlight clear SignColumn
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md
+                \:call <SID>StripTrailingWhitespaces()
+    autocmd FileType java setlocal noexpandtab
+    autocmd FileType java setlocal list
+    autocmd FileType java setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType java setlocal formatprg=par\ -w80\ -T4
+    autocmd FileType php setlocal expandtab
+    autocmd FileType php setlocal list
+    autocmd FileType php setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType php setlocal formatprg=par\ -w80\ -T4
+    autocmd FileType python setlocal commentstring=#\ %s
+    autocmd BufEnter *.cls setlocal filetype=java
+    autocmd BufEnter Makefile setlocal noexpandtab
+augroup END
+
+" strips trailing whitespace at the end of files. this
+" is called on buffer write in the autogroup above.
+function! <SID>StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+" vim: foldmethod=marker foldlevel=0:
