@@ -78,7 +78,7 @@ set autowrite                   " Automatically save before :next, :make etc.
 set hidden                      " Buffer should still exist if window is closed
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set showmatch                 " Do not show matching brackets by flickering
-set showmode                  " We show the mode with airline or lightline
+set noshowmode                  " We show the mode with airline or lightline
 set showcmd
 set ruler
 set ignorecase                  " Search case insensitive...
@@ -306,8 +306,6 @@ autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md
-                \:call <SID>StripTrailingWhitespaces()
     autocmd FileType java setlocal noexpandtab
     autocmd FileType java setlocal list
     autocmd FileType java setlocal listchars=tab:+\ ,eol:-
@@ -320,17 +318,5 @@ augroup configgroup
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter Makefile setlocal noexpandtab
 augroup END
-
-" strips trailing whitespace at the end of files. this
-" is called on buffer write in the autogroup above.
-function! <SID>StripTrailingWhitespaces()
-    " save last search & cursor position
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
-endfunction
 
 " vim: foldmethod=marker foldlevel=0:
