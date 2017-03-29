@@ -78,7 +78,7 @@ set autowrite                   " Automatically save before :next, :make etc.
 set hidden                      " Buffer should still exist if window is closed
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set showmatch                 " Do not show matching brackets by flickering
-set showmode                  " We show the mode with airline or lightline
+set noshowmode                  " We show the mode with airline or lightline
 set showcmd
 set ruler
 set ignorecase                  " Search case insensitive...
