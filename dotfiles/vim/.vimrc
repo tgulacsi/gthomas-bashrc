@@ -233,6 +233,7 @@ else
 	let g:go_fmt_command = "goimports"
 endif
 
+let g:go_fmt_autosave = 1
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix"
 
