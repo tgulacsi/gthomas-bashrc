@@ -1,3 +1,13 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Tamás Gulácsi
+	email = tgulacsi78@gmail.com
+	signingkey = 2DA42A27CDA7987C6306C64D621772C5B242992C
+
+[http]
+	cookiefile = /home/gthomas/.gitcookies
+
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	lg-ascii = log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit
