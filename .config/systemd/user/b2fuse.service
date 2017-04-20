@@ -1,0 +1,16 @@
+[Unit]
+Description=BackBlaze FUSE mount
+
+[Service]
+Type=simple
+WorkingDirectory=/home/tgulacsi/src/github.com/sondree/b2_fuse
+ExecStartPre=/bin/sh -c 'echo USER=$USER HOME=$HOME WD=$(pwd)'
+#ExecStartPre=/bin/echo /usr/bin/python b2fuse.py --config_filename=${HOME}/.config/b2.yaml --use_disk --temp_folder /tmp/b2_fuse ${HOME}/mnt/b2
+ExecStart=/usr/bin/python b2fuse.py --config_filename=${HOME}/.config/b2.yaml --use_disk --temp_folder /tmp/b2_fuse ${HOME}/mnt/b2
+Nice=19
+IOSchedulingClass=3
+CPUSchedulingPolicy=idle
+Restart=on-success
+
+[Install]
+WantedBy=basic.target
