@@ -1,4 +1,8 @@
 #!/bin/sh
+nmcli --ask con down id unosoft
+if [ $# -ne 0 ]; then
+	exit 0
+fi
 while ! nmcli --ask con up id unosoft; do
 	echo $?
 	sleep 1
