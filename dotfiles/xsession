@@ -109,4 +109,3 @@ if which ck-launch-session 2>/dev/null; then
 	exec ck-launch-session dbus-launch i3
 fi
 exec i3
-

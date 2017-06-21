@@ -8,6 +8,9 @@ tequila =
 	)
 )
 
+cig_tst =
+(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=lnx-dev-cig.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=cig_tst.unosoft.local)))
+
 cig_mig =
 (DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=lnx-dev-cig.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=cig_mig.unosoft.local)))
 

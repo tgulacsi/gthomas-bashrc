@@ -157,7 +157,7 @@ workspace 7 output HDMI1
 workspace 8 output HDMI1
 
 # workspace assignment (use "xprop")
-assign [class="^Telegram$"] 9
+#assign [class="^Telegram$"] 9
 
 #
 # class                 border  backgr. text    indicator
