@@ -40,6 +40,10 @@ if 1 " eval compiled in
 	"Plug 'majutsushi/tagbar'
 	"Plug 'ervandew/supertab'
 	Plug 'sjl/gundo.vim'
+	"Plug 'johngrib/vim-game-code-break'
+	Plug 'w0rp/ale'
+	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	Plug 'zchee/deoplete-go'
 	call plug#end()
 
     if iCanHazVimPlug == 0
@@ -219,6 +223,14 @@ au BufRead,BufNewFile *.py set filetype=python
 au BufRead,BufNewFile *.md set filetype=markdown
 " }}}
 
+" ALE {{{
+let g:ale_sign_error = '⤫'
+let g:ale_sign_warning = '⚠'
+
+" Enable integration with airline.
+let g:airline#extensions#ale#enabled = 1
+" }}}
+
 " Go {{{
 if &encoding=~"iso-*8859-2"
     let gi2=expand('~/bin/goimports2')
@@ -233,10 +245,14 @@ else
 	let g:go_fmt_command = "goimports"
 endif
 
+let g:go_auto_sameids = 1
 let g:go_fmt_autosave = 1
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix"
 
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
@@ -249,9 +265,12 @@ let g:go_metalinter_enabled = ['vet', 'errcheck']
 nmap <C-g> :GoDeclsDir<cr>
 imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
 
+" See https://hackernoon.com/my-neovim-setup-for-go-7f7b6e805876?gi=e5191307198a
 
 augroup go
   autocmd!
+
+  au FileType go set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
 
   " Show by default 4 spaces for a tab
   autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 fileencoding=utf-8
