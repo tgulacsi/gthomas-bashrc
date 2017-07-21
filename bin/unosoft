@@ -3,7 +3,13 @@ nmcli --ask con down id unosoft
 if [ $# -ne 0 ]; then
 	exit 0
 fi
-while ! nmcli --ask con up id unosoft; do
-	echo $?
-	sleep 1
+while true; do
+	while ! nmcli --ask con up id unosoft 2>&1| fgrep -q 'already active'; do
+		sleep 1
+	done
+	echo $(date '+%H:%M:%S') 'activated'
+	while [ $(nmcli con show --active id unosoft | wc -l) -ne 0 ]; do
+		sleep 10
+	done
+	echo $(date '+%H:%M:%S') 'disconnected'
 done
