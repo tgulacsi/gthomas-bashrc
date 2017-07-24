@@ -9,7 +9,7 @@ while true; do
 	done
 	echo $(date '+%H:%M:%S') 'activated'
 	while [ $(nmcli con show --active id unosoft | wc -l) -ne 0 ]; do
-		sleep 10
+		sleep 3
 	done
 	echo $(date '+%H:%M:%S') 'disconnected'
 done

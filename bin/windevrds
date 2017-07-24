@@ -8,6 +8,9 @@ OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
 	/bpp:15 /decorations /fonts \
 	/codec-cache:nsc /nsc \
 	/compression /cert-ignore \
+	/multitransport \
+	/heartbeat \
+	/auto-reconnect \
 	/async-channels /async-update /async-input \
 	/gdi:hw /drive:tmp,/tmp /size:$SIZE /v:$dest"
 SEC=${SEC:-/sec:nla}
