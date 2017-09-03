@@ -59,6 +59,8 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 
 	alias gl='go list -f '\''{{range .Imports}}{{println .}}{{end}}'\'''
 
+	alias st='stterm -f "Go Mono"'
+
     # Alias definitions.
     # You may want to put all your additions into a separate file like
     # ~/.bash_aliases, instead of adding them here directly.

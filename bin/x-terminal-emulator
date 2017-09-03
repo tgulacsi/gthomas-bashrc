@@ -1,4 +1,5 @@
 #!/bin/sh
+which stterm 2>&1 && exec stterm -f 'Go Mono' /bin/bash --login
 which urxvtc 2>&1 || /usr/bin/x-terminal-emulator
 urxvtc "$@"
 if [ $? -eq 2 ]; then
