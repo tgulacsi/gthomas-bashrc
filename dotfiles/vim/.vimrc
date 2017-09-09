@@ -149,7 +149,11 @@ if hostname() =~ "[.]unosoft[.]local$"
 	colorscheme zellner
 else
 	set t_Co=256
-	colorscheme molokai
+	if $TERM =~ "^st"
+		colorscheme solarized
+	else
+		colorscheme molokai
+	endif
 endif
 syntax enable
 " }}}
