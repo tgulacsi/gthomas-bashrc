@@ -27,7 +27,7 @@ fi
 
 # exec startlxde
 # exec dbus-launch lxsession -a
-for nm in urxvtcd sakura lxterminal xfce4-terminal; do
+for nm in stterm urxvtcd sakura lxterminal xfce4-terminal; do
     if which $nm >/dev/null 2>/dev/null; then
         export TERMINAL=$nm
         break
