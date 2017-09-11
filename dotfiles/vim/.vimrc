@@ -149,7 +149,7 @@ if hostname() =~ "[.]unosoft[.]local$"
 	colorscheme zellner
 else
 	set t_Co=256
-	colorscheme molokai
+	colorscheme solarized
 endif
 syntax enable
 " }}}
