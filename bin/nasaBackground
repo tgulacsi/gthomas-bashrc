@@ -1,11 +1,12 @@
 #!/bin/sh
 SETBG='feh --bg-fill'
-which himago >/dev/null 2>/dev/null || go get -u github.com/tscott0/himago/cmd/himago
 DIR=/tmp/.${USER}-backgrounds
 
 setbg () {
 	set -x
-	$SETBG $(feh -l -r --min-dimension 800x600 $DIR | awk '{print $8}' | tail -n+2 | head -n1)
+	fn=$(feh -l -r --min-dimension 800x600 $DIR | awk '{print $8}' | tail -n+2 | head -n1)
+	$SETBG "$fn"
+	rm "$fn"
 	set +x
 }
 
@@ -18,6 +19,19 @@ else
     fi
 	setbg
 fi
+
+seq 1000 | shuf | while read n; do
+	if ! unzip -qq -l /tmp/unsplash.zip; then
+		curl -o /tmp/unsplash.zip -L "https://unsplash.com/curated_batches/$n/download"
+	fi
+	cd $DIR && unzip /tmp/unsplash.zip && break
+	break
+done
+setbg
+exit 0
+
+
+which himago >/dev/null 2>/dev/null || go get -u github.com/tscott0/himago/cmd/himago
 
 n=$(seq 31 | shuf -n 1)
 himago -h 4 -d $n -o $DIR/himago-$n.png &
