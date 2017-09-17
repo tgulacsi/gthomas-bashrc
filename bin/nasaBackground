@@ -4,31 +4,34 @@ DIR=/tmp/.${USER}-backgrounds
 
 setbg () {
 	set -x
-	fn=$(feh -l -r --min-dimension 800x600 $DIR | awk '{print $8}' | tail -n+2 | head -n1)
+	fn=$(feh -l -r --min-dimension 800x600 $DIR | awk '{print $8}' | tail -n+2 | shuf | head -n1)
+	set +x
+	if [ -z "$fn" ]; then
+		return 1
+	fi
+	set -x
 	$SETBG "$fn"
 	rm "$fn"
 	set +x
+	return 0
 }
 
 if [ ! -e "$DIR" ]; then
     mkdir -p $DIR
 else
     n=$(ls -t $DIR | wc -l)
-    if [ $n -gt 2 ]; then
-        (cd $DIR && rm $(ls -tr $DIR | head -n $(( $n - 1 ))))
-    fi
-	setbg
+	set -x
+	setbg && exit 0
+	set +x
 fi
 
+
 seq 1000 | shuf | while read n; do
-	if ! unzip -qq -l /tmp/unsplash.zip; then
-		curl -o /tmp/unsplash.zip -L "https://unsplash.com/curated_batches/$n/download"
-	fi
-	cd $DIR && unzip /tmp/unsplash.zip && break
-	break
+	curl -o /tmp/unsplash.zip -L "https://unsplash.com/curated_batches/$n/download"
+	(cd $DIR && unzip /tmp/unsplash.zip)
+	setbg && exit 0
 done
-setbg
-exit 0
+exit 1
 
 
 which himago >/dev/null 2>/dev/null || go get -u github.com/tscott0/himago/cmd/himago
