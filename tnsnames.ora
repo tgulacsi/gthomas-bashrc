@@ -16,3 +16,6 @@ cig_mig =
 
 cig_bld =
 (DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=lnx-dev-cig.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=cig_bld.unosoft.local)))
+
+kbe_tst =
+(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=lnx-dev-kbe.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=kbe_tst.unosoft.local)))

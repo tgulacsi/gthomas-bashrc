@@ -12,3 +12,5 @@ if [ -z "$ids" ]; then
     exit 0
 fi
 docker rmi $(echo $ids)
+
+docker image prune

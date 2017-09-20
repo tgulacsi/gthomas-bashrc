@@ -144,13 +144,9 @@ endif
 " Colorscheme {{{
 let g:rehash256 = 1
 let g:molokai_original = 1
-if hostname() =~ "[.]unosoft[.]local$"
-	set t_Co=8
-	colorscheme zellner
-else
-	set t_Co=256
-	colorscheme solarized
-endif
+set t_Co=256
+colorscheme solarized
+set background=dark
 syntax enable
 " }}}
 
