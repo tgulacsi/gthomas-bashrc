@@ -123,9 +123,10 @@ set +H
 # tmux
 #echo TERM="$TERM"
 if [[ "$TERM" != 'dumb' ]]; then
+	COLORTERM=truecolor
     if which tmux 2>&1 >/dev/null; then
         if [[ -n "$TMUX" ]]; then
-            export TERM=tmux-256color
+            export TERM=screen-256color
         else
             #export TERM=xterm-256color
             if [[ "$TERM" != 'sakura' ]]; then
