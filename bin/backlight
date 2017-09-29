@@ -1,2 +1,10 @@
 #!/bin/sh
-exec sudo pkexec xfpm-power-backlight-helper --set-brightness ${1:-80}
+#exec sudo pkexec xfpm-power-backlight-helper --set-brightness ${1:-80}
+set -e
+old=$(xrandr --verbose|sed -ne '/Brightness:/ s/^.*: //p')
+compute="scale=2; $old "$1".0/100"
+new=$(echo "$compute" | bc)
+if [ -z "$new" ]; then
+	echo "ERROR computing $compute" >&2
+fi
+exec xrandr --output eDP-1 --brightness $new
