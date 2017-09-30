@@ -172,8 +172,8 @@ bindsym XF86AudioPlay exec --no-startup-id mpc toggle
 
 bindsym XF86MonBrightnessUp exec --no-startup-id backlight +20
 bindsym XF86MonBrightnessDown exec --no-startup-id backlight -20
-bindsym $mod+F10 exec --no-startup-id backlight -20
-bindsym $mod+F11 exec --no-startup-id backlight +20
+#bindsym $mod+F10 exec --no-startup-id backlight -20
+#bindsym $mod+F11 exec --no-startup-id backlight +20
 
 bindsym $mod+shift+v exec edit
 bindsym $mod+F12 exec --no-startup-id sync && xscreensaver-command -lock
@@ -184,3 +184,5 @@ bindsym $mod+Shift+Control+F12 exec --no-startup-id sync && sudo -A /lib/systemd
 bindsym $mod+F5 exec --no-startup-id killall -STOP firefox
 bindsym $mod+F6 exec --no-startup-id killall -CONT firefox
 bindsym $mod+F8 exec --no-startup-id sudo -A alsactl restore 0
+
+bindsym $mod+Shift+F10 exec --no-startup-id sh -c 'xsel -o -p | xsel -b'
