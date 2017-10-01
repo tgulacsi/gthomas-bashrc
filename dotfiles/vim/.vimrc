@@ -72,6 +72,7 @@ set incsearch                   " Shows the match while typing
 set hlsearch                    " Highlight found searches
 set noerrorbells                " No beeps
 set number                      " Show line numbers
+set relativenumber
 set showcmd                     " Show me what I'm typing
 set wildmenu					" completion menu in command bar
 set noswapfile                  " Don't use swapfile
