@@ -1,8 +1,20 @@
 #!/bin/sh
+#!/bin/sh
+if [ -x /usr/bin/xbacklight ]; then
+	exec /usr/bin/xbacklight "$@"
+fi
+B=/sys/class/backlight/intel_backlight/brightness
+if [ -e "$B" ]; then
+	old=$(cat $B)
+	compute="$old $1"
+	new=$(echo "$compute" | bc)
+	echo "$new" | sudo tee $B
+fi
+
 #exec sudo pkexec xfpm-power-backlight-helper --set-brightness ${1:-80}
 set -e
 old=$(xrandr --verbose|sed -ne '/Brightness:/ s/^.*: //p')
-compute="scale=2; $old "$1".0/100"
+compute="scale=2; '$old' '$1'.0/100"
 new=$(echo "$compute" | bc)
 if [ -z "$new" ]; then
 	echo "ERROR computing $compute" >&2
