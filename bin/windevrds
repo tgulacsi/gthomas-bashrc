@@ -11,8 +11,8 @@ OPTS="$OPTS +clipboard /kbd:0x409 -wallpaper -themes \
 	/multitransport \
 	/heartbeat \
 	/auto-reconnect \
-	/async-channels /async-update /async-input \
-	/gdi:hw /drive:tmp,/tmp /size:$SIZE /v:$dest"
+	/async-transport /async-channels /async-update /async-input \
+	/gdi:sw /drive:tmp,/tmp /size:$SIZE /v:$dest"
 SEC=${SEC:-/sec:nla}
 if [ -z "$GW" ]; then
 	if ! ip route | fgrep -q 10.65.85.; then
