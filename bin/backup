@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+. $HOME/.ssh/restic.env
+restic backup .config .ssh /etc
+tar cf - $(find ~/src/ -type f -path '*/.git/config' ) | restic backup --stdin --stdin-filename 'src/.git/config'
+restic forget -H 3 -d 3 -w 3 -m 3
