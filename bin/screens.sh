@@ -11,8 +11,9 @@ pos=${sz%x*}
 scale=
 noScale=$(xrandr | sed -ne '/DP-1 connected/,/connected/p' | fgrep -q '1920x1080')
 
-if [ $noScale -eq 0 ] && [ ${pos} -gt 1366 ]; then
-    scale='--scale 0.75x0.75'
+scale='--scale 0.7114583x0.7114583'
+if [ $noScale -eq 0 ] && [ ${pos} -ge 1367 ]; then
+    scale='--scale 0.7114583x0.7114583'
 fi
 NAME=$(xrandr | fgrep -v VIRTUAL | fgrep connected | fgrep -v 'not connected' | cut -d\  -f1 | fgrep -v eDP | head -n 1)
 NAME=${NAME:-HDMI1}
