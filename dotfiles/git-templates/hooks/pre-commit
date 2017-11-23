@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+if [ -z $(find . -xdev -maxdepth 3 -type f -name '*.go' | head -n1) ]; then
+	exit 0
+fi
+output="$(gofmt -l "$@")"
+
+if [ -n "$output" ]; then
+	echo >&2 "Go files must be formatted with gofmt. Please run:"
+	for f in $output; do
+		echo >&2 "  gofmt -w $PWD/$f"
+	done
+	exit 1
+fi
+
+for file in "$@"; do
+	go vet "$file"
+done
+
+gometalinter --vendor --disable-all \
+  --enable=deadcode \
+  --enable=ineffassign \
+  --enable=gosimple \
+  --enable=staticcheck \
+  --enable=unused \
+  --enable=vetshadow \
+  ./...
