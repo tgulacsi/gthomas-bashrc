@@ -146,6 +146,9 @@ endif
 let g:rehash256 = 1
 let g:molokai_original = 1
 set t_Co=256
+if hostname() =~ "[.]unosoft[.]local$"
+	set t_Co=8
+endif
 colorscheme solarized
 set background=dark
 syntax enable
