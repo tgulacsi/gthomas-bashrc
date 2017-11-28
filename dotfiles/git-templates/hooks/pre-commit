@@ -24,5 +24,4 @@ gometalinter --vendor --disable-all \
   --enable=gosimple \
   --enable=staticcheck \
   --enable=unused \
-  --enable=vetshadow \
   ./...
