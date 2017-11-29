@@ -121,6 +121,8 @@ if has('unnamedplus')
   set clipboard^=unnamed
   set clipboard^=unnamedplus
 endif
+vnoremap <LeftRelease> "*ygv
+"set clipboard=autoselect
 " }}}
 
 " Undo {{{
@@ -143,6 +145,8 @@ endif
 " }}}
 
 " Colorscheme {{{
+set termguicolors
+
 let g:rehash256 = 1
 let g:molokai_original = 1
 set t_Co=256

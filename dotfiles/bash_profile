@@ -122,13 +122,11 @@ set +H
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 #echo TERM="$TERM"
+export TERM=screen-256color
 if [[ "$TERM" != 'dumb' ]]; then
 	COLORTERM=truecolor
     if which tmux 2>&1 >/dev/null; then
-        if [[ -n "$TMUX" ]]; then
-            export TERM=screen-256color
-        else
-            #export TERM=xterm-256color
+        if [[ -z "$TMUX" ]]; then
             if [[ "$TERM" != 'sakura' ]]; then
                 last=$(tmux list-sessions -F '#S #{session_attached}' \
                     | grep '0$' | cut '-d ' -f1 | sort -n | head -n1)
