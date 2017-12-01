@@ -15,6 +15,7 @@ if ! which randomBackground; then
 fi
 
 if [ -x ~/bin/screens.sh ]; then
+	echo 'screens.sh' 2>&1
 	~/bin/screens.sh
 fi
 
@@ -22,7 +23,9 @@ if which xset >/dev/null 2>&1; then
 	# disable bell
 	xset -b
 fi
+echo 'xkbmap' 2>&1
 ~/bin/xkbmap
+echo 'polkit agent' 2>&1
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
 # exec startlxde
@@ -35,19 +38,23 @@ for nm in stterm urxvtcd sakura lxterminal xfce4-terminal; do
 done
 
 if which xrdb && [ -f ~/.Xresources ]; then
+	echo 'xrdb' 2>&1
     xrdb -merge ~/.Xresources
 fi
 
 for nm in fbxkb gxkb; do
 	if which $nm; then
+		echo "$nm" >&2
 		$nm &
 		break
 	fi
 done
 if which nm-applet >/dev/null 2>&1; then
+	echo "nm-applet" >&2
     nm-applet &
 fi
 if which dropbox >/dev/null 2>&1; then
+	echo "dropbox" >&2
 	(sleep 5; dropbox start) &
 fi
 if which pulseaudio; then
@@ -57,22 +64,10 @@ fi
 #    groximity 20:13:E0:36:E7:53 &
 #else
     if which xscreensaver 2>/dev/null; then
+		echo "xscreensaver" >&2
         xscreensaver &
     fi
 #fi
-(
-if [ -d ~/.screenlayout ]; then
-    sleep 0.5
-    if xrandr -q | grep -q 'HDMI1 connected'; then
-        ~/.screenlayout/unosoft.sh &
-    else
-        if [ -x ~/.screenlayout/solitaire.sh ]; then
-            ~/.screenlayout/solitaire.sh &
-        fi
-    fi
-    sleep 1
-fi
-) &
 
 if [ -x ~/bin/nasaBackground ]; then
     (
@@ -81,6 +76,7 @@ if [ -x ~/bin/nasaBackground ]; then
     ) &
 fi
 if which autocutsel >/dev/null; then
+	echo 'autocutsel' >&2
 	autocutsel -s PRIMARY -fork
 fi
 
@@ -91,14 +87,17 @@ elif [ -x $HOME/bin/xflux ] && ! pidof xflux >/dev/null; then
 fi
 
 if synclient -l | grep -q 'RightEdge.*= 1175$'; then
+	echo 'synclient' >&2
 	synclient ClickPad=1 BottomEdge=600
 fi
 
 if [ -x /usr/bin/mate-power-manager ]; then
+	echo 'power-manager' >&2
 	/usr/bin/mate-power-manager &
 fi
 
 if [ -x /usr/bin/xinput ] && [ $(hostname) = redpath ]; then
+	echo 'xinput' >&2
 	xinput --set-prop 12 275 1
 fi
 
@@ -106,6 +105,8 @@ fi
 	#{ sleep 2; xfsettingsd; } &
 #fi
 if which ck-launch-session 2>/dev/null; then
+	echo 'ck-launch-session' >&2
 	exec ck-launch-session dbus-launch i3
 fi
+echo 'i3' >&2
 exec i3
