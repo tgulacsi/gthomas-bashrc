@@ -121,7 +121,9 @@ set +H
 
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
-#echo TERM="$TERM"
+oTERM="$TERM"
+export TERM=stterm-256color
+echo TERM:"$oTERM -> $TERM" >&2
 #export TERM=screen-256color
 if [[ "$TERM" != 'dumb' ]]; then
 	COLORTERM=truecolor
