@@ -122,7 +122,9 @@ set +H
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 oTERM="$TERM"
-export TERM=tmux-256color
+if [[ -n "$TMUX" ]]; then
+	export TERM=tmux-256color
+fi
 echo TERM:"$oTERM -> $TERM" >&2
 if [[ "$TERM" != 'dumb' ]]; then
 	COLORTERM=truecolor
