@@ -1,0 +1,2 @@
+#!/bin/sh
+exec env -u TERM -u TMUX nvim "$@"
