@@ -124,8 +124,8 @@ set +H
 oTERM="$TERM"
 if [[ -n "$TMUX" ]]; then
 	export TERM=tmux-256color
+	echo TERM:"$oTERM -> $TERM" >&2
 fi
-echo TERM:"$oTERM -> $TERM" >&2
 if [[ "$TERM" != 'dumb' ]]; then
 	COLORTERM=truecolor
     if which tmux 2>&1 >/dev/null; then
