@@ -1,20 +1,28 @@
 #!/bin/sh
 fn=
-for nm in "$1" /opt/firefox/firefox firefox chromium google-chrome chromium-browser iceweasel; do
+for nm in "${1:-}" /opt/firefox/firefox firefox chromium google-chrome chromium-browser iceweasel; do
+	if [ -z "$nm" ]; then
+		continue
+	fi
 	if [ -x "$nm" ]; then
 		fn="$nm"
+		nm="$(basename "$fn")"
 		break
 	fi
 	if ! [ -x "/usr/bin/$nm" ]; then
 		continue
 	fi
-	fn=/usr/bin/$nm
+	fn="/usr/bin/$nm"
 	break
 done
+echo "nm=$nm fn=$fn" >&2
+if [ -z "$fn" ] || [ -z "$nm" ]; then
+	exit 1
+fi
 set -x
 killall "$nm"
 killall 'Web Content'
-ps -ef | grep "$nm" | grep -F '     1 ' | awk '{print $2}' | xargs -n8 -- kill -9
+#ps -ef | grep "$nm" | grep -F '     1 ' | awk '{print $2}' | xargs -n8 -- kill -9
 sleep 0.5
 killall -9 "$nm"
 sleep 0.5
