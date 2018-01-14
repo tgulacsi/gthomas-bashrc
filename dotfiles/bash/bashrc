@@ -31,7 +31,6 @@ fi
 
 if [[ -z "$GOPATH" ]]; then
     GOPATH=$HOME
-	export GO15VENDOREXPERIMENT=1
 	export GOVC_INSECURE=1 GOVC_URL=vcenterappl.unosoft.local
 	export GOVC_USERNAME=TGulacsi@unosoft
     if [[ -d "$GOPATH" ]]; then
@@ -76,15 +75,9 @@ fi
 
 
 if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
-    export CDPATH=.:~:$GOPATH/src/github.com/tgulacsi
-
     if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
         PATH="$HOME/bin:$PATH"
     fi
 	export PATH
     _PATH_HAS_BEEN_SET=1
-fi
-
-if [[ -e /usr/local/go.nxt ]]; then
-	alias go.nxt=/usr/local/go.nxt/bin/go
 fi
