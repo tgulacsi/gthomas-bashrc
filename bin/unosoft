@@ -20,7 +20,9 @@ if [ $DOWN -eq 1 ]; then
 	exit 0
 fi
 
-exec nmcli --ask con up id "$ID"
+set -e
+nmcli --ask con up id "$ID"
+exec sudo systemd-resolve -i tun0 --set-dns 10.65.85.1 --set-domain unosoft.local --set-domain hu.emea.aegon.com
 
 while true; do
 	while ! nmcli --ask con up id "$ID" 2>&1| fgrep -q 'already active'; do
