@@ -11,6 +11,10 @@ for arg in "$@"; do
 	esac
 done
 
+if [ "${FULL:-0}" = 1 ] && nmcli con show --active | fgrep -q Alvallalkozok; then
+	nmcli --ask con down id Alvallalkozok
+	nmcli --ask con up id Alvallalkozok
+fi
 nmcli --ask con down id "$ID"
 if [ $DOWN -eq 1 ]; then
 	exit 0
