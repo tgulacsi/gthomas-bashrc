@@ -202,6 +202,10 @@ nnoremap Y y$
 
 " Enter automatically into the files directory
 autocmd BufEnter * silent! lcd %:p:h
+
+" No number increment/decrement
+nnoremap <C-a> ^
+nnoremap <C-x> dW
 " }}}
 
 " TMUX {{{
