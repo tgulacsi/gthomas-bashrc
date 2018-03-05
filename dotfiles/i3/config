@@ -186,3 +186,5 @@ bindsym $mod+F6 exec --no-startup-id killall -CONT firefox
 bindsym $mod+F8 exec --no-startup-id sudo -A alsactl restore 0
 
 bindsym $mod+Shift+F10 exec --no-startup-id sh -c 'xsel -o -p | xsel -b'
+
+bindsym $mod+Shift+o exec --no-startup-id ~/bin/editinvim.sh
