@@ -4,10 +4,12 @@ source ~/.ssh/tgulacsi78@gmail.com.muttrc
 
 # Change the following six lines to match your Gmail account details
 set imap_user = "tgulacsi78@gmail.com"
-set smtp_url = "smtps://$imap_user@smtp.gmail.com:465/"
+#set smtp_url = "smtps://$imap_user@smtp.gmail.com:465/"
+set smtp_url = "smtp://$imap_user@smtp.gmail.com:587/"
 set smtp_pass = "$imap_pass" # leave blank for prompt
-set from = "tgulacsi78@gmail.com"
+set ssl_starttls = yes
 set realname = "Tamás Gulácsi"
+set from = "$realname <tgulacsi78@gmail.com>"
 
 set folder = "imaps://imap.gmail.com:993"
 set spoolfile = "+INBOX"
