@@ -14,13 +14,6 @@ export NMON=cdm4
 
 export PS1=":\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\$(if [ \$? = 0 ]; then echo '$'; else echo '!'; fi) "
 
-CHROMIUM_USER_FLAGS="--memory-model=low --purge-memory-button --enable-internal-flash"
-if [ -e /usr/lib/pepperflashplugin-nonfree/etc-chromium-default.txt ]; then
-	. /usr/lib/pepperflashplugin-nonfree/etc-chromium-default.txt
-	export CHROMIUM_FLAGS
-	CHROMIUM_USER_FLAGS="$CHROMIUM_USER_FLAGS $CHROMIUM_FLAGS"
-fi
-export CHROMIUM_USER_FLAGS
 export USER_RUN_DIR=/var/run/user/$(id -u)
 
 if ! [ -L ~/.cache ]; then

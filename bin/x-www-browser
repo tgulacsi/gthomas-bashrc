@@ -1,6 +1,6 @@
 #!/bin/sh
 fn=
-for nm in "${1:-}" /opt/firefox/firefox firefox chromium google-chrome chromium-browser iceweasel; do
+for nm in "${1:-}" chromium google-chrome chromium-browser /opt/firefox/firefox firefox iceweasel; do
 	if [ -z "$nm" ]; then
 		continue
 	fi
