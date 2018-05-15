@@ -1,6 +1,14 @@
 #!/bin/sh
+all=0
+if [ "$1" = --all ]; then
+	all=1
+	shift
+fi
 CONFIG=${CONFIG:-$1}
 if [ -z "$CONFIG" ]; then
 	CONFIG=root
 fi
-exec snapper -c $CONFIG delete $(snapper -c $CONFIG list | cut -d\| -f2 | grep '^ [1-9]')
+if [ $all -eq 1 ]; then
+	exec snapper -c $CONFIG delete $(snapper -c $CONFIG list | cut -d\| -f2 | grep '^ [1-9]')
+fi
+exec snapper -c $CONFIG delete $(snapper -c $CONFIG list | fgrep ' apt ' | cut -d\| -f2 | grep '^ [1-9]')

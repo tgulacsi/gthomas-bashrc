@@ -8,24 +8,25 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-. $HOME/.bashrc
+. "$HOME/.bashrc"
 
 export NMON=cdm4
 
 export PS1=":\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\$(if [ \$? = 0 ]; then echo '$'; else echo '!'; fi) "
 
-export USER_RUN_DIR=/var/run/user/$(id -u)
+USER_RUN_DIR=/var/run/user/$(id -u)
+export USER_RUN_DIR
 
 if ! [ -L ~/.cache ]; then
-	mv ~/.cache $USER_RUN_DIR/
+	mv ~/.cache "$USER_RUN_DIR/"
 	rm -rf ~/.cache
-	ln -sf $USER_RUN_DIR/.cache
-	mkdir -p $USER_RUN_DIR/.cache
+	ln -sf "$USER_RUN_DIR/.cache"
+	mkdir -p "$USER_RUN_DIR/.cache"
 else
-	mkdir -p $(readlink ~/.cache)
+	mkdir -p "$(readlink ~/.cache)"
 fi
 
-eval $(~/bin/invoke-gpg-agent)
+eval "$(~/bin/invoke-gpg-agent)"
 
 if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     # enable color support of ls and also add handy aliases
@@ -71,9 +72,9 @@ export KRDIR=$HOME/Documents/abevjava/eKuldes
 if [[ -z "$_ULIMIT_HAS_BEEN_SET" ]]; then
     #ulimit -v 2048000 -m 2048000 -d 2048000
     memsize=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
-    ulimit -S -d $memsize
-    ulimit -S -m $(( $memsize * 3 / 4 ))
-    ulimit -S -v $(( $memsize * 4 / 3 ))
+    ulimit -S -d "$memsize"
+    ulimit -S -m $(( "$memsize" * 3 / 4 ))
+    ulimit -S -v $(( "$memsize" * 4 / 3 ))
 
     set -o vi
     _ULIMIT_HAS_BEEN_SET=1
@@ -115,8 +116,8 @@ set +H
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 if [[ "$TERM" != 'dumb' ]]; then
-	COLORTERM=truecolor
-    if which tmux 2>&1 >/dev/null; then
+	export COLORTERM=truecolor
+    if [[ "$XDG_VTNR" = 7 ]] && which tmux >/dev/null 2>&1; then
         if [[ -z "$TMUX" ]]; then
             if [[ "$TERM" != 'sakura' ]]; then
 				case "$TERM" in
