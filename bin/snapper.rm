@@ -3,4 +3,4 @@ CONFIG=${CONFIG:-$1}
 if [ -z "$CONFIG" ]; then
 	CONFIG=root
 fi
-exec snapper -c $CONFIG delete $(snapper -c $CONFIG list | cut -d\| -f2 | grep '^ [1-9]')
+exec snapper -c $CONFIG delete $(snapper -c $CONFIG list | fgrep ' apt ' | cut -d\| -f2 | grep '^ [1-9]')

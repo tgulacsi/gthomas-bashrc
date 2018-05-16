@@ -13,3 +13,5 @@
 	lg-ascii = log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit
 [init]
 	templateDir = $HOME/dotfiles/git-templates/
+[diff "odt"]
+	textconv = odt2txt

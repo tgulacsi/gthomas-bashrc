@@ -19,3 +19,5 @@ cig_bld =
 
 kbe_tst =
 (DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=lnx-dev-kbe.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=kbe_tst.unosoft.local)))
+
+abl_dev = (DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=p520.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=abl_dev.unosoft.local)))
