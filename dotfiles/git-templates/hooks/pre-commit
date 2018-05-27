@@ -18,10 +18,4 @@ for file in "$@"; do
 	go vet "$file"
 done
 
-gometalinter --vendor --disable-all \
-  --enable=deadcode \
-  --enable=ineffassign \
-  --enable=gosimple \
-  --enable=staticcheck \
-  --enable=unused \
-  ./...
+golangci-lint run
