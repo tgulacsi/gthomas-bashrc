@@ -18,7 +18,12 @@ export VISUAL=$EDITOR
 export PAGER='less'
 export CCACHE_COMPRESS=1
 
-eval $($HOME/bin/invoke-gpg-agent)
+export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+if [[ -e "$HOME/android-sdk" ]]; then
+	export PATH=$HOME/android-sdk/tools/bin:$PATH
+fi
+
+eval $("$HOME/bin/invoke-gpg-agent")
 
 if [[ -z "$SUDO_ASKPASS" ]]; then
     export SUDO_ASKPASS=/usr/bin/ssh-askpass
@@ -39,7 +44,7 @@ if [[ -z "$GOPATH" ]]; then
             #export GOROOT=/usr/local/go
             PATH=/usr/local/go/bin:$PATH
         fi
-        if [[ $GOPATH != $HOME ]]; then
+        if [[ $GOPATH != "$HOME" ]]; then
             PATH=$PATH:$GOPATH/bin
         fi
     fi

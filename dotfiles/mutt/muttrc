@@ -17,6 +17,7 @@ macro index \emc '<sync-mailbox><enter-command>source ~/.mutt/cig@unosoft.hu<ent
 macro index \emk '<sync-mailbox><enter-command>source ~/.mutt/kobe@unosoft.hu<enter><change-folder>!<enter>'
 macro index \emw '<sync-mailbox><enter-command>source ~/.mutt/waberer@unosoft.hu<enter><change-folder>!<enter>'
 macro index \em1 '<sync-mailbox><enter-command>source ~/.mutt/unosoft.test1@gmail.com<enter><change-folder>!<enter>'
+macro index \emC '<sync-mailbox><enter-command>source ~/.mutt/bankkartya@cig.eu<enter><change-folder>!<enter>'
 
 # Change the following line to a different editor you prefer (and update the Dockerfile accordingly, of course).
 set editor = "vim"
@@ -70,7 +71,7 @@ source ~/.mutt/mutt-colors-solarized-dark-16.muttrc
 source ~/.mutt/mutt-patch-highlighting.muttrc
 
 # gpg
-source /usr/share/doc/mutt/examples/gpg.rc
+#source /usr/share/doc/mutt/examples/gpg.rc
 set pgp_sign_as = B242992C
 set crypt_replysign=yes
 set crypt_replysignencrypted=yes
