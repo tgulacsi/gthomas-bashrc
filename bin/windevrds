@@ -4,7 +4,7 @@ u=tgulacsi
 SIZE=${SIZE:-$(getscreensize 2 32)}
 echo "dest=$dest SIZE=$SIZE"
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp /size:$SIZE /v:$dest"
+OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +clipboard /size:$SIZE /v:$dest"
 SEC=${SEC:-/sec:nla}
 if [ -z "$GW" ]; then
 	if ! ip route | fgrep -q 10.65.85.; then

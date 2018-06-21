@@ -1,9 +1,12 @@
 #!/bin/sh
 set -e
 exec 2>&1
-. "$HOME/.ssh/restic.env"
-set -x
-restic backup .config .ssh Documents .password-store /etc
-find ~/src/ -type f -path '*/.git/config' \
-	| restic backup --files-from -
-restic forget -H 3 -d 3 -w 3 -m 3
+. $HOME/.ssh/restic.env
+F="$HOME/restic-git-config.tar"
+rm -f "$F"
+trap "rm $F" EXIT
+
+find ~/src/ -type f -path '*/.git/config' -print0 | \
+	tar caf "$F" --null -T -
+~/bin/restic backup -v .config .ssh Documents .password-store /etc "$F"
+~/bin/restic forget -H 3 -d 3 -w 3 -m 3
