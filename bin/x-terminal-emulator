@@ -1,6 +1,6 @@
 #!/bin/sh
-which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash --login
-which urxvtc 2>&1 || /usr/bin/x-terminal-emulator
+#!/bin/sh
+#which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash --login
 urxvtc "$@"
 if [ $? -eq 2 ]; then
     urxvtd -q -o -f
