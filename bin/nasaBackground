@@ -27,12 +27,14 @@ fi
 
 
 seq 1000 | shuf | while read n; do
-	if ! curl -sS -m 10 -L -X HEAD "https://unsplash.com/curated_batches/$n/download"; then
-		continue
+	if curl -sS -m 10 -L -I "https://unsplash.com/curated_batches/$n/download"; then
+		curl -o /tmp/unsplash.zip -sS -m 30 -L "https://unsplash.com/curated_batches/$n/download"
+		if unzip -t /tmp/unsplash.zip; then
+			(cd $DIR && unzip /tmp/unsplash.zip)
+			setbg && exit 0
+			break
+		fi
 	fi
-	curl -o /tmp/unsplash.zip -sS -m 30 -L "https://unsplash.com/curated_batches/$n/download"
-	(cd $DIR && unzip /tmp/unsplash.zip)
-	setbg && exit 0
 done
 exit 1
 
