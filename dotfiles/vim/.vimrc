@@ -153,7 +153,7 @@ if hostname() =~ "[.]unosoft[.]local$"
 	set t_Co=8
 endif
 colorscheme solarized
-set background=dark
+set background=light
 syntax enable
 " }}}
 
