@@ -57,9 +57,6 @@ if which dropbox >/dev/null 2>&1; then
 	echo "dropbox" >&2
 	(sleep 5; dropbox start) &
 fi
-if which pulseaudio; then
-	pulseaudio --daemonize &
-fi
 #if which groximity 2>/dev/null; then
 #    groximity 20:13:E0:36:E7:53 &
 #else
