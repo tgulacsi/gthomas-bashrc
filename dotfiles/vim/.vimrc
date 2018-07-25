@@ -267,6 +267,7 @@ let g:go_highlight_methods = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
 let g:go_metalinter_enabled = ['vet', 'errcheck']
+let g:go_version_warning = 0
 
 " Open :GoDeclsDir with ctrl-g
 nmap <C-g> :GoDeclsDir<cr>
