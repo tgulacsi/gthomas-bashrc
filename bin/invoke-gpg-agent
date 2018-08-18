@@ -2,22 +2,24 @@
 dn=/run/user/$(id -u)
 mkdir -p $dn
 
-ifn=$dn/E.ssh-agent
-sfn=$dn/S.ssh-agent
-if [ -s $ifn ]; then
-	. $ifn
-	rc=0
-	ssh-add -l >/dev/null || rc=$?
-	if [ $rc -eq 2 ]; then
-		rm -f $ifn $sfn
+if ! systemctl --user start gpg-agent-ssh.socket; then
+	ifn=$dn/E.ssh-agent
+	sfn=$dn/S.ssh-agent
+	if [ -s $ifn ]; then
+		. $ifn
+		rc=0
+		ssh-add -l >/dev/null || rc=$?
+		if [ $rc -eq 2 ]; then
+			rm -f $ifn $sfn
+		fi
 	fi
+	if [ ! -s $ifn ]; then
+		killall -9 ssh-agent
+		ssh-agent -s -a $sfn | grep -E '^(GPG|SSH)' >$ifn
+		. $ifn
+	fi
+	cat $ifn
 fi
-if [ ! -s $ifn ]; then
-	killall -9 ssh-agent
-	ssh-agent -s -a $sfn | grep -E '^(GPG|SSH)' >$ifn
-	. $ifn
-fi
-cat $ifn
 
 if true; then
 ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' \
@@ -28,6 +30,8 @@ ssh-add -l | fgrep -q 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' \
 	|| ssh-add ~/.ssh/tgulacsi3@unosoft
 fi
 
+if false; then
 echo reloadagent | gpg-connect-agent >/dev/null || {
 	eval $(gpg-agent -s)
 }
+fi
