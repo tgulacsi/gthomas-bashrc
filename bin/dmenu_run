@@ -1,6 +1,0 @@
-#!/bin/sh
-menu=$(which passmenu 2>&1)
-if [ -z "$menu" ]; then
-	menu=dmenu
-fi
-dmenu_path | "$menu" "$@" | ${SHELL:-"/bin/sh"} &
