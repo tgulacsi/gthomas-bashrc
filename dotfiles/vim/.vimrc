@@ -239,6 +239,7 @@ let g:airline#extensions#ale#enabled = 1
 " }}}
 
 " Go {{{
+if false
 if &encoding=~"iso-*8859-2"
     let gi2=expand('~/bin/goimports2')
     if !filereadable(gi2)
@@ -250,6 +251,7 @@ if &encoding=~"iso-*8859-2"
 	let g:go_fmt_command = "goimports2"
 else
 	let g:go_fmt_command = "goimports"
+endif
 endif
 
 let g:go_auto_sameids = 1
