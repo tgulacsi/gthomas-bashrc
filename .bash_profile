@@ -1,1 +1,1 @@
-dotfiles/bash_profile
+dotfiles/bash/profile
