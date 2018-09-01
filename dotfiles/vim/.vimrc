@@ -239,7 +239,7 @@ let g:airline#extensions#ale#enabled = 1
 " }}}
 
 " Go {{{
-if false
+if 1==0
 if &encoding=~"iso-*8859-2"
     let gi2=expand('~/bin/goimports2')
     if !filereadable(gi2)
