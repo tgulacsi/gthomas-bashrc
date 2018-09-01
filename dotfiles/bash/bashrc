@@ -35,6 +35,7 @@ if [[ -d /usr/local/plan9 ]]; then
 fi
 
 unset GOPATH
+export GOBIN=~/bin
 if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin; then
 	PATH=/usr/local/go/bin:$PATH
 	if [[ -z "$GOROOT_BOOTSTRAP" ]] && [[ -e /usr/local/go1.4.2/bin/go ]]; then
