@@ -43,7 +43,7 @@ if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin
 	fi
 	if resolvectl query unowebprd.unosoft.local >/dev/null 2>&1; then
 		goproxy=http://unowebprd.unosoft.local:3000
-		if [[ -z "${GOPROXY:-}" ]] && curl -sS -m 1 "$goproxy" -o /dev/null; then
+		if [[ -z "${GOPROXY:-}" ]] && curl -sS -m 1 "$goproxy" -o /dev/null 2>/dev/null; then
 			export GOPROXY="$goproxy"
 		fi
 	fi
