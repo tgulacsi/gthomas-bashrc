@@ -2,7 +2,13 @@
 set -e
 set -u
 fn="/tmp/muttview-$$.mbox"
-which formail >/dev/null 2>/dev/null || sudo apt-get install procmail
+if ! which formail >/dev/null 2>/dev/null; then
+	sudo apt-get install procmail
+fi
+MUTT=neomutt
+if ! which $MUTT >/dev/null 2>/dev/null; then
+	MUTT=mutt
+fi
 formail -b < "$1" > "$fn"
-mutt -f "$fn"
+$MUTT -f "$fn"
 rm -f "$fn"
