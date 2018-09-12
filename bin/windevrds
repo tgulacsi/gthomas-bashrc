@@ -6,7 +6,7 @@ echo "dest=$dest SIZE=$SIZE"
 
 prog=${RDP:-xfreerdp}
 
-pkill -f "${prog}.*0x409 .* ${dest}"
+pkill -f "${prog}.*0x409 .* /v:${dest}"
 
 if which cpulimit >/dev/null 2>/dev/null; then
 	prog="cpulimit -f -l 50 -- $prog"
