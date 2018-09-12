@@ -4,15 +4,16 @@ u=tgulacsi
 SIZE=${SIZE:-$(getscreensize 2 32)}
 echo "dest=$dest SIZE=$SIZE"
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +clipboard /size:$SIZE /v:$dest"
-SEC=${SEC:-/sec:nla}
-if [ -z "$GW" ]; then
-	if ! ip route | fgrep -q 10.65.85.; then
-		GW=rdg.unosoft.hu:4443
-	fi
+prog=${RDP:-xfreerdp}
+
+pkill -f "${prog}.*0x409 .* ${dest}"
+
+if which cpulimit >/dev/null 2>/dev/null; then
+	prog="cpulimit -f -l 50 -- $prog"
 fi
 
-if [ -n "SUDO_ASKPASS" ]; then
+OPTS=
+if [ -n "${SUDO_ASKPASS:-}" ]; then
 	want='da06fcded8c35d329847c0d152bccb29061b03c4ce59bf77ad095ea3e7b953f0732b7be0848fa60497b5f00e0262fe9ebce0634a7f5db42c3d336ba5ea6967b5  -'
 	for i in 1 2 3 4; do
 		p=$($SUDO_ASKPASS "$u@$dest")
@@ -24,25 +25,26 @@ if [ -n "SUDO_ASKPASS" ]; then
 			echo 'Bad password' >&2
 			exit 3
 		fi
-		sleep $(( $i ))
+		sleep $i
 	done
-	OPTS="$OPTS /u:$u /d:unosoft /p:$p"
+	OPTS="/u:$u /d:unosoft /p:$p"
 	if [ -n "$GW" ]; then
 		OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
 	fi
 fi
 
-prog=${RDP:-xfreerdp}
-
-pkill -f "${prog}.*0x409 .* ${dest_prefix}${dest}"
-
-if which cpulimit >/dev/null 2>/dev/null; then
-	prog="cpulimit -f -l 50 -- $prog"
+OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +clipboard /size:$SIZE /v:$dest"
+SEC=${SEC:-/sec:nla}
+if [ -z "$GW" ]; then
+	if ! ip route | grep -Fq 10.65.85.; then
+		GW=rdg.unosoft.hu:4443
+	fi
 fi
+
 
 echo "+ ${prog} ${SEC} $OPTS" >&2
 if [ "${DEBUG:-0}" -ne 1 ]; then
 	exec >/dev/null 2>/dev/null
 fi
 
-exec ${prog} ${SEC} $OPTS
+exec "${prog}" "${SEC}" $OPTS

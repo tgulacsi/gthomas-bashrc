@@ -23,17 +23,3 @@ fi
 set -e
 nmcli --ask con up id "$ID"
 exec systemd-resolve -i tun0 --set-dns 10.65.85.1 --set-domain unosoft.local --set-domain hu.emea.aegon.com
-
-while true; do
-	while ! nmcli --ask con up id "$ID" 2>&1| fgrep -q 'already active'; do
-		sleep 1
-	done
-
-	break
-
-	echo $(date '+%H:%M:%S') 'activated'
-	while [ $(nmcli con show --active id "$ID" | wc -l) -ne 0 ]; do
-		sleep 3
-	done
-	echo $(date '+%H:%M:%S') 'disconnected'
-done
