@@ -22,11 +22,11 @@ set postponed = "+[Gmail]/Drafts"
 set record = "" # gmail automatically handles saving sent emails
 
 # Gmail-style keyboard shortcuts
-macro index,pager Ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to All Mail"
-macro index,pager Gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to Drafts"
-macro index,pager Gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to Sent Mail"
+#macro index,pager Ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to All Mail"
+#macro index,pager Gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to Drafts"
+#macro index,pager Gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to Sent Mail"
 
-macro index,pager d ";s+[Gmail]/Trash<enter><enter>" "Trash"
-macro index,pager !  <save-message>=[Gmail]/Spam<enter><enter> "Report spam"
-macro index,pager +  <save-message>=[Gmail]/Important<enter><enter> "Mark as Important"
-macro index,pager *  <save-message>=[Gmail]/Starred<enter><enter> "Star Message"
+#macro index,pager d ";s+[Gmail]/Trash<enter><enter>" "Trash"
+#macro index,pager !  <save-message>=[Gmail]/Spam<enter><enter> "Report spam"
+#macro index,pager +  <save-message>=[Gmail]/Important<enter><enter> "Mark as Important"
+#macro index,pager *  <save-message>=[Gmail]/Starred<enter><enter> "Star Message"

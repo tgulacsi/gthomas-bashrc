@@ -63,6 +63,7 @@ bind editor <space> noop
 set mailcap_path = ~/.mutt/mailcap
 
 # Gmail-style keyboard shortcuts
+bind index G noop
 macro index,pager Gi "<change-folder>=INBOX<enter>" "Go to Inbox"
 
 macro index,pager a "<enter-command>unset resolve<enter><enter-command>unset trash<enter><clear-flag>N<enter-command>set resolve<enter><delete-message><enter>"
