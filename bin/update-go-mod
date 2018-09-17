@@ -1,4 +1,5 @@
 #!/bin/sh
+echo "Usage: $0 <pkg> <version>" >&2
 set -u
 PKG="$1"
 VERSION="$2"
