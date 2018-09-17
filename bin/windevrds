@@ -28,9 +28,6 @@ if [ -n "${SUDO_ASKPASS:-}" ]; then
 		sleep $i
 	done
 	OPTS="/u:$u /d:unosoft /p:$p"
-	if [ -n "$GW" ]; then
-		OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
-	fi
 fi
 if lsusb | grep -Fq Yubico.com; then
 	OPTS="$OPTS /smartcard"
@@ -42,6 +39,9 @@ if [ -z "$GW" ]; then
 	if ! ip route | grep -Fq 10.65.85.; then
 		GW=rdg.unosoft.hu:4443
 	fi
+fi
+if [ -n "$GW" ]; then
+	OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
 fi
 
 
