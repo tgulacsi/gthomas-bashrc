@@ -101,6 +101,9 @@ fi
 #if [ -x /usr/bin/xfsettingsd ]; then
 	#{ sleep 2; xfsettingsd; } &
 #fi
+if [ -x ~/bin/browser-suspender.sh ]; then
+	~/bin/browser-suspender.sh &
+fi
 if which ck-launch-session 2>/dev/null; then
 	echo 'ck-launch-session' >&2
 	exec ck-launch-session dbus-launch i3
