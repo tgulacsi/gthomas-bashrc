@@ -3,5 +3,5 @@ for nm in nvim vim.nox vim.tiny; do
 	if ! which $nm >/dev/null 2>/dev/null; then
 		continue
 	fi
-	exec env -u TERM -u TMUX $nm "$@"
+	exec env -u TMUX $nm "$@"
 done
