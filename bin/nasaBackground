@@ -1,5 +1,13 @@
 #!/bin/sh
 SETBG='feh --bg-fill'
+
+set -e
+set -x
+curl -o /tmp/wallpaper -H 'Accept: image/png' -m 30 -sS -L \
+	'https://unsplash.it/1920/1080/?random' && \
+	$SETBG /tmp/wallpaper && \
+	exit 0
+
 DIR=/tmp/.${USER}-backgrounds
 
 setbg () {
@@ -24,6 +32,7 @@ else
 	setbg && exit 0
 	set +x
 fi
+
 
 
 seq 1000 | shuf | while read n; do
