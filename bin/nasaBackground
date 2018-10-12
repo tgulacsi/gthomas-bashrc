@@ -4,7 +4,7 @@ SETBG='feh --bg-fill'
 set -e
 set -x
 curl -o /tmp/wallpaper -H 'Accept: image/png' -m 30 -sS -L \
-	'https://unsplash.it/1920/1080/?random' && \
+	'https://unsplash.it/'"$(getscreensize | tr x /)"'/?random' && \
 	$SETBG /tmp/wallpaper && \
 	exit 0
 
