@@ -1,0 +1,22 @@
+# A basic .muttrc
+
+source ~/.ssh/tamas@gulacsi.eu.muttrc
+
+# Change the following six lines to match your Gmail account details
+set imap_user = "tamas@gulacsi.eu"
+#set smtp_url = "smtps://$imap_user@smtp.fastmail.com:465/"
+set smtp_url = "smtp://$imap_user@smtp.gmail.com:587/"
+set smtp_pass = "$imap_pass" # leave blank for prompt
+set ssl_starttls = no
+set realname = "Tamás Gulácsi"
+set from = "$realname <tgulacsi78@gmail.com>"
+
+set folder = "imaps://imap.fastmail.com:993"
+set spoolfile = "+INBOX"
+set imap_check_subscribed
+set hostname = gmail.com
+set mail_check = 60
+set timeout = 300
+set imap_keepalive = 300
+set postponed = "+INBOX/Drafts"
+set record = "" # gmail automatically handles saving sent emails

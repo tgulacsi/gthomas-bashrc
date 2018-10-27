@@ -1,15 +1,17 @@
 # A basic .muttrc
 
 set mbox_type=Maildir
-source ~/.ssh/tgulacsi78@gmail.com.muttrc
 
 set mark_old=no
 
 #folder-hook 'gmail.com' 'source ~/.mutt/tgulacsi78@gmail.com'
 #folder-hook 'unosoft.hu' 'source ~/.mutt/t.gulacsi@unosoft.hu'
 # switch to default account on startup
-source ~/.mutt/tgulacsi78@gmail.com
+#
+#source ~/.mutt/tgulacsi78@gmail.com
+source ~/.mutt/tamas@gulacsi.eu
 
+macro index \emf '<sync-mailbox><enter-command>source ~/.mutt/tamas@gulacsi.eu<enter><change-folder>!<enter>'
 macro index \emg '<sync-mailbox><enter-command>source ~/.mutt/tgulacsi78@gmail.com<enter><change-folder>!<enter>'
 macro index \emu '<sync-mailbox><enter-command>source ~/.mutt/t.gulacsi@unosoft.hu<enter><change-folder>!<enter>'
 macro index \ema '<sync-mailbox><enter-command>source ~/.mutt/aegon@unosoft.hu<enter><change-folder>!<enter>'
