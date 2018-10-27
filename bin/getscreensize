@@ -1,6 +1,5 @@
 #!/bin/sh
-SIZE=$(xrandr --current|grep ' connected '\
-    |sed -e 's/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/'|sort -r|head -n1)
+SIZE="$(xrandr --current | sed -ne '/ connected / s/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/p' | sort -r | head -n1)"
 if [ $# -ge 1 ]; then
     W=$(echo $SIZE|cut -dx -f1)
     H=$(echo $SIZE|cut -dx -f2)
