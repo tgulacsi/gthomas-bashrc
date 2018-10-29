@@ -1,6 +1,6 @@
 #!/bin/sh
-#!/bin/sh
 #which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash --login
+which alacritty 2>&1 && exec alacritty -qq --live-config-reload -d 0 0 -e /bin/bash --login
 urxvtc "$@"
 if [ $? -eq 2 ]; then
     urxvtd -q -o -f
