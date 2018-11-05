@@ -1,10 +1,10 @@
 #!/bin/sh
 set -e
 exec 2>&1
-. $HOME/.ssh/restic.env
+. "$HOME/.ssh/restic.env"
 F="$HOME/restic-git-config.tar"
 rm -f "$F"
-trap "rm $F" EXIT
+trap 'rm '"$F" EXIT
 
 find ~/src/ -type f -path '*/.git/config' -print0 | \
 	tar caf "$F" --null -T -
