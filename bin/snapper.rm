@@ -9,8 +9,8 @@ if [ -z "$CONFIG" ]; then
 	CONFIG=root
 fi
 if [ $all -eq 1 ]; then
-	exec snapper -c $CONFIG delete $(snapper -c $CONFIG --disable-used-space list | cut -d\| -f2 | grep '^ [1-9]')
+	exec snapper -c $CONFIG delete $(snapper -c $CONFIG list --disable-used-space | cut -d\| -f2 | grep '^ [1-9]')
 fi
 snapper -c $CONFIG cleanup timeline
 snapper -c $CONFIG cleanup number
-exec snapper -c $CONFIG delete $(snapper -c $CONFIG --disable-used-space list | fgrep ' apt ' | cut -d\| -f2 | grep '^ [1-9]')
+exec snapper -c $CONFIG delete $(snapper -c $CONFIG list --disable-used-space | fgrep ' apt ' | cut -d\| -f2 | grep '^ [1-9]')
