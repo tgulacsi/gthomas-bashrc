@@ -1,0 +1,2 @@
+#!/bin/sh
+exec ssh -Y tequila lxqt-sudo firewall-config
