@@ -30,13 +30,13 @@ if [ -n "${SUDO_ASKPASS:-}" ]; then
 		fi
 		sleep $i
 	done
-	OPTS="/u:$u /d:unosoft /p:$p"
+	OPTS="/u:$u /d:unosoft"
 fi
 if lsusb | grep -Fq Yubico.com; then
 	OPTS="$OPTS /smartcard"
 fi
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /size:$SIZE /v:$dest +fonts"
+OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /size:$SIZE /v:$dest +fonts /from-stdin -decorations"
 SEC=${SEC:-/sec:nla}
 if [ -z "$GW" ]; then
 	if ! ip route | grep -Fq 10.65.85.; then
@@ -53,4 +53,4 @@ if [ "${DEBUG:-0}" -ne 1 ]; then
 	exec >/dev/null 2>/dev/null
 fi
 
-exec "${prog}" "${SEC}" $OPTS
+echo "$p" | exec "${prog}" "${SEC}" $OPTS

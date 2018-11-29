@@ -73,8 +73,8 @@ if [[ -z "$_ULIMIT_HAS_BEEN_SET" ]]; then
     #ulimit -v 2048000 -m 2048000 -d 2048000
     memsize=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
     ulimit -S -d "$memsize"
-    ulimit -S -m $(( "$memsize" * 3 / 4 ))
-    ulimit -S -v $(( "$memsize" * 3 ))
+    #ulimit -S -m $(( "$memsize" * 1 ))
+    #ulimit -S -v $(( "$memsize" * 3 ))
 
     set -o vi
     _ULIMIT_HAS_BEEN_SET=1
