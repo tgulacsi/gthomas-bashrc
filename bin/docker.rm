@@ -1,5 +1,5 @@
 #!/bin/bash
-comm -23 <(docker ps -qa | sort -u) <(docker ps -q | sort -u) | xargs -n 1000 -P 4
+comm -23 <(docker ps -qa | sort -u) <(docker ps -q | sort -u) | xargs -n 1000 -P 4 docker rm
 
 ids=$(docker images|grep '^<none>'|awk '{print $3}')
 if [ -z "$ids" ]; then
