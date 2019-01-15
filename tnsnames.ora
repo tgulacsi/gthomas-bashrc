@@ -27,7 +27,7 @@ abl_dev = (DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=p520.unosoft.l
 
 aeg_dev = (DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=p520.unosoft.local) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=abl_dev.unosoft.local)))
 
-aeg_new = (DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=p520.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=aeg_new.unosoft.local)))
+aeg_new = (DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=aix-dev-ab7.unosoft.local) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=abl_dev.unosoft.local)))
 
 whb_dev.unosoft.local =
 (DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=lnx-dev-whb.unosoft.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=whb_dev.unosoft.local)))

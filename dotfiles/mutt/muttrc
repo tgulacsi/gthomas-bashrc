@@ -9,7 +9,9 @@ set mark_old=no
 # switch to default account on startup
 #
 source ~/.mutt/tgulacsi78@gmail.com
-#source ~/.mutt/tamas@gulacsi.eu
+#
+
+macro index \emp '<sync-mailbox><enter-command>source ~/.mutt/tamas@gulacsi.eu<enter><change-folder>!<enter>'
 
 macro index \emf '<sync-mailbox><enter-command>source ~/.mutt/tamas@gulacsi.eu<enter><change-folder>!<enter>'
 macro index \emg '<sync-mailbox><enter-command>source ~/.mutt/tgulacsi78@gmail.com<enter><change-folder>!<enter>'

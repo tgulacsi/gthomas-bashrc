@@ -4,17 +4,16 @@ source ~/.ssh/tamas@gulacsi.eu.muttrc
 
 # Change the following six lines to match your Gmail account details
 set imap_user = "tamas@gulacsi.eu"
-#set smtp_url = "smtps://$imap_user@smtp.fastmail.com:465/"
-set smtp_url = "smtp://$imap_user@smtp.fastmail.com:587/"
+set smtp_url = "smtp://$imap_user@127.0.0.1:1025/"
 set smtp_pass = "$imap_pass" # leave blank for prompt
 set ssl_starttls = no
 set realname = "Tamás Gulácsi"
-set from = "$realname <tgulacsi78@gmail.com>"
+set from = "$realname <tamas@gulacsi.eu>"
 
-set folder = "imaps://imap.fastmail.com:993"
+set folder = "imap://127.0.0.1:1143"
 set spoolfile = "+INBOX"
 set imap_check_subscribed
-set hostname = gmail.com
+set hostname = protonmail.com
 set mail_check = 60
 set timeout = 300
 set imap_keepalive = 300
