@@ -1,6 +1,7 @@
 # A basic .muttrc
 
-source ~/.ssh/tamas@gulacsi.eu.muttrc
+source "sh -c 'echo set hostname=$(hostname)'|"
+source ~/.ssh/tamas@gulacsi.eu.${hostname}.muttrc
 
 # Change the following six lines to match your Gmail account details
 set imap_user = "tamas@gulacsi.eu"
