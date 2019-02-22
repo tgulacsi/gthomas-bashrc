@@ -8,8 +8,8 @@ set mark_old=no
 #folder-hook 'unosoft.hu' 'source ~/.mutt/t.gulacsi@unosoft.hu'
 # switch to default account on startup
 #
-source ~/.mutt/tgulacsi78@gmail.com
-#source ~/.mutt/tamas@gulacsi.eu
+#source ~/.mutt/tgulacsi78@gmail.com
+source ~/.mutt/tamas@gulacsi.eu
 #
 
 macro index \emp '<sync-mailbox><enter-command>source ~/.mutt/tamas@gulacsi.eu<enter><change-folder>!<enter>'

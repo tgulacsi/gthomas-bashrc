@@ -1,20 +1,20 @@
 # A basic .muttrc
 
-source "sh -c 'echo set hostname=$(hostname)'|"
-source ~/.ssh/tamas@gulacsi.eu.${hostname}.muttrc
+#source "sh -c 'echo set hostname=$(hostname)'|"
+#source ~/.ssh/tamas@gulacsi.eu.${hostname}.muttrc
+source ~/.ssh/tamas@gulacsi.eu.muttrc
 
-# Change the following six lines to match your Gmail account details
 set imap_user = "tamas@gulacsi.eu"
-set smtp_url = "smtp://$imap_user@127.0.0.1:1025/"
+set smtp_url = "smtp://$imap_user@smtp.mailbox.org:25/"
 set smtp_pass = "$imap_pass" # leave blank for prompt
 set ssl_starttls = no
 set realname = "Tamás Gulácsi"
 set from = "$realname <tamas@gulacsi.eu>"
 
-set folder = "imap://127.0.0.1:1143"
+set folder = "imaps://imap.mailbox.org:993"
 set spoolfile = "+INBOX"
 set imap_check_subscribed
-set hostname = protonmail.com
+set hostname = gulacsi.eu
 set mail_check = 60
 set timeout = 300
 set imap_keepalive = 300
