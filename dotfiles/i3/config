@@ -170,8 +170,8 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q sset Master 5%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 5%-
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
 
-bindsym XF86MonBrightnessUp exec --no-startup-id backlight +20
-bindsym XF86MonBrightnessDown exec --no-startup-id backlight -20
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo -A backlight +20
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo -A backlight -20
 #bindsym $mod+F10 exec --no-startup-id backlight -20
 #bindsym $mod+F11 exec --no-startup-id backlight +20
 

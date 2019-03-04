@@ -7,7 +7,7 @@ if [ -e "$B" ]; then
 	old=$(cat $B)
 	compute="$old $1"
 	new=$(echo "$compute" | bc)
-	echo "$new" | sudo tee $B
+	echo "$new" | tee $B
 	exit $?
 fi
 
