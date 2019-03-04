@@ -5,9 +5,9 @@
 source ~/.ssh/tamas@gulacsi.eu.muttrc
 
 set imap_user = "tamas@gulacsi.eu"
-set smtp_url = "smtp://$imap_user@smtp.mailbox.org:25/"
+set smtp_url = "smtps://$imap_user@smtp.mailbox.org:465/"
 set smtp_pass = "$imap_pass" # leave blank for prompt
-set ssl_starttls = no
+set ssl_starttls = yes
 set realname = "Tamás Gulácsi"
 set from = "$realname <tamas@gulacsi.eu>"
 
