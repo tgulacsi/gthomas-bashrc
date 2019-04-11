@@ -239,21 +239,6 @@ let g:airline#extensions#ale#enabled = 1
 " }}}
 
 " Go {{{
-if 1==0
-if &encoding=~"iso-*8859-2"
-    let gi2=expand('~/bin/goimports2')
-    if !filereadable(gi2)
-		let content = ['#!/bin/sh', 'iconv -f iso-8859-2 -t utf-8 "$2" >"$2".utf8 && gofmt "$1" "$2".utf8 && iconv -f utf-8 -t iso-8859-2 "$2".utf8 >"$2"']
-		silent execute '!mkdir -p ~/bin'
-		call writefile(content, gi2)
-		silent execute '!chmod 0755 ' . gi2
-	endif
-	let g:go_fmt_command = "goimports2"
-else
-	let g:go_fmt_command = "goimports"
-endif
-endif
-
 let g:go_auto_sameids = 1
 let g:go_fmt_autosave = 1
 let g:go_autodetect_gopath = 1
@@ -280,7 +265,7 @@ imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
 augroup go
   autocmd!
 
-  au FileType go set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
+  au FileType go set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4 fileencoding=utf-8
 
   " Show by default 4 spaces for a tab
   autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 fileencoding=utf-8
