@@ -23,8 +23,6 @@ if [[ -e "$HOME/android-sdk" ]]; then
 	export PATH=$HOME/android-sdk/tools/bin:$PATH
 fi
 
-eval $("$HOME/bin/invoke-gpg-agent")
-
 if [[ -z "$SUDO_ASKPASS" ]]; then
     export SUDO_ASKPASS=/usr/bin/ssh-askpass
 fi

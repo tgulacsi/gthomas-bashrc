@@ -35,3 +35,7 @@ echo reloadagent | gpg-connect-agent >/dev/null || {
 	eval $(gpg-agent -s)
 }
 fi
+
+if which keychain >/dev/null 2>/dev/null; then
+	eval $(keychain -q --ignore-missing --agents 'gpg,ssh' --gpg2 --systemd --eval ~/.ssh/tgulacsi2@unosoft ~/.ssh/tgulacsi@unosoft ~/.ssh/tgulacsi3@unosoft 2>/dev/null)
+fi
