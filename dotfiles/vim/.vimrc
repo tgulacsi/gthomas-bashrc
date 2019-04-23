@@ -21,9 +21,9 @@ if 1 " eval compiled in
 	" Make sure you use single quotes
 
     "Add your bundles here
-	"Plug 'fatih/vim-go'
-	Plug 'myitcv/govim'
-	Plug 'fatih/molokai'
+	Plug 'fatih/vim-go'
+	"Plug 'myitcv/govim'
+	"Plug 'fatih/molokai'
 	Plug 'AndrewRadev/splitjoin.vim'
 	Plug 'SirVer/ultisnips'
 	Plug 'ctrlpvim/ctrlp.vim'
@@ -64,7 +64,7 @@ set lazyredraw					" don't redraw in the middle of macros
 "set ttymouse=xterm2              " Indicate terminal type for mouse codes
 "set ttyscroll=4                 " Speedup scrolling
 set mouse=a
-set ttymouse=sgr
+"set ttymouse=sgr
 set laststatus=2                " Show status line always
 set encoding=utf-8              " Set default encoding to UTF-8
 set fileencodings=utf-8,iso-8859-2
