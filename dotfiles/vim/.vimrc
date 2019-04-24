@@ -14,6 +14,7 @@ if 1 " eval compiled in
         echo "Installing vim-plug..."
         echo ""
         silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+		silent !ln -s ~/.config/nvim ~/.vim
         let iCanHazVimPlug=0
     endif
 
@@ -152,13 +153,13 @@ endif
 
 let g:rehash256 = 1
 let g:molokai_original = 1
-set t_Co=256
-if hostname() =~ "[.]unosoft[.]local$"
-	set t_Co=8
-endif
-colorscheme solarized
+set t_Co=8
 set background=light
+if $TERM =~ "256color"
+	set t_Co=256
+endif
 syntax enable
+colorscheme solarized
 " }}}
 
 " do not clear screen on exit
