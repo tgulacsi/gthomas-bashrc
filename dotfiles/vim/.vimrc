@@ -32,10 +32,10 @@ if 1 " eval compiled in
     Plug 'altercation/vim-colors-solarized'
     "Plug 'tpope/vim-vividchalk'
 
-    "Plug 'bling/vim-airline'
+    Plug 'vim-airline/vim-airline'
     "Plug 'scrooloose/syntastic'
 	"Plug 'scrooloose/nerdtree'
-    "Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-markdown'
     "Plug 'tpope/vim-vinegar'
 	Plug 'csexton/trailertrash.vim'
