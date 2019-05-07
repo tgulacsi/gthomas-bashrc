@@ -242,7 +242,7 @@ let g:ale_go_langserver_executable = 'gopls'
 
 " Enable integration with airline.
 let g:airline#extensions#ale#enabled = 1
-" }} }
+" }}}
 
 " Go {{{
 let g:go_auto_sameids = 1
@@ -250,8 +250,8 @@ let g:go_fmt_autosave = 1
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix"
 
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
+let g:go_def_mode = 'gopls'
+let g:go_info_mode = 'gopls'
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_structs = 1
