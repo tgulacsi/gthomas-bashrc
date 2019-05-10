@@ -1,4 +1,10 @@
 #!/bin/sh
+if [ -e ~/.ssh/fwas.unosoft.hu/openvpn_client.ovpn ]; then
+	cd ~/.ssh/fwas.unosoft.hu/
+	sudo pkill openvpn
+	set -x
+	exec sudo openvpn --config openvpn_client.ovpn #--daemon fwas.unosoft.hu
+fi
 DOWN=0
 ID=unosoft
 for arg in "$@"; do
