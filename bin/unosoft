@@ -1,4 +1,14 @@
 #!/bin/sh
+if [ -e /etc/openvpn/client/unosoft.conf ]; then
+	exec systemctl restart openvpn-client@unosoft
+fi
+cat <<EOF
+sudo chown "$(id -un)" /etc/openvpn/client
+cp -a ~/.ssh/fwas.unosoft.hu /etc/openvpn/client/
+cd /etc/openvpn/client/
+sed -e '/^ca /i cd fwas.unosoft.hu' fwas.unosoft.hu/openvpn_client.ovpn  >unosoft.conf
+rm fwas.unosoft.hu/openvpn_client.ovpn
+EOF
 if [ -e ~/.ssh/fwas.unosoft.hu/openvpn_client.ovpn ]; then
 	cd ~/.ssh/fwas.unosoft.hu/
 	sudo pkill openvpn
