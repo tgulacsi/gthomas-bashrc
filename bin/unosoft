@@ -1,6 +1,10 @@
 #!/bin/sh
 if [ -e /etc/openvpn/client/unosoft.conf ]; then
-	exec systemctl restart openvpn-client@unosoft
+	TODO=restart
+	if [ "$1" = down ]; then
+		TODO=stop
+	fi
+	exec systemctl "$TODO" openvpn-client@unosoft
 fi
 cat <<EOF
 sudo chown "$(id -un)" /etc/openvpn/client
