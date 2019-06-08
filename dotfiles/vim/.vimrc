@@ -26,7 +26,7 @@ if 1 " eval compiled in
 	"Plug 'myitcv/govim'
 	"Plug 'fatih/molokai'
 	Plug 'AndrewRadev/splitjoin.vim'
-	Plug 'SirVer/ultisnips'
+	"Plug 'SirVer/ultisnips'
 	Plug 'ctrlpvim/ctrlp.vim'
 
     Plug 'altercation/vim-colors-solarized'
@@ -46,6 +46,7 @@ if 1 " eval compiled in
 	Plug 'w0rp/ale'
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	"Plug 'zchee/deoplete-go'
+	Plug 'joereynolds/vim-minisnip'
 	call plug#end()
 
     if iCanHazVimPlug == 0
