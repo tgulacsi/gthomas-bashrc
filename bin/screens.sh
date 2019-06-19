@@ -1,6 +1,42 @@
 #!/bin/sh
 set -e
 set -u
+#!/bin/bash
+
+SCREEN_LEFT=eDP-1
+SCREEN_RIGHT="$(xrandr -q | fgrep ' connected' | awk '/^[^e]/ { print $1 }')"
+START_DELAY=5
+
+renice +19 $$ >/dev/null
+
+if ! which inotifywait >/dev/null 2>/dev/null; then
+	sudo -A apt install inotify-tools
+fi
+
+sleep $START_DELAY
+
+OLD_DUAL="dummy"
+
+while /bin/true; do
+    DUAL=$(cat /sys/class/drm/card0-DP-2/status || echo "not connected")
+
+    if [ "$OLD_DUAL" != "$DUAL" ]; then
+        if [ "$DUAL" = "connected" ]; then
+            echo 'Dual monitor setup'
+            xrandr --output $SCREEN_LEFT --off --rotate normal --pos 0x0 --output $SCREEN_RIGHT --auto --rotate normal --right-of $SCREEN_LEFT
+        else
+            echo 'Single monitor setup'
+            xrandr --auto
+        fi
+
+        OLD_DUAL="$DUAL"
+    fi
+
+    inotifywait -q -e close_write -e create -e delete -t 30 -r /sys/class/drm/ >/dev/null || echo $?
+done
+
+exit 0
+
 connected="$(xrandr | grep -F ' connected' | grep -Fv 'not connected' | cut -d\  -f1)"
 echo "# connected=$connected" >&2
 N=${1:-$(echo "$connected" | wc -l)}

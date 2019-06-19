@@ -104,6 +104,9 @@ fi
 if [ -x ~/bin/browser-suspender.sh ]; then
 	~/bin/browser-suspender.sh &
 fi
+if [ -x ~/bin/screens.sh ]; then
+	~/bin/screens.sh &
+fi
 if which ck-launch-session 2>/dev/null; then
 	echo 'ck-launch-session' >&2
 	exec ck-launch-session dbus-launch i3
