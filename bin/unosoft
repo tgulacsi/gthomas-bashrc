@@ -1,10 +1,14 @@
 #!/bin/sh
 if [ -e /etc/openvpn/client/unosoft.conf ]; then
+	SVC=openvpn-client@unosoft
 	TODO=restart
 	if [ "$1" = down ]; then
 		TODO=stop
+		if ! systemctl status "$SVC" >/dev/null; then
+			exit 0
+		fi
 	fi
-	exec systemctl "$TODO" openvpn-client@unosoft
+	exec systemctl "$TODO" "$SVC"
 fi
 cat <<EOF
 sudo chown "$(id -un)" /etc/openvpn/client
