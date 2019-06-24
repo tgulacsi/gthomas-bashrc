@@ -2,24 +2,24 @@
 #_NORC=1
 if [ -e "$HOME/.bash_profile" ]; then
 	echo 'calling .bash_profile'
-	. $HOME/.bash_profile
+	. ~/.bash_profile
 	echo '.bash_profile DONE'
 else
 	echo 'calling .profile'
-	. $HOME/.profile
+	. ~/.profile
 	echo '.profile DONE'
 fi
-if ! which randomBackground; then
+if ! command -v randomBackground; then
 	echo 'NO PATH?!?!' "(PATH=$PATH)"
-	. $HOME/.bashrc
+	. ~/.bashrc
 fi
 
 if [ -x ~/bin/screens.sh ]; then
 	echo 'screens.sh' 2>&1
-	~/bin/screens.sh
+	~/bin/screens.sh &
 fi
 
-if which xset >/dev/null 2>&1; then
+if command -v xset >/dev/null 2>&1; then
 	# disable bell
 	xset -b
 fi
@@ -31,36 +31,36 @@ echo 'polkit agent' 2>&1
 # exec startlxde
 # exec dbus-launch lxsession -a
 for nm in stterm urxvtcd sakura lxterminal xfce4-terminal; do
-    if which $nm >/dev/null 2>/dev/null; then
+    if command -v $nm >/dev/null 2>/dev/null; then
         export TERMINAL=$nm
         break
     fi
 done
 
-if which xrdb && [ -f ~/.Xresources ]; then
+if command -v xrdb && [ -f ~/.Xresources ]; then
 	echo 'xrdb' 2>&1
     xrdb -merge ~/.Xresources
 fi
 
 for nm in fbxkb gxkb; do
-	if which $nm; then
+	if command -v $nm; then
 		echo "$nm" >&2
 		$nm &
 		break
 	fi
 done
-if which nm-applet >/dev/null 2>&1; then
+if command -v nm-applet >/dev/null 2>&1; then
 	echo "nm-applet" >&2
     nm-applet &
 fi
-if which dropbox >/dev/null 2>&1; then
+if command -v dropbox >/dev/null 2>&1; then
 	echo "dropbox" >&2
 	(sleep 5; dropbox start) &
 fi
-#if which groximity 2>/dev/null; then
+#if command -v groximity 2>/dev/null; then
 #    groximity 20:13:E0:36:E7:53 &
 #else
-    if which xscreensaver 2>/dev/null; then
+    if command -v xscreensaver 2>/dev/null; then
 		echo "xscreensaver" >&2
         xscreensaver &
     fi
@@ -72,15 +72,15 @@ if [ -x ~/bin/nasaBackground ]; then
     ~/bin/nasaBackground
     ) &
 fi
-if which autocutsel >/dev/null; then
+if command -v autocutsel >/dev/null; then
 	echo 'autocutsel' >&2
 	autocutsel -s PRIMARY -fork
 fi
 
-if which redshift >/dev/null; then
+if command -v redshift >/dev/null; then
     redshift -l 17.498333:19.040833 -t 6500:3600 -l manual &
-elif [ -x $HOME/bin/xflux ] && ! pidof xflux >/dev/null; then
-    $HOME/bin/xflux -l 47.498333 -g 19.040833
+elif [ -x "$HOME/bin/xflux" ] && ! pidof xflux >/dev/null; then
+    "$HOME/bin/xflux" -l 47.498333 -g 19.040833
 fi
 
 if synclient -l | grep -q 'RightEdge.*= 1175$'; then
@@ -93,7 +93,7 @@ if [ -x /usr/bin/mate-power-manager ]; then
 	/usr/bin/mate-power-manager &
 fi
 
-if [ -x /usr/bin/xinput ] && [ $(hostname) = redpath ]; then
+if [ -x /usr/bin/xinput ] && [ "$(hostname)" = redpath ]; then
 	echo 'xinput' >&2
 	xinput --set-prop 12 275 1
 fi
@@ -104,10 +104,7 @@ fi
 if [ -x ~/bin/browser-suspender.sh ]; then
 	~/bin/browser-suspender.sh &
 fi
-if [ -x ~/bin/screens.sh ]; then
-	~/bin/screens.sh &
-fi
-if which ck-launch-session 2>/dev/null; then
+if command -v ck-launch-session 2>/dev/null; then
 	echo 'ck-launch-session' >&2
 	exec ck-launch-session dbus-launch i3
 fi
