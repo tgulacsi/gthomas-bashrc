@@ -5,9 +5,10 @@ fi
 B=/sys/class/backlight/intel_backlight/brightness
 if [ -e "$B" ]; then
 	old="$(cat $B)"
-	compute="$old $1"
-	new="$(echo "$compute" | bc)"
-	if [ $new -le 1 ]; then
+	max="$(cat "$(dirname $B)/max_brightness")"
+	compute="scale=2; $old $1 / 200 * $max"
+	new="$(echo "$compute" | bc | cut -d. -f1)"
+	if [ "$new" -le 1 ]; then
 		new=1
 	fi
 	echo "$new" | sudo -A tee $B
