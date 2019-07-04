@@ -47,6 +47,13 @@ if 1 " eval compiled in
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	"Plug 'zchee/deoplete-go'
 	Plug 'joereynolds/vim-minisnip'
+	Plug 'autozimu/LanguageClient-neovim', {
+		\ 'branch': 'next',
+		\ 'do': 'bash install.sh',
+		\ }
+
+	" (Optional) Multi-entry selection UI.
+	Plug 'junegunn/fzf'
 	call plug#end()
 
     if iCanHazVimPlug == 0
@@ -227,7 +234,35 @@ endif
 " Remove trailing witespace
 autocmd BufWritePre * TrailerTrim
 
-" Python {{{
+" LanguageServer {{{
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+	\ "go": ["gopls"],
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ }
+
+if executable('gopls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+        \ 'whitelist': ['go'],
+        \ })
+    autocmd BufWritePre *.go LspDocumentFormatSync
+endif
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" }}}
+
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>" Python {{{
 autocmd FileType python set et
 au BufRead,BufNewFile *.py set filetype=python
 " }}}
@@ -265,6 +300,10 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
 let g:go_metalinter_command = 'golangci-lint'
 let g:go_version_warning = 0
+
+" disable vim-go :GoDef short cut (gd)
+" this is handled by LanguageClient [LC]
+let g:go_def_mapping_enabled = 0
 
 " Open :GoDeclsDir with ctrl-g
 nmap <C-g> :GoDeclsDir<cr>
