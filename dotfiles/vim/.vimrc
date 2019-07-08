@@ -253,7 +253,7 @@ if executable('gopls')
         \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
         \ 'whitelist': ['go'],
         \ })
-    autocmd BufWritePre *.go LspDocumentFormatSync
+    "autocmd BufWritePre *.go LspDocumentFormatSync
 endif
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
