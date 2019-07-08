@@ -39,7 +39,8 @@ if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin
 	if [[ -z "$GOROOT_BOOTSTRAP" ]] && [[ -e /usr/local/go1.4.2/bin/go ]]; then
 		export GOROOT_BOOTSTRAP=/usr/local/go1.4.2
 	fi
-	export GOPROXY=http://proxy.golang.org
+	export GONOPROXY=unosoft.hu
+	export GOPROXY=http://proxy.golang.org,direct
 fi
 if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
 	export TNS_ADMIN=$HOME
