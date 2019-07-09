@@ -4,7 +4,6 @@ set -u
 #!/bin/bash
 
 SCREEN_LEFT=eDP-1
-SCREEN_RIGHT="$(xrandr -q | fgrep ' connected' | awk '/^[^e]/ { print $1 }')"
 START_DELAY=5
 
 renice +19 $$ >/dev/null
@@ -18,12 +17,15 @@ sleep $START_DELAY
 OLD_DUAL="dummy"
 
 while /bin/true; do
-    DUAL=$(cat /sys/class/drm/card0-DP-2/status || echo "not connected")
+    DUAL="$(grep -h ^connected /sys/class/drm/card0-DP-?/status)"
+	echo "# DUAL=$DUAL" >&2
 
     if [ "$OLD_DUAL" != "$DUAL" ]; then
         if [ "$DUAL" = "connected" ]; then
+			SCREEN_RIGHT="$(xrandr -q | fgrep ' connected' | awk '/^[^e]/ { print $1 }')"
+			echo "# SCREEN_RIGHT=$SCREEN_RIGHT" >&2
             echo 'Dual monitor setup'
-            xrandr --output $SCREEN_LEFT --off --rotate normal --pos 0x0 --output $SCREEN_RIGHT --auto --rotate normal --right-of $SCREEN_LEFT
+            xrandr --output "$SCREEN_LEFT" --off --rotate normal --pos 0x0 --output "$SCREEN_RIGHT" --auto --rotate normal --right-of "$SCREEN_LEFT"
         else
             echo 'Single monitor setup'
             xrandr --auto
