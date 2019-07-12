@@ -4,7 +4,7 @@ set -u
 #!/bin/bash
 
 SCREEN_LEFT=eDP-1
-START_DELAY=5
+START_DELAY=2
 
 renice +19 $$ >/dev/null
 

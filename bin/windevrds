@@ -32,7 +32,7 @@ if lsusb | grep -Fq Yubico.com; then
 	OPTS="$OPTS /smartcard"
 fi
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /size:$SIZE /v:$dest +fonts /from-stdin -decorations"
+OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /size:$SIZE /v:$dest +fonts /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
 SEC=${SEC:-/sec:nla}
 if [ -z "${GW:-}" ]; then
 	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$dest"; then
