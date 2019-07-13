@@ -8,7 +8,8 @@ if [ -e "$B" ]; then
 	max="$(cat "$(dirname $B)/max_brightness")"
 	compute="scale=2; $old $1 / 500 * $max"
 	new="$(echo "$compute" | bc | cut -d. -f1)"
-	if [ "$new" -le 1 ]; then
+	echo "# compute=$compute new=$new" >&2
+	if [ "${new:-0}" -le 1 ]; then
 		new=1
 	fi
 	echo "$new" | sudo -A tee $B
