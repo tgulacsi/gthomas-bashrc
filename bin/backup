@@ -8,5 +8,6 @@ trap 'rm '"$F" EXIT
 
 find ~/src/ -type f -path '*/.git/config' -print0 | \
 	tar caf "$F" --null -T -
-restic backup -v .config .ssh Documents .password-store /etc "$F"
+restic backup -v .config .ssh Documents .password-store "$F"
+sudo tar cf - /etc | restic backup --stdin --stdin-filename etc.tar
 restic forget -H 3 -d 3 -w 3 -m 3
