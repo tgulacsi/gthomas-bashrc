@@ -2,30 +2,142 @@
 
 set mbox_type=Maildir
 
+set sidebar_short_path                  # Shorten mailbox names
+#set sidebar_delim_chars="/"             # Delete everything up to the last / character
+set sidebar_folder_indent               # Indent folders whose names we've shortened
+set sidebar_indent_string="  "          # Indent with two spaces
+
+
 set mark_old=no
 
-#folder-hook 'gmail.com' 'source ~/.mutt/tgulacsi78@gmail.com'
-#folder-hook 'unosoft.hu' 'source ~/.mutt/t.gulacsi@unosoft.hu'
-# switch to default account on startup
-#
-#source ~/.mutt/tgulacsi78@gmail.com
-source ~/.mutt/tamas@gulacsi.eu
-#
+set editor = "vim"
+set mail_check=90
+set timeout=15
+set realname = 'Tamás Gulácsi'
+set record = '+INBOX/Sent'
+set spoolfile = '+INBOX'
+set postponed = '+INBOX/Drafts'
+set imap_check_subscribed
+set timeout = 15
+set imap_keepalive = 300
 
-macro index \emp '<sync-mailbox><enter-command>source ~/.mutt/tamas@gulacsi.eu<enter><change-folder>!<enter>'
+account-hook . 'unset imap_user; unset imap_pass; unset tunnel'
 
-macro index \emf '<sync-mailbox><enter-command>source ~/.mutt/tamas@gulacsi.eu<enter><change-folder>!<enter>'
-macro index \emg '<sync-mailbox><enter-command>source ~/.mutt/tgulacsi78@gmail.com<enter><change-folder>!<enter>'
-macro index \emu '<sync-mailbox><enter-command>source ~/.mutt/t.gulacsi@unosoft.hu<enter><change-folder>!<enter>'
-macro index \ema '<sync-mailbox><enter-command>source ~/.mutt/aegon@unosoft.hu<enter><change-folder>!<enter>'
-macro index \emc '<sync-mailbox><enter-command>source ~/.mutt/cig@unosoft.hu<enter><change-folder>!<enter>'
-macro index \emk '<sync-mailbox><enter-command>source ~/.mutt/kobe@unosoft.hu<enter><change-folder>!<enter>'
-macro index \emw '<sync-mailbox><enter-command>source ~/.mutt/waberer@unosoft.hu<enter><change-folder>!<enter>'
-macro index \em1 '<sync-mailbox><enter-command>source ~/.mutt/unosoft.test1@gmail.com<enter><change-folder>!<enter>'
-macro index \emC '<sync-mailbox><enter-command>source ~/.mutt/bankkartya@cig.eu<enter><change-folder>!<enter>'
+## tgulacsi78@gmail.com
+source ~/.ssh/tgulacsi78@gmail.com.muttrc
+set my_tgulacsi78_gmail_pass = "$imap_pass"
+mailboxes "imaps://tgulacsi78@gmail.com@imap.gmail.com:993/INBOX"
+account-hook 'tgulacsi78.*imap.gmail.com' ' \
+	set imap_user="tgulacsi78@gmail.com" ; \
+	set imap_pass="$my_tgulacsi78_gmail_pass" \
+'
+folder-hook 'gmail.com' ' \
+	set smtp_url="smtp://$imap_user@smtp.gmail.com:587/" ; \
+	set smtp_pass="$imap_pass" ; \
+	set ssl_starttls=yes ; \
+	set from="$realname <tgulacsi78@gmail.com>" ; \
+	set hostname=gmail.com ; \
+	set postponed="+[Gmail]/Drafts" ; \
+	set record="" \
+'
+
+## *@unosoft.hu
+source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
+set my_t_gulacsi_unosoft_hu_pass = "$imap_pass"
+
+account-hook 't.gulacsi@unosoft.hu' 'set imap_authenticators=GSSAPI:CRAM-MD5:LOGIN'
+
+## t.gulacsi@unosoft.hu
+mailboxes "imaps://t.gulacsi@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 't.gulacsi@unosoft.hu' ' \
+	set imap_user="t.gulacsi@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 't.gulacsi@unosoft.hu' ' \
+	set smtp_url="smtps://$imap_user@smtp.office365.com:587" ; \
+	set smtp_pass="$imap_pass" ; \
+	set from = "T.Gulacsi@unosoft.hu" ; \
+	set realname = "Tamás Gulácsi" \
+'
+
+## aegon@unosoft.hu
+mailboxes "imaps://t.gulacsi@unosoft.hu%5Caegon@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'aegon@unosoft.hu' ' \
+	set imap_user="t.gulacsi@unosoft.hu\\aegon@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass"  \
+'
+folder-hook 'aegon@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="aegon@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu \
+'
+
+## cig@unosoft.hu
+mailboxes "imaps://t.gulacsi@unosoft.hu%5Ccig@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'cig@unosoft.hu' ' \
+	set imap_user="t.gulacsi@unosoft.hu\\cig@unosoft.hu" ;  \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'cig@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="cig@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu'
+
+## kobe@unosoft.hu
+mailboxes "imaps://t.gulacsi@unosoft.hu%5Ckobe@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'kobe@unosoft.hu' ' \
+	set imap_user="t.gulacsi@unosoft.hu\\kobe@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'kobe@unosoft.hu' 'set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="kobe@unosoft.hu" ; set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu \
+'
+
+## waberer@unosoft.hu
+mailboxes "imaps://t.gulacsi@unosoft.hu%5Cwaberer@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'waberer@unosoft.hu' '\
+	set imap_user="t.gulacsi@unosoft.hu\\waberer@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'waberer@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="waberer@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu \
+'
+
+
+## unosoft.test1@gmail.com
+## bankkartya@cig.eu
+
+
+## tamas@gulacsi.eu
+source ~/.ssh/tamas@gulacsi.eu.muttrc
+set my_tamas_gulacsi_eu_pass = "$imap_pass"
+
+mailboxes "imaps://tamas@gulacsi.eu@imap.mailbox.org:993/INBOX"
+account-hook tamas@gulacsi.eu ' \
+	set imap_user = "tamas@gulacsi.eu" ; \
+	set imap_pass="$my_tamas_gulacsi_eu_pass" \
+'
+folder-hook 'tamas@gulacsi.eu' ' \
+	set smtp_url="smtps://$imap_user@smtp.mailbox.org:465/" ; \
+	set smtp_pass="$imap_pass" ; \
+	set ssl_starttls=yes ; \
+	set from = "$realname <tamas@gulacsi.eu>" ; \
+	set hostname=gulacsi.eu \
+'
+
+set folder="imaps://tamas@gulacsi.eu@imap.mailbox.org:993/INBOX"
 
 # Change the following line to a different editor you prefer (and update the Dockerfile accordingly, of course).
-set editor = "vim"
 
 # I like seeing some headers. :)
 ignore *
@@ -33,11 +145,6 @@ unignore date subject user-agent posted-to content-type
 unignore to cc bcc reply-to from
 ignore x-ms- x-microsoft-
 set edit_headers = yes
-
-# TODO figure out how to use the sidebar more effectively :)
-set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
-set mail_check_stats = yes
-set sidebar_visible = no
 
 # Tianon keybindings and settings, because he's special.
 bind pager <up> previous-line
@@ -93,3 +200,39 @@ set pgp_autosign=yes
 set send_charset="utf-8"
 
 set sendmail = "/usr/sbin/dma -Ac -i"
+
+## SIDEBAR {{{
+set sidebar_visible = yes
+set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats = yes
+set sidebar_visible = no
+# Sort the mailboxes in the Sidebar using this method:
+#       count    – total number of messages
+#       flagged  – number of flagged messages
+#       new      – number of new messages
+#       path     – mailbox path
+#       unsorted – do not sort the mailboxes
+set sidebar_sort_method = 'unsorted'
+# --------------------------------------------------------------------------
+# FUNCTIONS – shown with an example mapping
+# --------------------------------------------------------------------------
+# Move the highlight to the previous mailbox
+bind index,pager \Cp sidebar-prev
+# Move the highlight to the next mailbox
+bind index,pager \Cn sidebar-next
+# Open the highlighted mailbox
+bind index,pager \Co sidebar-open
+# Move the highlight to the previous page
+# This is useful if you have a LOT of mailboxes.
+bind index,pager <F3> sidebar-page-up
+# Move the highlight to the next page
+# This is useful if you have a LOT of mailboxes.
+bind index,pager <F4> sidebar-page-down
+# Move the highlight to the previous mailbox containing new, or flagged,
+# mail.
+bind index,pager <F5> sidebar-prev-new
+# Move the highlight to the next mailbox containing new, or flagged, mail.
+bind index,pager <F6> sidebar-next-new
+# Toggle the visibility of the Sidebar.
+bind index,pager B sidebar-toggle-visible
+## }}}
