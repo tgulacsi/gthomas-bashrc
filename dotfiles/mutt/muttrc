@@ -2,6 +2,12 @@
 
 set mbox_type=Maildir
 
+set sidebar_short_path                  # Shorten mailbox names
+#set sidebar_delim_chars="/"             # Delete everything up to the last / character
+set sidebar_folder_indent               # Indent folders whose names we've shortened
+set sidebar_indent_string="  "          # Indent with two spaces
+
+
 set mark_old=no
 
 set editor = "vim"
@@ -140,11 +146,6 @@ unignore to cc bcc reply-to from
 ignore x-ms- x-microsoft-
 set edit_headers = yes
 
-# TODO figure out how to use the sidebar more effectively :)
-set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
-set mail_check_stats = yes
-set sidebar_visible = no
-
 # Tianon keybindings and settings, because he's special.
 bind pager <up> previous-line
 bind pager <down> next-line
@@ -199,3 +200,39 @@ set pgp_autosign=yes
 set send_charset="utf-8"
 
 set sendmail = "/usr/sbin/dma -Ac -i"
+
+## SIDEBAR {{{
+set sidebar_visible = yes
+set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats = yes
+set sidebar_visible = no
+# Sort the mailboxes in the Sidebar using this method:
+#       count    – total number of messages
+#       flagged  – number of flagged messages
+#       new      – number of new messages
+#       path     – mailbox path
+#       unsorted – do not sort the mailboxes
+set sidebar_sort_method = 'unsorted'
+# --------------------------------------------------------------------------
+# FUNCTIONS – shown with an example mapping
+# --------------------------------------------------------------------------
+# Move the highlight to the previous mailbox
+bind index,pager \Cp sidebar-prev
+# Move the highlight to the next mailbox
+bind index,pager \Cn sidebar-next
+# Open the highlighted mailbox
+bind index,pager \Co sidebar-open
+# Move the highlight to the previous page
+# This is useful if you have a LOT of mailboxes.
+bind index,pager <F3> sidebar-page-up
+# Move the highlight to the next page
+# This is useful if you have a LOT of mailboxes.
+bind index,pager <F4> sidebar-page-down
+# Move the highlight to the previous mailbox containing new, or flagged,
+# mail.
+bind index,pager <F5> sidebar-prev-new
+# Move the highlight to the next mailbox containing new, or flagged, mail.
+bind index,pager <F6> sidebar-next-new
+# Toggle the visibility of the Sidebar.
+bind index,pager B sidebar-toggle-visible
+## }}}
