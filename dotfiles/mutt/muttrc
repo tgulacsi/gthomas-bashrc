@@ -14,9 +14,6 @@ set editor = "vim"
 set mail_check=90
 set timeout=15
 set realname = 'Tamás Gulácsi'
-set record = '+INBOX/Sent'
-set spoolfile = '+INBOX'
-set postponed = '+INBOX/Drafts'
 set imap_check_subscribed
 set timeout = 15
 set imap_keepalive = 300
@@ -37,6 +34,8 @@ folder-hook 'gmail.com' ' \
 	set ssl_starttls=yes ; \
 	set from="$realname <tgulacsi78@gmail.com>" ; \
 	set hostname=gmail.com ; \
+	set record="+INBOX/Sent" \
+	set spoolfile="+INBOX" \
 	set postponed="+[Gmail]/Drafts" ; \
 	set record="" \
 '
@@ -58,6 +57,9 @@ folder-hook 't.gulacsi@unosoft.hu' ' \
 	set smtp_pass="$imap_pass" ; \
 	set from = "T.Gulacsi@unosoft.hu" ; \
 	set realname = "Tamás Gulácsi" \
+	set record="+INBOX/Sent" \
+	set spoolfile="+INBOX" \
+	set postponed="+INBOX/Drafts" \
 '
 
 ## aegon@unosoft.hu
@@ -72,6 +74,9 @@ folder-hook 'aegon@unosoft.hu' ' \
 	set from="aegon@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu \
+	set record="+INBOX/Sent" \
+	set spoolfile="+INBOX" \
+	set postponed="+INBOX/Drafts" \
 '
 
 ## cig@unosoft.hu
@@ -85,7 +90,11 @@ folder-hook 'cig@unosoft.hu' ' \
 	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
 	set from="cig@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
-	set hostname=unosoft.hu'
+	set hostname=unosoft.hu \
+	set record="+INBOX/Sent" \
+	set spoolfile="+INBOX" \
+	set postponed="+INBOX/Drafts" \
+'
 
 ## kobe@unosoft.hu
 mailboxes "imaps://t.gulacsi@unosoft.hu%5Ckobe@unosoft.hu@imap.outlook.com:993/INBOX"
@@ -97,6 +106,9 @@ folder-hook 'kobe@unosoft.hu' 'set smtp_pass="$imap_pass" ; \
 	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
 	set from="kobe@unosoft.hu" ; set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu \
+	set record="+INBOX/Sent" \
+	set spoolfile="+INBOX" \
+	set postponed="+INBOX/Drafts" \
 '
 
 ## waberer@unosoft.hu
@@ -111,6 +123,9 @@ folder-hook 'waberer@unosoft.hu' ' \
 	set from="waberer@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu \
+	set record="+INBOX/Sent" \
+	set spoolfile="+INBOX" \
+	set postponed="+INBOX/Drafts" \
 '
 
 
@@ -203,7 +218,9 @@ set sendmail = "/usr/sbin/dma -Ac -i"
 
 ## SIDEBAR {{{
 set sidebar_visible = yes
-set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+set sidebar_format = "%B"
+set sidebar_width = 40
+set sidebar_delim_chars = "./"
 set mail_check_stats = yes
 set sidebar_visible = no
 # Sort the mailboxes in the Sidebar using this method:
@@ -212,7 +229,7 @@ set sidebar_visible = no
 #       new      – number of new messages
 #       path     – mailbox path
 #       unsorted – do not sort the mailboxes
-set sidebar_sort_method = 'unsorted'
+set sidebar_sort_method = 'path'
 # --------------------------------------------------------------------------
 # FUNCTIONS – shown with an example mapping
 # --------------------------------------------------------------------------
