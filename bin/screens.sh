@@ -34,6 +34,7 @@ while /bin/true; do
         OLD_DUAL="$DUAL"
     fi
 
+	break
     inotifywait -q -e close_write -e create -e delete -t 30 -r /sys/class/drm/ >/dev/null || echo $?
 done
 

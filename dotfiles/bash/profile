@@ -17,13 +17,13 @@ export PS1=":\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\$(if [ \$? = 0 
 USER_RUN_DIR=/var/run/user/$(id -u)
 export USER_RUN_DIR
 
-if ! [ -L ~/.cache ]; then
+if [ -L ~/.cache ]; then
+	mkdir -p "$(readlink ~/.cache)"
+else
 	mv ~/.cache "$USER_RUN_DIR/"
 	rm -rf ~/.cache
-	ln -sf "$USER_RUN_DIR/.cache"
+	ln -sf "$USER_RUN_DIR/.cache" ~/.cache
 	mkdir -p "$USER_RUN_DIR/.cache"
-else
-	mkdir -p "$(readlink ~/.cache)"
 fi
 
 eval "$(~/bin/invoke-gpg-agent)"
@@ -121,7 +121,7 @@ set +H
 #echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
 if [[ "$TERM" != 'dumb' ]]; then
 	export COLORTERM=truecolor
-    if [[ "$XDG_VTNR" = 7 ]] && which tmux >/dev/null 2>&1; then
+    if [[ "$XDG_VTNR" = 7 || "$XDG_VTNR" = 8 ]] && which tmux >/dev/null 2>&1; then
         if [[ -z "$TMUX" ]]; then
             if [[ "$TERM" != 'sakura' ]]; then
 				case "$TERM" in
