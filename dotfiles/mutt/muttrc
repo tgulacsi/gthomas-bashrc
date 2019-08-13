@@ -238,7 +238,6 @@ set sidebar_format = "%B"
 set sidebar_width = 40
 set sidebar_delim_chars = "./"
 set mail_check_stats = yes
-set sidebar_visible = no
 # Sort the mailboxes in the Sidebar using this method:
 #       count    – total number of messages
 #       flagged  – number of flagged messages
@@ -269,3 +268,7 @@ bind index,pager <F6> sidebar-next-new
 # Toggle the visibility of the Sidebar.
 bind index,pager B sidebar-toggle-visible
 ## }}}
+
+
+bind index ^ imap-fetch-mail
+
