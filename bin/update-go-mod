@@ -8,16 +8,22 @@ find . -type f -name go.mod | while read -r gomod; do
 	if echo "$gomod" | grep -q -F "$PKG"; then
 		continue
 	fi
-	if ! grep -q -F $PKG "$gomod"; then
+	if ! grep -q -F "$PKG" "$gomod"; then
 		continue
 	fi
 	if grep -q -F "$PKG $VERSION" "$gomod"; then
 		continue
 	fi
-	echo $gomod;
+	echo "$gomod";
 	set -e
 	cd "$(dirname "$gomod")"
 	git pull
+	if ! grep -q -F "$PKG" ./go.mod; then
+		continue
+	fi
+	if grep -q -F "$PKG $VERSION" ./go.mod; then
+		continue
+	fi
 	go get "$PKG@$VERSION"
 	git add go.mod go.sum
 	git commit -m "update $PKG@$VERSION" -n
@@ -26,7 +32,7 @@ find . -type f -name go.mod | while read -r gomod; do
 		pre="$(echo "$last" | sed -e 's/[.][0-9]*$//')"
 		patch="$(echo "$last" | sed -e 's/^[.v 0-9]*[.]//')"
 		#echo "$last -> '$pre' + '$patch'"
-		patch=$(( $patch + 1 ))
+		patch=$(( "$patch" + 1 ))
 		git tag -s -m "$pre.$patch" "$pre.$patch"
 	fi
 	git push
