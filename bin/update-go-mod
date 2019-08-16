@@ -39,7 +39,7 @@ find . -type f -name go.mod | while read -r gomod; do
 		patch="$(echo "$last" | sed -e 's/^[.v 0-9]*[.]//')"
 		#echo "$last -> '$pre' + '$patch'"
 		patch=$(( $patch + 1 ))
-		git tag -s -m "$pre.$patch" "$pre.$patch" || git tag -m "$pre.$patch"
+		git tag -s -m "$pre.$patch" "$pre.$patch" || git tag "$pre.$patch"
 		git push
 		git push --tags
 	fi
