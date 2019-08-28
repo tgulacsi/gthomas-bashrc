@@ -8,6 +8,8 @@ if [ -e /etc/openvpn/client/unosoft.conf ]; then
 			exit 0
 		fi
 	fi
+	resolvectl dns tun0 10.65.85.1
+	resolvectl domain tun0 unosoft.local
 	resolvectl flush-caches
 	exec systemctl "$TODO" "$SVC"
 fi
