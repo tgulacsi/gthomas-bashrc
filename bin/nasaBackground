@@ -1,97 +1,18 @@
 #!/bin/sh
 SETBG='feh --bg-fill'
+if [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
+	SETBG='swaybg -m fill -o "*" -i '
+fi
 
 set -e
 set -x
 curl -o /tmp/wallpaper -H 'Accept: image/png' -m 30 -sS -L \
-	'https://unsplash.it/'"$(getscreensize | tr x /)"'/?random' && \
-	$SETBG /tmp/wallpaper && \
+	'https://unsplash.it/'"$(getscreensize | tr x /)"'/?random'
+set +e
+if ! [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
+	feh --bg-fill /tmp/wallpaper
 	exit 0
-
-DIR=/tmp/.${USER}-backgrounds
-
-setbg () {
-	set -x
-	fn=$(feh -l -r --min-dimension 800x600 $DIR | awk '{print $8}' | tail -n+2 | shuf | head -n1)
-	set +x
-	if [ -z "$fn" ]; then
-		return 1
-	fi
-	set -x
-	$SETBG "$fn"
-	rm "$fn"
-	set +x
-	return 0
-}
-
-if [ ! -e "$DIR" ]; then
-    mkdir -p $DIR
-else
-    n=$(ls -t $DIR | wc -l)
-	set -x
-	setbg && exit 0
-	set +x
 fi
-
-
-
-seq 1000 | shuf | while read n; do
-	if curl -sS -m 10 -L -I "https://unsplash.com/curated_batches/$n/download"; then
-		curl -o /tmp/unsplash.zip -sS -m 30 -L "https://unsplash.com/curated_batches/$n/download"
-		if unzip -t /tmp/unsplash.zip; then
-			(cd $DIR && unzip /tmp/unsplash.zip)
-			setbg && exit 0
-			break
-		fi
-	fi
-done
-exit 1
-
-
-which himago >/dev/null 2>/dev/null || go get -u github.com/tscott0/himago/cmd/himago
-
-n=$(seq 31 | shuf -n 1)
-himago -h 4 -d $n -o $DIR/himago-$n.png &
-
-img_url=$(curl http://imgur.com/r/wallpapers | fgrep 'src="//i.imgur.com' \
-	| sed -e 's,^.*src=",http:,;s:".*$::;s:.jpg$:.png:' | shuf -n1)
-(cd $DIR && wget -q "$img_url") &
-
-# grabs the nasa image of the day by RSS feed and updates the gnome
-# background. add this to your cron jobs to have this happen daily.  this is,
-# obviously, a hack, that is likely to break at the slightest change of NASA's
-# RSS implementation. yay standards!
-
-#EDITED FOR feh
-
-rssFN=/tmp/$(basename $0)-$$.rss
-wget -q -O $rssFN http://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss
-if [ $(file --mime-type $rssFN | grep gzip | wc -l) -ge 1 ]; then
-    rss=$(gzip -dc $rssFN)
-else
-    rss=$(cat $rssFN)
-fi
-rm $rssFN
-if [ -z "$rss" ]; then
-    echo "no image of the day"
-    exit 1
-fi
-
-
-#echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*'
-img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*' \
-    | shuf -n1)
-if [ -z "$img_url" ]; then
-    echo "no image url in"
-    echo "$rss"
-else
-	img_name=$(echo $img_url | grep -o [^/]*\.\w*$)
-	echo "img_url=$img_url img_name=$img_name"
-
-	# this command will overwrite the image if it already exists
-	wget -q -O $DIR/$img_name $img_url &
-fi
-
-wait
-
-setbg
+pkill swaybg
+swaybg -m fill -i /tmp/wallpaper &
+disown

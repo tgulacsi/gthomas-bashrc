@@ -1,8 +1,6 @@
 #!/bin/sh
-if [ "$XDG_SESSION_TYPE" = 'wayland' ]; then
-	exec terminology "$@"
-fi
-#which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash --login
+which kitty >&2 && exec kitty -e /bin/bash --login
+#which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash -1 --instance-group default
 which alacritty >&2 && exec alacritty -qq --live-config-reload -d 0 0 -e /bin/bash --login
 urxvtc "$@"
 if [ $? -eq 2 ]; then
