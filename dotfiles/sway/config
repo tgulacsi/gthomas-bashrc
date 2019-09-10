@@ -3,7 +3,7 @@ input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp"
 
 xwayland enable
 
-exec_always cp -a /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png /tmp/wallpaper
+exec_always cp -a $(find /usr/share -type f -name '*.png' | head -n1) /tmp/wallpaper
 
 ### Variables
 #
