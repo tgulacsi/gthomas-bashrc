@@ -238,12 +238,12 @@ include /etc/sway/config.d/*
 
 # amix
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
 
-bindsym XF86MonBrightnessUp exec --no-startup-id sudo -A ~/bin/backlight +20
-bindsym XF86MonBrightnessDown exec --no-startup-id sudo -A ~/bin/backlight -20
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/bin/backlight +20
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/bin/backlight -20
 
 bindsym $mod+F12 exec swaylock -e -k -i /tmp/wallpaper
 bindsym $mod+Shift+F12 exec --no-startup-id sync && systemctl suspend-then-hibernate
