@@ -3,18 +3,7 @@ input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp"
 
 xwayland enable
 
-exec_always cp -a "$(find /usr/share -type f -name '*.png' | head -n1)" /tmp/wallpaper
-
-output eDP1 {
-	pos 0 0
-	res 1920x1080
-	background /tmp/wallpaper fill
-}
-output HDMI1 {
-	pos 1920 0
-	res 1920x1080
-	background /tmp/wallpaper fill
-}
+exec_always cp -a /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png /tmp/wallpaper
 
 ### Variables
 #
@@ -31,6 +20,8 @@ set $term $HOME/bin/x-terminal-emulator
 # Note: it's recommended that you pass the final command to sway
 set $menu env PATH=$HOME/bin:$PATH dmenu_path | env PATH=$HOME/bin:$PATH dmenu | xargs swaymsg exec --
 
+default_border pixel
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -42,15 +33,26 @@ set $menu env PATH=$HOME/bin:$PATH dmenu_path | env PATH=$HOME/bin:$PATH dmenu |
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
+output eDP1 {
+	pos 0 0
+	res 1920x1080
+	background /tmp/wallpaper fill
+}
+output HDMI1 {
+	pos 1920 0
+	res 1920x1080
+	background /tmp/wallpaper fill
+}
+
 ### Idle configuration
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' \
-#               resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
+exec swayidle -w \
+         timeout 300 'swaylock -f -c 000000' \
+         timeout 600 'swaymsg "output * dpms off"' \
+              resume 'swaymsg "output * dpms on"' \
+         before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
