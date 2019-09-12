@@ -1,4 +1,5 @@
 #!/bin/sh
+which alacritty >&2 && exec alacritty -e /bin/bash --login
 #which kitty >&2 && exec kitty -1 --instance-group default --detach -e /bin/bash --login
 #set -x
 #which kitty >&2 && exec kitty -e /bin/bash
