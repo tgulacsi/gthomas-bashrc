@@ -26,7 +26,7 @@ URxvt*borderless: true
 
 !! Font
 URxvt.allow_bold: true
-!URxvt*font: xft:Droid Sans Mono:size=9
+~URxvt*font: xft:Go Sans Mono:size=9
 !URxvt*boldFont: xft:Droid Sans Mono:size=9
 
 !! Scrollbar

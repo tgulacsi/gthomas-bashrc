@@ -1,5 +1,5 @@
 #!/bin/sh
-which kitty >&2 && exec kitty -1 --instance-group default --detach -e /bin/bash --login
+#which kitty >&2 && exec kitty -1 --instance-group default --detach -e /bin/bash --login
 #set -x
 #which kitty >&2 && exec kitty -e /bin/bash
 #which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash -1 --instance-group default
