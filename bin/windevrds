@@ -12,22 +12,20 @@ prog=${RDP:-xfreerdp}
 pkill -f "${prog}.*0x409 .* /v:${dest}"
 
 OPTS=
-if [ -n "${SUDO_ASKPASS:-}" ]; then
-	want='da06fcded8c35d329847c0d152bccb29061b03c4ce59bf77ad095ea3e7b953f0732b7be0848fa60497b5f00e0262fe9ebce0634a7f5db42c3d336ba5ea6967b5  -'
-	for i in 1 2 3 4; do
-		p=$($SUDO_ASKPASS "$u@$dest")
-		s=$(echo "$p" | sha512sum)
-		if [ "$s" = "$want" ]; then
-			break
-		fi
-		if [ $i -eq 3 ]; then
-			echo 'Bad password' >&2
-			exit 3
-		fi
-		sleep $i
-	done
-	OPTS="/u:$u /d:unosoft"
-fi
+want='da06fcded8c35d329847c0d152bccb29061b03c4ce59bf77ad095ea3e7b953f0732b7be0848fa60497b5f00e0262fe9ebce0634a7f5db42c3d336ba5ea6967b5  -'
+for i in 1 2 3 4; do
+	p=$(/usr/bin/ssh-askpass "$u@$dest")
+	s=$(echo "$p" | sha512sum)
+	if [ "$s" = "$want" ]; then
+		break
+	fi
+	if [ $i -eq 3 ]; then
+		echo 'Bad password' >&2
+		exit 3
+	fi
+	sleep $i
+done
+OPTS="/u:$u /d:unosoft"
 if lsusb | grep -Fq Yubico.com; then
 	OPTS="$OPTS /smartcard"
 fi

@@ -235,8 +235,6 @@ bar {
     }
 }
 
-include /etc/sway/config.d/*
-
 #####
 
 # amix
@@ -252,4 +250,6 @@ bindsym $mod+F12 exec swaylock -e -k -i /tmp/wallpaper
 bindsym $mod+Shift+F12 exec sync && systemctl suspend-then-hibernate
 bindsym $mod+Control+F12 exec sync && systemctl hibernate
 bindsym $mod+Shift+Control+F12 exec sync && systemctl suspend-then-hibernate
+
+include /etc/sway/config.d/*
 
