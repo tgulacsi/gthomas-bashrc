@@ -6,6 +6,7 @@ xwayland enable
 exec_always curl -o /tmp/wallpaper -H 'Accept: image/png' -m 30 -sS -L \
         'https://unsplash.it/1920/1080/?random' || \
 		cp -a $(find /usr/share -type f -name '*.png' | head -n1) /tmp/wallpaper
+exec_always xrdb -merge ~/.Xresources
 
 ### Variables
 #
