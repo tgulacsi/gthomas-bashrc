@@ -243,8 +243,9 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioPlay exec mpc toggle
 
-bindsym XF86MonBrightnessUp exec ~/bin/backlight +20
-bindsym XF86MonBrightnessDown exec ~/bin/backlight -20
+# apt install brightnessctl brightness-udev
+bindsym XF86MonBrightnessUp exec brightnessctl -m s 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl -m s 5%-
 
 bindsym $mod+F12 exec swaylock -e -k -i /tmp/wallpaper
 bindsym $mod+Shift+F12 exec sync && systemctl suspend-then-hibernate

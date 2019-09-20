@@ -41,6 +41,7 @@ if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin
 	fi
 	export GOPRIVATE=unosoft.hu
 	export GOPROXY=http://proxy.golang.org,direct
+	export MAGEFILE_HASHFAST=1
 fi
 if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
 	export TNS_ADMIN=$HOME
