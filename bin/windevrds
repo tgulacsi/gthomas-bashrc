@@ -1,36 +1,18 @@
 #!/bin/sh
 dest='10.65.85.40'
 u=tgulacsi
-SIZE=${SIZE:-$(getscreensize 2 30)}
-if [ ${1:-1} -gt 1 ]; then
-	SIZE="$(( ${SIZE%x*} / 2 ))x${SIZE#*x}"
-fi
-echo "dest=$dest SIZE=$SIZE"
 
 prog=${RDP:-xfreerdp}
 
 pkill -f "${prog}.*0x409 .* /v:${dest}"
 
-OPTS=
-want='da06fcded8c35d329847c0d152bccb29061b03c4ce59bf77ad095ea3e7b953f0732b7be0848fa60497b5f00e0262fe9ebce0634a7f5db42c3d336ba5ea6967b5  -'
-for i in 1 2 3 4; do
-	p=$(/usr/bin/ssh-askpass "$u@$dest")
-	s=$(echo "$p" | sha512sum)
-	if [ "$s" = "$want" ]; then
-		break
-	fi
-	if [ $i -eq 3 ]; then
-		echo 'Bad password' >&2
-		exit 3
-	fi
-	sleep $i
-done
+p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 OPTS="/u:$u /d:unosoft"
 if lsusb | grep -Fq Yubico.com; then
 	OPTS="$OPTS /smartcard"
 fi
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /size:$SIZE /v:$dest +fonts /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
+OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /workarea /v:$dest +fonts /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
 SEC=${SEC:-/sec:nla}
 if [ -z "${GW:-}" ]; then
 	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$dest"; then
