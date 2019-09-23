@@ -22,6 +22,7 @@ set $term $HOME/bin/x-terminal-emulator
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 set $menu env PATH=$HOME/bin:$PATH dmenu_path | bemenu | env PATH=$HOME/bin:$PATH xargs which | xargs swaymsg exec --
+#set $menu env PATH=$HOME/bin:$PATH dmenu_path | rofi -mode run
 
 default_border pixel
 

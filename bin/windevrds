@@ -8,9 +8,6 @@ pkill -f "${prog}.*0x409 .* /v:${dest}"
 
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 OPTS="/u:$u /d:unosoft"
-if lsusb | grep -Fq Yubico.com; then
-	OPTS="$OPTS /smartcard"
-fi
 
 OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /workarea /v:$dest +fonts /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
 SEC=${SEC:-/sec:nla}
