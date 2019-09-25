@@ -1,7 +1,6 @@
 #!/bin/sh
 dest='10.65.85.40'
 u=tgulacsi
-echo "dest=$dest SIZE=$SIZE"
 
 prog=${RDP:-xfreerdp}
 
