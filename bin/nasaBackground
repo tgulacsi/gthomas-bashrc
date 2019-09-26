@@ -15,4 +15,3 @@ if ! [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
 fi
 pkill swaybg
 swaybg -m fill -i /tmp/wallpaper &
-disown
