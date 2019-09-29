@@ -8,7 +8,7 @@ if [ -e /etc/openvpn/client/unosoft.conf ]; then
 			exit 0
 		fi
 	fi
-	systemctl "$TODO" "$SVC"
+	sudo systemctl "$TODO" "$SVC"
 	if [ "$TODO" != stop ]; then
 		while ! resolvectl dns tun0; do sleep 1; done
 		sudo sh -c 'resolvectl dns tun0 10.65.85.1; resolvectl domain tun0 unosoft.local; resolvectl flush-caches'
