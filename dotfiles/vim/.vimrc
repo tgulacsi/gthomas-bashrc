@@ -170,6 +170,7 @@ syntax enable
 colorscheme solarized
 " }}}
 
+set timeoutlen=500
 " do not clear screen on exit
 set t_ti= t_te=
 
