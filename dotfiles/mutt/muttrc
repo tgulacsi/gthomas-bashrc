@@ -272,3 +272,5 @@ bind index,pager B sidebar-toggle-visible
 
 bind index ^ imap-fetch-mail
 
+#source ~/.mail_aliases
+set alias_file=~/.mail_aliases
