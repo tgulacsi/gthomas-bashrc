@@ -21,9 +21,11 @@ if [[ $typeit -eq 0 ]]; then
 	pass show -c "$password" 2>/dev/null
 else
 	pass show "$password" | head -n 1 | \
-		if [[ "${XDG_SESSION_TYPE:-}" == wayland ]]; then
+		if [[ "${XDG_SESSION_TYPE:-}" == wayland ]] && which wl-copy >/dev/null 2>/dev/null; then
 			wl-copy
-		else
+		elif which xdotool >/dev/null 2>/dev/null; then
 			xdotool type --clearmodifiers --file -
+		else
+			xsel -i -b
 		fi
 fi
