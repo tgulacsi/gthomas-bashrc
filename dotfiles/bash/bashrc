@@ -10,6 +10,7 @@ export LANG="hu_HU.UTF-8"
 export LC_ALL=
 #export ENV=$HOME/.profile
 
+export MOZ_ENABLE_WAYLAND=1
 export TNS_ADMIN=$HOME/.config/oracle
 export TMPDIR=${TMPDIR:-/tmp}
 EDITOR='vim'

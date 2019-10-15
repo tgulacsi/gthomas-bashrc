@@ -63,6 +63,10 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
     if [[ -f ~/.bash_aliases ]]; then
         . ~/.bash_aliases
     fi
+
+	for fn in ~/dotfiles/bash-completions/completions/*; do
+		. "$fn"
+	done
     _ALIASES_HAS_BEEN_SET=1
 fi
 
