@@ -2,7 +2,11 @@
 dest='10.65.85.40'
 u=tgulacsi
 
-prog=${RDP:-xfreerdp}
+prog=xfreerdp
+if [ "${XDG_SESSION_TYPE:-}" = wayland ] && which wlfreerdp >/dev/null 2>/dev/null; then
+	prog=wlfreerdp
+fi
+prog=${RDP:-$prog}
 
 pkill -f "${prog}.*0x409 .* /v:${dest}"
 

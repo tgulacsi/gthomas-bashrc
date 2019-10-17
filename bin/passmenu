@@ -2,9 +2,9 @@
 
 shopt -s nullglob globstar
 
-typeit=0
-if [[ $1 == "--type" ]]; then
-	typeit=1
+usepass=0
+if [[ "$1" == "--pass" ]]; then
+	usepass=1
 	shift
 fi
 
@@ -17,15 +17,14 @@ password=$(printf '%s\n' "${password_files[@]}" | dmenu "$@")
 
 [[ -n $password ]] || exit
 
-if [[ $typeit -eq 0 ]]; then
-	pass show -c "$password" 2>/dev/null
+if [[ $usepass -eq 1 ]]; then
+	exec pass show -c "$password" 2>/dev/null
+fi
+pw="$(pass show "$password" | head -n 1)"
+if [[ "${XDG_SESSION_TYPE:-}" == wayland ]] && command -v wl-copy >/dev/null; then
+	echo "$pw" | wl-copy -o -n
+elif command -v xdotool >/dev/null; then
+	echo "$pw" | xdotool type --clearmodifiers --file -
 else
-	pass show "$password" | head -n 1 | \
-		if [[ "${XDG_SESSION_TYPE:-}" == wayland ]] && which wl-copy >/dev/null 2>/dev/null; then
-			wl-copy
-		elif which xdotool >/dev/null 2>/dev/null; then
-			xdotool type --clearmodifiers --file -
-		else
-			xsel -i -b
-		fi
+	echo "$pw" | xsel -i -b
 fi
