@@ -105,6 +105,25 @@ exec swayidle -w \
 
     # exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+set $nag exec swaynagmode
+mode "nag" {
+  bindsym {
+    Ctrl+d    mode "default"
+    Ctrl+c    $nag --exit
+    q         $nag --exit
+    Escape    $nag --exit
+    Return    $nag --confirm
+    Tab       $nag --select prev
+    Shift+Tab $nag --select next
+    Left      $nag --select next
+    Right     $nag --select prev
+    Up        $nag --select next
+    Down      $nag --select prev
+  }
+}
+
+
 #
 # Moving around:
 #
@@ -239,19 +258,27 @@ bar {
 #####
 
 # amix
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioPlay exec mpc toggle
+bindsym --to-code {
+	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+	XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+	XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+	XF86AudioPlay exec mpc toggle
+}
 
 # apt install brightnessctl brightness-udev
-bindsym XF86MonBrightnessUp exec brightnessctl -m s 5%+
-bindsym XF86MonBrightnessDown exec brightnessctl -m s 5%-
+bindsym --to-code {
+	XF86MonBrightnessUp exec brightnessctl -m s 1%+
+	XF86MonBrightnessDown exec brightnessctl -m s 1%-
+	$mod+Alt+Shift+B exec brightnessctl -m s 1%+
+	$mod+Alt+B exec brightnessctl -m s 1%-
+}
 
-bindsym $mod+F12 exec swaylock -e -k -i /tmp/wallpaper
-bindsym $mod+Shift+F12 exec sync && systemctl suspend-then-hibernate
-bindsym $mod+Control+F12 exec sync && systemctl hibernate
-bindsym $mod+Shift+Control+F12 exec sync && systemctl suspend-then-hibernate
+bindsym --to-code {
+	$mod+F12 exec swaylock -e -k -i /tmp/wallpaper
+	$mod+Shift+F12 exec sync && systemctl suspend-then-hibernate
+	$mod+Control+F12 exec sync && systemctl hibernate
+	$mod+Shift+Control+F12 exec sync && systemctl suspend-then-hibernate
+}
 
 include /etc/sway/config.d/*
 
