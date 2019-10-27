@@ -1,5 +1,5 @@
 #!/bin/sh
-fn="$(wallpaper)"
+fn="$(wallpaper /tmp/wallpaper.png)"
 if [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
 	set -x
 	exec swaymsg --socket "$(ls -t "/run/user/$(id -u)/sway-ipc.$(id -u)."[0-9]*.sock | head -n1)" "output * bg '$fn' fill"
