@@ -3,9 +3,8 @@ input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp"
 
 xwayland enable
 
-exec_always curl -o /tmp/wallpaper -H 'Accept: image/png' -m 30 -sS -L \
-        'https://unsplash.it/1920/1080/?random' || \
-		cp -a $(find /usr/share -type f -name '*.png' | head -n1) /tmp/wallpaper
+set $wallpaper /tmp/wallpaper.png
+exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
 
 ### Variables
@@ -40,13 +39,12 @@ default_border pixel
 output eDP1 {
 	pos 1920 0
 	res 1920x1080
-	background /tmp/wallpaper fill
 }
 output HDMI1 {
 	pos 0 0
 	res 1920x1080
-	background /tmp/wallpaper fill
 }
+output * background $wallpaper fill
 
 set $laptop eDP-1
 bindswitch lid:on output $laptop disable
@@ -61,7 +59,7 @@ exec swayidle -w \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
-#
+
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
@@ -277,8 +275,7 @@ bindsym --to-code {
 	$mod+F12 exec swaylock -e -k -i /tmp/wallpaper
 	$mod+Shift+F12 exec sync && systemctl suspend-then-hibernate
 	$mod+Control+F12 exec sync && systemctl hibernate
-	$mod+Shift+Control+F12 exec sync && systemctl suspend-then-hibernate
+	$mod+Shift+Control+F12 exec sync && systemctl suspend-then-hi1Gbernate
 }
 
 include /etc/sway/config.d/*
-

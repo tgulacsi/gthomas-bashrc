@@ -1,17 +1,8 @@
 #!/bin/sh
-SETBG='feh --bg-fill'
+fn="$(wallpaper)"
 if [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
-	SETBG='swaybg -m fill -o "*" -i '
+	set -x
+	exec swaymsg --socket "$(ls -t "/run/user/$(id -u)/sway-ipc.$(id -u)."[0-9]*.sock | head -n1)" "output * bg '$fn' fill"
+else
+	exec feh --bg-fill "$fn"
 fi
-
-set -e
-set -x
-curl -o /tmp/wallpaper -H 'Accept: image/png' -m 30 -sS -L \
-	'https://unsplash.it/'"$(getscreensize | tr x /)"'/?random'
-set +e
-if ! [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
-	feh --bg-fill /tmp/wallpaper
-	exit 0
-fi
-pkill swaybg
-swaybg -m fill -i /tmp/wallpaper &

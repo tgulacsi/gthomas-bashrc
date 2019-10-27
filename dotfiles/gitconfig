@@ -6,7 +6,7 @@
 	signingkey = 2DA42A27CDA7987C6306C64D621772C5B242992C
 
 [http]
-	cookiefile = /home/tgulacsi/.gitcookies
+	cookiefile = /home/gthomas/.gitcookies
 
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
