@@ -13,7 +13,7 @@ pkill -f "${prog}.*0x409 .* /v:${dest}"
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 OPTS="/u:$u /d:unosoft"
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem /drive:tmp,/tmp +drives +clipboard /workarea /v:$dest +fonts /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
+OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem +clipboard /workarea /v:$dest /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
 SEC=${SEC:-/sec:nla}
 if [ -z "${GW:-}" ]; then
 	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$dest"; then
