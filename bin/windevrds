@@ -30,4 +30,4 @@ if [ "${DEBUG:-0}" -ne 1 ]; then
 	exec >/dev/null 2>/dev/null
 fi
 
-echo "$p" | exec "${prog}" "${SEC}" $OPTS
+(ulimit -m "$(echo '2^29' | bc)"; echo "$p" | exec "${prog}" "${SEC}" $OPTS)
