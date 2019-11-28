@@ -1,12 +1,11 @@
-[Unit]
-Description=Enable compressed swap in memory using zram
-After=multi-user.target
-
-[Service]
-RemainAfterExit=yes
-ExecStart=/usr/local/sbin/zramstart
-ExecStop=/usr/local/sbin/zramstop
-Type=oneshot
-
-[Install]
+[Unit] 
+Description=zRam block devices swapping 
+ 
+[Service] 
+Type=oneshot 
+ExecStart=/bin/sh -c "modprobe zram && dev=$(zramctl --find --size 2048M) && mkswap $dev && swapon --priority 100 $dev" 
+ExecStop=/bin/sh -c "swapoff $(swapon --show --raw --noheadings | awk '/zram/ {print $1}')" 
+RemainAfterExit=yes 
+ 
+[Install] 
 WantedBy=multi-user.target
