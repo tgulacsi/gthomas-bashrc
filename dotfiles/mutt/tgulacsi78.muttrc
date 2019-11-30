@@ -1,0 +1,27 @@
+source common.muttrc
+
+#
+## tgulacsi78@gmail.com
+source ~/.ssh/tgulacsi78@gmail.com.muttrc
+# echo "pass = $imap_pass"
+set my_tgulacsi78_gmail_pass = "$imap_pass"
+# echo "my = $my_tgulacsi78_gmail_pass"
+named-mailboxes 'tgulacsi78@gmail.com' "imaps://tgulacsi78@gmail.com@imap.gmail.com:993/INBOX"
+account-hook 'tgulacsi78.*imap.gmail.com' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=oauthbearer ; \
+	set imap_user="tgulacsi78@gmail.com" ; \
+	set imap_pass="$my_tgulacsi78_gmail_pass" \
+'
+folder-hook 'gmail.com' ' \
+	set smtp_url="smtp://$imap_user@smtp.gmail.com:587/" ; \
+	set smtp_pass="$imap_pass" ; \
+	set ssl_starttls=yes ; \
+	set from="$realname <tgulacsi78@gmail.com>" ; \
+	set hostname=gmail.com ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+[Gmail]/Drafts" ; \
+	unset imap_condstore ; \
+	set record="" \
+'

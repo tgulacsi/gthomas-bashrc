@@ -1,0 +1,24 @@
+source common.muttrc
+
+## *@unosoft.hu
+source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
+set my_t_gulacsi_unosoft_hu_pass = "$imap_pass"
+
+## cig@unosoft.hu
+named-mailboxes 'cig@unosoft.hu' "imaps://t.gulacsi@unosoft.hu%5Ccig@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'cig@unosoft.hu' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user="t.gulacsi@unosoft.hu\\cig@unosoft.hu" ;  \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'cig@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="cig@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+INBOX/Drafts" \
+'

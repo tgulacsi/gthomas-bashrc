@@ -1,0 +1,21 @@
+source common.muttrc
+
+## tamas@gulacsi.eu
+source ~/.ssh/tamas@gulacsi.eu.muttrc
+set my_tamas_gulacsi_eu_pass = "$imap_pass"
+
+named-mailboxes 'tamas@gulacsi.eu' "imaps://tamas@gulacsi.eu@imap.mailbox.org:993/INBOX"
+account-hook tamas@gulacsi.eu ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user = "tamas@gulacsi.eu" ; \
+	set imap_pass="$my_tamas_gulacsi_eu_pass" \
+'
+folder-hook 'tamas@gulacsi.eu' ' \
+	set smtp_url="smtps://$imap_user@smtp.mailbox.org:465/" ; \
+	set smtp_pass="$imap_pass" ; \
+	set ssl_starttls=yes ; \
+	set from = "$realname <tamas@gulacsi.eu>" ; \
+	set hostname=gulacsi.eu \
+'
+set folder = "imaps://tamas@gulacsi.eu@imap.mailbox.org:993/INBOX"

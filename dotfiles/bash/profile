@@ -27,6 +27,7 @@ else
 	ln -sf "$USER_RUN_DIR/.cache" ~/.cache
 	mkdir -p "$USER_RUN_DIR/.cache"
 fi
+mkdir -p ~/.cache/mutt
 
 eval "$(~/bin/invoke-gpg-agent)"
 

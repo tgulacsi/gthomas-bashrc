@@ -1,0 +1,215 @@
+source common.muttrc
+#
+#
+## SIDEBAR {{{
+#set sidebar_short_path                  # Shorten mailbox names
+#set sidebar_delim_chars="/"             # Delete everything up to the last / character
+set sidebar_folder_indent               # Indent folders whose names we've shortened
+set sidebar_indent_string="  "          # Indent with two spaces
+
+set sidebar_visible = yes
+set sidebar_format = "%B"
+set sidebar_width = 40
+set sidebar_delim_chars = "./"
+set mail_check_stats = yes
+# Sort the mailboxes in the Sidebar using this method:
+#       count    – total number of messages
+#       flagged  – number of flagged messages
+#       new      – number of new messages
+#       path     – mailbox path
+#       unsorted – do not sort the mailboxes
+set sidebar_sort_method = 'path'
+# --------------------------------------------------------------------------
+# FUNCTIONS – shown with an example mapping
+# --------------------------------------------------------------------------
+# Move the highlight to the previous mailbox
+bind index,pager \Cp sidebar-prev
+# Move the highlight to the next mailbox
+bind index,pager \Cn sidebar-next
+# Open the highlighted mailbox
+bind index,pager \Co sidebar-open
+# Move the highlight to the previous page
+# This is useful if you have a LOT of mailboxes.
+bind index,pager <F3> sidebar-page-up
+# Move the highlight to the next page
+# This is useful if you have a LOT of mailboxes.
+bind index,pager <F4> sidebar-page-down
+# Move the highlight to the previous mailbox containing new, or flagged,
+# mail.
+bind index,pager <F5> sidebar-prev-new
+# Move the highlight to the next mailbox containing new, or flagged, mail.
+bind index,pager <F6> sidebar-next-new
+# Toggle the visibility of the Sidebar.
+bind index,pager B sidebar-toggle-visible
+## }}}
+
+
+
+#
+## tgulacsi78@gmail.com
+source ~/.ssh/tgulacsi78@gmail.com.muttrc
+# echo "pass = $imap_pass"
+set my_tgulacsi78_gmail_pass = "$imap_pass"
+# echo "my = $my_tgulacsi78_gmail_pass"
+named-mailboxes 'tgulacsi78@gmail.com' "imaps://tgulacsi78@gmail.com@imap.gmail.com:993/INBOX"
+account-hook 'tgulacsi78.*imap.gmail.com' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=oauthbearer ; \
+	set imap_user="tgulacsi78@gmail.com" ; \
+	set imap_pass="$my_tgulacsi78_gmail_pass" \
+'
+folder-hook 'gmail.com' ' \
+	set smtp_url="smtp://$imap_user@smtp.gmail.com:587/" ; \
+	set smtp_pass="$imap_pass" ; \
+	set ssl_starttls=yes ; \
+	set from="$realname <tgulacsi78@gmail.com>" ; \
+	set hostname=gmail.com ; \
+	set record="+INBOX/Sent" \
+	set spoolfile="+INBOX" \
+	set postponed="+[Gmail]/Drafts" ; \
+	unset imap_condstore ; \
+	set record="" \
+'
+
+## *@unosoft.hu
+source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
+set my_t_gulacsi_unosoft_hu_pass = "$imap_pass"
+
+## t.gulacsi@unosoft.hu
+named-mailboxes 't.gulacsi@unosoft.hu' "imaps://t.gulacsi@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 't.gulacsi@unosoft.hu' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user="t.gulacsi@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 't.gulacsi@unosoft.hu' ' \
+	set smtp_url="smtps://$imap_user@smtp.office365.com:587" ; \
+	set smtp_pass="$imap_pass" ; \
+	set from = "T.Gulacsi@unosoft.hu" ; \
+	set realname = "Tamás Gulácsi" ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+INBOX/Drafts" \
+'
+
+## aegon@unosoft.hu
+named-mailboxes 'aegon@unosoft.hu' "imaps://t.gulacsi@unosoft.hu%5Caegon@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'aegon@unosoft.hu' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user="t.gulacsi@unosoft.hu\\aegon@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass"  \
+'
+folder-hook 'aegon@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="aegon@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+INBOX/Drafts" \
+'
+
+named-mailboxes 'info@unosoft.hu' "imaps://t.gulacsi@unosoft.hu%5Cinfo@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'info@unosoft.hu' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user="t.gulacsi@unosoft.hu\\info@unosoft.hu" ;  \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'info@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="info@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+INBOX/Drafts" \
+'
+
+## cig@unosoft.hu
+named-mailboxes 'cig@unosoft.hu' "imaps://t.gulacsi@unosoft.hu%5Ccig@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'cig@unosoft.hu' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user="t.gulacsi@unosoft.hu\\cig@unosoft.hu" ;  \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'cig@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="cig@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+INBOX/Drafts" \
+'
+
+## kobe@unosoft.hu
+named-mailboxes 'kobe@unosoft.hu' "imaps://t.gulacsi@unosoft.hu%5Ckobe@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'kobe@unosoft.hu' ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user="t.gulacsi@unosoft.hu\\kobe@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'kobe@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="kobe@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+INBOX/Drafts" \
+'
+
+## waberer@unosoft.hu
+named-mailboxes 'waberer@unosoft.hu' "imaps://t.gulacsi@unosoft.hu%5Cwaberer@unosoft.hu@imap.outlook.com:993/INBOX"
+account-hook 'waberer@unosoft.hu' '\
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user="t.gulacsi@unosoft.hu\\waberer@unosoft.hu" ; \
+	set imap_pass="$my_t_gulacsi_unosoft_hu_pass" \
+'
+folder-hook 'waberer@unosoft.hu' ' \
+	set smtp_pass="$imap_pass" ; \
+	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set from="waberer@unosoft.hu" ; \
+	set realname="UNO-SOFT" ; \
+	set hostname=unosoft.hu ; \
+	set record="+INBOX/Sent" ; \
+	set spoolfile="+INBOX" ; \
+	set postponed="+INBOX/Drafts" \
+'
+
+
+## unosoft.test1@gmail.com
+## bankkartya@cig.eu
+
+
+## tamas@gulacsi.eu
+source ~/.ssh/tamas@gulacsi.eu.muttrc
+set my_tamas_gulacsi_eu_pass = "$imap_pass"
+
+named-mailboxes 'tamas@gulacsi.eu' "imaps://tamas@gulacsi.eu@imap.mailbox.org:993/INBOX"
+account-hook tamas@gulacsi.eu ' \
+	unset imap_user; unset imap_pass; unset tunnel; unset imap_authenticators ; \
+	set imap_authenticators=PLAIN:LOGIN ; \
+	set imap_user = "tamas@gulacsi.eu" ; \
+	set imap_pass="$my_tamas_gulacsi_eu_pass" \
+'
+folder-hook 'tamas@gulacsi.eu' ' \
+	set smtp_url="smtps://$imap_user@smtp.mailbox.org:465/" ; \
+	set smtp_pass="$imap_pass" ; \
+	set ssl_starttls=yes ; \
+	set from = "$realname <tamas@gulacsi.eu>" ; \
+	set hostname=gulacsi.eu \
+'
+
+set folder="imaps://tamas@gulacsi.eu@imap.mailbox.org:993/INBOX"
+
