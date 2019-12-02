@@ -3,6 +3,7 @@ source common.muttrc
 ## *@unosoft.hu
 source ~/.ssh/t.gulacsi@unosoft.hu.muttrc
 set my_t_gulacsi_unosoft_hu_pass = "$imap_pass"
+set imap_user="t.gulacsi@unosoft.hu\\aegon@unosoft.hu"
 
 ## aegon@unosoft.hu
 named-mailboxes 'aegon@unosoft.hu' "imaps://t.gulacsi@unosoft.hu%5Caegon@unosoft.hu@imap.outlook.com:993/INBOX"

@@ -5,6 +5,8 @@ source common.muttrc
 source ~/.ssh/tgulacsi78@gmail.com.muttrc
 # echo "pass = $imap_pass"
 set my_tgulacsi78_gmail_pass = "$imap_pass"
+set imap_user="tgulacsi78@gmail.com"
+
 # echo "my = $my_tgulacsi78_gmail_pass"
 named-mailboxes 'tgulacsi78@gmail.com' "imaps://tgulacsi78@gmail.com@imap.gmail.com:993/INBOX"
 account-hook 'tgulacsi78.*imap.gmail.com' ' \

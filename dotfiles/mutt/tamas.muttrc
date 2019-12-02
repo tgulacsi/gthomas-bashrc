@@ -3,6 +3,7 @@ source common.muttrc
 ## tamas@gulacsi.eu
 source ~/.ssh/tamas@gulacsi.eu.muttrc
 set my_tamas_gulacsi_eu_pass = "$imap_pass"
+set imap_user = "tamas@gulacsi.eu"
 
 named-mailboxes 'tamas@gulacsi.eu' "imaps://tamas@gulacsi.eu@imap.mailbox.org:993/INBOX"
 account-hook tamas@gulacsi.eu ' \
