@@ -15,7 +15,7 @@ account-hook 'waberer@unosoft.hu' '\
 '
 folder-hook 'waberer@unosoft.hu' ' \
 	set smtp_pass="$imap_pass" ; \
-	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set smtp_url="smtp://$imap_user@smtp.outlook.com:587/" ; \
 	set from="waberer@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu ; \

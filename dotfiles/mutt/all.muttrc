@@ -103,7 +103,7 @@ account-hook 'aegon@unosoft.hu' ' \
 '
 folder-hook 'aegon@unosoft.hu' ' \
 	set smtp_pass="$imap_pass" ; \
-	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set smtp_url="smtp://$imap_user@smtp.outlook.com:587/" ; \
 	set from="aegon@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu ; \
@@ -121,7 +121,7 @@ account-hook 'info@unosoft.hu' ' \
 '
 folder-hook 'info@unosoft.hu' ' \
 	set smtp_pass="$imap_pass" ; \
-	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set smtp_url="smtp://$imap_user@smtp.outlook.com:587/" ; \
 	set from="info@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu ; \
@@ -140,7 +140,7 @@ account-hook 'cig@unosoft.hu' ' \
 '
 folder-hook 'cig@unosoft.hu' ' \
 	set smtp_pass="$imap_pass" ; \
-	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set smtp_url="smtp://$imap_user@smtp.outlook.com:587/" ; \
 	set from="cig@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu ; \
@@ -159,7 +159,7 @@ account-hook 'kobe@unosoft.hu' ' \
 '
 folder-hook 'kobe@unosoft.hu' ' \
 	set smtp_pass="$imap_pass" ; \
-	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set smtp_url="smtp://$imap_user@smtp.outlook.com:587/" ; \
 	set from="kobe@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu ; \
@@ -178,7 +178,7 @@ account-hook 'waberer@unosoft.hu' '\
 '
 folder-hook 'waberer@unosoft.hu' ' \
 	set smtp_pass="$imap_pass" ; \
-	set smtp_url="smtps://$imap_user@smtp.outlook.com:587/" ; \
+	set smtp_url="smtp://$imap_user@smtp.outlook.com:587/" ; \
 	set from="waberer@unosoft.hu" ; \
 	set realname="UNO-SOFT" ; \
 	set hostname=unosoft.hu ; \
