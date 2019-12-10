@@ -1,0 +1,7 @@
+#!/bin/sh
+name=tamas
+if [ $# -lt 1 ]; then
+	name="${1}"
+	shift
+fi
+neomutt -F ~/.mutt/"$name".muttrc "$@"
