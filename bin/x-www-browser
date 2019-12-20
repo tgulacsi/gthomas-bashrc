@@ -28,4 +28,5 @@ sleep 0.5
 killall -9 "$nm"
 sleep 0.5
 #exec nice -n 15 ionice -c 3 "$fn"
+ulimit -d unlimited
 exec "$fn"

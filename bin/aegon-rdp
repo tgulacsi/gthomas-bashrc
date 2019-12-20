@@ -1,0 +1,39 @@
+#!/bin/bash
+set -u
+set -e
+rdp="${1:-}"
+if [ $# -ge 1 ]; then
+	shift 1
+fi
+if [ -z "$rdp" ]; then
+	rdp="$(ls -t $(find "$(xdg-user-dir DOWNLOAD)" -type f -name 'launch*.rdp') | head -n1)"
+fi
+echo "# rdp=$rdp" >&2
+gw=
+gat=
+host=
+for line in $(cat "$rdp" | tr -d "" | awk -F: '/^(full address|gateway(hostname|accesstoken))/ {print $1 ":" $3}'); do
+	k=${line%:*}
+	v=${line#*:}
+	case "$k" in
+		*hostname) gw="$v" ;;
+		*accesstoken) gat="$v" ;;
+		*address) host="$v" ;;
+	esac
+	echo "# gw=$gw gat=$gat host=$host" >&2
+done
+
+if [ -z "$gw" ]; then
+	gw=vpn-hun.aegon.com
+fi
+if [ -z "$host" ]; then
+	host='kzp865604-nb'
+fi
+host="${host}"
+
+echo "# gat=$gat gw=$gw host=$host" >&2
+passw="$(pass show U/A/gulacsit)"
+
+set -x
+#exec xfreerdp  /u:gulacsit /d:ab-aegon "/p:${passw}" "/v:${host}" "/g:${gw}" "/gat:${gat}" "$@"
+exec xfreerdp "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" "$@"
