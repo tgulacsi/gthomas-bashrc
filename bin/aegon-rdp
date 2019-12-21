@@ -36,4 +36,5 @@ passw="$(pass show U/A/gulacsit)"
 
 set -x
 #exec xfreerdp  /u:gulacsit /d:ab-aegon "/p:${passw}" "/v:${host}" "/g:${gw}" "/gat:${gat}" "$@"
-exec xfreerdp "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" "$@"
+#exec xfreerdp "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-tofu -decorations +drives /dynamic-resolution /f -fonts /gdi:hw  /gfx:AVC420 +heartbeat /network:modem -themes +clipboard "$@"
+exec xfreerdp "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-tofu /f +clipboard /network:modem -themes -decorations /drive:tmp,/tmp -fonts /gdi:hw +heartbeat /gfx:AVC420 "$@"
