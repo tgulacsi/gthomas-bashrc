@@ -1,0 +1,2 @@
+#!/bin/sh
+while true; do ~/Applications/f5epi-linux-x86_64.AppImage; done
