@@ -1,5 +1,5 @@
 #!/bin/sh
-dest='10.65.85.40'
+DEST="${DEST:-10.65.85.40}"
 u=tgulacsi
 
 prog=xfreerdp
@@ -8,21 +8,22 @@ if [ "${XDG_SESSION_TYPE:-}" = wayland ] && which wlfreerdp >/dev/null 2>/dev/nu
 fi
 prog=${RDP:-$prog}
 
-pkill -f "${prog}.*0x409 .* /v:${dest}"
+pkill -f "${prog}.*0x409 .* /v:${DEST}"
 
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 OPTS="/u:$u /d:unosoft"
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem +clipboard /workarea /v:$dest /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
+OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem +clipboard /workarea /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
 SEC=${SEC:-/sec:nla}
 if [ -z "${GW:-}" ]; then
-	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$dest"; then
+	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$DEST"; then
 		GW=rdg.unosoft.hu:4443
 	fi
 fi
 if [ -n "$GW" ]; then
 	OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
 fi
+OPTS="$OPTS $@"
 
 
 echo "+ ${prog} ${SEC} $OPTS" >&2
