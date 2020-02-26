@@ -1,2 +1,2 @@
 #!/bin/sh
-exec grim -o "$HOME/scrot-$(hostname)-$(date '+%Y%m%d_%H%M%S').png"
+exec grim "$HOME/scrot-$(hostname)-$(date '+%Y%m%d_%H%M%S').png"
