@@ -282,10 +282,10 @@ let g:airline#extensions#ale#enabled = 1
 " }}}
 
 " Go {{{
-let g:go_auto_sameids = 1
-let g:go_fmt_autosave = 1
-let g:go_autodetect_gopath = 1
-let g:go_list_type = "quickfix"
+"let g:go_auto_sameids = 1
+"let g:go_fmt_autosave = 1
+"let g:go_autodetect_gopath = 1
+"let g:go_list_type = "quickfix"
 
 let g:go_def_mode = 'gopls'
 let g:go_info_mode = 'gopls'
@@ -299,16 +299,16 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
-let g:go_metalinter_command = 'golangci-lint'
-let g:go_version_warning = 0
+"let g:go_metalinter_command = 'golangci-lint'
+"let g:go_version_warning = 0
 
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
 
 " Open :GoDeclsDir with ctrl-g
-nmap <C-g> :GoDeclsDir<cr>
-imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+"nmap <C-g> :GoDeclsDir<cr>
+"imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
 
 " See https://hackernoon.com/my-neovim-setup-for-go-7f7b6e805876?gi=e5191307198a
 
@@ -321,50 +321,50 @@ augroup go
   autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 fileencoding=utf-8
 
   " :GoBuild and :GoTestCompile
-  autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+  "autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
   " :GoTest
-  autocmd FileType go nmap <leader>t  <Plug>(go-test)
+  "autocmd FileType go nmap <leader>t  <Plug>(go-test)
 
   " :GoRun
-  autocmd FileType go nmap <leader>r  <Plug>(go-run)
+  "autocmd FileType go nmap <leader>r  <Plug>(go-run)
 
   " :GoDoc
-  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+  "autocmd FileType go nmap <Leader>d <Plug>(go-doc)
 
   " :GoCoverageToggle
-  autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+  "autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 
   " :GoInfo
-  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+  "autocmd FileType go nmap <Leader>i <Plug>(go-info)
 
   " :GoMetaLinter
-  autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
+  "autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
 
   " :GoDef but opens in a vertical split
-  autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
+  "autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
   " :GoDef but opens in a horizontal split
-  autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
+  "autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
 
   " :GoAlternate  commands :A, :AV, :AS and :AT
-  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+  "autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  "autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  "autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  "autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 augroup END
 
 " build_go_files is a custom function that builds or compiles the test file.
 " It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#cmd#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
+"function! s:build_go_files()
+  "let l:file = expand('%')
+  "if l:file =~# '^\f\+_test\.go$'
+    "call go#cmd#Test(0, 1)
+  "elseif l:file =~# '^\f\+\.go$'
+    "call go#cmd#Build(0)
+  "endif
+"endfunction
 
-autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+"autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
 " }}}
 
