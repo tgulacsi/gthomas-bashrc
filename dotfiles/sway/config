@@ -280,4 +280,9 @@ bindsym --to-code {
 	$mod+Shift+Control+F12 exec sync && systemctl suspend-then-hi1Gbernate
 }
 
+bindsym --to-code {
+	XF86Search exec swaymsg "output * scale 2"
+	Shift+XF86Search exec swaymsg "output * scale 1"
+}
+
 include /etc/sway/config.d/*

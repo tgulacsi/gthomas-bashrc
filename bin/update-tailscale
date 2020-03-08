@@ -2,5 +2,5 @@
 set -e
 cd /tmp
 go get -u tailscale.com/cmd/tailscale{,d}
-sudo rsync -avz /home/tgulacsi/bin/tailscale{,d} /usr/sbin/
+sudo rsync -avz "$(ls -t "$HOME"/go/bin/tailscale{,d} "$HOME"/bin/tailscale{,d} | head -n1)" /usr/sbin/
 sudo systemctl restart tailscaled.service
