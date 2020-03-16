@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
-cd /tmp
-go get -u tailscale.com/cmd/tailscale{,d}
-sudo rsync -avz "$(ls -t "$HOME"/go/bin/tailscale{,d} "$HOME"/bin/tailscale{,d} | head -n1)" /usr/sbin/
+wd="/tmp/$(basename "$0")-$$"
+mkdir -p "$wd"
+trap 'rm -rf $wd' EXIT
+cd "$wd"
+pwd
+unset GOPATH
+set -x
+go get -u tailscale.com/cmd/tailscaled
+sudo rsync -avz "$(ls -t "$HOME"/go/bin/tailscaled "$HOME"/bin/tailscaled | head -n1)" /usr/sbin/
 sudo systemctl restart tailscaled.service
+go get -u tailscale.com/cmd/tailscale
+sudo rsync -avz "$(ls -t "$HOME"/go/bin/tailscale "$HOME"/bin/tailscale | head -n1)" /usr/sbin/
