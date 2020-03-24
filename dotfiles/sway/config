@@ -281,7 +281,7 @@ bindsym --to-code {
 }
 
 bindsym --to-code {
-	XF86Search exec swaymsg "output * scale 1.5"
+	XF86Search exec swaymsg "output * scale 2"
 	Shift+XF86Search exec swaymsg "output * scale 1"
 }
 
