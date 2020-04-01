@@ -1,0 +1,2 @@
+#!/bin/sh
+exec find -O3 $(echo "$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n'
