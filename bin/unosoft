@@ -1,28 +1,28 @@
 #!/bin/sh
+set -e
+set -u
 if [ -e /etc/openvpn/client/unosoft.conf ]; then
 	SVC=openvpn-client@unosoft
-	TODO=restart
-	if [ "$1" = down ]; then
+	TODO="${1:-restart}"
+	if [ "$TODO" = down ]; then
 		TODO=stop
 		if ! systemctl status "$SVC" >/dev/null; then
 			exit 0
 		fi
 	fi
-	addroute=
-	if [ "$TODO" != stop ]; then
-		sudo systemctl stop "$SVC"
-		addroute="$(ip route get 192.168.1.3 | sed -ne '/^1/ { s/ src .*$//; p; }')"
+	case "$TODO" in
+		stop|restart|down)
+			sudo systemctl stop "$SVC"
+			;;
+	esac
+	if [ "$TODO" = stop ]; then
+		exit $?
 	fi
-	sudo systemctl "$TODO" "$SVC"
-	if [ "$TODO" != stop ]; then
-		while ! resolvectl dns tun0; do sleep 1; done
-		sudo sh -c 'resolvectl dns tun0 10.65.85.1; resolvectl domain tun0 unosoft.local; resolvectl flush-caches'
+	if [ "$TODO" != dns ]; then
+		sudo systemctl "$TODO" "$SVC"
 	fi
-	if [ -n "$addroute" ]; then
-		set -x
-		sudo ip route add $addroute
-		set +x
-	fi
+	while ! resolvectl dns tun0; do sleep 1; done
+	sudo sh -c 'resolvectl dns tun0 10.65.85.1; resolvectl domain tun0 unosoft.local; resolvectl flush-caches'
 	sudo resolvectl flush-caches
 	exit $?
 fi
