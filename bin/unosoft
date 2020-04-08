@@ -11,9 +11,9 @@ if [ -e /etc/openvpn/client/unosoft.conf ]; then
 		fi
 	fi
 	case "$TODO" in
-		stop|restart|down)
-			sudo systemctl stop "$SVC"
-			;;
+	stop | restart | down)
+		sudo systemctl stop "$SVC"
+		;;
 	esac
 	if [ "$TODO" = stop ]; then
 		exit $?
@@ -43,11 +43,12 @@ DOWN=0
 ID=unosoft
 for arg in "$@"; do
 	case "$arg" in
-		down) DOWN=1
-			;;
-		*)
-			ID="$arg"
-			;;
+	down)
+		DOWN=1
+		;;
+	*)
+		ID="$arg"
+		;;
 	esac
 done
 

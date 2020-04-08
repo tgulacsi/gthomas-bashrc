@@ -5,5 +5,5 @@ set -x
 fn="${1:-/tmp/wallpaper-$$.png}"
 curl -o "$fn" -H 'Accept: image/png' -m 30 -sS -L \
 	'https://unsplash.it/1920/1080/?random'
-	#'https://unsplash.it/'"$(getscreensize | tr x /)"'/?random'
+#'https://unsplash.it/'"$(getscreensize | tr x /)"'/?random'
 echo "$fn"

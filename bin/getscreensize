@@ -5,9 +5,9 @@ if [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
 fi
 SIZE="$(xrandr --current | sed -ne '/ connected / s/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/p' | sort -r | head -n1)"
 if [ $# -ge 1 ]; then
-    W=$(echo $SIZE|cut -dx -f1)
-    H=$(echo $SIZE|cut -dx -f2)
-    echo $(($W - $1))x$(($H - ${2:-0}))
+	W=$(echo $SIZE | cut -dx -f1)
+	H=$(echo $SIZE | cut -dx -f2)
+	echo $(($W - $1))x$(($H - ${2:-0}))
 else
-    echo "$SIZE"
+	echo "$SIZE"
 fi

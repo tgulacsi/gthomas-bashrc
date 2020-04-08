@@ -3,10 +3,10 @@ DIR=$HOME/.cache/wallpapers
 mkdir -p "$DIR"
 n=$(find $DIR -type f -mtime -2 | wc -l)
 if [ $n -ge 1 ]; then
-    exec feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
+	exec feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
 fi
 if [ $n -le 20 ]; then
-    flock -x -n $DIR grabwallpapers || exit $?
+	flock -x -n $DIR grabwallpapers || exit $?
 fi
 feh --bg-scale $(shuf -e -n 1 $DIR/*.jp*g)
 (cd $DIR && touch $(ls -t | head -n1))

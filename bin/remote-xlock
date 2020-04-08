@@ -1,11 +1,11 @@
 #!/bin/sh
 
 if which xlock 2>/dev/null; then
-    CMD=xlock
+	CMD=xlock
 elif which xscreensaver-command 2>/dev/null; then
-    CMD='xscreensaver-command -lock'
+	CMD='xscreensaver-command -lock'
 elif which gnome-screensaver-command 2>/dev/null; then
-    CMD='gnome-screensaver-command --lock'
+	CMD='gnome-screensaver-command --lock'
 fi
 
 XAUTHORITY=/home/$LOGNAME/.Xauthority DISPLAY=:0.0 $CMD "$@"

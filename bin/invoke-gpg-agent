@@ -22,18 +22,18 @@ if ! systemctl --user start gpg-agent-ssh.socket; then
 fi
 
 if true; then
-ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' \
-	|| ssh-add ~/.ssh/tgulacsi2@unosoft
-ssh-add -l | fgrep -q 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' \
-	|| ssh-add ~/.ssh/tgulacsi@unosoft
-ssh-add -l | fgrep -q 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' \
-	|| ssh-add ~/.ssh/tgulacsi3@unosoft
+	ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
+		ssh-add ~/.ssh/tgulacsi2@unosoft
+	ssh-add -l | fgrep -q 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' ||
+		ssh-add ~/.ssh/tgulacsi@unosoft
+	ssh-add -l | fgrep -q 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' ||
+		ssh-add ~/.ssh/tgulacsi3@unosoft
 fi
 
 if false; then
-echo reloadagent | gpg-connect-agent >/dev/null || {
-	eval $(gpg-agent -s)
-}
+	echo reloadagent | gpg-connect-agent >/dev/null || {
+		eval $(gpg-agent -s)
+	}
 fi
 
 if which keychain >/dev/null 2>/dev/null; then

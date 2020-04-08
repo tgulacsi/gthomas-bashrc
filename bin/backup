@@ -6,7 +6,9 @@ F="$HOME/restic-git-config.tar"
 rm -f "$F"
 trap 'rm '"$F" EXIT
 
-find -O3 ~/src/ -xdev -type f -path '*/.git/config' -print0 | \
+export "PATH=$HOME/bin:$PATH"
+
+find -O3 ~/src/ -xdev -type f -path '*/.git/config' -print0 |
 	tar caf "$F" --null --one-file-system -T -
 restic backup -v .config .ssh Documents .password-store "$F"
 sudo tar cf - --one-file-system /etc | restic backup --stdin --stdin-filename etc.tar

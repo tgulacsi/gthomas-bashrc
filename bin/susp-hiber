@@ -1,15 +1,19 @@
 #!/bin/sh
 logger $(basename $0) "$@"
 [ -x $(dirname $0)/remote-xlock ] && (
-  logger 'calling remote-xlock'
-  remote-xlock &
-  sleep 1
+	logger 'calling remote-xlock'
+	remote-xlock &
+	sleep 1
 )
 case "$1" in
-hiber|hibernate|Hibernate) CMD_initcap=Hibernate; CMD_lower=hibernate
-    ;;
-*) CMD_initcap=Suspend; CMD_lower=suspend
-    ;;
+hiber | hibernate | Hibernate)
+	CMD_initcap=Hibernate
+	CMD_lower=hibernate
+	;;
+*)
+	CMD_initcap=Suspend
+	CMD_lower=suspend
+	;;
 esac
 
 Z=1
@@ -25,15 +29,15 @@ Z=1
 #  logger 'dbus-send --dest=org.freedesktop.PowerManagement: '$Z
 #fi
 [ $Z -ne 0 ] && {
-    if [ "$CMD_lower" = "hibernate" ]; then
-        sudo s2disk
-    else
-        logger 'calling pm-'${CMD_lower}
-        sudo pm-${CMD_lower}
-    fi
+	if [ "$CMD_lower" = "hibernate" ]; then
+		sudo s2disk
+	else
+		logger 'calling pm-'${CMD_lower}
+		sudo pm-${CMD_lower}
+	fi
 }
 [ $(uname -n) = 'tgulacsi-desktop' ] && {
-    killall -9 sshfs
-    logger 'calling p520.mnt'
-    ~/bin/p520.mnt
+	killall -9 sshfs
+	logger 'calling p520.mnt'
+	~/bin/p520.mnt
 }

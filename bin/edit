@@ -3,14 +3,14 @@ CMD=vi
 #if [ -x /usr/local/share/sublime-text-2/sublime_text ]; then
 #  CMD=/usr/local/share/sublime-text-2/sublime_text
 #else
-    if which emacs 2>/dev/null; then
-        FLAG=-t
-        if tty -s; then
-	        FLAG=-t
-        else
-	        FLAG=-c
-        fi
-        CMD="emacsclient $FLAG -a ''"
-    fi
+if which emacs 2>/dev/null; then
+	FLAG=-t
+	if tty -s; then
+		FLAG=-t
+	else
+		FLAG=-c
+	fi
+	CMD="emacsclient $FLAG -a ''"
+fi
 #fi
 $CMD "$@"

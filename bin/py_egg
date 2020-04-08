@@ -2,20 +2,23 @@
 # -*- coding: utf-8 -*-
 
 case "$1" in
-  *://*) DEST=/tmp/xx-$$
-       git clone "$1" $DEST || {
-           wget -O ${DEST}.zip "$1" && (
-               cd $(dirname $DEST) && unzip ${DEST}.zip \
-               && mv $(basename $DEST)/* ./) 
-       } || exit $? ;;
-  *) DEST="$1"
+*://*)
+	DEST=/tmp/xx-$$
+	git clone "$1" $DEST || {
+		wget -O ${DEST}.zip "$1" && (
+			cd $(dirname $DEST) && unzip ${DEST}.zip &&
+				mv $(basename $DEST)/* ./
+		)
+	} || exit $?
+	;;
+*) DEST="$1" ;;
 esac
-cd $DEST \
-&& python setup.py bdist_egg -k \
-&& cd build/bdist.linux-x86_64/egg \
-&& find . \( -name '*.py[cod]' -o -name '*.so' \) -delete \
-&& {
-  ZIP=$(ls ../../../dist/*.egg|head -n1|sed -e 's/-py.*\.egg$/.egg/')
-  echo ZIP=$ZIP
-  zip -r9 $ZIP *
-}
+cd $DEST &&
+	python setup.py bdist_egg -k &&
+	cd build/bdist.linux-x86_64/egg &&
+	find . \( -name '*.py[cod]' -o -name '*.so' \) -delete &&
+	{
+		ZIP=$(ls ../../../dist/*.egg | head -n1 | sed -e 's/-py.*\.egg$/.egg/')
+		echo ZIP=$ZIP
+		zip -r9 $ZIP *
+	}

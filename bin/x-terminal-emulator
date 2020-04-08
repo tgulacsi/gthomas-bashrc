@@ -6,7 +6,6 @@ which alacritty >&2 && exec alacritty -e /bin/bash --login
 #which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash -1 --instance-group default
 urxvtc "$@"
 if [ $? -eq 2 ]; then
-    urxvtd -q -o -f
-    urxvtc "$@"
+	urxvtd -q -o -f
+	urxvtc "$@"
 fi
-

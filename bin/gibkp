@@ -2,20 +2,20 @@
 BASE=${BASE:-/var/backups/gibkp}
 
 if [ ! -x $BASE ]; then
-  mkdir -p $BASE && cd $BASE && git init || exit 7
+	mkdir -p $BASE && cd $BASE && git init || exit 7
 else
-  cd $BASE || exit 2
-  if git branch | grep -q master; then
-    git checkout -f master || exit 3
-  fi
+	cd $BASE || exit 2
+	if git branch | grep -q master; then
+		git checkout -f master || exit 3
+	fi
 fi
 
 for dn in "$@"; do
-  [ ! -x .$dn ] && mkdir -p .$dn
-  rsync -a --exclude=.git --exclude='.gitignore' "$dn/" .$dn/ || exit 4
+	[ ! -x .$dn ] && mkdir -p .$dn
+	rsync -a --exclude=.git --exclude='.gitignore' "$dn/" .$dn/ || exit 4
 done
 
 git add * || exit 5
 [ $(git status --short | wc -l) -gt 1 ] && {
-  git commit -am "$(date '+%Y-%m-%dT%H:%M:%S')" || exit 6
+	git commit -am "$(date '+%Y-%m-%dT%H:%M:%S')" || exit 6
 } || exit 0

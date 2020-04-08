@@ -16,9 +16,9 @@ for line in $(cat "$rdp" | tr -d "" | awk -F: '/^(full address|gateway(hostname
 	k=${line%:*}
 	v=${line#*:}
 	case "$k" in
-		*hostname) gw="$v" ;;
-		*accesstoken) gat="$v" ;;
-		*address) host="$v" ;;
+	*hostname) gw="$v" ;;
+	*accesstoken) gat="$v" ;;
+	*address) host="$v" ;;
 	esac
 	echo "# gw=$gw gat=$gat host=$host" >&2
 done

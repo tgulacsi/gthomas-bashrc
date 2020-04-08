@@ -17,25 +17,25 @@ sleep $START_DELAY
 OLD_DUAL="dummy"
 
 while /bin/true; do
-    DUAL="$(grep -h ^connected /sys/class/drm/card0-DP-?/status)"
+	DUAL="$(grep -h ^connected /sys/class/drm/card0-DP-?/status)"
 	echo "# DUAL=$DUAL" >&2
 
-    if [ "$OLD_DUAL" != "$DUAL" ]; then
-        if [ "$DUAL" = "connected" ]; then
+	if [ "$OLD_DUAL" != "$DUAL" ]; then
+		if [ "$DUAL" = "connected" ]; then
 			SCREEN_RIGHT="$(xrandr -q | fgrep ' connected' | awk '/^[^e]/ { print $1 }')"
 			echo "# SCREEN_RIGHT=$SCREEN_RIGHT" >&2
-            echo 'Dual monitor setup'
-            xrandr --output "$SCREEN_LEFT" --off --rotate normal --pos 0x0 --output "$SCREEN_RIGHT" --auto --rotate normal --right-of "$SCREEN_LEFT"
-        else
-            echo 'Single monitor setup'
-            xrandr --auto
-        fi
+			echo 'Dual monitor setup'
+			xrandr --output "$SCREEN_LEFT" --off --rotate normal --pos 0x0 --output "$SCREEN_RIGHT" --auto --rotate normal --right-of "$SCREEN_LEFT"
+		else
+			echo 'Single monitor setup'
+			xrandr --auto
+		fi
 
-        OLD_DUAL="$DUAL"
-    fi
+		OLD_DUAL="$DUAL"
+	fi
 
 	break
-    inotifywait -q -e close_write -e create -e delete -t 30 -r /sys/class/drm/ >/dev/null || echo $?
+	inotifywait -q -e close_write -e create -e delete -t 30 -r /sys/class/drm/ >/dev/null || echo $?
 done
 
 exit 0
@@ -66,13 +66,14 @@ echo "# main=$main SIZE=$SIZE -> nm=$nm pos=$pos" >&2
 
 set -x
 case "${N:-1}" in
-  1) exec xrandr --output "$main" --auto
-	  ;;
-  2)
-	  if [ "${SIZE%x*}" -ge 2560 ]; then
+1)
+	exec xrandr --output "$main" --auto
+	;;
+2)
+	if [ "${SIZE%x*}" -ge 2560 ]; then
 		exec xrandr --output "$main" --off --output "$NAME" --auto --pos "${pos}x0" --rotate normal --scale 1x1
-	  else
+	else
 		exec xrandr --output "$nm" --auto --pos 0x0 --rotate normal --output "$NAME" --auto --pos "${pos}x0" --rotate normal --scale 1x1
-	  fi
-	  ;;
+	fi
+	;;
 esac

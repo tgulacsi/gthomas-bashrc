@@ -8,7 +8,7 @@ if which avconv >/dev/null 2>&1; then
 		-acodec libvorbis -threads ${THREADS:-1} -y ${OPTS:-} "$DST"
 else
 	OPTS="-y -c:v libvpx-vp9 ${OPTS:-} -c:a opus -qmin 16 -qmax 48 -qdiff 4 -filter:v yadif -f webm"
-	ffmpeg -i "$SRC" -pass 1 $OPTS /dev/null && \
-	ffmpeg -i "$SRC" -pass 2 $OPTS "$DST"
+	ffmpeg -i "$SRC" -pass 1 $OPTS /dev/null &&
+		ffmpeg -i "$SRC" -pass 2 $OPTS "$DST"
 fi
 touch -r "$SRC" "$DST"

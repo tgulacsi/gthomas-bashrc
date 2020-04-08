@@ -18,7 +18,7 @@ fi
 
 #exec sudo pkexec xfpm-power-backlight-helper --set-brightness ${1:-80}
 set -e
-old="$(xrandr --verbose|sed -ne '/Brightness:/ s/^.*: //p')"
+old="$(xrandr --verbose | sed -ne '/Brightness:/ s/^.*: //p')"
 compute="scale=2; $old $1.0/100"
 new="$(echo "$compute" | bc)"
 if [ -z "$new" ]; then
