@@ -34,6 +34,7 @@ if [[ -d /usr/local/plan9 ]]; then
 	PATH=$PATH:$PLAN9/bin
 fi
 
+export GO111MODULE=on
 unset GOPATH
 export GOBIN=~/bin
 if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin; then
