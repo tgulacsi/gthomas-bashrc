@@ -12,6 +12,8 @@ export LC_ALL=
 
 export MOZ_ENABLE_WAYLAND=1
 export _JAVA_AWT_WM_NONREPARENTING=1
+export GDK_BACKEND=wayland
+
 export TNS_ADMIN=$HOME/.config/oracle
 export TMPDIR=${TMPDIR:-/tmp}
 EDITOR='vim'
