@@ -1,0 +1,11 @@
+[Unit]
+Description=Go cache clean timer
+Requires=cleancache.service
+
+[Timer]
+Unit=cleancache.service
+OnStartupSec=1m
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

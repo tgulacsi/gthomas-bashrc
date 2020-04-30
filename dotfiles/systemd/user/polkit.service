@@ -1,0 +1,13 @@
+[Unit]
+Description=PolicyKit agent
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/lxpolkit
+Nice=19
+IOSchedulingClass=3
+CPUSchedulingPolicy=idle
+Restart=on-success
+
+[Install]
+WantedBy=dbus.service
