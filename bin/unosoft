@@ -20,6 +20,11 @@ if [ -e /etc/openvpn/client/unosoft.conf ]; then
 	if [ "$TODO" = stop ]; then
 		exit $?
 	fi
+	if [ "$TODO" = dns ]; then
+		if ! ip addr show dev tun0 up; then
+			TODO=restart
+		fi
+	fi
 	if [ "$TODO" != dns ]; then
 		sudo systemctl "$TODO" "$SVC"
 	fi
