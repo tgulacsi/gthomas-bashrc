@@ -2,9 +2,10 @@
 DEST="${DEST:-10.65.85.40}"
 u=tgulacsi
 
-prog=xfreerdp
-if [ "${XDG_SESSION_TYPE:-}" = wayland ] && which wlfreerdp >/dev/null 2>/dev/null; then
-	prog=wlfreerdp
+prog="$(which xfreerdp || echo /opt/freerdp-nightly/bin/xfreerdp)"
+wlprog="$(dirname "$prog")/wlfreerdp"
+if [ "${XDG_SESSION_TYPE:-}" = wayland ] && [ -x "$wlprog" ]; then
+	prog="$wlprog"
 fi
 prog=${RDP:-$prog}
 
@@ -13,7 +14,7 @@ pkill -f "${prog}.*0x409 .* /v:${DEST}"
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 OPTS="/u:$u /d:unosoft"
 
-OPTS="$OPTS /kbd:0x409 /cert-ignore /network:modem +clipboard /workarea /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10"
+OPTS="$OPTS /kbd:0x409 /cert:tofu /network:modem +clipboard /f /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /dynamic-resolution /floatbar:sticky:on,default:visible,show:always"
 SEC=${SEC:-/sec:nla}
 if [ -z "${GW:-}" ]; then
 	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$DEST"; then

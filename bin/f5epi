@@ -1,2 +1,3 @@
 #!/bin/sh
-while true; do ~/Applications/f5epi-linux-x86_64.AppImage; done
+#while true; do ~/Applications/f5epi-linux-x86_64.AppImage; done
+while true; do /opt/f5/epi/f5epi; done
