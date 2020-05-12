@@ -14,7 +14,7 @@ pkill -f "${prog}.*0x409 .* /v:${DEST}"
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 OPTS="/u:$u /d:unosoft"
 
-OPTS="$OPTS /kbd:0x409 /cert:tofu /network:modem +clipboard /f /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /dynamic-resolution /floatbar:sticky:on,default:visible,show:always"
+OPTS="$OPTS /kbd:0x409 /cert:tofu /network:modem +clipboard /f /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /dynamic-resolution /floatbar:sticky:on,default:visible,show:always -fast-path +async-input +async-update +async-channels"
 SEC=${SEC:-/sec:nla}
 if [ -z "${GW:-}" ]; then
 	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$DEST"; then
