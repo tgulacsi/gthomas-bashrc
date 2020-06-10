@@ -1,0 +1,9 @@
+[Unit]
+Description=Mount lnx-dev-wh7
+
+[Service]
+ExecStart=/usr/bin/sshfs tgulacsi@whb_dev:/home/waberer /home/%u/mnt/whb_dev -f -o noauto,user,reconnect,idmap=user,follow_symlinks,ServerAliveInterval=15,kernel_cache,auto_cache,auto_unmount
+ExecStopPost=-/bin/fusermount -u /home/%u/mnt/whb_dev
+
+[Install]
+WantedBy=multi-user.target

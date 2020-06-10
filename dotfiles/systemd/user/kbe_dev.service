@@ -1,0 +1,9 @@
+[Unit]
+Description=Mount lnx-dev-kb7
+
+[Service]
+ExecStart=/usr/bin/sshfs tgulacsi@kbe_dev:/home/kobe /home/%u/mnt/kbe_dev -f -o noauto,user,reconnect,idmap=user,follow_symlinks,ServerAliveInterval=15,kernel_cache,auto_cache,auto_unmount
+ExecStopPost=-/bin/fusermount -u /home/%u/mnt/kbe_dev
+
+[Install]
+WantedBy=multi-user.target

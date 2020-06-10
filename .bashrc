@@ -81,3 +81,5 @@ if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
 	export PATH
 	_PATH_HAS_BEEN_SET=1
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -1,0 +1,9 @@
+[Unit]
+Description=Mount ae7_dev
+
+[Service]
+ExecStart=/usr/bin/sshfs tgulacsi@ae7_dev:/home/aegon /home/%u/mnt/ae7_dev -f -o noauto,user,reconnect,idmap=user,follow_symlinks,ServerAliveInterval=15,kernel_cache,auto_cache,auto_unmount
+ExecStopPost=-/bin/fusermount -u /home/%u/mnt/ae7_dev
+
+[Install]
+WantedBy=multi-user.target
