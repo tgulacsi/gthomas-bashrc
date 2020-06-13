@@ -15,3 +15,5 @@
 	#templateDir = $HOME/dotfiles/git-templates/
 [diff "odt"]
 	textconv = odt2txt
+[pull]
+	rebase = false

@@ -24,7 +24,7 @@ if [ -e /etc/openvpn/client/unosoft.conf ]; then
 		for nm in $(resolvectl dns | sed -ne '/ 192.168.1.1$/ { s/^.*[(]//; s/[)].*$//; p; }' ); do
 			sudo resolvectl dns "$nm" 127.0.2.1
 		done
-		if ! ip addr show dev tun0 up; then
+		if ! ip addr show dev tun0 up >/dev/null; then
 			TODO=restart
 		fi
 	fi
