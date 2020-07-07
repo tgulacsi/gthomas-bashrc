@@ -1,9 +1,10 @@
 #!/bin/sh
+unosoft dns
 DEST="${DEST:-10.65.85.40}"
 u=tgulacsi
 
 prog="$(which xfreerdp || echo /opt/freerdp-nightly/bin/xfreerdp)"
-wlprog="$(dirname "$prog")/wlfreerdp"
+wlprog="$(which wlfreerdp || echo "$(dirname "$prog")/wlfreerdp")"
 if [ "${XDG_SESSION_TYPE:-}" = wayland ] && [ -x "$wlprog" ]; then
 	prog="$wlprog"
 fi
@@ -19,7 +20,7 @@ h=${dims##*x}
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 OPTS="/u:$u /d:unosoft"
 
-OPTS="$OPTS /kbd:0x409 /cert:tofu /network:modem +clipboard /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /size:${w}x$(( $h - 24 ))"
+OPTS="$OPTS /kbd:0x409 /cert:ignore /network:modem +clipboard /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /size:${w}x$(( $h - 24 ))"
 #/floatbar:sticky:on,default:visible,show:always
 SEC=${SEC:-/sec:nla}
 if [ -z "${GW:-}" ]; then

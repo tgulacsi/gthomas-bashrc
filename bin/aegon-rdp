@@ -38,7 +38,7 @@ set -x
 #exec xfreerdp  /u:gulacsit /d:ab-aegon "/p:${passw}" "/v:${host}" "/g:${gw}" "/gat:${gat}" "$@"
 #exec xfreerdp "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-tofu -decorations +drives /dynamic-resolution /f -fonts /gdi:hw  /gfx:AVC420 +heartbeat /network:modem -themes +clipboard "$@"
 prog="$(which xfreerdp || echo /opt/freerdp-nightly/bin/xfreerdp)"
-wlprog="$(dirname "$prog")/wlfreerdp"
+wlprog="$(which wlfreerdp || echo "$(dirname "$prog")/wlfreerdp")"
 if [ "${XDG_SESSION_TYPE:-}" = wayland ] && [ -x "$wlprog" ]; then
 	prog="$wlprog"
 fi
