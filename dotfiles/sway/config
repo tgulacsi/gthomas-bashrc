@@ -45,6 +45,11 @@ output HDMI1 {
 	pos 0 0
 	res 1920x1080
 }
+# Unknown 22W_LCD_TV 0x00000000
+output HDMI-A-1 { 
+	position 0 0
+	res 1920x1080
+}
 output * background $wallpaper fill
 
 set $laptop eDP-1
