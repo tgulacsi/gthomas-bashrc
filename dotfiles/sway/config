@@ -68,6 +68,7 @@ exec if [ "$(hostname)" != 'redpath' ]; then swayidle -w \
 
 exec [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 exec [ -x /usr/bin/mako ] && /usr/bin/mako
+exec [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
