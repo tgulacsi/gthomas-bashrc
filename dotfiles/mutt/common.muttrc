@@ -2,15 +2,17 @@
 
 set mbox_type=Maildir
 
-set mark_old=no
-
 set editor = "vim"
-set mail_check=90
 set timeout=15
 set realname = 'Tamás Gulácsi'
-set imap_check_subscribed
+set imap_check_subscribed = "yes"
+set imap_list_subscribed = "yes"
 set timeout = 15
-set imap_keepalive = 300
+set mail_check = 90
+set imap_keepalive = 180
+set imap_idle
+unset mark_old
+#set ssl_use_sslv3 = yes
 set imap_condstore
 set imap_fetch_chunk_size = 1048576
 set imap_qresync

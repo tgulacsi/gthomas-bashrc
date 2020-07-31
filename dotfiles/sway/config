@@ -1,7 +1,8 @@
 input * xkb_layout "us,hu"
 input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp"
 
-xwayland enable
+#xwayland disable
+#xwayland enable
 
 set $wallpaper /tmp/wallpaper.png
 exec_always wallpaper $wallpaper
