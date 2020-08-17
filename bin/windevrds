@@ -18,9 +18,7 @@ w=${dims%%x*}
 h=${dims##*x}
 
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
-OPTS="/u:$u /d:unosoft"
-
-OPTS="$OPTS /kbd:0x409 /cert:ignore /network:modem /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /size:${w}x$(( $h - 24 ))"
+OPTS="/u:$u /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:modem /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /size:${w}x$(($h - 24))"
 if [ "${1:-}" != "-nocb" ]; then
 	OPTS="$OPTS +clipboard"
 else

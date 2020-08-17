@@ -169,7 +169,7 @@ while true; do
 	for pid in "${!pstate[@]}"; do
 		focus_t="${last_in_focus[$pid]}"
 
-		if [[ -z "$focus_t" || "${pstate[$pid]}" = stopped || "${pstate[$pid]}" = blacklist ]]; then
+		if [[ -z "$focus_t" || "${pstate[$pid]}" == stopped || "${pstate[$pid]}" == blacklist ]]; then
 			continue
 		fi
 

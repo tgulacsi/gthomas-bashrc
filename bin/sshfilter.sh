@@ -10,7 +10,7 @@ fi
 
 COUNTRY=$(/usr/bin/geoiplookup $1 | awk -F ": " '{ print $2 }' | cut -d, -f1 | head -n 1)
 
-if [[ $COUNTRY = "IP Address not found" || $ALLOW_COUNTRIES =~ $COUNTRY ]]; then
+if [[ $COUNTRY == "IP Address not found" || $ALLOW_COUNTRIES =~ $COUNTRY ]]; then
 	exit 0
 fi
 
