@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+fn="/tmp/hev-$$.html"
+trap "rm -f '$fn'" EXIT
+cat >"$fn"
+ext="$(file --extension "$fn" | sed -ne '/: [^?]/ {s,^.*: \([^? /:]*\)\(/\|$\).*$,\1,;p;}' || echo '')"
+if [ -n "$ext" ] && [ "$ext" != html ]; then
+	mv "$fn" "${fn}.${ext}"
+	fn="${fn}.${ext}"
+fi
+exec firefox "$fn"
