@@ -2,7 +2,7 @@
 [user]
 # Please adapt and uncomment the following lines:
 	name = Tamás Gulácsi
-	email = tgulacsi78@gmail.com
+	email = tamas@gulacsi.eu
 	signingkey = 2DA42A27CDA7987C6306C64D621772C5B242992C
 
 [http]
@@ -17,3 +17,6 @@
 	textconv = odt2txt
 [pull]
 	rebase = false
+
+[sendemail]
+	smtpserver = /usr/bin/msmtp
