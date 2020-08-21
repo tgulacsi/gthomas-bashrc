@@ -1,0 +1,40 @@
+[general]
+accounts = tamas,tgulacsi78
+
+[Account tamas]
+localrepository = tamas-local
+remoterepository = tamas-remote
+postsynchook = notmuch new
+
+[Repository tamas-local]
+type = Maildir
+localfolders = ~/mail/tamas
+restoreatime = no
+
+[Repository tamas-remote]
+type = IMAP
+remotehost = imap.mailbox.org
+remoteuser = tamas@gulacsi.eu
+# probably a bad idea
+#remotepass = ***********
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Account tgulacsi78]
+localrepository = tgulacsi78-local
+remoterepository = tgulacsi78-remote
+postsynchook = notmuch new
+
+[Repository tgulacsi78-local]
+type = GmailMaildir
+localfolders = ~/mail/tgulacsi78
+restoreatime = no
+
+[Repository tgulacsi78-remote]
+type = Gmail
+remoteuser = tgulacsi78@gmail.com
+# probably a bad idea
+#remotepass = ***********
+folderfilter = lambda foldername: foldername in ['[Gmail]/All Mail']
+nametrans = lambda foldername: re.sub('^\[Gmail\]/All Mail$', 'all', foldername)
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
