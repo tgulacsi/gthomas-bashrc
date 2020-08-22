@@ -1,5 +1,5 @@
 [general]
-accounts = tamas,tgulacsi78
+accounts = tamas,t.gulacsi
 
 [Account tamas]
 localrepository = tamas-local
@@ -15,6 +15,25 @@ restoreatime = no
 type = IMAP
 remotehost = imap.mailbox.org
 remoteuser = tamas@gulacsi.eu
+# probably a bad idea
+#remotepass = ***********
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Account t.gulacsi]
+localrepository = t.gulacsi-local
+remoterepository = t.gulacsi-remote
+postsynchook = notmuch new
+
+[Repository t.gulacsi-local]
+type = GmailMaildir
+localfolders = ~/mail/t.gulacsi
+restoreatime = no
+
+[Repository t.gulacsi-remote]
+type = IMAP
+remotehost = imap.outlook.com
+remoteuser = t.gulacsi@unosoft.hu
 # probably a bad idea
 #remotepass = ***********
 ssl = yes
