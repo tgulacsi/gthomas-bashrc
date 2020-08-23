@@ -3,7 +3,9 @@ Description=Offlineimap Query Timer
 
 [Timer]
 OnBootSec=1m
+OnStartupSec=1m
 OnUnitInactiveSec=15m
+RandomizedDelaySec=1m
 
 [Install]
 WantedBy=default.target
