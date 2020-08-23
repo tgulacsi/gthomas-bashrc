@@ -1,5 +1,7 @@
 [general]
 accounts = tamas,t.gulacsi
+autorefresh = 0.5
+quick = 10
 
 [Account tamas]
 localrepository = tamas-local
@@ -17,6 +19,7 @@ remotehost = imap.mailbox.org
 remoteuser = tamas@gulacsi.eu
 # probably a bad idea
 #remotepass = ***********
+folderfilter = lambda foldername: foldername.find('Deleted') < 0
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 
@@ -26,7 +29,7 @@ remoterepository = t.gulacsi-remote
 postsynchook = notmuch new
 
 [Repository t.gulacsi-local]
-type = GmailMaildir
+type = Maildir
 localfolders = ~/mail/t.gulacsi
 restoreatime = no
 
@@ -36,6 +39,7 @@ remotehost = imap.outlook.com
 remoteuser = t.gulacsi@unosoft.hu
 # probably a bad idea
 #remotepass = ***********
+folderfilter = lambda foldername: foldername != 'Calendar' and foldername.find('Deleted') < 0
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 
