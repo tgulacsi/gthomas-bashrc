@@ -1,11 +1,21 @@
 #!/bin/sh
 set -eu
-fn="/tmp/hev-$$.html"
-trap "rm -f '$fn'" EXIT
-cat >"$fn"
+if [ $# -ge 1 ]; then
+	fn="$1"
+else
+	fn="/tmp/hev-$$.html"
+	trap "rm -f '$fn'" EXIT
+	cat >"$fn"
+fi
 ext="$(file --extension "$fn" | sed -ne '/: [^?]/ {s,^.*: \([^? /:]*\)\(/\|$\).*$,\1,;p;}' || echo '')"
+echo "# ext=$ext" >&2
+if [ -z "$ext" ]; then
+	ext="$(file --mime "$fn" | cut -d: -f2 | cut -d\; -f1 | cut -d/ -f2)"
+fi
+echo "# ext=$ext" >&2
 if [ -n "$ext" ] && [ "$ext" != html ]; then
 	mv "$fn" "${fn}.${ext}"
 	fn="${fn}.${ext}"
 fi
+set -x
 exec firefox "$fn"
