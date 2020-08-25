@@ -18,4 +18,4 @@ if [ -n "$ext" ] && [ "$ext" != html ]; then
 	fn="${fn}.${ext}"
 fi
 set -x
-exec firefox "$fn"
+exec xdg-open "$fn"
