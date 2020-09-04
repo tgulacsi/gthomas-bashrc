@@ -1,16 +1,20 @@
 #!/bin/sh
+set -eu
 all=0
-if [ "$1" = --all ]; then
+if [ "${1:-}" = --all ]; then
 	all=1
 	shift
 fi
-CONFIG=${CONFIG:-$1}
-if [ -z "$CONFIG" ]; then
-	CONFIG=root
+configs="${CONFIG:-${1:-}}"
+if [ -z "$configs" ]; then
+	configs="$(snapper list-configs --columns config | tail -n-2)"
 fi
-if [ $all -eq 1 ]; then
-	exec snapper -c $CONFIG delete $(snapper -c $CONFIG list --disable-used-space | sed -ne '/^ *[0-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p')
-fi
-snapper -c $CONFIG cleanup timeline
-snapper -c $CONFIG cleanup number
-exec snapper -c $CONFIG delete $(snapper -c $CONFIG list --disable-used-space | fgrep ' apt ' | sed -ne '/^ *[0-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p')
+for cfg in $configs; do
+	echo "# cfg=$cfg" >&2
+	if [ $all -eq 1 ]; then
+		exec snapper -c "$cfg" delete $(snapper -c "$cfg" list --disable-used-space | sed -ne '/^ *[0-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p')
+	fi
+	snapper -c "$cfg" cleanup timeline
+	snapper -c "$cfg" cleanup number
+	snapper -c "$cfg" list --disable-used-space | fgrep ' apt ' | sed -ne '/^ *[1-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p' | xargs -r snapper -c "$cfg" delete
+done
