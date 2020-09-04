@@ -19,4 +19,4 @@
 	rebase = false
 
 [sendemail]
-	smtpserver = /usr/bin/msmtp
+	smtpserver = /usr/bin/mailx
