@@ -9,8 +9,8 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 "File Search:
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf.vim'
 "File Browser:
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -19,13 +19,14 @@ Plug 'ryanoasis/vim-devicons'
 "Color:
 Plug 'morhetz/gruvbox'
 "Golang:
-Plug 'fatih/vim-go'
+"Plug 'fatih/vim-go'
+Plug 'govim/govim'
 "Autocomplete:
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-go'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+"Plug 'ncm2/ncm2'
+"Plug 'ncm3/ncm2-go'
+"Plug 'roxma/nvim-yarp'
+"Plug 'roxma/vim-hug-neovim-rpc'
+"Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 "Snippets:
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'SirVer/ultisnips'
@@ -104,15 +105,6 @@ augroup END
 " }}}
 
 " AUTOCOMPLETE {{{
-augroup ncm2
-  au!
-  autocmd BufEnter * call ncm2#enable_for_buffer()
-  set completeopt=noinsert,menuone,noselect
-  au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-  au User Ncm2PopupClose set completeopt=menuone
-augroup END
-"Press Enter to select item in autocomplete popup
-inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 "Cycle through completion entries with tab/shift+tab
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
@@ -130,9 +122,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " FILE SEARCH {{{
 "allows FZF to open by pressing CTRL-F
-map <C-f> :FZF<CR>
+"map <C-f> :FZF<CR>
 "allow FZF to search hidden 'dot' files
-let $FZF_DEFAULT_COMMAND = "find -L"
+"let $FZF_DEFAULT_COMMAND = "find -L"
 " }}}
 
 " FILE BROWSER {{{
