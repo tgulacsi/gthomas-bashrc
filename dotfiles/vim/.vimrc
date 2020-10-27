@@ -92,16 +92,8 @@ colorscheme gruvbox
 " }}}
 
 " Go {{{
-let g:go_fmt_command = "goimports"
-
-augroup go
-  autocmd!
-
-  au FileType go set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4 fileencoding=utf-8
-
   " Show by default 4 spaces for a tab
-  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 fileencoding=utf-8
-augroup END
+autocmd! BufEnter,BufNewFile *.go,go.mod setlocal noexpandtab tabstop=4 shiftwidth=4 fileencoding=utf-8
 " }}}
 
 " AUTOCOMPLETE {{{
@@ -161,7 +153,7 @@ autocmd! bufwritepost init.vim source %
 
 " MOUSE {{{
 "Allow using mouse helpful for switching/resizing windows
-set mouse+=a
+set mouse=a
 if 1 == 0
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"

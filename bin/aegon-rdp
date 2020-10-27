@@ -44,4 +44,4 @@ if [ "${XDG_SESSION_TYPE:-}" = wayland ] && [ -x "$wlprog" ]; then
 fi
 prog=${RDP:-$prog}
 #/drive:tmp,/tmp
-exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts /gdi:hw +heartbeat /gfx:AVC420 /network:modem +clipboard /log-level:INFO -grab-keyboard "$@"
+exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts /gdi:hw +heartbeat /gfx:AVC420 /network:modem +clipboard /log-level:WARN -grab-keyboard "$@"
