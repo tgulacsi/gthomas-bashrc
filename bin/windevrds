@@ -18,7 +18,7 @@ w=${dims%%x*}
 h=${dims##*x}
 
 p="$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
-OPTS="/u:$u /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:modem /v:$DEST /from-stdin -decorations +auto-reconnect /auto-reconnect-max-retries:10 /gfx:avc420 /codec-cache:nsc /size:${w}x$(($h - 24)) +async-channels +async-input -async-update +fast-path"
+OPTS="/u:$u /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:modem /v:$DEST /from-stdin -decorations -fonts +auto-reconnect /auto-reconnect-max-retries:10 /size:${w}x$(($h - 24)) +async-channels +async-input +async-update +fast-path +offscreen-cache -bitmap-cache /gdi:hw /compression-level:1 /dynamic-resolution /log-level:WARN"
 # -fast-path 
 if [ "${1:-}" != "-nocb" ]; then
 	OPTS="$OPTS +clipboard"
