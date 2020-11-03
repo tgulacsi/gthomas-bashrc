@@ -44,4 +44,11 @@ if [ "${XDG_SESSION_TYPE:-}" = wayland ] && [ -x "$wlprog" ]; then
 fi
 prog=${RDP:-$prog}
 #/drive:tmp,/tmp
-exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts /gdi:hw +heartbeat /network:modem +clipboard /log-level:WARN -grab-keyboard +async-channels +async-input +async-update +fast-path +offscreen-cache -bitmap-cache /compression-level:1 /dynamic-resolution "$@"
+dims="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
+w=${dims%%x*}
+if [ $w -ge 1980 ]; then
+	w=1980
+fi
+h=${dims##*x}
+set -x
+exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts /gdi:hw +heartbeat /network:modem +clipboard /log-level:WARN -grab-keyboard +async-channels +async-input +async-update +fast-path +offscreen-cache -bitmap-cache /compression-level:1 /smart-sizing:${w}x$(($h - 24 )) "$@"
