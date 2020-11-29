@@ -3,6 +3,14 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+if [[ ${__bashrc_bench:-0} -eq 1 ]]; then
+	PS4='+ $EPOCHREALTIME\011 '
+	exec 5> /tmp/command.txt
+	BASH_XTRACEFD="5"
+	echo "See /tmp/command.txt" >&2
+	set -x
+fi
+
 # set PATH so it includes user's private bin if it exists
 #export LANGUAGE="hu_HU:en_US:en"
 export LANGUAGE="en"

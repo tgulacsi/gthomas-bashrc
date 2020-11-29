@@ -46,3 +46,35 @@ whb_dev,whb_dev_br_if_crashpert,whb_dev_br_pub,whb_dev_br_rep,whb_dev_br_sec,whb
 #ae7_dev=(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=lnx-dev-ae7.unosoft.local) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=aeg_dev.unosoft.local)))
 ae7_dev=(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=localhost) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=aeg_dev.unosoft.local)))
 ae7_tst=(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=localhost) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=aeg_tst.unosoft.local)))
+
+bruno_peep =
+  (DESCRIPTION_LIST=
+    (LOAD_BALANCE=off)(FAILOVER=on)
+    (DESCRIPTION=
+      (CONNECT_TIMEOUT=3)(TRANSPORT_CONNECT_TIMEOUT=3)(RETRY_COUNT=3)
+      (ADDRESS_LIST=
+        (LOAD_BALANCE=on)
+        (ADDRESS=(PROTOCOL=TCP)(HOST=dcxcomloravpp-scan.hu.emea.aegon.com)(PORT=3990)))
+        (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=brnpeep_app)))
+    (DESCRIPTION=
+      (CONNECT_TIMEOUT=3)(TRANSPORT_CONNECT_TIMEOUT=3)(RETRY_COUNT=3)
+      (ADDRESS_LIST=
+        (LOAD_BALANCE=on)
+        (ADDRESS=(PROTOCOL=TCP)(HOST=drxcomloravpp-scan.hu.emea.aegon.com)(PORT=3990)))
+        (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=brnpeep_app))))
+
+bruno_prd = 
+	(DESCRIPTION_LIST=
+		(LOAD_BALANCE=off)(FAILOVER=on)
+			(DESCRIPTION=
+				(CONNECT_TIMEOUT=3)(TRANSPORT_CONNECT_TIMEOUT=3)(RETRY_COUNT=3)
+				(ADDRESS_LIST=
+					(LOAD_BALANCE=on)
+					(ADDRESS=(PROTOCOL=TCP)(HOST=dcxcomlorappr-scan.hu.emea.aegon.com)(PORT=3990)))
+					(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=bruno_app)))
+			(DESCRIPTION=
+				(CONNECT_TIMEOUT=3)(TRANSPORT_CONNECT_TIMEOUT=3)(RETRY_COUNT=3)
+				(ADDRESS_LIST=
+					(LOAD_BALANCE=on)
+					(ADDRESS=(PROTOCOL=TCP)(HOST=drxcomlorappr-scan.hu.emea.aegon.com)(PORT=3990)))
+					(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=bruno_app))))

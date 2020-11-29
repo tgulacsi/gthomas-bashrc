@@ -24,12 +24,14 @@ fi
 if true; then
 	ssh-add -l | fgrep -q 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go' ||
 		ssh-add ~/.ssh/TGulacsi.pem
-	ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
-		ssh-add ~/.ssh/tgulacsi2@unosoft
-	ssh-add -l | fgrep -q 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' ||
-		ssh-add ~/.ssh/tgulacsi@unosoft
-	ssh-add -l | fgrep -q 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' ||
-		ssh-add ~/.ssh/tgulacsi3@unosoft
+	if false; then
+		ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
+			ssh-add ~/.ssh/tgulacsi2@unosoft
+		ssh-add -l | fgrep -q 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' ||
+			ssh-add ~/.ssh/tgulacsi@unosoft
+		ssh-add -l | fgrep -q 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' ||
+			ssh-add ~/.ssh/tgulacsi3@unosoft
+	fi
 fi
 
 if false; then
@@ -39,5 +41,6 @@ if false; then
 fi
 
 if which keychain >/dev/null 2>/dev/null; then
-	eval $(keychain -q --ignore-missing --agents 'gpg,ssh' --gpg2 --systemd --eval ~/.ssh/tgulacsi2@unosoft ~/.ssh/tgulacsi@unosoft ~/.ssh/tgulacsi3@unosoft 2>/dev/null)
+	#eval $(keychain -q --ignore-missing --agents 'gpg,ssh' --gpg2 --systemd --eval ~/.ssh/TGulacsi.pem ~/.ssh/tgulacsi2@unosoft ~/.ssh/tgulacsi@unosoft ~/.ssh/tgulacsi3@unosoft 2>/dev/null)
+	eval $(keychain -q --ignore-missing --agents 'gpg,ssh' --gpg2 --systemd --eval ~/.ssh/TGulacsi.pem 2>/dev/null)
 fi
