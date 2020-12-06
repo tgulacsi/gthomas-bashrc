@@ -51,6 +51,7 @@ set hlsearch                    " Highlight found searches
 set noerrorbells                " No beeps
 set showcmd                     " Show me what I'm typing
 set autowrite                   " Automatically save before :next, :make etc.
+set autochdir                   " Automatically change to file's dir
 
 set shiftwidth=4 tabstop=4 softtabstop=4 noet
 set pastetoggle=<F12>			" F12 to toggle paste mode

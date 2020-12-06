@@ -275,6 +275,7 @@ bindsym --to-code {
 }
 
 # apt install brightnessctl brightness-udev
+# (cd /tmp && go get -u gitlab.com/tslocum/brightness)
 bindsym --to-code {
 	XF86MonBrightnessUp exec brightnessctl -m s 1%+
 	XF86MonBrightnessDown exec brightnessctl -m s 1%-
