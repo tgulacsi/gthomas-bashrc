@@ -46,6 +46,7 @@ whb_dev,whb_dev_br_if_crashpert,whb_dev_br_pub,whb_dev_br_rep,whb_dev_br_sec,whb
 #ae7_dev=(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=lnx-dev-ae7.unosoft.local) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=aeg_dev.unosoft.local)))
 ae7_dev=(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=localhost) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=aeg_dev.unosoft.local)))
 ae7_tst=(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=localhost) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=aeg_tst.unosoft.local)))
+ae7_bld=(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=localhost) (PORT=1521)) (CONNECT_DATA= (SERVICE_NAME=aeg_bld.unosoft.local)))
 
 bruno_peep =
   (DESCRIPTION_LIST=
