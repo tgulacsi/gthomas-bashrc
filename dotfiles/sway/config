@@ -1,5 +1,5 @@
 input * xkb_layout "us,hu"
-input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp"
+input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,caps:escape"
 
 #xwayland disable
 #xwayland enable
