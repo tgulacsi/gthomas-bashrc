@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+cd /var
+for nm in log cache; do
+	if btrfs subv list -o "$(pwd)" | grep "/$nm\$"; then
+		continue
+	fi
+	mv "$nm" "$nm-x"
+	btrfs subv create "$nm"
+	mv "$nm-x"/* "$nm"/
+	mv "$nm-x"/.* "$nm"/ || echo $?
+	rmdir "$nm-x"
+done
+
