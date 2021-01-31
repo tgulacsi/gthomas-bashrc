@@ -1,0 +1,16 @@
+[Unit]
+Description=F5 EndPointInspection
+
+[Service]
+Type=simple
+ExecStart=/opt/f5/epi/f5epi
+Nice=19
+IOSchedulingClass=3
+CPUSchedulingPolicy=idle
+Restart=always
+RestartSec=1s
+OOMPolicy=kill
+
+[Install]
+WantedBy=networking.target
+After=networking.target
