@@ -63,10 +63,10 @@ bindswitch lid:off output $laptop enable
 # Example configuration:
 #
 exec if [ "$(hostname)" != 'redpath' ]; then swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
+         timeout 300 'swaylock -e -f -F -k -l -c 000000' \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -c 000000'; fi
+         before-sleep 'swaylock -e -f -F -k -l -c 000000'; fi
 
 exec [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 exec [ -x /usr/bin/mako ] && /usr/bin/mako
@@ -285,10 +285,10 @@ bindsym --to-code {
 }
 
 bindsym --to-code {
-	$mod+F12 exec swaylock -e -k -i /tmp/wallpaper
-	$mod+Shift+F12 exec sync && systemctl suspend-then-hibernate
-	$mod+Control+F12 exec sync && systemctl hibernate
-	$mod+Shift+Control+F12 exec sync && systemctl suspend-then-hi1Gbernate
+	$mod+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend
+	$mod+Shift+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend-then-hibernate
+	$mod+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl hibernate
+	$mod+Shift+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend-then-hibernate
 }
 
 bindsym --to-code {
