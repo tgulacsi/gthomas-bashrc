@@ -11,6 +11,6 @@ Restart=always
 RestartSec=1s
 OOMPolicy=kill
 
-[Install]
-WantedBy=networking.target
-After=networking.target
+#[Install]
+#WantedBy=networking.target
+#After=networking.target

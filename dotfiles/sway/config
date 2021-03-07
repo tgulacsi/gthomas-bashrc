@@ -268,9 +268,9 @@ bar {
 
 # amix
 bindsym --to-code {
-	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-	XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-	XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+	XF86AudioMute exec sh -c "pactl set-sink-mute @DEFAULT_SINK@ toggle || amixer -M sset Master,0 toggle"
+	XF86AudioRaiseVolume exec sh -c "pactl set-sink-volume @DEFAULT_SINK@ +5% || amixer -M sset Master,0 5%+"
+	XF86AudioLowerVolume exec sh -c "pactl set-sink-volume @DEFAULT_SINK@ -5% || amixer -M sset Master,0 5%-"
 	XF86AudioPlay exec mpc toggle
 }
 

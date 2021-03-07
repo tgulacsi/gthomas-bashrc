@@ -24,9 +24,9 @@ fi
 if true; then
 	ssh-add -l | fgrep -q 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go' ||
 		ssh-add ~/.ssh/TGulacsi.pem
+	ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
+		ssh-add ~/.ssh/tgulacsi2@unosoft
 	if false; then
-		ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
-			ssh-add ~/.ssh/tgulacsi2@unosoft
 		ssh-add -l | fgrep -q 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' ||
 			ssh-add ~/.ssh/tgulacsi@unosoft
 		ssh-add -l | fgrep -q 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' ||
