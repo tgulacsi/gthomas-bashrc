@@ -1,9 +1,11 @@
 #!/bin/sh
-which alacritty >&2 && exec alacritty -e /bin/bash --login
+#which mlterm >&2 && exec mlterm -j blend -e /bin/bash --login
 #which kitty >&2 && exec kitty -1 --instance-group default --detach -e /bin/bash --login
 #set -x
 #which kitty >&2 && exec kitty -e /bin/bash
-#which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' /bin/bash -1 --instance-group default
+which mlterm-wl >&2 && exec mlterm-wl -deffont='Go Mono' -w 14 --sb=false --bel=visual -e /bin/bash --login
+which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' -e /bin/bash --login
+which alacritty >&2 && exec alacritty -e /bin/bash --login
 urxvtc "$@"
 if [ $? -eq 2 ]; then
 	urxvtd -q -o -f
