@@ -3,8 +3,15 @@
 #which kitty >&2 && exec kitty -1 --instance-group default --detach -e /bin/bash --login
 #set -x
 #which kitty >&2 && exec kitty -e /bin/bash
-which mlterm-wl >&2 && exec mlterm-wl -deffont='Go Mono' -w 14 --sb=false --bel=visual -e /bin/bash --login
-which stterm 2>&1 && exec stterm -f 'Go Mono:pixelsize=16' -e /bin/bash --login
+#if [ ! -d /usr/share/fonts/firacode/ ]; then
+#	sudo apt install fonts-firacode
+#fi
+font='Go Mono'
+if [ -d /usr/share/fonts-firacode ]; then
+	font='Fira Code'
+fi
+which mlterm-wl >&2 && exec mlterm-wl "-deffont=$font" -w 16 --sb=false --bel=visual -e /bin/bash --login
+which stterm 2>&1 && exec stterm -f "$font:pixelsize=16" -e /bin/bash --login
 which alacritty >&2 && exec alacritty -e /bin/bash --login
 urxvtc "$@"
 if [ $? -eq 2 ]; then
