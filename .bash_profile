@@ -138,12 +138,7 @@ if [[ "$TERM" != 'dumb' ]]; then
 					export TERM=xterm-256color
 					;;
 				esac
-				last="$(tmux list-sessions -F '#S #{session_attached}' |
-					grep '0$' | cut '-d ' -f1 | sort -n | head -n1)"
-				if [[ -n "$last" ]]; then
-					exec tmux attach-session -t "$last"
-				fi
-				exec tmux
+				exec tmux new-session -A -s 0
 			fi
 		fi
 	fi
