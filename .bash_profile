@@ -133,12 +133,15 @@ if [[ "$TERM" != 'dumb' ]]; then
 			if [[ "$TERM" != 'sakura' ]]; then
 				case "$TERM" in
 				tmux- | xterm-) ;;
-
 				*)
 					export TERM=xterm-256color
 					;;
 				esac
-				exec tmux new-session -A -s 0
+                last="$(tmux list-sessions -F '#{?session_attached,,#S}' | grep -v '^$' | head -n1)"
+                if [[ -n "$last" ]]; then
+                    exec tmux attach-session -t "$last"
+                fi
+				exec tmux 
 			fi
 		fi
 	fi

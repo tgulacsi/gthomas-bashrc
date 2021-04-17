@@ -39,6 +39,8 @@
     relativenumber = false
     search_tools = ["git", "grep"]
     statusline_unicode_symbols = false
+    bootstrap_before = "myspacevim#before"
+    bootstrap_after = "myspacevim#after"
 
 # Enable autocomplete layer
 [[layers]]

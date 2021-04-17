@@ -10,7 +10,7 @@ font='Go Mono'
 if [ -d /usr/share/fonts-firacode ]; then
 	font='Fira Code'
 fi
-which mlterm-wl >&2 && exec mlterm-wl "-deffont=$font" -w 16 --sb=false --bel=visual -e /bin/bash --login
+which mlterm-wl >&2 && exec mlterm-wl "-deffont=$font" -w 16 --sb=false --bel=visual --clip=false -e /bin/bash --login
 which stterm 2>&1 && exec stterm -f "$font:pixelsize=16" -e /bin/bash --login
 which alacritty >&2 && exec alacritty -e /bin/bash --login
 urxvtc "$@"

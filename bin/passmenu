@@ -26,7 +26,7 @@ if [[ $usepass -eq 1 ]]; then
 fi
 pw="$(pass show "$password" | head -n 1)"
 if [[ "${XDG_SESSION_TYPE:-}" == wayland ]] && command -v wl-copy >/dev/null; then
-	echo "$pw" | wl-copy -o -n
+	echo "$pw" | wl-copy -t text/plain -n
 elif command -v xdotool >/dev/null; then
 	echo "$pw" | xdotool type --clearmodifiers --file -
 else
