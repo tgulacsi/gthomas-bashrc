@@ -10,7 +10,7 @@ if [ "${XDG_SESSION_TYPE:-}" = wayland ] && [ -x "$wlprog" ]; then
 fi
 prog=${RDP:-$prog}
 
-pkill -f "${prog}.*0x409 .* /v:${DEST}"
+#pkill -f "${prog}.*0x409 .* /v:${DEST}"
 
 #focused="$(swaymsg -t get_workspaces | jq -r '.[] | select(.focused) | .output')"
 dims="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
