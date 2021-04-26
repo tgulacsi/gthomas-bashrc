@@ -7,11 +7,13 @@
 #	sudo apt install fonts-firacode
 #fi
 font='Go Mono'
-if [ -d /usr/share/fonts-firacode ]; then
+fontsize=15
+if false && [ -d /usr/share/fonts-firacode ]; then
 	font='Fira Code'
+    fontsize=14
 fi
-which mlterm-wl >&2 && exec mlterm-wl "-deffont=$font" -w 14 --sb=false --bel=visual --clip=false -e /bin/bash --login
-which stterm 2>&1 && exec stterm -f "$font:pixelsize=14" -e /bin/bash --login
+which mlterm-wl >&2 && exec mlterm-wl "-deffont=$font" -w $fontsize --sb=false --bel=visual --clip=false -e /bin/bash --login
+which stterm 2>&1 && exec stterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
 which alacritty >&2 && exec alacritty -e /bin/bash --login
 urxvtc "$@"
 if [ $? -eq 2 ]; then
