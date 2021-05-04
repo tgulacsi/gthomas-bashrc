@@ -27,7 +27,9 @@
     statusline_unicode_symbols = false
     # Enable vim compatible mode, avoid changing origin vim key bindings
     vimcompatible = true
+    windows_smartclose = ""
 
+    max_column = 80
     default_indent = 4
     enable_vimfiler_welcome = false
     error_symbol = "+"
