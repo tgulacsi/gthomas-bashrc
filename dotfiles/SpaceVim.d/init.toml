@@ -44,6 +44,16 @@
     bootstrap_before = "myspacevim#before"
     bootstrap_after = "myspacevim#after"
 
+[[layers]]
+name = 'ui'
+enable_indentline = false  # against conceal
+
+[[layers]]
+name = 'git'
+
+[[layers]]
+name = 'tmux'
+
 # Enable autocomplete layer
 [[layers]]
 name = 'autocomplete'
