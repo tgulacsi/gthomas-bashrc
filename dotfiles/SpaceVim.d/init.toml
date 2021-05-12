@@ -8,6 +8,7 @@
 
 # All SpaceVim option below [option] section
 [options]
+    automatic_update = false
     # set spacevim theme. by default colorscheme layer is not loaded,
     # if you want to use more colorscheme, please load the colorscheme
     # layer
@@ -47,9 +48,6 @@
 [[layers]]
 name = 'ui'
 enable_indentline = false  # against conceal
-
-[[layers]]
-name = 'git'
 
 [[layers]]
 name = 'tmux'
