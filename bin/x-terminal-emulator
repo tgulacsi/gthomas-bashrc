@@ -6,17 +6,19 @@
 #if [ ! -d /usr/share/fonts/firacode/ ]; then
 #	sudo apt install fonts-firacode
 #fi
-if which foot 2>&1; then
-    if ! [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]; then
-        foot --server
-    fi
-    exec footclient --login-shell /bin/bash 
-fi
 font='Go Mono'
 fontsize=14
 if [ ! -d /usr/share/fonts/fonts-go ] && [ -d /usr/share/fonts-firacode ]; then
 	font='Fira Code'
-    fontsize=14
+fi
+if [ $(hostname) = redpath ]; then
+	fontsize=10
+fi
+if which foot 2>&1; then
+	if ! [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]; then
+		foot --server --font="$font:size=$fontsize"
+	fi
+	exec footclient --login-shell /bin/bash 
 fi
 which stterm 2>&1 && exec stterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
 which mlterm-wl >&2 && exec mlterm-wl "-deffont=$font" -w $fontsize --sb=false --bel=visual --clip=false -e /bin/bash --login
