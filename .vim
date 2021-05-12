@@ -1,1 +1,1 @@
-/home/tgulacsi/.SpaceVim
+.SpaceVim
