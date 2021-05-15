@@ -2,6 +2,7 @@
 accounts = tamas,t.gulacsi
 autorefresh = 0.5
 quick = 10
+fsync = False
 
 [Account tamas]
 localrepository = tamas-local
@@ -15,11 +16,11 @@ restoreatime = no
 
 [Repository tamas-remote]
 type = IMAP
-remotehost = imap.mailbox.org
+remotehost = imap.migadu.com
 remoteuser = tamas@gulacsi.eu
 # probably a bad idea
 #remotepass = ***********
-folderfilter = lambda foldername: foldername.find('Deleted') < 0
+folderfilter = lambda f: f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 
@@ -39,7 +40,7 @@ remotehost = imap.outlook.com
 remoteuser = t.gulacsi@unosoft.hu
 # probably a bad idea
 #remotepass = ***********
-folderfilter = lambda foldername: foldername != 'Calendar' and foldername.find('Deleted') < 0
+folderfilter = lambda f: f != 'Calendar' and f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 
@@ -58,6 +59,6 @@ type = Gmail
 remoteuser = tgulacsi78@gmail.com
 # probably a bad idea
 #remotepass = ***********
-folderfilter = lambda foldername: foldername in ['[Gmail]/All Mail']
+folderfilter = lambda f: f in ['[Gmail]/All Mail'] and f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
 nametrans = lambda foldername: re.sub('^\[Gmail\]/All Mail$', 'all', foldername)
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
