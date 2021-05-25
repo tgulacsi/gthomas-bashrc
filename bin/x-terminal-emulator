@@ -12,7 +12,7 @@ if [ ! -d /usr/share/fonts/fonts-go ] && [ -d /usr/share/fonts-firacode ]; then
 	font='Fira Code'
 fi
 if [ $(hostname) = redpath ]; then
-	fontsize=10
+	fontsize=12
 fi
 if which foot 2>&1; then
 	if ! [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]; then
