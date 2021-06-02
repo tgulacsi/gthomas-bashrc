@@ -8,7 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-. "$HOME/.bashrc"
+# shellcheck source=.bashrc
+. "$HOME/.bashrc"  
 
 touch /tmp/wallpaper.png
 
@@ -137,7 +138,8 @@ if [[ "$TERM" != 'dumb' ]]; then
 					export TERM=xterm-256color
 					;;
 				esac
-                last="$(tmux list-sessions -F '#{?session_attached,,#S}' | grep -v '^$' | head -n1)"
+                # last non-attached
+                last="$(tmux list-sessions -F '#{session_attached} #S' | sed -ne '/^0/ {s/^0 //; p;}' | head -n1)"
                 if [[ -n "$last" ]]; then
                     exec tmux attach-session -t "$last"
                 fi
