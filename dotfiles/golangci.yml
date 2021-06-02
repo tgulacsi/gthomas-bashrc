@@ -4,8 +4,7 @@ linters-settings:
 
 linters:
   enable:
-    - maligned
-    - interfacer
+    #- fieldalignment
     - dupl
     - goconst
     - misspell
@@ -14,11 +13,16 @@ linters:
     - unused
     - staticcheck
     - gofmt
+    - errorlint
+    - noctx
+    - sqlclosecheck
+    - unconvert
 
   disable:
     - errcheck
     - typecheck
     - megacheck
+    - interfacer
 
 issues:
   exclude:
