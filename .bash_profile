@@ -1,3 +1,4 @@
+#!/bin/bash
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is NOT read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
@@ -8,7 +9,7 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# shellcheck source=.bashrc
+# shellcheck source=$HOME/.bashrc
 . "$HOME/.bashrc"  
 
 touch /tmp/wallpaper.png
@@ -65,7 +66,8 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 	# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 	if [[ -f ~/.bash_aliases ]]; then
-		. ~/.bash_aliases
+        # shellcheck source=$HOME/.bash_aliases
+		. "$HOME/.bash_aliases"
 	fi
 
 	for fn in ~/dotfiles/bash-completions/completions/*; do
@@ -107,18 +109,22 @@ if [[ -z "$_PROMPT_HAS_BEEN_SET" ]]; then
 		# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 		# sources /etc/bash.bashrc).
 		if [[ -f /etc/bash_completion ]] && ! shopt -oq posix; then
+            # shellcheck source=/etc/bash_completion
 			. /etc/bash_completion
 		fi
 	fi
 
 	# make less more friendly for non-text input files, see lesspipe(1)
-	[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
+	if [[ -x /usr/bin/lesspipe ]]; then
+        eval "$(SHELL=/bin/sh lesspipe)"
+    fi
 
 	_PROMPT_HAS_BEEN_SET=1
 fi
 
 if [[ -e ~/.ssh/tgulacsi@github.com ]]; then
-	. ~/.ssh/tgulacsi@github.com
+    # shellcheck source=$HOME/.ssh/tgulacsi@github.com
+	. "$HOME/.ssh/tgulacsi@github.com"
 fi
 
 # no ! history expansion

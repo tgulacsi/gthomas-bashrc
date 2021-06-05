@@ -59,9 +59,7 @@ auto_completion_return_key_behavior = "complete"
 auto_completion_tab_key_behavior = "cycle"
 
 [[layers]]
-name = 'shell'
-default_position = 'top'
-default_height = 30
+name = 'lang#sh'
 
 [[layers]]
 name = 'lang#go'

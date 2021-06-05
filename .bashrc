@@ -48,7 +48,7 @@ export GO111MODULE=on
 unset GOPATH
 export GOBIN=~/bin
 if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin; then
-	PATH=/usr/local/go/bin:$PATH
+	export PATH=/usr/local/go/bin:$PATH
 	if [[ -z "$GOROOT_BOOTSTRAP" ]] && [[ -e /usr/local/go1.4.2/bin/go ]]; then
 		export GOROOT_BOOTSTRAP=/usr/local/go1.4.2
 	fi
@@ -56,7 +56,7 @@ if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin
 	export GOPROXY=http://proxy.golang.org,direct
 	export MAGEFILE_HASHFAST=1
 fi
-if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
+if [[ -z "$_OHOME_HAS_BEEN_SET" ]]; then
 	export TNS_ADMIN=$HOME
 	#echo OH=$ORACLE_HOME
 	if [[ -z "$ORACLE_HOME" ]]; then
@@ -65,16 +65,14 @@ if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
 			if [[ ! -d $bdn ]]; then
 				continue
 			fi
-			find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) \
-				2>/dev/null | head -n1 | while read dn; do
-				#echo "#dn=$dn"
-				export ORACLE_BASE=$bdn
-				export ORACLE_HOME=$dn
-				#export ORACLE_SID=XE
-				export PATH=$ORACLE_HOME/bin:$PATH
-				#echo "H=$ORACLE_HOME"
-				break
-			done
+			dn="$(find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) \
+                2>/dev/null | head -n1)"
+            #echo "#dn=$dn"
+            export ORACLE_BASE=$bdn
+            export ORACLE_HOME=$dn
+            #export ORACLE_SID=XE
+            export PATH=$ORACLE_HOME/bin:$PATH
+            #echo "H=$ORACLE_HOME"
 			break
 		done
 	fi
@@ -83,11 +81,14 @@ if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
 fi
 
 if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
-	if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
+	if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq "$HOME/bin"; then
 		PATH="$HOME/bin:$PATH"
 	fi
 	export PATH
 	_PATH_HAS_BEEN_SET=1
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [[ -f ~/.fzf.bash ]]; then
+    # shellcheck source=$HOME/.fzf.bash
+    source ~/.fzf.bash
+fi
