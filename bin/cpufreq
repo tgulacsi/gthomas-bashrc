@@ -1,0 +1,22 @@
+#!/bin/sh
+freq="$1"
+base=/sys/devices/system/cpu
+case "$freq" in
+    min|max) 
+        freq="$(cat ${base}/cpu0/cpufreq/cpuinfo_${freq}_freq)" 
+        ;;
+    [0-9][0-9]*%) 
+        min="$(cat ${base}/cpu0/cpufreq/cpuinfo_min_freq)" 
+        max="$(cat ${base}/cpu0/cpufreq/cpuinfo_max_freq)" 
+        freq=${freq%%%*}
+        freq=$(( $min + ( $max - $min ) * $freq / 101 ))
+        ;;
+    *) 
+        echo "unknown freq $freq" >&2
+        exit 1
+        ;;
+esac
+for nm in ${base}/cpu[0-9]*/cpufreq/scaling_max_freq; do 
+    echo $freq | sudo tee $nm
+done
+
