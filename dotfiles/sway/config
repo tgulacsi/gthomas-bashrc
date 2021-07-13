@@ -59,22 +59,15 @@ bindswitch lid:on output $laptop disable
 bindswitch lid:off output $laptop enable
 
 ### Idle configuration
-#
-# Example configuration:
-#
-exec if [ "$(hostname)" != 'redpath' ]; then swayidle -w \
+exec swayidle -w \
          timeout 300 'swaylock -e -f -F -k -l -c 000000' \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -e -f -F -k -l -c 000000'; fi
+         before-sleep 'swaylock -e -f -F -k -l -c 000000'
 
 exec [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 exec [ -x /usr/bin/mako ] && /usr/bin/mako
 exec [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox
-
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
 #

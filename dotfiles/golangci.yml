@@ -1,10 +1,9 @@
 linters-settings:
-  maligned:
-    suggest-new: true
+  errcheck:
+    ignore: github.com/go-kit/kit/log:.*,database/sql:Rollback
 
 linters:
   enable:
-    #- fieldalignment
     - dupl
     - goconst
     - misspell
@@ -19,9 +18,6 @@ linters:
     - unconvert
 
   disable:
-    - errcheck
-    - typecheck
-    - megacheck
     - interfacer
 
 issues:
