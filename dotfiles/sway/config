@@ -278,10 +278,10 @@ bindsym --to-code {
 }
 
 bindsym --to-code {
-	$mod+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend
-	$mod+Shift+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend-then-hibernate
+	$mod+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png 
+	$mod+Shift+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend
 	$mod+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl hibernate
-	$mod+Shift+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend-then-hibernate
+	$mod+Shift+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl hybrid-sleep
 }
 
 bindsym --to-code {
