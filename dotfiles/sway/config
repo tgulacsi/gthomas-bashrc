@@ -60,10 +60,13 @@ bindswitch lid:off output $laptop enable
 
 ### Idle configuration
 exec swayidle -w \
+         idlehint 600 \
          timeout 300 'swaylock -e -f -F -k -l -c 000000' \
-         timeout 600 'swaymsg "output * dpms off"' \
-              resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -e -f -F -k -l -c 000000'
+         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+        after-resume 'swaymsg "output * dpms on"' \
+                lock 'swaylock -e -f -F -k -l -c 000000' \
+              unlock 'swaymsg "output * dpms on"' \
+        before-sleep 'swaylock -e -f -F -k -l -c 000000'
 
 exec [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 exec [ -x /usr/bin/mako ] && /usr/bin/mako
