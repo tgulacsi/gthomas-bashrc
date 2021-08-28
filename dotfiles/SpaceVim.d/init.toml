@@ -65,9 +65,6 @@ name = 'lang#sh'
 name = 'lang#go'
 
 [[layers]]
-name = 'lang#sql'
-
-[[layers]]
 name = 'lang#css'
 
 [[layers]]

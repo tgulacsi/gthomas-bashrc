@@ -8,6 +8,8 @@ set $wallpaper /tmp/wallpaper.png
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
 exec_always killall i3blocks
+# https://tools.suckless.org/x/wmname/  - for Java programs
+exec_always wmname LG3D
 
 ### Variables
 #
