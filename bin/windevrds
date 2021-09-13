@@ -1,5 +1,8 @@
 #!/bin/sh
-unosoft dns
+set -u
+if [ "${NOVPN:-0}" -ne 1 ]; then
+    unosoft dns
+fi
 DEST="${DEST:-10.65.85.47}"
 u=tgulacsi
 
@@ -35,23 +38,22 @@ else
 fi
 
 #/floatbar:sticky:on,default:visible,show:always
-SEC=${SEC:-/sec:nla}
-if [ -z "${GW:-}" ]; then
+if [ "${NOVPN:-0}" -eq 1 ] || [ -z "${GW:-}" ]; then
 	if ! ip route | grep -Fq 10.65.85. && ! ping -qnc 1 -w 1 "$DEST"; then
 		GW=rdg.unosoft.hu:4443
 	fi
 fi
-if [ -n "$GW" ]; then
+if [ -n "${GW:-}" ]; then
 	OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
 fi
 OPTS="$OPTS $@"
 
-echo "+ ${prog} ${SEC} $OPTS" >&2
-if [ "${DEBUG:-0}" -ne 1 ]; then
+echo "+ ${prog} $OPTS" >&2
+if ! [ -t 1 ]; then
 	exec >/dev/null 2>/dev/null
 fi
 
 (
 	ulimit -m "$(echo '2^29' | bc)"
-	echo "$p" | exec "${prog}" "${SEC}" $OPTS
+	echo "$p" | exec "${prog}" $OPTS
 )
