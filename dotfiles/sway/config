@@ -22,7 +22,7 @@ set $right l
 set $term $HOME/bin/x-terminal-emulator
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | wofi -d | env PATH=$HOME/bin:$PATH xargs which | xargs swaymsg exec --
+set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | wofi -d | env PATH=$HOME/bin:$PATH xargs which | xargs -r swaymsg exec --
 #set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | env "PATH=$HOME/bin:$PATH" wofi -S run
 #set $menu env PATH=$HOME/bin:$PATH dmenu_path | rofi -mode run
 
@@ -61,8 +61,8 @@ bindswitch lid:off output $laptop enable
 ### Idle configuration
 exec swayidle -w \
          idlehint 600 \
-         timeout 300 'swaylock -e -f -F -k -l -c 000000' \
-         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+         timeout 600 'swaylock -e -f -F -k -l -c 000000' \
+         timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
         after-resume 'swaymsg "output * dpms on"' \
                 lock 'swaylock -e -f -F -k -l -c 000000' \
               unlock 'swaymsg "output * dpms on"' \

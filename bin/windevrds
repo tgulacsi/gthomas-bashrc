@@ -1,5 +1,5 @@
 #!/bin/sh
-unosoft dns
+#unosoft dns
 DEST="${DEST:-10.65.85.47}"
 u=tgulacsi
 
