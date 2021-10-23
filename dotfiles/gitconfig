@@ -12,6 +12,7 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	lg-ascii = log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit
 [init]
+	defaultBranch = main
 	#templateDir = $HOME/dotfiles/git-templates/
 [diff "odt"]
 	textconv = odt2txt
