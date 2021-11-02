@@ -10,6 +10,7 @@ exec_always xrdb -load ~/.Xresources
 exec_always killall i3blocks
 # https://tools.suckless.org/x/wmname/  - for Java programs
 exec_always wmname LG3D
+exec_always powerprofilesctl set power-save
 
 ### Variables
 #
