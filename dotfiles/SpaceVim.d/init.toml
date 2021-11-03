@@ -46,6 +46,10 @@
     bootstrap_after = "myspacevim#after"
 
 [[layers]]
+name = 'core'
+enable_smooth_scrolling = false
+
+[[layers]]
 name = 'ui'
 enable_indentline = false  # against conceal
 
