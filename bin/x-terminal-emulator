@@ -7,12 +7,12 @@
 #	sudo apt install fonts-firacode
 #fi
 font='Go Mono'
-fontsize=12
+fontsize=14
 if [ ! -d /usr/share/fonts/fonts-go ] && [ -d /usr/share/fonts-firacode ]; then
 	font='Fira Code'
 fi
 if swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name' | grep -q eDP; then
-	fontsize=10
+	fontsize=12
 fi
 if which foot 2>&1; then
 	if ! [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]; then

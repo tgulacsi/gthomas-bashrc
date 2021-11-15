@@ -2,7 +2,7 @@ input * xkb_layout "us,hu"
 input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,caps:escape"
 
 #xwayland disable
-#xwayland enable
+xwayland enable
 
 set $wallpaper /tmp/wallpaper.png
 exec_always wallpaper $wallpaper
@@ -74,6 +74,7 @@ exec swayidle -w \
 exec [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 exec [ -x /usr/bin/mako ] && /usr/bin/mako
 exec [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox
+exec [ -x /usr/bin/clipman ] && wl-paste -t text --watch clipman store --no-persist
 
 ### Input configuration
 #
@@ -101,6 +102,8 @@ exec [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox
 
     # start your launcher
     bindsym $mod+d exec $menu
+
+    bindsym $mod+p exec clipman pick
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
