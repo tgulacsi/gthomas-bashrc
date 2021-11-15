@@ -5,6 +5,7 @@ input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,ca
 xwayland enable
 
 set $wallpaper /tmp/wallpaper.png
+exec_always "systemctl --user import-environment; systemctl --user start sway-session.target"
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
 exec_always killall i3blocks
