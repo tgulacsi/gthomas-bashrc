@@ -1,35 +1,26 @@
 #!/bin/sh
-dn=/run/user/$(id -u)
+dn="/run/user/$(id -u)/gnupg"
 mkdir -p $dn
 
-if ! systemctl --user start gpg-agent-ssh.socket; then
-	ifn=$dn/E.ssh-agent
-	sfn=$dn/S.ssh-agent
-	if [ -s $ifn ]; then
-		. $ifn
-		rc=0
-		ssh-add -l >/dev/null || rc=$?
-		if [ $rc -eq 2 ]; then
-			rm -f $ifn $sfn
-		fi
-	fi
-	if [ ! -s $ifn ]; then
-		killall -9 ssh-agent
-		ssh-agent -s -a $sfn | grep -E '^(GPG|SSH)' >$ifn
-		. $ifn
-	fi
-	cat $ifn
+systemctl --user start gpg-agent-ssh.socket
+
+sfn="$dn/S.gpg-agent.ssh"
+
+if [ -z "$SSH_AUTH_SOCK" ] || [ ! -e "$SSH_AUTH_SOCK" ] && [ -e "$sfn" ]; then
+    export SSH_AUTH_SOCK="$sfn"
+    echo "export SSH_AUTH_SOCK='$sfn'"
 fi
 
+
 if true; then
-	ssh-add -l | fgrep -q 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go' ||
+	ssh-add -l | grep -Fq 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go' ||
 		ssh-add ~/.ssh/TGulacsi.pem
-	ssh-add -l | fgrep -q 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
+	ssh-add -l | grep -Fq 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
 		ssh-add ~/.ssh/tgulacsi2@unosoft
 	if false; then
-		ssh-add -l | fgrep -q 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' ||
+		ssh-add -l | grep -Fq 'SHA256:OivGGItpjLxShQZ6qoSgXpvFGQfoViifgS2LBqPLJVY' ||
 			ssh-add ~/.ssh/tgulacsi@unosoft
-		ssh-add -l | fgrep -q 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' ||
+		ssh-add -l | grep -Fq 'SHA256:4QaaMbehmiFYfTJ7ev8VA8hka6Mu4Zp0G4UG1kAD8RI' ||
 			ssh-add ~/.ssh/tgulacsi3@unosoft
 	fi
 fi
