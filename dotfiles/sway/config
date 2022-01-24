@@ -4,7 +4,7 @@ input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,ca
 #xwayland disable
 xwayland enable
 
-set $wallpaper /tmp/wallpaper.png
+set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
 exec_always "systemctl --user import-environment; systemctl --user start sway-session.target"
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
@@ -47,6 +47,10 @@ output eDP1 {
 	pos 1920 0
 	res 1920x1080
 }
+output eDP-1 {
+	pos 1920 0
+	res 1920x1080
+}
 output HDMI1 {
 	pos 0 0
 	res 1920x1080
@@ -56,7 +60,7 @@ output HDMI-A-1 {
 	position 0 0
 	res 1920x1080
 }
-output * background $wallpaper fill
+#output * background $wallpaper fill
 
 set $laptop eDP-1
 bindswitch lid:on output $laptop disable
@@ -288,10 +292,10 @@ bindsym --to-code {
 }
 
 bindsym --to-code {
-	$mod+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png 
-	$mod+Shift+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl suspend
-	$mod+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl hibernate
-	$mod+Shift+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i /tmp/wallpaper.png && systemctl hybrid-sleep
+	$mod+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i $wallpaper
+	$mod+Shift+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i $wallpaper && systemctl suspend
+	$mod+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i $wallpaper && systemctl hibernate
+	$mod+Shift+Control+F12 exec sync && swaylock -e -f -F -k -l -c 000000 -i $wallpaper && systemctl hybrid-sleep
 }
 
 bindsym --to-code {
