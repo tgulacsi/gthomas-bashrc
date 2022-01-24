@@ -8,6 +8,7 @@ set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
 exec_always "systemctl --user import-environment; systemctl --user start sway-session.target"
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
+exec_always im-daemon
 exec_always killall i3blocks
 # https://tools.suckless.org/x/wmname/  - for Java programs
 exec_always wmname LG3D

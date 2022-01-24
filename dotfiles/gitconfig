@@ -21,3 +21,5 @@
 
 [sendemail]
 	smtpserver = /usr/bin/mailx
+[credential]
+	helper = cache

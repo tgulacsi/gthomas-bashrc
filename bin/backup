@@ -10,9 +10,10 @@ export "PATH=$HOME/bin:$PATH"
 
 sudo tar cf - --one-file-system /etc >/dev/null
 
-cd $HOME
+cd "$HOME"
 find -O3 ./src/ -xdev -type f -path '*/.git/config' -print0 |
 	tar caf "$F" --null --one-file-system -T -
+if ! crontab -l >.config/crontab; then rm -f .config/crontab; fi
 restic backup -v .config .ssh Documents .password-store "$F"
 sudo tar cf - --one-file-system /etc | restic backup --stdin --stdin-filename etc.tar
 restic forget -H 3 -d 3 -w 3 -m 3
