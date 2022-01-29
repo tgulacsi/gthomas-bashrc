@@ -73,7 +73,7 @@ output HDMI-A-1 {
     dpms on
     enable
 }
-output * background $wallpaper fill dpms on
+output * background $HOME/dotfiles/sway/background.png center dpms on
 
 set $laptop eDP-1
 bindswitch lid:on output $laptop disable
