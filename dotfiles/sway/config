@@ -45,23 +45,36 @@ default_border pixel
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 output eDP1 {
+    mode 1920x1080
 	pos 1920 0
 	res 1920x1080
+    dpms on
+    enable
 }
 output eDP-1 {
+    mode 1920x1080
 	pos 1920 0
 	res 1920x1080
+    dpms on
+    enable
 }
 output HDMI1 {
+    mode 1920x1080
 	pos 0 0
 	res 1920x1080
+    dpms on
+    enable
 }
 # Unknown 22W_LCD_TV 0x00000000
 output HDMI-A-1 { 
+    mode 1920x1080
 	position 0 0
 	res 1920x1080
+    dpms on
+    enable
 }
 #output * background $wallpaper fill
+output * background $HOME/dotfiles/sway/background.png center dpms on
 
 set $laptop eDP-1
 bindswitch lid:on output $laptop disable
