@@ -61,6 +61,7 @@ name = 'tmux'
 name = 'autocomplete'
 auto_completion_return_key_behavior = "complete"
 auto_completion_tab_key_behavior = "cycle"
+enable = false
 
 [[layers]]
 name = 'lang#sh'
@@ -73,3 +74,4 @@ name = 'lang#css'
 
 [[layers]]
 name = 'lang#html'
+
