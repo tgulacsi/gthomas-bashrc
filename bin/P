@@ -1,6 +1,3 @@
 #!/bin/bash
-cmd="xsel -i -b"
-if [ "${XDG_SESSION_TYPE:-}" = wayland ] && which wl-copy >/dev/null 2>&1; then
-	cmd="wl-copy -n -o"
-fi
-pass show "$@" | head -n1 | $cmd
+set -eu -o pipefail
+exec pass show "$@" | head -n1 | wl-copy -n -o

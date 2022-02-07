@@ -135,7 +135,7 @@ set +H
 #echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
 if [[ "$TERM" != 'dumb' ]]; then
 	export COLORTERM=truecolor
-	if [[ "$XDG_VTNR" = 7 || "$XDG_VTNR" = 8 ]] && which tmux >/dev/null 2>&1; then
+	if which tmux >/dev/null 2>&1; then
 		if [[ -z "$TMUX" ]]; then
 			if [[ "$TERM" != 'sakura' ]]; then
 				case "$TERM" in
