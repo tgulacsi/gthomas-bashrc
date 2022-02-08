@@ -9,7 +9,7 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# shellcheck source=$HOME/.bashrc
+# shellcheck source=.bashrc
 . "$HOME/.bashrc"  
 
 touch /tmp/wallpaper.png
@@ -66,7 +66,7 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 	# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 	if [[ -f ~/.bash_aliases ]]; then
-        # shellcheck source=$HOME/.bash_aliases
+        # shellcheck source=.bash_aliases
 		. "$HOME/.bash_aliases"
 	fi
 
@@ -123,16 +123,20 @@ if [[ -z "$_PROMPT_HAS_BEEN_SET" ]]; then
 fi
 
 if [[ -e ~/.ssh/tgulacsi@github.com ]]; then
-    # shellcheck source=$HOME/.ssh/tgulacsi@github.com
+    # shellcheck source=.ssh/tgulacsi@github.com
 	. "$HOME/.ssh/tgulacsi@github.com"
 fi
 
 # no ! history expansion
 set +H
 
+if [ -z "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty)" = "/dev/tty1" ]; then
+      exec sway
+fi
+
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
-#echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
+echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
 if [[ "$TERM" != 'dumb' ]]; then
 	export COLORTERM=truecolor
 	if which tmux >/dev/null 2>&1; then
