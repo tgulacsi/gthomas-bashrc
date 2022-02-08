@@ -130,6 +130,7 @@ fi
 # no ! history expansion
 set +H
 
+unset DISPLAY
 if [ -z "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty)" = "/dev/tty1" ]; then
       exec sway
 fi

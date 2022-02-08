@@ -13,6 +13,7 @@ fi
 
 
 if true; then
+    ssh-add 2>/dev/null
 	ssh-add -l | grep -Fq 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go' ||
 		ssh-add ~/.ssh/TGulacsi.pem
 	ssh-add -l | grep -Fq 'SHA256:53GJlWP6jSgy+5dim4tFHzagbl1vERA0Donur48HXAc' ||
