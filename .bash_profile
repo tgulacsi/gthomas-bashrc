@@ -136,7 +136,7 @@ fi
 
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
-echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
+#echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
 if [[ "$TERM" != 'dumb' ]]; then
 	export COLORTERM=truecolor
 	if which tmux >/dev/null 2>&1; then
