@@ -48,6 +48,7 @@
 [[layers]]
 name = 'core'
 enable_smooth_scrolling = false
+#enable = false
 
 [[layers]]
 name = 'ui'

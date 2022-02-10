@@ -1,8 +1,12 @@
 function! myspacevim#before() abort
     "echom "myspacevim#before LANG=" . $LANG
+    let g:loaded_netrw = 0
+    let g:loaded_netrwPlugin = 0
 endfunction
 
 function! myspacevim#after() abort
+    let g:loaded_netrw = 0
+    let g:loaded_netrwPlugin = 0
     let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
     let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
     set autochdir
