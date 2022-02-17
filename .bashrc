@@ -19,6 +19,8 @@ export LC_ALL=
 #export ENV=$HOME/.profile
 
 export MOZ_ENABLE_WAYLAND=1
+export QT_QPA_PLATFORM=wayland
+export XDG_SESSION_TYPE=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 export GDK_BACKEND=wayland
 
