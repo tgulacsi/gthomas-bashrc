@@ -1,14 +1,15 @@
 #!/bin/sh
 set -e
 exec 2>&1
+# shellcheck source=../.ssh/restic.env
 . "$HOME/.ssh/restic.env"
 F="$HOME/restic-git-config.tar"
-rm -f "$F"
+rm -f "$F" || echo $?
 trap 'rm '"$F" EXIT
 
 export "PATH=$HOME/bin:$PATH"
 
-sudo tar cf - --one-file-system /etc >/dev/null
+sudo tar cf - --one-file-system /etc /usr/local/bin >/dev/null
 
 cd "$HOME"
 find -O3 ./src/ -xdev -type f -path '*/.git/config' -print0 |
