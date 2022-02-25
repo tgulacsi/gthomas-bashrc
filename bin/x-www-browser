@@ -1,6 +1,7 @@
 #!/bin/sh
 export MOZ_ENABLE_WAYLAND=1
 export MOZ_DBUS_REMOTE=1
+export DRI_PRIME=1
 fn=
 for nm in "${1:-}" firefox /opt/firefox/firefox iceweasel chromium google-chrome chromium-browser; do
 	if [ -z "$nm" ]; then
