@@ -92,7 +92,7 @@ exec swayidle -w \
 
 exec [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 exec [ -x /usr/bin/mako ] && /usr/bin/mako
-exec [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox
+exec [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox -ac ''
 exec [ -x /usr/bin/clipman ] && wl-paste -t text --watch clipman store --no-persist
 
 ### Input configuration
