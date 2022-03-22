@@ -1,0 +1,2 @@
+#!/bin/sh
+exec wlfreerdp /u:tgulacsi /d:localhost /v:tgulacsi-dev.swedencentral.cloudapp.azure.com "/p:$(pass show I/azure.com/tgulacsi | head -n1)"
