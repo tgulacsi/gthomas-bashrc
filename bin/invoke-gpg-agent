@@ -13,7 +13,7 @@ fi
 
 
 if true; then
-    ssh-add 2>/dev/null
+    #ssh-add 2>/dev/null
 	ssh-add -l | grep -Fq 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go' ||
 		ssh-add ~/.ssh/TGulacsi.pem
 fi
@@ -24,6 +24,6 @@ if false; then
 	}
 fi
 
-if which keychain >/dev/null 2>/dev/null; then
+if false && which keychain >/dev/null 2>/dev/null; then
 	eval $(keychain -q --ignore-missing --agents 'gpg,ssh' --gpg2 --systemd --eval ~/.ssh/TGulacsi.pem 2>/dev/null)
 fi
