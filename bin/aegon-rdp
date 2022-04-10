@@ -32,7 +32,7 @@ fi
 host="${host}"
 
 echo "# gat=$gat gw=$gw host=$host" >&2
-passw="$(pass show U/A/gulacsit | head -n1)"
+passw="${PASSWORD:-$(pass show U/A/gulacsit | head -n1)}"
 
 set -x
 #exec xfreerdp  /u:gulacsit /d:ab-aegon "/p:${passw}" "/v:${host}" "/g:${gw}" "/gat:${gat}" "$@"
