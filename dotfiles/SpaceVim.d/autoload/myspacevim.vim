@@ -11,6 +11,7 @@ function! myspacevim#after() abort
     let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
     set autochdir
     set fileencodings=utf-8,iso8859-2
+    set ignorecase smartcase
     silent let hostname = system("hostname")
     echom "myspacevim#after LANG=" . $LANG . " hostname=" . hostname
     if $LANG =~? "\.iso-\?8859[-_]2$" || hostname =~? "\.unosoft\.local"
