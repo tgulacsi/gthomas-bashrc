@@ -1,7 +1,6 @@
 input * xkb_layout "us,hu"
 input * xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,caps:escape"
 
-#xwayland disable
 xwayland enable
 
 set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
@@ -65,7 +64,7 @@ output HDMI1 {
     dpms on
     enable
 }
-# Unknown 22W_LCD_TV 0x00000000
+
 output HDMI-A-1 { 
     mode 1920x1080
 	position 0 0
@@ -73,7 +72,7 @@ output HDMI-A-1 {
     dpms on
     enable
 }
-#output * background $wallpaper fill
+
 output * background $HOME/dotfiles/sway/background.png center dpms on
 
 set $laptop eDP-1

@@ -7,7 +7,7 @@
 #	sudo apt install fonts-firacode
 #fi
 font='Go Mono'
-fontsize=12
+fontsize=14
 if [ ! -d /usr/share/fonts/fonts-go ] && [ -d /usr/share/fonts-firacode ]; then
 	font='Fira Code'
 fi
