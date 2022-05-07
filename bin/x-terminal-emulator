@@ -6,20 +6,28 @@
 #if [ ! -d /usr/share/fonts/firacode/ ]; then
 #	sudo apt install fonts-firacode
 #fi
+have_foot=0
+if which foot 2>&1; then
+    have_foot=1
+fi
+if [ $have_foot -eq 1 ] && [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]; then
+	exec footclient --login-shell /bin/bash 
+fi
+
 font='Go Mono'
 fontsize=12
 if [ ! -d /usr/share/fonts/fonts-go ] && [ -d /usr/share/fonts-firacode ]; then
 	font='Fira Code'
 fi
-case "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .model + ": " + (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')" in
+monitor="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .model + ": " + (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')" 
+case "$monitor" in
 	LG\ ULTRAWIDE:*) fontsize=14 ;;
+    SA300/SA350:*) fontsize=12 ;;
+    *) echo "monitor=$monitor" ;;
 esac
-if which foot 2>&1; then
-	if ! [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]; then
-		set -x
-		exec foot --server --font="$font:size=$fontsize"
-	fi
-	exec footclient --login-shell /bin/bash 
+if [ $have_foot -eq 1 ]; then
+    set -x
+    exec foot --server --font="$font:size=$fontsize"
 fi
 which stterm 2>&1 && exec stterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
 which lxterm 2>&1 && exec lxterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
