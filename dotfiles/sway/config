@@ -316,4 +316,8 @@ bindsym --to-code {
 	Shift+XF86Search exec swaymsg "output * scale 1"
 }
 
+bindsym --to-code {
+    $mod+Shift+P exec passmenu
+}
+
 include /etc/sway/config.d/*
