@@ -17,6 +17,7 @@
     # Disable guicolors in basic mode, many terminal do not support 24bit
     # true colors
     enable_guicolors = false
+    guifont = "Go Mono:h12"
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
     statusline_separator = "nil"
@@ -30,6 +31,8 @@
     vimcompatible = true
     windows_smartclose = ""
 
+    autocomplete_method = "coc"
+    enable_cursorline = true
     max_column = 80
     default_indent = 4
     enable_vimfiler_welcome = false
@@ -46,23 +49,22 @@
     bootstrap_after = "myspacevim#after"
 
 [[layers]]
-name = 'core'
+name = "core"
 enable_smooth_scrolling = false
 #enable = false
 
 [[layers]]
-name = 'ui'
+name = "ui"
 enable_indentline = false  # against conceal
 
 [[layers]]
-name = 'tmux'
+name = "tmux"
 
 # Enable autocomplete layer
 [[layers]]
-name = 'autocomplete'
+name = "autocomplete"
 auto_completion_return_key_behavior = "complete"
 auto_completion_tab_key_behavior = "cycle"
-enable = false
 
 [[layers]]
 name = 'lang#sh'
@@ -75,4 +77,3 @@ name = 'lang#css'
 
 [[layers]]
 name = 'lang#html'
-
