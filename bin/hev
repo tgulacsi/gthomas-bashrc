@@ -8,14 +8,18 @@ else
 	cat >"$fn"
 fi
 ext="$(file --extension "$fn" | sed -ne '/: [^?]/ {s,^.*: \([^? /:]*\)\(/\|$\).*$,\1,;p;}' || echo '')"
-echo "# ext=$ext" >&2
+mime="$(file --mime "$fn" | cut -d: -f2 | cut -d\; -f1 | sed -e '/ / s/^ *//; s/ *$//')"
+echo "# mime=$mime ext=$ext" >&2
 if [ -z "$ext" ]; then
-	ext="$(file --mime "$fn" | cut -d: -f2 | cut -d\; -f1 | cut -d/ -f2)"
+	ext="$(echo "$mime" | cut -d/ -f2)"
 fi
 echo "# ext=$ext" >&2
 if [ -n "$ext" ] && [ "$ext" != html ]; then
 	mv "$fn" "${fn}.${ext}"
 	fn="${fn}.${ext}"
 fi
+case "$mime" in
+	image/*) exec imv-wayland "$fn" ;;
+esac
 set -x
 exec xdg-open "$fn"
