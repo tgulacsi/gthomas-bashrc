@@ -1,0 +1,24 @@
+#!/bin/sh
+addr1=192.168.100.2
+addr2=100.118.235.93
+
+#echo "# args=$@" >&2
+if echo "$@" | fgrep -q 'https://'; then
+	echo 'DIRECT'
+	exit 0
+fi
+list=
+if ! ip link show tun0 >/dev/null 2>/dev/null; then
+	list="http://$addr1:3142"
+fi
+if ip link show tailscale0 >/dev/null 2>/dev/null && tailscale status | fgrep "$addr2" | fgrep -q -v offline; then
+	list="$list http://$addr2:3142"
+fi
+echo "# list=$list" >&2
+for addr in $list; do
+	if curl -sS -m1 "$addr" | fgrep -q Apt-Cacher; then
+		echo "$addr"
+		exit 0
+	fi
+done
+echo 'DIRECT'
