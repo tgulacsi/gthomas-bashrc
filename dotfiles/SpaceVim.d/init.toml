@@ -31,7 +31,8 @@
     vimcompatible = true
     windows_smartclose = ""
 
-    autocomplete_method = "coc"
+    # needs pynvim (apt install python3-pynvim)
+    autocomplete_method = "deoplete"
     enable_cursorline = true
     max_column = 80
     default_indent = 4
