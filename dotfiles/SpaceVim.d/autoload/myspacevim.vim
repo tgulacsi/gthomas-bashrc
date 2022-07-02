@@ -20,5 +20,11 @@ function! myspacevim#after() abort
         set fillchars=
     endif
     au BufNewFile,BufRead *.sql set filetype=sql fileencoding=iso8859-2
+
+	if has('win32') || has('win64')
+		call dein#add('tbodt/deoplete-tabnine', { 'build': 'powershell.exe .\install.ps1' })
+	else
+		call dein#add('tbodt/deoplete-tabnine', { 'build': './install.sh' })
+	endif
 endfunction
 
