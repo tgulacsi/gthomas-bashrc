@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+set -x
+git pull
+for fn in $(grep -lFR 'ioutil"'); do 
+	for pat in \
+		"ioutil.TempFile -> os.CreateTemp" \
+		"ioutil.TempDir -> os.MkdirTemp" \
+		"ioutil.ReadFile -> os.ReadFile" \
+		"ioutil.WriteFile -> os.WriteFile" \
+		"ioutil.NopCloser -> io.NopCloser" \
+		"ioutil.ReadAll -> io.ReadAll" \
+		"ioutil.Discard -> io.Discard" \
+	; do
+		gofmt -w -r "$pat" "$fn"
+	done
+done
+goimports -w .
+staticcheck .
+git commit -am "Replace io/ioutil"
+git push
