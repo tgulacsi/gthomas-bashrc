@@ -5,7 +5,7 @@ ConditionACPower=true
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/offlineimap -o -u basic
+ExecStart=-/usr/bin/offlineimap -o -u basic -q
 # Give 120 seconds for offlineimap to gracefully stop before hard killing it:
 TimeoutStopSec=120
 
