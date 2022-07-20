@@ -2,7 +2,7 @@
 set -eu
 set -x
 git pull
-for fn in $(grep -lFR 'ioutil"'); do 
+pkgs=$(for fn in $(grep -lFR 'ioutil"'); do 
 	for pat in \
 		"ioutil.TempFile -> os.CreateTemp" \
 		"ioutil.TempDir -> os.MkdirTemp" \
@@ -13,9 +13,10 @@ for fn in $(grep -lFR 'ioutil"'); do
 		"ioutil.Discard -> io.Discard" \
 	; do
 		gofmt -w -r "$pat" "$fn"
+		echo "./$(dirname "$fn")"
 	done
-done
-goimports -w .
-staticcheck .
+done | sort -u)
+goimports -w . $pkgs
+staticcheck . $pkgs
 git commit -am "Replace io/ioutil"
 git push
