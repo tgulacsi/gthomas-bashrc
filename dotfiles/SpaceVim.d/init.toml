@@ -31,7 +31,7 @@
     vimcompatible = true
     windows_smartclose = ""
 
-    # needs pynvim (apt install python3-pynvim)
+    # deoplete needs pynvim (apt install python3-pynvim)
     autocomplete_method = "deoplete"
     enable_cursorline = true
     max_column = 80
