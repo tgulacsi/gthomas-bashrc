@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+ruledir="$HOME/src/github.com/dgryski/semgrep-go/"
+if ! [ -e "$ruledir" ]; then
+    mkdir -p "$ruledir"
+    git clone https://github.com/dgrysky/semgrep-go.git "$ruledir"
+fi
+if ! command -v semgrep; then
+    pip install semgrep
+fi
+exec semgrep -f "$ruledir" "$@"
