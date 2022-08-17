@@ -1,2 +1,3 @@
 #!/bin/sh
-exec wlfreerdp /u:tgulacsi /d:localhost /v:tgulacsi-dev.swedencentral.cloudapp.azure.com "/p:$(pass show I/azure.com/tgulacsi | head -n1)" /microphone /sound +clipboard "$@"
+set -x
+exec wlfreerdp /u:tgulacsi /d:localhost /v:tgulacsi-dev.swedencentral.cloudapp.azure.com "/p:$(pass show I/azure.com/tgulacsi | head -n1)" /microphone:sys:pulse /sound:sys:pulse +clipboard -grab-keyboard /kbd:0x409 /network:modem /cert:ignore -fonts -decorations /disp /dynamic-resolution "$@"
