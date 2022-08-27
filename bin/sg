@@ -1,12 +1,18 @@
 #!/bin/sh
 set -eu
+if ! command -v semgrep && [ -e ~/.local/bin/semgrep ]; then
+    export "PATH=$HOME/.local/bin:$PATH"
+fi
 ruledir="$HOME/src/github.com/dgryski/semgrep-go/"
 if ! [ -e "$ruledir" ]; then
     mkdir -p "$ruledir"
-    git clone https://github.com/dgrysky/semgrep-go.git "$ruledir"
+    git clone https://github.com/dgryski/semgrep-go.git "$ruledir"
 fi
 if ! command -v semgrep; then
     pip install semgrep
+    if ! command -v semgrep && [ -e ~/.local/bin/semgrep ]; then
+        export "PATH=$HOME/.local/bin:$PATH"
+    fi
 fi
 if [ $# -gt 1 ] || [ "${1:-}" != . ]; then
     exec semgrep -f "$ruledir" "$@"
@@ -15,7 +21,7 @@ fi
 files="$(semgrep -f "$ruledir" -a --json . | jq -r '.results | select(.[].extra.fix != "") | .[].path' | sort -u)"
 echo "fixable: $files"
 if [ -n "$files" ]; then
-    semgrep -f "$ruledir" -a .
+    semgrep -f "$ruledir" --config=auto -a .
     goimports -w $files
 fi
-semgrep -f "$ruledir" .
+semgrep -f "$ruledir" --config=auto .
