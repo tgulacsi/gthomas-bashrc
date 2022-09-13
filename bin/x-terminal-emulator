@@ -10,15 +10,22 @@ have_foot=0
 if which foot 2>&1; then
     have_foot=1
 fi
-if [ $have_foot -eq 1 ] && [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]; then
+if [ $have_foot -eq 1 ] && [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ] && ps -ef|grep -qE 'foot (-s|--server)'; then
 	exec footclient --login-shell /bin/bash 
 fi
 
-font='Go Mono'
-fontsize=12
-if [ ! -d /usr/share/fonts/fonts-go ] && [ -d /usr/share/fonts-firacode ]; then
-	font='Fira Code'
+font=
+for fn in 'Iosevka Term' 'Go Mono' 'Fira Code'; do
+	font="$(fc-list "$fn":Regular family)"
+	if [ -n "$font" ]; then
+		break
+	fi
+done
+echo "# font=$font" >&2
+if [ -z "$font" ]; then
+	font='Go Mono'
 fi
+fontsize=12
 monitor="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .model + ": " + (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')" 
 case "$monitor" in
 	LG\ ULTRAWIDE:*) fontsize=14 ;;
