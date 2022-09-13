@@ -132,7 +132,7 @@ set +H
 
 unset DISPLAY
 if [ -z "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty)" = "/dev/tty1" ]; then
-      exec sway
+      exec sway >~/sway.log 2>&1
 fi
 
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
