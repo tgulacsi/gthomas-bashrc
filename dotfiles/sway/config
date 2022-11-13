@@ -73,7 +73,8 @@ output HDMI-A-1 {
     enable
 }
 
-output * background $HOME/dotfiles/sway/background.png center dpms on
+#output * background $HOME/dotfiles/sway/background.png center dpms on
+output * background $wallpaper fill dpms on
 
 set $laptop eDP-1
 bindswitch lid:on output $laptop disable
