@@ -320,6 +320,8 @@ bindsym --to-code {
 
 bindsym --to-code {
     $mod+Shift+P exec passmenu
+    Alt_R+Scroll_Lock exec grim 
+    Print exec grim 
 }
 
 include /etc/sway/config.d/*
