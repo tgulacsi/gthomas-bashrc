@@ -1,0 +1,9 @@
+maildir = "~/mail"
+addresses = [
+    "tamas@gulacsi.eu",
+    "tgulacsi78@gmail.com",
+    "t.gulacsi@unosoft.hu"
+]
+filters = ["@spam.(com|org)"]
+outputpath = "~/mail/addressbook.tsv"
+template = "{{.Address}}\t{{.Name}}"
