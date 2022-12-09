@@ -24,6 +24,9 @@ password="$(printf '%s\n' "${password_files[@]}" | $DMENU "$@")"
 if [[ $usepass -eq 1 ]]; then
 	exec pass show -c "$password" 2>/dev/null
 fi
+if command -V gopass >/dev/null; then
+    exec gopass -C "$password"
+fi
 pw="$(pass show "$password" | head -n 1)"
 if [[ "${XDG_SESSION_TYPE:-}" == wayland ]] && command -v wl-copy >/dev/null; then
 	echo "$pw" | wl-copy -t text/plain -n

@@ -17,8 +17,6 @@ w=${dims%%x*}
 h=${dims##*x}
 
 p="${PASSWORD:-$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
-#OPTS="/u:$u /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:modem /v:$DEST /from-stdin -decorations +fonts +auto-reconnect /auto-reconnect-max-retries:10 /size:${w}x$((h - 24)) +async-channels +async-input +async-update +fast-path +offscreen-cache -bitmap-cache /gdi:hw /compression-level:1 /dynamic-resolution /log-level:WARN"
-#OPTS="/u:$u /p:$p /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:modem /v:$DEST /from-stdin -decorations +fonts +glyph-cache +auto-reconnect /auto-reconnect-max-retries:10 "/size:${w}x$((h - 24))" /compression-level:1 /dynamic-resolution /gfx:AVC444 +gfx-small-cache"
 OPTS="/u:$u /p:$p /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:modem /v:$DEST /from-stdin -decorations +fonts +glyph-cache +auto-reconnect /auto-reconnect-max-retries:10 "/size:${w}x$((h - 24))" /compression-level:1 /gfx:AVC444 +gfx-small-cache /disp"
 # -fast-path 
 if [ "${1:-}" != "-nocb" ]; then
