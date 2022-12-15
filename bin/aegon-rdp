@@ -52,4 +52,4 @@ fi
 h=${dims##*x}
 set -x
 #exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts /gdi:hw +heartbeat /network:modem +clipboard /log-level:WARN -grab-keyboard +async-channels +async-input +async-update +fast-path +offscreen-cache -bitmap-cache /compression-level:1 /smart-sizing:${w}x$(($h - 24 )) "$@"
-exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts +heartbeat /network:modem +clipboard /log-level:WARN -grab-keyboard /compression-level:1 /smart-sizing:${w}x$(($h - 24 )) /gfx:AVC444 +gfx-small-cache "$@"
+exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts +heartbeat /network:auto +clipboard /log-level:WARN -grab-keyboard /compression-level:1 /smart-sizing:${w}x$(($h - 24 )) /gfx:AVC444 +gfx-small-cache "$@"
