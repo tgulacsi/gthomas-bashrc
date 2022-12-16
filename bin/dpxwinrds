@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 DEST="${DEST:-10.65.85.47}"
 u=tgulacsi
 
@@ -17,19 +17,19 @@ w=${dims%%x*}
 h=${dims##*x}
 
 p="${PASSWORD:-$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
-OPTS="/u:$u /p:$p /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:auto /v:$DEST /from-stdin -decorations +fonts +glyph-cache +auto-reconnect /auto-reconnect-max-retries:10 "/size:${w}x$((h - 24))" /compression-level:1 /gfx:AVC444 +gfx-small-cache +offscreen-cache /disp"
+OPTS=("/u:$u" "/p:$p" /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:auto "/v:$DEST" /from-stdin -decorations +toggle-fullscreen +fonts +glyph-cache +auto-reconnect /auto-reconnect-max-retries:10 "/size:${w}x$((h - 24))" /compression-level:1 /gfx:AVC444 +gfx-small-cache +offscreen-cache /disp)
 # -fast-path 
 if [ "${1:-}" != "-nocb" ]; then
-	OPTS="$OPTS +clipboard"
+	OPTS+=(+clipboard)
 else
-	OPTS="$OPTS -clipboard"
+	OPTS+=(-clipboard)
 	shift 1
 fi
 
 if [ -t 1 ]; then
-    OPTS="$OPTS /log-level:INFO"
+    OPTS+=(/log-level:INFO)
 else
-    OPTS="$OPTS /log-level:WARN"
+    OPTS+=(/log-level:WARN)
 fi
 
 #/floatbar:sticky:on,default:visible,show:always
@@ -39,13 +39,15 @@ if [ "${NOVPN:-0}" -eq 1 ] || [ -z "${GW:-}" ]; then
 	fi
 fi
 if [ -n "${GW:-}" ]; then
-	OPTS="$OPTS /g:$GW /gu:$u /gp:$p /gd:unosoft"
+	OPTS+=("/g:$GW" "/gu:$u" "/gp:$p" /gd:unosoft)
 fi
-OPTS="$OPTS $*"
+for a in "$@"; do
+	OPTS+=("$a")
+done
 
-echo "+ ${prog} $OPTS" >&2
+echo "+ ${prog} ${OPTS[*]}" >&2
 if ! [ -t 1 ]; then
 	exec >/dev/null 2>/dev/null
 fi
 
-exec "${prog}" $OPTS
+exec "${prog}" "${OPTS[@]}"
