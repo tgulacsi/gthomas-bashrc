@@ -1,0 +1,6 @@
+#!/bin/bash
+set -eu
+cd ~/mail
+passwd="$(sed -ne '/tamas%40gulacsi.eu:.*imap.migadu.com/ { s/^.*:\([^@]*\)@imap.migadu.com.*$/\1/; p; }' ~/.config/aerc/accounts.conf)"
+#echo "# passwd=$passwd" >&2
+exec sieve-connect -s imap.migadu.com -p 4190 -u tamas@gulacsi.eu -m LOGIN --debug --passwordfd=5 5<<<"$passwd"
