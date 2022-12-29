@@ -54,6 +54,7 @@ output eDP-1 {
     mode 1920x1080
 	pos 1920 0
 	res 1920x1080
+    scale 1.5
     dpms on
     enable
 }
@@ -78,7 +79,7 @@ output * background $wallpaper fill dpms on
 
 set $laptop eDP-1
 bindswitch lid:on output $laptop disable
-bindswitch lid:off output $laptop enable
+bindswitch lid:off output $laptop dpms on mode 1920x1080 enable
 
 ### Idle configuration
 exec swayidle -w \
