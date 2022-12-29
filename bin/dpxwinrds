@@ -12,9 +12,15 @@ prog=${RDP:-$prog}
 #pkill -f "${prog}.*0x409 .* /v:${DEST}"
 
 #focused="$(swaymsg -t get_workspaces | jq -r '.[] | select(.focused) | .output')"
-dims="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
+output="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused)')"
+dims="$(echo "$output" | jq -r '(.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
+scale="$(echo "$output" | jq -r '.scale')"
 w=${dims%%x*}
 h=${dims##*x}
+if [ -n "$scale" ]; then
+    w="$(echo "$w / $scale" | bc)"
+    h="$(echo "$h / $scale" | bc)"
+fi
 
 p="${PASSWORD:-$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
 OPTS=("/u:$u" "/p:$p" /d:unosoft -grab-keyboard /kbd:0x409 /cert:ignore /network:auto "/v:$DEST" /from-stdin -decorations +toggle-fullscreen +fonts +glyph-cache +auto-reconnect /auto-reconnect-max-retries:10 "/size:${w}x$((h - 24))" /compression-level:1 /gfx:AVC444 +gfx-small-cache +offscreen-cache /disp)
