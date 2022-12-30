@@ -11,7 +11,7 @@ fi
 echo "# rdp=$rdp" >&2
 gw=
 gat=
-for line in $(cat "$rdp" | tr -d "" | awk -F: '/^(gateway(hostname|accesstoken))/ {print $1 ":" $3}'); do
+for line in $(tr -d "" < "$rdp" | awk -F: '/^(gateway(hostname|accesstoken))/ {print $1 ":" $3}'); do
 	k=${line%:*}
 	v=${line#*:}
 	case "$k" in
