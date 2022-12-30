@@ -6,32 +6,26 @@ if [ $# -ge 1 ]; then
 	shift 1
 fi
 if [ -z "$rdp" ]; then
-	rdp="$(ls -t $(find "$(xdg-user-dir DOWNLOAD)" -type f -name 'launch*.rdp') | head -n1)"
+	rdp="$(find "$(xdg-user-dir DOWNLOAD)" -type f -name 'launch*.rdp' -printf '%T@\t%p\000' | sort -znr -k 1 | head -zn1 | cut -f2)"
 fi
 echo "# rdp=$rdp" >&2
 gw=
 gat=
-host=
-for line in $(cat "$rdp" | tr -d "" | awk -F: '/^(full address|gateway(hostname|accesstoken))/ {print $1 ":" $3}'); do
+for line in $(cat "$rdp" | tr -d "" | awk -F: '/^(gateway(hostname|accesstoken))/ {print $1 ":" $3}'); do
 	k=${line%:*}
 	v=${line#*:}
 	case "$k" in
 	*hostname) gw="$v" ;;
 	*accesstoken) gat="$v" ;;
-	*address) host="$v" ;;
 	esac
-	echo "# gw=$gw gat=$gat host=$host" >&2
+	echo "# gw=$gw gat=$gat" >&2
 done
 
 if [ -z "$gw" ]; then
 	gw=vpn-hun.aegon.com
 fi
-if [ -z "$host" ]; then
-	host='kzp865604-nb'
-fi
-host="${host}"
 
-echo "# gat=$gat gw=$gw host=$host" >&2
+echo "# gat=$gat gw=$gw" >&2
 passw="${PASSWORD:-$(pass show U/A/gulacsit | head -n1)}"
 
 set -x
@@ -44,12 +38,23 @@ if [ "${XDG_SESSION_TYPE:-}" = wayland ] && [ -x "$wlprog" ]; then
 fi
 prog=${RDP:-$prog}
 #/drive:tmp,/tmp
-dims="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
-w=${dims%%x*}
-if [ $w -ge 1980 ]; then
-	w=1980
-fi
-h=${dims##*x}
 set -x
 #exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts /gdi:hw +heartbeat /network:modem +clipboard /log-level:WARN -grab-keyboard +async-channels +async-input +async-update +fast-path +offscreen-cache -bitmap-cache /compression-level:1 /smart-sizing:${w}x$(($h - 24 )) "$@"
-exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts +heartbeat /network:auto +clipboard /log-level:WARN -grab-keyboard /compression-level:1 /smart-sizing:${w}x$(($h - 24 )) /gfx:AVC444 +gfx-small-cache "$@"
+exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore \
+    -grab-keyboard /kbd:0x409 \
+	+auto-reconnect /auto-reconnect-max-retries:10 \
+    +clipboard \
+	/compression-level:1  \
+	-decorations /disp \
+	+fonts  \
+	/geometry \
+	/gfx:AVC444 +gfx-progressive +gfx-small-cache +gfx-thin-client +glyph-cache  \
+	/jpeg /jpeg-quality:75 \
+    /log-level:WARN \
+	+multitransport \
+	/network:auto /nsc \
+	+offscreen-cache  \
+	-themes \
+	+toggle-fullscreen \
+	-wallpaper \
+"$@"
