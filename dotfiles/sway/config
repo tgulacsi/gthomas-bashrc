@@ -54,7 +54,7 @@ output eDP-1 {
     mode 1920x1080
 	pos 1920 0
 	res 1920x1080
-    scale 1.5
+#scale 1.5
     dpms on
     enable
 }
@@ -278,7 +278,7 @@ bar {
 	status_command i3blocks
     #status_command $HOME/bin/goi3bar -config-path=$HOME/.i3/config.json
 	#mode hide
-	#font "Go Mono 8 \`wght`=100"
+	font "Iosevka Term Semi-Bold 12"
 	modifier Mod4
 	position top
     colors {
