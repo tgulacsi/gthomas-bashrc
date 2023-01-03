@@ -78,8 +78,8 @@ output HDMI-A-1 {
 output * background $wallpaper fill dpms on
 
 set $laptop eDP-1
-bindswitch lid:on output $laptop disable
-bindswitch lid:off output $laptop dpms on mode 1920x1080 enable
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop dpms on mode 1920x1080 enable
 
 ### Idle configuration
 exec swayidle -w \
@@ -91,10 +91,11 @@ exec swayidle -w \
               unlock 'swaymsg "output * dpms on"' \
         before-sleep 'swaylock -e -f -F -k -l -c 000000'
 
-exec [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
+exec_always [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 exec [ -x /usr/bin/mako ] && /usr/bin/mako
-exec [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox -ac ''
+exec_always [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox -ac ''
 exec [ -x /usr/bin/clipman ] && wl-paste -t text --watch clipman store --no-persist
+exec_always [ -x /usr/bin/gammastep ] && gammastep -l 47.7:19.15
 
 ### Input configuration
 #

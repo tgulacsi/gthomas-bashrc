@@ -3,6 +3,14 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+if [[ ${__bashrc_bench:-0} -eq 1 ]]; then
+	PS4='+ $EPOCHREALTIME\011 '
+	exec 5> /tmp/command.txt
+	BASH_XTRACEFD="5"
+	echo "See /tmp/command.txt" >&2
+	set -x
+fi
+
 # set PATH so it includes user's private bin if it exists
 #export LANGUAGE="hu_HU:en_US:en"
 export LANGUAGE="en"
@@ -11,7 +19,12 @@ export LC_ALL=
 #export ENV=$HOME/.profile
 
 export MOZ_ENABLE_WAYLAND=1
+export MOZ_DBUS_REMOTE=1
+export QT_QPA_PLATFORM=wayland
+export XDG_SESSION_TYPE=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
+export GDK_BACKEND=wayland,x11
+
 export TNS_ADMIN=$HOME/.config/oracle
 export TMPDIR=${TMPDIR:-/tmp}
 EDITOR='vim'
@@ -26,18 +39,19 @@ if [[ -e "$HOME/android-sdk" ]]; then
 fi
 
 if [[ -z "$SUDO_ASKPASS" ]]; then
-    export SUDO_ASKPASS=/usr/bin/ssh-askpass
+	export SUDO_ASKPASS=/usr/bin/ssh-askpass
 fi
 
 if [[ -d /usr/local/plan9 ]]; then
-    export PLAN9=/usr/local/plan9
-    PATH=$PATH:$PLAN9/bin
+	export PLAN9=/usr/local/plan9
+	PATH=$PATH:$PLAN9/bin
 fi
 
+export GO111MODULE=on
 unset GOPATH
 export GOBIN=~/bin
 if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin; then
-	PATH=/usr/local/go/bin:$PATH
+	export PATH=/usr/local/go/bin:$PATH
 	if [[ -z "$GOROOT_BOOTSTRAP" ]] && [[ -e /usr/local/go1.4.2/bin/go ]]; then
 		export GOROOT_BOOTSTRAP=/usr/local/go1.4.2
 	fi
@@ -45,37 +59,39 @@ if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin
 	export GOPROXY=http://proxy.golang.org,direct
 	export MAGEFILE_HASHFAST=1
 fi
-if [[ -z "_OHOME_HAS_BEEN_SET" ]]; then
+if [[ -z "$_OHOME_HAS_BEEN_SET" ]]; then
 	export TNS_ADMIN=$HOME
-    #echo OH=$ORACLE_HOME
-    if [[ -z "$ORACLE_HOME" ]]; then
-        for bdn in /u01/app/oracle/product /usr/lib/oracle; do
-            #echo "bdn=$bdn"
-            if [[ ! -d $bdn ]]; then
-                continue
-            fi
-            find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) \
-                    2>/dev/null | head -n1 | while read dn; do
-                #echo "#dn=$dn"
-                export ORACLE_BASE=$bdn
-                export ORACLE_HOME=$dn
-                #export ORACLE_SID=XE
-                export PATH=$ORACLE_HOME/bin:$PATH
-                #echo "H=$ORACLE_HOME"
-                break
-            done
-            break
-        done
-    fi
-    #echo OH=$ORACLE_HOME
-    _OHOME_HAS_BEEN_SET=1
+	#echo OH=$ORACLE_HOME
+	if [[ -z "$ORACLE_HOME" ]]; then
+		for bdn in /u01/app/oracle/product /usr/lib/oracle; do
+			#echo "bdn=$bdn"
+			if [[ ! -d $bdn ]]; then
+				continue
+			fi
+			dn="$(find "$bdn" -maxdepth 2 -type d \( -name xe -o -name client64 \) \
+                2>/dev/null | head -n1)"
+            #echo "#dn=$dn"
+            export ORACLE_BASE=$bdn
+            export ORACLE_HOME=$dn
+            #export ORACLE_SID=XE
+            export PATH=$ORACLE_HOME/bin:$PATH
+            #echo "H=$ORACLE_HOME"
+			break
+		done
+	fi
+	#echo OH=$ORACLE_HOME
+	_OHOME_HAS_BEEN_SET=1
 fi
 
-
 if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
-    if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq $HOME/bin; then
-        PATH="$HOME/bin:$PATH"
-    fi
+	if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq "$HOME/bin"; then
+		PATH="$HOME/bin:$PATH"
+	fi
 	export PATH
-    _PATH_HAS_BEEN_SET=1
+	_PATH_HAS_BEEN_SET=1
+fi
+
+if [[ -f ~/.fzf.bash ]]; then
+    # shellcheck source=$HOME/.fzf.bash
+    source ~/.fzf.bash
 fi
