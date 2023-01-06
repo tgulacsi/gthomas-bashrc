@@ -4,9 +4,13 @@ mkdir -p "$dn"
 sfn="$dn/S.gpg-agent.ssh"
 
 systemctl --user start gpg-agent.service gpg-agent-ssh.socket gpg-agent.socket
+#set -x
 if [ ! -e "$sfn" ] || [ ! -e "$dn/S.gpg-agent" ]; then
     systemctl --user stop gpg-agent.service 
     systemctl --user restart gpg-agent-ssh.socket gpg-agent.socket
+fi
+if systemctl --user status gpg-agent.service | grep -vF SCdaemon | grep -q ': .*failed'; then 
+    systemctl --user restart gpg-agent.service
 fi
 
 if [ -z "$SSH_AUTH_SOCK" ] || [ ! -e "$SSH_AUTH_SOCK" ] && [ -e "$sfn" ]; then
