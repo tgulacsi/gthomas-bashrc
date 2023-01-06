@@ -1,10 +1,13 @@
 #!/bin/sh
 dn="/run/user/$(id -u)/gnupg"
 mkdir -p "$dn"
-
-systemctl --user start gpg-agent-ssh.socket
-
 sfn="$dn/S.gpg-agent.ssh"
+
+systemctl --user start gpg-agent.service gpg-agent-ssh.socket gpg-agent.socket
+if [ ! -e "$sfn" ] || [ ! -e "$dn/S.gpg-agent" ]; then
+    systemctl --user stop gpg-agent.service 
+    systemctl --user restart gpg-agent-ssh.socket gpg-agent.socket
+fi
 
 if [ -z "$SSH_AUTH_SOCK" ] || [ ! -e "$SSH_AUTH_SOCK" ] && [ -e "$sfn" ]; then
     export SSH_AUTH_SOCK="$sfn"
@@ -16,14 +19,4 @@ if true; then
     #ssh-add 2>/dev/null
 	ssh-add -l | grep -Fq 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go' ||
 		ssh-add ~/.ssh/TGulacsi.pem
-fi
-
-if false; then
-	echo reloadagent | gpg-connect-agent >/dev/null || {
-		eval $(gpg-agent -s)
-	}
-fi
-
-if false && which keychain >/dev/null 2>/dev/null; then
-	eval $(keychain -q --ignore-missing --agents 'gpg,ssh' --gpg2 --systemd --eval ~/.ssh/TGulacsi.pem 2>/dev/null)
 fi
