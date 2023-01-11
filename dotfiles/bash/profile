@@ -133,8 +133,7 @@ set +H
 unset DISPLAY
 if [ -z "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty)" = "/dev/tty3" ]; then
 	export WLR_DRM_DEVICES="$(for fn in /dev/dri/card[0-9]; do if udevadm info -a -n $fn | grep -qF boot_vga; then echo -n 0; else echo -n 1; fi; echo " $fn"; done | sort -n | cut -c3-  | head -n1 | tr '\n' ':' | sed -e 's/:$//')"
-    # apt install dbus-x11
-	exec dbus-launch --sh-syntax --exit-with-session sway >~/sway.log 2>&1
+	exec dbus-run-session sway >~/sway.log 2>&1
 fi
 
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh

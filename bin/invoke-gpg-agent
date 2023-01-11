@@ -4,6 +4,7 @@ mkdir -p "$dn"
 sfn="$dn/S.gpg-agent.ssh"
 
 systemctl --user start gpg-agent.service gpg-agent-ssh.socket gpg-agent.socket
+gpgconf --reload gpg-agent
 #set -x
 if [ ! -e "$sfn" ] || [ ! -e "$dn/S.gpg-agent" ]; then
     systemctl --user stop gpg-agent.service 
