@@ -94,7 +94,8 @@ exec swayidle -w \
         before-sleep 'swaylock -e -f -F -k -l -c 000000'
 
 exec_always [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
-exec [ -x /usr/bin/mako ] && /usr/bin/mako
+#exec [ -x /usr/bin/mako ] && /usr/bin/mako
+exec [ -x /usr/bin/swaync ] && /usr/bin/swaync
 exec_always [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox -ac ''
 exec [ -x /usr/bin/clipman ] && wl-paste -t text --watch clipman store --no-persist
 exec_always [ -x /usr/bin/gammastep ] && gammastep -l 47.7:19.15
