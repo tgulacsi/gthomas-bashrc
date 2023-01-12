@@ -18,8 +18,7 @@ export NMON=cdm4
 
 export PS1=":\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\$(if [ \$? = 0 ]; then echo '$'; else echo '!'; fi) "
 
-USER_RUN_DIR=/var/run/user/$(id -u)
-export USER_RUN_DIR
+export "USER_RUN_DIR=/var/run/user/$(id -u)"
 
 if [ -L ~/.cache ]; then
 	mkdir -p "$(readlink ~/.cache)"
@@ -31,7 +30,8 @@ else
 fi
 mkdir -p ~/.cache/mutt
 
-eval "$(~/bin/invoke-gpg-agent)"
+# shellcheck source=bin/invoke-gpg-agent
+. ~/bin/invoke-gpg-agent
 
 if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 	# enable color support of ls and also add handy aliases
@@ -132,7 +132,7 @@ set +H
 
 unset DISPLAY
 if [ -z "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty)" = "/dev/tty3" ]; then
-	export WLR_DRM_DEVICES="$(for fn in /dev/dri/card[0-9]; do if udevadm info -a -n $fn | grep -qF boot_vga; then echo -n 0; else echo -n 1; fi; echo " $fn"; done | sort -n | cut -c3-  | head -n1 | tr '\n' ':' | sed -e 's/:$//')"
+	export "WLR_DRM_DEVICES=$(for fn in /dev/dri/card[0-9]; do if udevadm info -a -n "$fn" | grep -qF boot_vga; then echo -n 0; else echo -n 1; fi; echo " $fn"; done | sort -n | cut -c3-  | head -n1 | tr '\n' ':' | sed -e 's/:$//')"
 	exec dbus-run-session sway >~/sway.log 2>&1
 fi
 
