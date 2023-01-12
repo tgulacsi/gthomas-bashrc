@@ -3,6 +3,15 @@ input * {
     xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,caps:escape"
 }
 
+input 1267:12615:DELL0B24:00_04F3:3147_Touchpad {
+    accel_profile adaptive
+    click_method clickfinger
+# disable while typing
+    dwt enabled 
+    middle_emulation enabled
+    tap enabled
+}
+
 xwayland enable
 
 set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
