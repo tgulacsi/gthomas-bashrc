@@ -1,11 +1,10 @@
 [Unit]
-Description=Start godoc
+Description=Start pkgsite
 
 [Service]
 Type=simple
-ExecStartPre=-/bin/sh -c 'test -x /home/$(id -un)/bin/godoc || go install golang.org/x/tools/cmd/godoc@latest'
-ExecStart=/bin/sh -c 'exec /usr/bin/env GOPATH=/home/$(id -un) /home/$(id -un)/bin/godoc -http=:6060'
-#ExecStart=/bin/sh -c 'exec /usr/bin/env GOPATH=/home/$(id -un) $(go env GOROOT)/bin/godoc -http=:6060'
+ExecStartPre=-/bin/sh -c 'test -x /home/$(id -un)/bin/pkgsite || go install golang.org/x/pkgsite/cmd/pkgsite@latest'
+ExecStart=/bin/sh -c 'exec env GOPATH=$HOME/go GOPROXY=https://proxy.golang.org /home/$(id -un)/bin/pkgsite -http=:6060 -cache -gopath_mode -proxy'
 Nice=19
 IOSchedulingClass=3
 CPUSchedulingPolicy=idle
