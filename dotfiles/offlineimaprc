@@ -2,6 +2,7 @@
 accounts = tamas,t.gulacsi
 autorefresh = 0.5
 quick = 10
+pythonfile = ~/bin/offlineimap-pw.py
 fsync = False
 
 [Account tamas]
@@ -18,8 +19,7 @@ restoreatime = no
 type = IMAP
 remotehost = imap.migadu.com
 remoteuser = tamas@gulacsi.eu
-# probably a bad idea
-#remotepass = ***********
+# password is in ~/.netrc
 folderfilter = lambda f: f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
@@ -36,10 +36,12 @@ restoreatime = no
 
 [Repository t.gulacsi-remote]
 type = IMAP
+auth_mechanism = XOAUTH2
 remotehost = imap.outlook.com
 remoteuser = t.gulacsi@unosoft.hu
-# probably a bad idea
-#remotepass = ***********
+oauth2_client_id_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_id')
+oauth2_client_secret_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_secret')
+#oauth2_access_token_eval = get_token('t.gulacsi@unosoft.hu')
 folderfilter = lambda f: f != 'Calendar' and f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
@@ -57,8 +59,9 @@ restoreatime = no
 [Repository tgulacsi78-remote]
 type = Gmail
 remoteuser = tgulacsi78@gmail.com
-# probably a bad idea
-#remotepass = ***********
+oauth2_client_id_eval = get_pass('U/gmail.com/tgulacsi78@gmail.com', 'client_id')
+oauth2_client_secret_eval = get_pass('I/gmail.com/tgulacsi78@gmail.com', 'client_secret')
+oauth2_access_token_eval = get_pass('I/gmail.com/tgulacsi78@gmail.com', 'access_token')
 folderfilter = lambda f: f in ['[Gmail]/All Mail'] and f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
 nametrans = lambda foldername: re.sub('^\[Gmail\]/All Mail$', 'all', foldername)
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt

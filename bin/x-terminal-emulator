@@ -15,7 +15,7 @@ if [ $have_foot -eq 1 ] && [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ] 
 fi
 
 font=
-for fn in 'Iosevka Term' 'Go Mono' 'Fira Code'; do
+for fn in 'Go Mono' 'Iosevka Term' 'Fira Code'; do
 	font="$(fc-list "$fn":Regular family)"
 	if [ -n "$font" ]; then
 		break

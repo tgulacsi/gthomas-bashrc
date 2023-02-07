@@ -34,7 +34,7 @@ OPTS=("/u:$u" "/p:$p" /d:unosoft
 	/gfx:AVC444 +gfx-progressive +gfx-small-cache +gfx-thin-client +glyph-cache 
 	#+home-drive
 	/jpeg /jpeg-quality:75
-	+multitransport
+	+multitouch +multitransport
 	/network:auto /nsc
 	+offscreen-cache 
 	-themes

@@ -19,7 +19,11 @@ if [ -n "$ext" ] && [ "$ext" != html ]; then
 	fn="${fn}.${ext}"
 fi
 case "$mime" in
-	image/*) exec imv-wayland "$fn" ;;
+	image/*) 
+        if ! command -V swayimg >/dev/null 2>/dev/null; then
+            sudo apt install swayimg
+        fi
+        exec swayimg -s optimal -i "$fn" ;;
 esac
 set -x
 exec xdg-open "$fn"

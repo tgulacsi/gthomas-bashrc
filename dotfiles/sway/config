@@ -291,7 +291,7 @@ bar {
 	status_command i3blocks
     #status_command $HOME/bin/goi3bar -config-path=$HOME/.i3/config.json
 	#mode hide
-	font "Iosevka Term Semi-Bold 12"
+	font "Go Mono 11"
 	modifier Mod4
 	position top
     colors {

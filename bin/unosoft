@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 set -u
-if [ -e /etc/openvpn/client/unosoft.conf ]; then
+if [[ -e /etc/openvpn/client/unosoft.conf ]]; then
 	SVC=openvpn-client@unosoft
 	TODO="${1:-restart}"
-	if [ "$TODO" = down ]; then
+	if [[ "$TODO" = down ]]; then
 		TODO=stop
 		if ! systemctl status "$SVC" >/dev/null; then
 			exit 0
@@ -17,10 +17,10 @@ if [ -e /etc/openvpn/client/unosoft.conf ]; then
 		#addroute="$(ip route get 192.168.1.3 | sed -ne '/^1/ { s/ src .*$//; p; }')"
 		;;
 	esac
-	if [ "$TODO" = stop ]; then
+	if [[ "$TODO" = stop ]]; then
 		exit $?
 	fi
-	if [ "$TODO" = dns ]; then
+	if [[ "$TODO" = dns ]]; then
 		#for nm in $(resolvectl dns | sed -ne '/ 192.168.1.1$/ { s/^.*[(]//; s/[)].*$//; p; }'); do
 		#	sudo resolvectl dns "$nm" 127.0.2.1
 		#done
@@ -28,12 +28,33 @@ if [ -e /etc/openvpn/client/unosoft.conf ]; then
 			TODO=restart
 		fi
 	fi
-	if [ "$TODO" != dns ]; then
+	if [[ "$TODO" != dns ]]; then
+		conf=/etc/openvpn/client/fwas.unosoft.hu/tgulacsi.pwd
+		if [[ ${MFA:-0} -eq 1 ]] && [[ -e "$conf" ]]; then
+			username="$(head -n1 "$conf")"
+			password="$(tail -n1 "$conf")"
+			echo "# username=$username password=$password" >&2
+			if [ ${#password} -ge 6 ] && echo "$password" | grep -q '[0-9]{6}$'; then
+				password="${password:0:$(( ${#password} - 6))}"
+				echo "# cleared password=$password" >&2
+			fi
+			# https://gist.github.com/mdeguzis/05d1f284f931223624834788da045c65
+			pin="$({
+pinentry <<EOF
+SETPROMPT UNO-SOFT VPN:
+GETPIN
+EOF
+} | sed -ne '/^D / { s/^D //; p; }')"
+			echo "# pin[${#pin}]=$pin" >&2
+			if [[ ${#pin} -eq 6 ]] && echo -n "$pin" | grep -qE '^[0-9]{6}$'; then
+				echo -e "${username}\n${password}${pin}" | tee "$conf"
+			fi
+		fi
 		sudo systemctl "$TODO" "$SVC"
 	fi
 	while ! resolvectl dns tun0; do sleep 1; done
-	if [ -n "$addroute" ]; then
-		sudo ip route add $addroute
+	if [[ -n "$addroute" ]]; then
+		sudo ip route add "$addroute"
 	fi
 	sudo resolvectl dns tun0 10.65.85.1 || true
 	sudo resolvectl domain tun0 unosoft.local
@@ -66,12 +87,12 @@ for arg in "$@"; do
 	esac
 done
 
-if [ "${FULL:-0}" = 1 ] && nmcli con show --active | fgrep -q Alvallalkozok; then
+if [[ "${FULL:-0}" = 1 ]] && nmcli con show --active | grep -Fq Alvallalkozok; then
 	nmcli --ask con down id Alvallalkozok
 	nmcli --ask con up id Alvallalkozok
 fi
 nmcli --ask con down id "$ID"
-if [ $DOWN -eq 1 ]; then
+if [[ $DOWN -eq 1 ]]; then
 	exit 0
 fi
 
