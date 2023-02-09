@@ -58,6 +58,7 @@ EOF
 	fi
 	sudo resolvectl dns tun0 10.65.85.1 || true
 	sudo resolvectl domain tun0 unosoft.local
+	sudo resolvectl dnsovertls tun0 no
 	sudo resolvectl flush-caches
 	exit $?
 fi
