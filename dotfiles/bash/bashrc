@@ -24,6 +24,12 @@ export QT_QPA_PLATFORM=wayland
 export XDG_SESSION_TYPE=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 export GDK_BACKEND=wayland,x11
+if [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
+    wd="$(ls -t "/run/user/$(id -u)/"wayland-? | head)"
+    if [[ -n "$wd" ]]; then
+        export WAYLAND_DISPLAY="$wd"
+    fi
+fi
 
 export TNS_ADMIN=$HOME/.config/oracle
 export TMPDIR=${TMPDIR:-/tmp}
