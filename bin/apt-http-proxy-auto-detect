@@ -14,7 +14,7 @@ fi
 #echo "# list=${list[*]}" >&2
 for addr in "${list[@]}"; do
 	addr="http://${addr}:3142"
-	if curl -sS -m1 "$addr" | grep -Fq Apt-Cacher; then
+	if curl -sS -m3 "$addr" | grep -Fq Apt-Cacher; then
 		echo "$addr"
 		exit 0
 	fi

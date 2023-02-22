@@ -27,7 +27,7 @@ p="${PASSWORD:-$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
 OPTS=("/u:$u" "/p:$p" /d:unosoft 
     -grab-keyboard /kbd:0x409 /cert:ignore "/v:$DEST" /from-stdin 
 	+auto-reconnect /auto-reconnect-max-retries:10
-	/compression-level:1 
+	/compression-level:2 
 	-decorations /disp /dynamic-resolution 
 	+fonts 
 	/geometry

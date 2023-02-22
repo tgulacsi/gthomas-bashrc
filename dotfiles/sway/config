@@ -287,6 +287,7 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
+    swaybar_command waybar
     #status_command i3status
 	status_command i3blocks
     #status_command $HOME/bin/goi3bar -config-path=$HOME/.i3/config.json

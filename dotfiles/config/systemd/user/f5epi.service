@@ -3,7 +3,7 @@ Description=F5 EndPointInspection
 
 [Service]
 Type=simple
-Environment=DISPLAY=:1 QT_QPA_PLATFORM=xcb
+Environment=DISPLAY=:0 QT_QPA_PLATFORM=xcb
 ExecStart=/opt/f5/epi/f5epi
 Nice=19
 IOSchedulingClass=3
