@@ -34,7 +34,7 @@ case "$monitor" in
 esac
 if [ $have_foot -eq 1 ]; then
     set -x
-    exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},Noto Sans:size=${fontsize}"
+    exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
 fi
 which stterm 2>&1 && exec stterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
 which lxterm 2>&1 && exec lxterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
