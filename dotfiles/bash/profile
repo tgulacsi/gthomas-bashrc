@@ -80,7 +80,7 @@ fi
 export KRDIR=$HOME/Documents/abevjava/eKuldes
 
 if [[ -z "$_ULIMIT_HAS_BEEN_SET" ]]; then
-	memsize=$(awk '/MemTotal/ {print $2 * 921}' /proc/meminfo)
+	memsize=$(awk '/MemTotal/ {printf "%d", $2 * 921}' /proc/meminfo)
 	ulimit -S -d "$memsize"
 	#ulimit -S -m $(( "$memsize" * 1 ))
 	#ulimit -S -v $(( "$memsize" * 3 ))
