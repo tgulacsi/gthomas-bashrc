@@ -35,9 +35,12 @@ OPTS=("/u:$u" "/p:$p" /d:unosoft
 	#+home-drive
 	/jpeg /jpeg-quality:75
 	+multitouch +multitransport
-	/network:auto /nsc
+    "/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
+    /nsc
 	+offscreen-cache 
+    /size:1920x1060
 	-themes
+    /timeout:30000
 	+toggle-fullscreen
 	-wallpaper
 )

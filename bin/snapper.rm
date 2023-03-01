@@ -5,16 +5,14 @@ if [ "${1:-}" = --all ]; then
 	all=1
 	shift
 fi
-configs="${CONFIG:-${1:-}}"
-if [ -z "$configs" ]; then
-	configs="$(snapper list-configs --columns config | tail -n-2)"
-fi
-for cfg in $configs; do
-	echo "# cfg=$cfg" >&2
+
+snapper list-configs | sed -ne '/\// { s/|/\t/; p; }' | while read -r cfg subv; do
+	echo "# cfg=$cfg subv=$subv" >&2
 	if [ $all -eq 1 ]; then
 		exec snapper -c "$cfg" delete $(snapper -c "$cfg" list --disable-used-space | sed -ne '/^ *[0-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p')
 	fi
 	snapper -c "$cfg" cleanup timeline
 	snapper -c "$cfg" cleanup number
 	snapper -c "$cfg" list --disable-used-space | fgrep ' apt ' | sed -ne '/^ *[1-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p' | xargs -r snapper -c "$cfg" delete
+    for t in m d; do for p in 0 10 25 50; do sudo btrfs balance start "-${t}usage=${p}" "$subv"; done; done
 done
