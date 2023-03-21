@@ -29,7 +29,7 @@ if [[ -e /etc/openvpn/client/unosoft.conf ]]; then
 		fi
 	fi
 	if [[ "$TODO" != dns ]]; then
-		conf=/etc/openvpn/client/fwas.unosoft.hu/tgulacsi.pwd
+		conf=/etc/openvpn/client/tgulacsi.pwd
 		if [[ ${MFA:-0} -eq 1 ]] && [[ -e "$conf" ]]; then
 			username="$(head -n1 "$conf")"
 			password="$(tail -n1 "$conf")"
