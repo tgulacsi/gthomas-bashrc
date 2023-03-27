@@ -19,7 +19,7 @@ xwayland enable
 
 set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
 exec_always "[ -e ~/.config/systemd/user/sway-session.target ] && { systemctl --user import-environment; systemctl --user start sway-session.target; }"
-exec_always "gsettings set org.gnome.desktop.interface text-scaling-factor $(if [ $(swaymsg -t get_outputs -r | jq '.[] | select(.focused) | .current_mode.height'] -le 1080 ]; then 1; else 2; fi)"
+exec_always "gsettings set org.gnome.desktop.interface text-scaling-factor $(if [ $(swaymsg -t get_outputs -r | jq '.[] | select(.focused) | .current_mode.height') -le 1080 ]; then echo 1; else echo 2; fi)"
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
 exec_always [ -x /usr/bin/im-daemon ] && im-daemon
