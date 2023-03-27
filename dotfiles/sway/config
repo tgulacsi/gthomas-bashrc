@@ -8,14 +8,18 @@ input 1267:12615:DELL0B24:00_04F3:3147_Touchpad {
     click_method clickfinger
 # disable while typing
     dwt enabled 
+    events disabled_on_external_mouse
     middle_emulation enabled
+    scroll_method two_finger
     tap enabled
+    tap_button_map lrm
 }
 
 xwayland enable
 
 set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
 exec_always "[ -e ~/.config/systemd/user/sway-session.target ] && { systemctl --user import-environment; systemctl --user start sway-session.target; }"
+exec_always "gsettings set org.gnome.desktop.interface text-scaling-factor $(if [ $(swaymsg -t get_outputs -r | jq '.[] | select(.focused) | .current_mode.height'] -le 1080 ]; then 1; else 2; fi)"
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
 exec_always [ -x /usr/bin/im-daemon ] && im-daemon
@@ -40,6 +44,8 @@ set $term $HOME/bin/x-terminal-emulator
 set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | wofi -d | env PATH=$HOME/bin:$PATH xargs which | xargs -r swaymsg exec --
 #set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | env "PATH=$HOME/bin:$PATH" wofi -S run
 #set $menu env PATH=$HOME/bin:$PATH dmenu_path | rofi -mode run
+
+font pango:Go Mono 20
 
 default_border pixel
 
@@ -84,6 +90,12 @@ output HDMI-A-1 {
     dpms on
     enable
 }
+
+#output "Dell Inc. DELL P2723QE FPC6SS3" {
+#    mode 3840x2160
+#    scale 1.5    
+#    scale_filter nearest
+#}
 
 #output * background $HOME/dotfiles/sway/background.png center dpms on
 output * background $wallpaper fill dpms on
@@ -288,18 +300,6 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     swaybar_command waybar
-    #status_command i3status
-	status_command i3blocks
-    #status_command $HOME/bin/goi3bar -config-path=$HOME/.i3/config.json
-	#mode hide
-	font "Go Mono 11"
-	modifier Mod4
-	position top
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
 }
 
 #####

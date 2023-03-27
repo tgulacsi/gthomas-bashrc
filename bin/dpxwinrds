@@ -13,7 +13,7 @@ prog=${RDP:-$prog}
 #pkill -f "${prog}.*0x409 .* /v:${DEST}"
 
 #focused="$(swaymsg -t get_workspaces | jq -r '.[] | select(.focused) | .output')"
-#output="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused)')"
+output="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused)')"
 #dims="$(echo "$output" | jq -r '(.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
 #scale="$(echo "$output" | jq -r '.scale')"
 #w=${dims%%x*}
@@ -44,6 +44,9 @@ OPTS=("/u:$u" "/p:$p" /d:unosoft
 	+toggle-fullscreen
 	-wallpaper
 )
+if [ $(echo "$output" | jq -r '.current_mode.height') -gt 1080 ]; then
+    OPTS+=(/scale:140)
+fi
 if [ "${1:-}" != "-nocb" ]; then
 	OPTS+=(+clipboard)
 else
