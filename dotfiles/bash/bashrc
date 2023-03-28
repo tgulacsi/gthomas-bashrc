@@ -21,6 +21,11 @@ export LC_ALL=
 export MOZ_ENABLE_WAYLAND=1
 export MOZ_DBUS_REMOTE=1
 export QT_QPA_PLATFORM=wayland
+if [ "$(swaymsg -t get_outputs -r | jq '.[] | select(.focused) | .current_mode.height')" -le 1080 ]; then
+    unset QT_DEVICE_PIXEL_RATIO
+else
+    export QT_DEVICE_PIXEL_RATIO=2
+fi
 export XDG_SESSION_TYPE=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 export GDK_BACKEND=wayland,x11
@@ -99,5 +104,5 @@ fi
 
 if [[ -f ~/.fzf.bash ]]; then
     # shellcheck source=$HOME/.fzf.bash
-    source ~/.fzf.bash
+    source "$HOME/.fzf.bash"
 fi
