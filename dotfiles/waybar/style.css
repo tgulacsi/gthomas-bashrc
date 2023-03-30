@@ -1,7 +1,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: "Go Mono", forkawesome, FontAwesome, "Noto Sans", sans-serif;
-    font-size: 16px;
+    font-size: 105%;
 }
 
 window#waybar {

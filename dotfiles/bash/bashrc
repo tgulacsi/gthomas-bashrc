@@ -11,6 +11,19 @@ if [[ ${__bashrc_bench:-0} -eq 1 ]]; then
 	set -x
 fi
 
+get_output () {
+	swaymsg -t get_outputs -r | jq '.[] | select(.focused) | .current_mode' 
+}
+get_output_width () {
+	get_output | jq -r '.width'
+}
+get_output_height () {
+	get_output | jq -r '.height'
+}
+output_is_hidpi () {
+	test "$(get_output_height)" -gt 1080
+}
+
 # set PATH so it includes user's private bin if it exists
 #export LANGUAGE="hu_HU:en_US:en"
 export LANGUAGE="en"
@@ -70,7 +83,7 @@ if [[ -x "/usr/local/go/bin/go" ]] && ! echo "$PATH" | grep -q /usr/local/go/bin
 	export GOPROXY=http://proxy.golang.org,direct
 	export MAGEFILE_HASHFAST=1
 fi
-if [[ -z "$_OHOME_HAS_BEEN_SET" ]]; then
+if [[ -z "${_OHOME_HAS_BEEN_SET:-}" ]]; then
 	export TNS_ADMIN=$HOME
 	#echo OH=$ORACLE_HOME
 	if [[ -z "$ORACLE_HOME" ]]; then
@@ -94,7 +107,7 @@ if [[ -z "$_OHOME_HAS_BEEN_SET" ]]; then
 	_OHOME_HAS_BEEN_SET=1
 fi
 
-if [[ -z "$_PATH_HAS_BEEN_SET" ]]; then
+if [[ -z "${_PATH_HAS_BEEN_SET:-}" ]]; then
 	if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq "$HOME/bin"; then
 		PATH="$HOME/bin:$PATH"
 	fi
