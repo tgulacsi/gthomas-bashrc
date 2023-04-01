@@ -1,0 +1,6 @@
+[[language]]
+name = "sql"
+indent = {tab-width = 2, unit = "  "}
+comment-token = "--"
+file-types = ["sql"]
+#encoding = "iso8859-2"
