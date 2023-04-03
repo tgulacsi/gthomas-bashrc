@@ -19,7 +19,7 @@ xwayland enable
 
 set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
 exec_always "[ -e ~/.config/systemd/user/sway-session.target ] && { systemctl --user import-environment; systemctl --user start sway-session.target; }"
-exec_always "gsettings set org.gnome.desktop.interface text-scaling-factor $(if output_is_hidpi; then echo 1.5; else echo 1; fi)"
+exec_always "gsettings set org.gnome.desktop.interface text-scaling-factor $(declare -F output_is_hidpi || . $HOME/.bashrc; if output_is_hidpi; then echo 1.5; else echo 1; fi)"
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
 exec_always [ -x /usr/bin/im-daemon ] && im-daemon
