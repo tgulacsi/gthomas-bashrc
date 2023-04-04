@@ -12,7 +12,7 @@ if [[ ${__bashrc_bench:-0} -eq 1 ]]; then
 fi
 
 get_output () {
-	swaymsg -t get_outputs -r | jq '.[] | select(.focused) | .current_mode' 
+	{ swaymsg -t get_outputs -r 2>/dev/null || echo '[]'; } | jq '.[] | select(.focused) | .current_mode' 
 }
 get_output_width () {
 	get_output | jq -r '.width'
@@ -21,7 +21,8 @@ get_output_height () {
 	get_output | jq -r '.height'
 }
 output_is_hidpi () {
-	test "$(get_output_height)" -gt 1080
+	height="$(get_output_height)"
+	test "${height:-0}" -gt 1080
 }
 
 # set PATH so it includes user's private bin if it exists
@@ -34,10 +35,10 @@ export LC_ALL=
 export MOZ_ENABLE_WAYLAND=1
 export MOZ_DBUS_REMOTE=1
 export QT_QPA_PLATFORM=wayland
-if [ "$(swaymsg -t get_outputs -r | jq '.[] | select(.focused) | .current_mode.height')" -le 1080 ]; then
-    unset QT_DEVICE_PIXEL_RATIO
-else
+if output_is_hidpi; then
     export QT_DEVICE_PIXEL_RATIO=2
+else
+    unset QT_DEVICE_PIXEL_RATIO
 fi
 export XDG_SESSION_TYPE=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1

@@ -131,7 +131,7 @@ fi
 set +H
 
 unset DISPLAY
-if [ -z "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty)" = "/dev/tty3" ]; then
+if [ "$(tty)" = "/dev/tty3" ]; then
 	export "WLR_DRM_DEVICES=$(for fn in /dev/dri/card[0-9]; do if udevadm info -a -n "$fn" | grep -qF boot_vga; then echo -n 0; else echo -n 1; fi; echo " $fn"; done | sort -n | cut -c3-  | head -n1 | tr '\n' ':' | sed -e 's/:$//')"
 	exec systemd-cat -t sway -- dbus-run-session sway 
 fi
@@ -141,22 +141,15 @@ fi
 #echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
 if [[ "$TERM" != 'dumb' ]]; then
 	export COLORTERM=truecolor
+	export TERM=xterm-256color
 	if which tmux >/dev/null 2>&1; then
 		if [[ -z "$TMUX" ]]; then
-			if [[ "$TERM" != 'sakura' ]]; then
-				case "$TERM" in
-				tmux- | xterm-) ;;
-				*)
-					export TERM=xterm-256color
-					;;
-				esac
-                # last non-attached
-                last="$(tmux list-sessions -F '#{session_attached} #S' | sed -ne '/^0/ {s/^0 //; p;}' | head -n1)"
-                if [[ -n "$last" ]]; then
-                    exec tmux attach-session -t "$last"
-                fi
-				exec tmux 
+			# last non-attached
+			last="$(tmux list-sessions -F '#{session_attached} #S' | sed -ne '/^0/ {s/^0 //; p;}' | head -n1)"
+			if [[ -n "$last" ]]; then
+				exec tmux attach-session -t "$last"
 			fi
+			exec tmux 
 		fi
 	fi
 fi
