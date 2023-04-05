@@ -20,9 +20,30 @@ get_output_width () {
 get_output_height () {
 	get_output | jq -r '.height'
 }
+get_output_size () {
+    get_output | jq -r '(.width | tostring) + " " + (.height | tostring)'
+}
+get_output_physical_size () {
+    command -V wayland-info >/dev/null || sudo apt install wayland-utils
+    wayland-info | sed -ne "/^interface: 'wl_output',/,$ { /physical_/ { s/^[^:]*: //; s/ mm,[^:]*: / /; s/mm,.*$//; p; }; }"
+}
+get_output_dpi () {
+    get_output_size | while read -r lw lh; do
+        #echo "lw=$lw lh=$lh" >&2
+        get_output_physical_size | while read -r pw ph; do
+            #echo "pw=$pw ph=$ph" >&2
+            echo "($lw + $lh) / (($pw + $ph) / 25.4)" | bc -l | cut -d. -f1
+        done
+    done
+}
 output_is_hidpi () {
-	height="$(get_output_height)"
-	test "${height:-0}" -gt 1080
+    dpi=$(get_output_dpi)
+    if [[ -n $dpi ]]; then
+        test $dpi -gt 143
+    else
+        height="$(get_output_height)"
+        test "${height:-0}" -gt 1080
+    fi
 }
 
 # set PATH so it includes user's private bin if it exists
