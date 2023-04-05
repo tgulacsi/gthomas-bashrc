@@ -20,8 +20,8 @@ prog=${RDP:-$prog}
 #w=${dims%%x*}
 #h=${dims##*x}
 #if [ -n "$scale" ]; then
-#    w="$(echo "$w / $scale" | bc)"
-#    h="$(echo "$h / $scale" | bc)"
+#	w="$(echo "$w / $scale" | bc)"
+#	h="$(echo "$h / $scale" | bc)"
 #fi
 
 if ! declare -F get_output_width; then
@@ -33,27 +33,28 @@ echo "# w=$w h=$h" >&2
 
 p="${PASSWORD:-$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
 OPTS=("/u:$u" "/p:$p" /d:unosoft 
-    -grab-keyboard /kbd:0x409 /cert:ignore "/v:$DEST" /from-stdin 
+	-grab-keyboard /kbd:0x409 /cert:ignore "/v:$DEST" /from-stdin 
 	+auto-reconnect /auto-reconnect-max-retries:10
 	/compression-level:2 
-	-decorations /disp /dynamic-resolution 
+	-decorations /disp 
+	#/dynamic-resolution 
 	+fonts 
 	/geometry
 	/gfx:AVC444 +gfx-progressive +gfx-small-cache +gfx-thin-client +glyph-cache 
 	#+home-drive
 	/jpeg /jpeg-quality:75
 	+multitouch +multitransport
-    "/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
-    /nsc
+	"/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
+	/nsc
 	+offscreen-cache 
-    "/size:${w}x$(( "$h" - 24 ))"
+	"/size:${w}x$(( "$h" - 24 ))"
 	-themes
-    /timeout:30000
+	/timeout:30000
 	+toggle-fullscreen
 	-wallpaper
 )
 if output_is_hidpi; then
-    OPTS+=(/scale:140)
+	OPTS+=(/scale:140)
 fi
 if [ "${1:-}" != "-nocb" ]; then
 	OPTS+=(+clipboard)
@@ -63,9 +64,9 @@ else
 fi
 
 if [ -t 1 ]; then
-    OPTS+=(/log-level:INFO)
+	OPTS+=(/log-level:INFO)
 else
-    OPTS+=(/log-level:WARN)
+	OPTS+=(/log-level:WARN)
 fi
 
 #/floatbar:sticky:on,default:visible,show:always

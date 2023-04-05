@@ -49,6 +49,8 @@ font pango:Go Mono 20
 
 default_border pixel
 
+#for_window [app_id="wlfreerdp"] resize grow width 100 ppt; resize grow height 98 ppt
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
