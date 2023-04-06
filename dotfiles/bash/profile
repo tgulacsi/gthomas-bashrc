@@ -9,7 +9,7 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# shellcheck source=.bashrc
+# shellcheck source=$HOME/.bashrc disable=SC1091
 . "$HOME/.bashrc"  
 
 touch "$XDG_RUNTIME_DIR/wallpaper.png"
@@ -30,8 +30,8 @@ else
 fi
 mkdir -p ~/.cache/mutt
 
-# shellcheck source=bin/invoke-gpg-agent
-. ~/bin/invoke-gpg-agent
+# shellcheck source=$HOME/bin/invoke-gpg-agent disable=SC1091
+. "$HOME/bin/invoke-gpg-agent"
 
 if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 	# enable color support of ls and also add handy aliases
@@ -66,11 +66,13 @@ if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 	# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 	if [[ -f ~/.bash_aliases ]]; then
-        # shellcheck source=.bash_aliases
+		# shellcheck disable=SC1091
+		# shellcheck source=$HOME/.bash_aliases
 		. "$HOME/.bash_aliases"
 	fi
 
 	for fn in ~/dotfiles/bash-completions/completions/*; do
+		# shellcheck disable=SC1091
 		. "$fn"
 	done
 	_ALIASES_HAS_BEEN_SET=1
@@ -109,21 +111,22 @@ if [[ -z "$_PROMPT_HAS_BEEN_SET" ]]; then
 		# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 		# sources /etc/bash.bashrc).
 		if [[ -f /etc/bash_completion ]] && ! shopt -oq posix; then
-            # shellcheck source=/etc/bash_completion
+		    # shellcheck source=/etc/bash_completion disable=SC1091
 			. /etc/bash_completion
 		fi
 	fi
 
 	# make less more friendly for non-text input files, see lesspipe(1)
 	if [[ -x /usr/bin/lesspipe ]]; then
-        eval "$(SHELL=/bin/sh lesspipe)"
-    fi
+		eval "$(SHELL=/bin/sh lesspipe)"
+		fi
 
 	_PROMPT_HAS_BEEN_SET=1
 fi
 
 if [[ -e ~/.ssh/tgulacsi@github.com ]]; then
-    # shellcheck source=.ssh/tgulacsi@github.com
+	# shellcheck disable=SC1091
+	# shellcheck source=.ssh/tgulacsi@github.com
 	. "$HOME/.ssh/tgulacsi@github.com"
 fi
 
@@ -132,7 +135,7 @@ set +H
 
 unset DISPLAY
 if [ "$(tty)" = "/dev/tty3" ]; then
-	export "WLR_DRM_DEVICES=$(for fn in /dev/dri/card[0-9]; do if udevadm info -a -n "$fn" | grep -qF boot_vga; then echo -n 0; else echo -n 1; fi; echo " $fn"; done | sort -n | cut -c3-  | head -n1 | tr '\n' ':' | sed -e 's/:$//')"
+		export "WLR_DRM_DEVICES=$(for fn in /dev/dri/card[0-9]; do if udevadm info -a -n "$fn" | grep -qF boot_vga; then echo -n 0; else echo -n 1; fi; echo " $fn"; done | sort -n | cut -c3-  | head -n1 | tr '\n' ':' | sed -e 's/:$//')"
 	exec systemd-cat -t sway -- dbus-run-session sway 
 fi
 
