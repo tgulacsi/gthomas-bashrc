@@ -25,7 +25,7 @@ get_output_size () {
 }
 get_output_physical_size () {
     command -V wayland-info >/dev/null || sudo apt install wayland-utils >&2
-    wayland-info | sed -ne "/^interface: 'wl_output',/,$ { /physical_/ { s/^[^:]*: //; s/ mm,[^:]*: / /; s/mm,.*$//; p; }; }"
+    wayland-info | sed -ne "/^interface: 'wl_output',/,$ { /physical_/ { s/^[^:]*: //; s/ mm,[^:]*: / /; s/mm,.*$//; p; }; }" | head -n1
 }
 get_output_dpi () {
     get_output_size | while read -r lw lh; do

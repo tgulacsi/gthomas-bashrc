@@ -28,13 +28,15 @@ fi
 fontsize=10
 monitor="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .model + ": " + (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')" 
 case "$monitor" in
+	DELL\ P2723QE:*) fontsize=14 ;;
 	LG\ ULTRAWIDE:*) fontsize=14 ;;
-    SA300/SA350:*) fontsize=12 ;;
+	SA300/SA350:*) fontsize=12 ;;
     *) echo "monitor=$monitor" ;;
 esac
 if [ $have_foot -eq 1 ]; then
     set -x
-    exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
+    #exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
+    exec foot --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
 fi
 which stterm 2>&1 && exec stterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
 which lxterm 2>&1 && exec lxterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
