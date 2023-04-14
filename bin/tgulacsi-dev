@@ -1,5 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 set -x
-exec wlfreerdp /u:tgulacsi /d:localhost /v:tgulacsi-dev.swedencentral.cloudapp.azure.com:3389 "/p:$(pass show I/azure.com/tgulacsi | head -n1)" \
-	/microphone /sound \
-	+clipboard -grab-keyboard /kbd:0x409 /network:modem /cert:ignore -fonts -decorations /disp /dynamic-resolution "$@"
+if ! declare -F get_output_width; then
+	. ~/.bashrc
+fi
+rdp_opts
+
+exec wlfreerdp /u:tgulacsi /d:localhost /v:tgulacsi-dev.swedencentral.cloudapp.azure.com:3389 "/p:$(pass show I/azure.com/tgulacsi | head -n1)" "$RDP_OPTIONS[@]}" "$@"

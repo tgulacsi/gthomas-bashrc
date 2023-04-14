@@ -46,6 +46,42 @@ output_is_hidpi () {
     fi
 }
 
+rdp_opts () {
+	RDP_OPTIONS=(
+		-grab-keyboard /kbd:0x409 /cert:ignore 
+		+auto-reconnect /auto-reconnect-max-retries:10
+		/compression-level:2 
+		/clipboard
+		-decorations /disp 
+		#/dynamic-resolution 
+		+fonts 
+		/geometry
+		/gfx:AVC444 +gfx-progressive +gfx-small-cache +gfx-thin-client +glyph-cache 
+		#+home-drive
+		/jpeg /jpeg-quality:75
+		/microphone /sound 
+		+multitouch +multitransport
+		"/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
+		/nsc
+		+offscreen-cache 
+		"/size:${w}x$(( "$h" - 24 ))"
+		-themes
+		/timeout:30000
+		+toggle-fullscreen
+		-wallpaper
+	)
+	if output_is_hidpi; then
+		RDP_OPTIONS+=(/scale:140)
+	fi
+	if [ -t 1 ]; then
+		OPTS+=(/log-level:INFO)
+	else
+		OPTS+=(/log-level:WARN)
+	fi
+
+	export RDP_OPTIONS
+}
+
 # set PATH so it includes user's private bin if it exists
 #export LANGUAGE="hu_HU:en_US:en"
 export LANGUAGE="en"

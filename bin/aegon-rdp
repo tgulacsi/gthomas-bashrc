@@ -26,7 +26,16 @@ if [ -z "$gw" ]; then
 fi
 
 echo "# gat=$gat gw=$gw" >&2
-passw="${PASSWORD:-$(pass show U/A/gulacsit | head -n1)}"
+passw="${PASSWORD:-$(gopass show U/A/A-gulacsit | head -n1)}"
+
+if ! declare -F get_output_width; then
+	. $HOME/.bashrc
+fi
+w="$(get_output_width)"
+h="$(get_output_height)"
+echo "# w=$w h=$h" >&2
+
+rdp_opts
 
 set -x
 #exec xfreerdp  /u:gulacsit /d:ab-aegon "/p:${passw}" "/v:${host}" "/g:${gw}" "/gat:${gat}" "$@"
@@ -40,21 +49,5 @@ prog=${RDP:-$prog}
 #/drive:tmp,/tmp
 set -x
 #exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore /f -themes -decorations -fonts /gdi:hw +heartbeat /network:modem +clipboard /log-level:WARN -grab-keyboard +async-channels +async-input +async-update +fast-path +offscreen-cache -bitmap-cache /compression-level:1 /smart-sizing:${w}x$(($h - 24 )) "$@"
-exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-ignore \
-    -grab-keyboard /kbd:0x409 \
-	+auto-reconnect /auto-reconnect-max-retries:10 \
-    +clipboard \
-	/compression-level:1  \
-	-decorations /disp \
-	+fonts  \
-	/geometry \
-	/gfx:AVC444 +gfx-progressive +gfx-small-cache +gfx-thin-client +glyph-cache  \
-	/jpeg /jpeg-quality:75 \
-    /log-level:WARN \
-	+multitransport \
-	/network:auto /nsc \
-	+offscreen-cache  \
-	-themes \
-	+toggle-fullscreen \
-	-wallpaper \
-"$@"
+exec "${prog}" "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" \
+	${RDP_OPTIONS[@]} "$@"
