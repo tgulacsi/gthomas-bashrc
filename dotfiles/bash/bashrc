@@ -47,6 +47,9 @@ output_is_hidpi () {
 }
 
 rdp_opts () {
+	w="$(get_output_width)"
+	h="$(get_output_height)"
+	# https://github.com/FreeRDP/FreeRDP/discussions/8562
 	RDP_OPTIONS=(
 		-grab-keyboard /kbd:0x409 /cert:ignore 
 		+auto-reconnect /auto-reconnect-max-retries:10
@@ -59,7 +62,7 @@ rdp_opts () {
 		/gfx:AVC444 +gfx-progressive +gfx-small-cache +gfx-thin-client +glyph-cache 
 		#+home-drive
 		/jpeg /jpeg-quality:75
-		/microphone /sound 
+		/microphone:format:1 /sound 
 		+multitouch +multitransport
 		"/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
 		/nsc

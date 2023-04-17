@@ -5,4 +5,7 @@ if ! declare -F get_output_width; then
 fi
 rdp_opts
 
-exec wlfreerdp /u:tgulacsi /d:localhost /v:tgulacsi-dev.swedencentral.cloudapp.azure.com:3389 "/p:$(pass show I/azure.com/tgulacsi | head -n1)" "$RDP_OPTIONS[@]}" "$@"
+exec wlfreerdp /u:tgulacsi /d:localhost \
+    /v:tgulacsi-dev.swedencentral.cloudapp.azure.com:3389 \
+    "/p:$(pass show I/azure.com/tgulacsi | head -n1)" \
+    "${RDP_OPTIONS[@]}" "$@"
