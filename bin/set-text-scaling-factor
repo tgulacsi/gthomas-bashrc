@@ -1,0 +1,13 @@
+#!/bin/bash
+factor="${1:-}"
+if [[ -z "$factor" ]]; then
+	if ! declare -F output_is_hidpi; then
+		. ~/.bashrc
+	fi
+	if output_is_hidpi; then
+		factor=1.5
+	else
+		factor=1
+	fi
+fi
+exec gsettings set org.gnome.desktop.interface text-scaling-factor "$factor"
