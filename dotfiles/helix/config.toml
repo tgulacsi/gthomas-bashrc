@@ -3,6 +3,7 @@ theme = "solarized_light"
 [editor]
 cursorline = true
 bufferline = "multiple"
+# gutters = []   # for tmux
 
 [editor.whitespace.render]
 tab = "all"
@@ -13,6 +14,11 @@ skip-levels = 1
 
 [editor.soft-wrap]
 enable = true
+
+[editor.cursor-shape]
+normal = "bar"
+insert = "bar"
+select = "underline"
 
 [keys.normal]
 # Quick iteration on config changes
