@@ -52,7 +52,7 @@ rdp_opts () {
 	# https://github.com/FreeRDP/FreeRDP/discussions/8562
 	RDP_OPTIONS=(
 		-grab-keyboard /kbd:0x409 /cert:ignore 
-		+auto-reconnect /auto-reconnect-max-retries:10
+		-auto-reconnect #+auto-reconnect /auto-reconnect-max-retries:10
 		/compression-level:2 
 		/clipboard
 		-decorations /disp 
@@ -64,7 +64,7 @@ rdp_opts () {
 		/jpeg /jpeg-quality:75
 		/microphone:format:1 /sound 
 		+multitouch +multitransport
-		"/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
+		"/network:$(if hidpi || nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
 		/nsc
 		+offscreen-cache 
 		"/size:${w}x$(( "$h" - 24 ))"

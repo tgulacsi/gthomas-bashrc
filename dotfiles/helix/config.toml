@@ -38,8 +38,8 @@ C-l = "select_next_sibling"
 "$" = "goto_line_end"
 "^" = "goto_first_nonwhitespace"
 V = ["select_mode", "extend_to_line_bounds"]
-C = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection", "insert_mode"]
-D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection"]
+#C = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection", "insert_mode"]
+#D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection"]
 
 # If you want to keep the selection-while-moving behaviour of Helix, this two lines will help a lot,
 # especially if you find having text remain selected while you have switched to insert or append mode
