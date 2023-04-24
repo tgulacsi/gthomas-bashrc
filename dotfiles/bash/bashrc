@@ -47,32 +47,47 @@ output_is_hidpi () {
 }
 
 rdp_opts () {
-	w="$(get_output_width)"
-	h="$(get_output_height)"
+	w=1920
+	h=1024
+	if [[ !output_is_hidpi ]]; then
+		w="$(get_output_width)"
+		h="$(get_output_height)"
+	fi
 	# https://github.com/FreeRDP/FreeRDP/discussions/8562
 	RDP_OPTIONS=(
 		-grab-keyboard /kbd:0x409 /cert:ignore 
 		-auto-reconnect #+auto-reconnect /auto-reconnect-max-retries:10
+		+bitmap-cache /codec-cache:nsc
 		/compression-level:2 
 		/clipboard
 		-decorations /disp 
 		#/dynamic-resolution 
+		/floatbar:show:always
 		+fonts 
 		/geometry
-		/gfx:AVC444 +gfx-progressive +gfx-small-cache +gfx-thin-client +glyph-cache 
+		/gfx:AVC444 +gfx-progressive +gfx-small-cache +glyph-cache 
 		#+home-drive
 		/jpeg /jpeg-quality:75
+		-menu-anims
 		/microphone:format:1 /sound 
 		+multitouch +multitransport
 		"/network:$(if hidpi || nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
 		/nsc
 		+offscreen-cache 
 		"/size:${w}x$(( "$h" - 24 ))"
+		/smart-sizing
 		-themes
 		/timeout:30000
 		+toggle-fullscreen
 		-wallpaper
 	)
+	psize="$(get_output_physical_size)"
+	if [[ -n "$psize" ]]; then
+		RDP_OPTIONS+=(
+			"/pheight:${psize# *}"
+			"/pwidth:${psize%% *}"
+		)
+	fi
 	if output_is_hidpi; then
 		RDP_OPTIONS+=(/scale:140)
 	fi
