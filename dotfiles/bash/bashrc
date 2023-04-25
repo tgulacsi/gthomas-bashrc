@@ -57,31 +57,31 @@ rdp_opts () {
 	RDP_OPTIONS=(
 		-grab-keyboard /kbd:0x409 /cert:ignore 
 		-auto-reconnect #+auto-reconnect /auto-reconnect-max-retries:10
-		+bitmap-cache /codec-cache:nsc
-		/compression-level:2 
+		#+bitmap-cache /codec-cache:nsc
+		#/compression-level:2 
 		/clipboard
 		-decorations /disp 
 		#/dynamic-resolution 
-		/floatbar:show:always
+		#/floatbar:show:always
 		+fonts 
-		/geometry
+		#/geometry
 		/gfx:AVC444 +gfx-progressive +gfx-small-cache +glyph-cache 
 		#+home-drive
 		/jpeg /jpeg-quality:75
 		-menu-anims
 		/microphone:format:1 /sound 
 		+multitouch +multitransport
-		"/network:$(if hidpi || nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
-		/nsc
+		"/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
+		#/nsc
 		+offscreen-cache 
 		"/size:${w}x$(( "$h" - 24 ))"
-		/smart-sizing
+		#/smart-sizing
 		-themes
-		/timeout:30000
+		/timeout:3000
 		+toggle-fullscreen
 		-wallpaper
 	)
-	psize="$(get_output_physical_size)"
+	psize="$(get_output_physical_size | head -n1)"
 	if [[ -n "$psize" ]]; then
 		RDP_OPTIONS+=(
 			"/pheight:${psize# *}"
