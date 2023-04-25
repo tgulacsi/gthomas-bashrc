@@ -12,6 +12,9 @@ if [[ ${__bashrc_bench:-0} -eq 1 ]]; then
 fi
 
 get_output () {
+	if [[ -z "$SWAYSOCK" || ! -e "$SWAYSOCK" ]]; then
+		export SWAYSOCK="$(ls -t "/run/user/$(id -u)/sway-ipc.$(id -u)."*.sock | head -n1)"
+	fi
 	{ swaymsg -t get_outputs -r 2>/dev/null || echo '[]'; } | jq '.[] | select(.focused) | .current_mode' 
 }
 get_output_width () {
@@ -75,18 +78,20 @@ rdp_opts () {
 		#/nsc
 		+offscreen-cache 
 		"/size:${w}x$(( "$h" - 24 ))"
-		#/smart-sizing
+		/smart-sizing
 		-themes
 		/timeout:3000
 		+toggle-fullscreen
 		-wallpaper
 	)
-	psize="$(get_output_physical_size | head -n1)"
-	if [[ -n "$psize" ]]; then
-		RDP_OPTIONS+=(
-			"/pheight:${psize# *}"
-			"/pwidth:${psize%% *}"
-		)
+	if true; then
+		psize="$(get_output_physical_size | head -n1)"
+		if [[ -n "$psize" ]]; then
+			RDP_OPTIONS+=(
+				"/pheight:$(echo "$psize" | cut '-d ' -f2)"
+				"/pwidth:$(echo "$psize" | cut '-d ' -f1)"
+			)
+		fi
 	fi
 	if output_is_hidpi; then
 		RDP_OPTIONS+=(/scale:140)
