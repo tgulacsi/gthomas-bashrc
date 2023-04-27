@@ -1,0 +1,2 @@
+#!/bin/sh
+exec env DISPLAY=${DISPLAY:-:0} ~/idea/bin/idea.sh "$@"
