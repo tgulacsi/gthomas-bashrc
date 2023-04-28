@@ -78,7 +78,7 @@ rdp_opts () {
 		#/nsc
 		+offscreen-cache 
 		"/size:${w}x$(( "$h" - 24 ))"
-		/smart-sizing
+		#/smart-sizing
 		-themes
 		/timeout:3000
 		+toggle-fullscreen
@@ -133,7 +133,7 @@ fi
 
 export TNS_ADMIN=$HOME/.config/oracle
 export TMPDIR=${TMPDIR:-/tmp}
-EDITOR='vim'
+EDITOR='hx'
 export EDITOR
 export VISUAL=$EDITOR
 export PAGER='less'
