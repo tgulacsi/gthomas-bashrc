@@ -18,7 +18,12 @@ input 1267:12615:DELL0B24:00_04F3:3147_Touchpad {
 xwayland enable
 
 set $wallpaper $XDG_RUNTIME_DIR/wallpaper.png
+
+exec_always dbus-update-activation-environment DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec_always systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec_always systemctl --user restart xdg-desktop-portal.service
 exec_always "[ -e ~/.config/systemd/user/sway-session.target ] && { systemctl --user import-environment; systemctl --user start sway-session.target; }"
+exec_always systemctl --user restart swaync.service
 exec_always set-text-scaling-factor
 exec_always wallpaper $wallpaper
 exec_always xrdb -load ~/.Xresources
@@ -45,9 +50,11 @@ set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executabl
 #set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | env "PATH=$HOME/bin:$PATH" wofi -S run
 #set $menu env PATH=$HOME/bin:$PATH dmenu_path | rofi -mode run
 
-font pango:Go Mono 20
+font pango:Go Mono 14
 
 default_border pixel
+
+seat * xcursor_theme default 32
 
 #for_window [app_id="wlfreerdp"] resize grow width 100 ppt; resize grow height 98 ppt
 
@@ -119,7 +126,7 @@ exec swayidle -w \
 exec_always [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 #exec [ -x /usr/bin/mako ] && /usr/bin/mako
 exec [ -x /usr/bin/swaync ] && /usr/bin/swaync
-exec_always [ -x $HOME/bin/tamefox ] && $HOME/bin/tamefox -ac ''
+exec_always if [ -x $HOME/bin/tamefox ] && !pidof tamefox; then $HOME/bin/tamefox -ac ''; fi
 exec [ -x /usr/bin/clipman ] && wl-paste -t text --watch clipman store --no-persist
 exec_always [ -x /usr/bin/gammastep ] && gammastep -l 47.7:19.15
 
@@ -300,6 +307,7 @@ bindsym $mod+r mode "resize"
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
+exec_always killall waybar
 bar {
     swaybar_command waybar
 }

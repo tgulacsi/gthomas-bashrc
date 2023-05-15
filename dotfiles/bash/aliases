@@ -1,11 +1,11 @@
 #!/bin/sh
 alias A='sudo aptitude -o "Acquire::http::Proxy=;"'
-alias apu='TERM=xterm sudo nice -n5 ionice -c2 -n5 aptitude -u'
+#alias apu='TERM=xterm sudo nice -n5 ionice -c2 -n5 aptitude -u'
 alias l='ls -lA --color=auto'
 alias ls='ls --color=auto'
 alias pass='gopass'
-alias update='sudo -- sh -c "apt update && apt -y upgrade && apt -y --purge autoremove && apt -y clean"'
-if command -V vim >/dev/null 2>/dev/null; then 
-    alias vi='env -u TMUX vim'
-fi
-alias wezterm='flatpak run org.wezfurlong.wezterm'
+alias update='sudo -- sh -c "apt update && apt -y upgrade && apt -y --purge autoremove && apt -y clean" && snapper.rm'
+#if command -V vim >/dev/null 2>/dev/null; then 
+#    alias vi='env -u TMUX vim'
+#fi
+#alias wezterm='flatpak run org.wezfurlong.wezterm'

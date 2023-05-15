@@ -112,9 +112,12 @@ export LANG="hu_HU.UTF-8"
 export LC_ALL=
 #export ENV=$HOME/.profile
 
+export NO_AT_BRIDGE=1
 export MOZ_ENABLE_WAYLAND=1
 export MOZ_DBUS_REMOTE=1
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_QPA_PLATFORM=wayland
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
 if output_is_hidpi; then
     export QT_DEVICE_PIXEL_RATIO=2
 else
@@ -122,6 +125,7 @@ else
 fi
 export XDG_SESSION_TYPE=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
+export SDL_VIDEODRIVER=wayland
 export GDK_BACKEND=wayland,x11
 if [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
 		# shellcheck disable=SC2012
