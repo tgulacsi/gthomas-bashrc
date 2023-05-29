@@ -11,9 +11,10 @@ if [[ ${__bashrc_bench:-0} -eq 1 ]]; then
 	set -x
 fi
 
+if [[ $(hostname) != tequila ]]; then
 get_output () {
 	if [[ -z "$SWAYSOCK" || ! -e "$SWAYSOCK" ]]; then
-		export SWAYSOCK="$(ls -t "/run/user/$(id -u)/sway-ipc.$(id -u)."*.sock | head -n1)"
+		export SWAYSOCK="$(ls -t "/run/user/$(id -u)/sway-ipc.$(id -u)."*.sock 2>/dev/null | head -n1)"
 	fi
 	{ swaymsg -t get_outputs -r 2>/dev/null || echo '[]'; } | jq '.[] | select(.focused) | .current_mode' 
 }
@@ -104,14 +105,6 @@ rdp_opts () {
 
 	export RDP_OPTIONS
 }
-
-# set PATH so it includes user's private bin if it exists
-#export LANGUAGE="hu_HU:en_US:en"
-export LANGUAGE="en"
-export LANG="hu_HU.UTF-8"
-export LC_ALL=
-#export ENV=$HOME/.profile
-
 export NO_AT_BRIDGE=1
 export MOZ_ENABLE_WAYLAND=1
 export MOZ_DBUS_REMOTE=1
@@ -129,11 +122,23 @@ export SDL_VIDEODRIVER=wayland
 export GDK_BACKEND=wayland,x11
 if [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
 		# shellcheck disable=SC2012
-    wd="$(ls -t "/run/user/$(id -u)/"wayland-? | head)"
+    wd="$(ls -t "/run/user/$(id -u)/"wayland-? 2>/dev/null | head)"
     if [[ -n "$wd" ]]; then
         export WAYLAND_DISPLAY="$wd"
     fi
 fi
+
+fi
+
+# set PATH so it includes user's private bin if it exists
+export LANGUAGE="hu_HU:en_US:en"
+if [[ $(hostname) = tequila ]]; then
+	export LANG=en_US.UTF-8
+else
+	export LANG=hu_HU.UTF-8
+fi
+export LC_ALL=
+#export ENV=$HOME/.profile
 
 export TNS_ADMIN=$HOME/.config/oracle
 export TMPDIR=${TMPDIR:-/tmp}

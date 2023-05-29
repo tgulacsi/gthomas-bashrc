@@ -31,7 +31,9 @@ fi
 mkdir -p ~/.cache/mutt
 
 # shellcheck source=$HOME/bin/invoke-gpg-agent disable=SC1091
+if [[ -x "$HOME/bin/invoke-gpg-agent" ]]; then
 . "$HOME/bin/invoke-gpg-agent"
+fi
 
 if [[ -z "$_ALIASES_HAS_BEEN_SET" ]]; then
 	# enable color support of ls and also add handy aliases
