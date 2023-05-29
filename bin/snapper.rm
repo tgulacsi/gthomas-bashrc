@@ -14,5 +14,5 @@ snapper list-configs | sed -ne '/\// { s/|/\t/; p; }' | while read -r cfg subv; 
 	snapper -c "$cfg" cleanup timeline
 	snapper -c "$cfg" cleanup number
 	snapper -c "$cfg" list --disable-used-space | grep -F ' apt ' | sed -ne '/^ *[1-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p' | xargs -r snapper -c "$cfg" delete
-    for t in m d; do for p in 0 10 25 50; do sudo btrfs balance start "-${t}usage=${p}" "$subv"; done; done
+    for t in m d; do for p in 0 5 10 25 50; do sudo btrfs balance start "-${t}usage=${p}" "$subv"; done; done
 done

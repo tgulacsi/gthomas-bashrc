@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/bash
 set -e
 exec 2>&1
-# shellcheck source=../.ssh/restic.env
+# shellcheck source=/dev/null
 . "$HOME/.ssh/restic.env"
 F="$HOME/restic-git-config.tar"
 rm -f "$F" || echo $?
@@ -9,13 +9,30 @@ trap 'rm '"$F" EXIT
 
 export "PATH=$HOME/bin:$PATH"
 
-sudo tar cf - --one-file-system /etc /usr/local/bin >/dev/null
+etcdirs=(
+	/etc
+	/usr/local/bin
+)
+for dn in /var/lib/tailscale /var/lib/grafana /var/www /var/lib/gitea /home/git; do
+	if [[ -d "$dn" ]]; then
+		etcdirs+=("$dn")
+	fi
+done
+
+sudo tar cf - --one-file-system "${etcdirs[@]}" >/dev/null
 
 cd "$HOME"
 find -O3 ./src/ -xdev -type f -path '*/.git/config' -print0 |
 	tar caf "$F" --null --one-file-system -T -
+
 if ! crontab -l >.config/crontab; then rm -f .config/crontab; fi
 apt list ~i 2>/dev/null | sed -ne '/\[installed\]$/ { s,^\([^/]*\)/.*$,\1,; p; }' > .config/apt.installed.list
 nice -n 13 ionice -c3 restic backup -v .config .gnupg .ssh Documents .password-store "$F"
-sudo tar cf - --one-file-system /etc /usr/local/bin | restic backup --stdin --stdin-filename etc.tar
+sudo tar cf - --one-file-system "${etcdirs[@]}" | restic backup --stdin --stdin-filename etc,usr-local-bin.tar
 restic forget -H 3 -d 3 -w 3 -m 3
+
+if [[ -e var/camlistore ]]; then
+	# shellcheck source=/dev/null
+	. "$HOME/.ssh/restic-pk-a32.env"
+	exec nice -n 13 ionice -c3 restic backup -v var/camlistore/*
+fi
