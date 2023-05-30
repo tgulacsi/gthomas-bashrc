@@ -51,13 +51,16 @@ output_is_hidpi () {
     fi
 }
 
+get_workspace_rect () {
+	swaymsg -r -t get_workspaces | jq '.[] | select(.focused) | .rect'
+}
+get_workspace_size () {
+	get_workspace_rect | jq -r '(.width | tostring) + "x" + (.height | tostring)'
+}
+
 rdp_opts () {
-	w=1920
-	h=1024
-	if ! output_is_hidpi; then
-		w="$(get_output_width)"
-		h="$(get_output_height)"
-	fi
+	size="1920x$(( 1080 - $(get_workspace_rect | jq .y) ))"
+	smart_size="$(get_workspace_size)"
 	# https://github.com/FreeRDP/FreeRDP/discussions/8562
 	RDP_OPTIONS=(
 		-grab-keyboard /kbd:0x409 /cert:ignore 
@@ -79,7 +82,7 @@ rdp_opts () {
 		"/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
 		#/nsc
 		+offscreen-cache 
-		"/size:1920x1000"
+		"/size:${size}"
 		#/smart-sizing
 		-themes
 		/timeout:3000
@@ -97,7 +100,7 @@ rdp_opts () {
 	fi
 	if output_is_hidpi; then
 		#RDP_OPTIONS+=(/scale:140)
-		RDP_OPTIONS+=("/smart-sizing:$(get_output_width)x$(( $(get_output_height) - 32 ))")
+		RDP_OPTIONS+=("/smart-sizing:${smart_size}")
 	fi
 	if [ -t 1 ]; then
 		OPTS+=(/log-level:INFO)
