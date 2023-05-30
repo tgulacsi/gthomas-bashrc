@@ -79,14 +79,14 @@ rdp_opts () {
 		"/network:$(if nmcli c show --active 'GT-mi9se Network' | grep -q 'GENERAL.STATE:\s*activated'; then echo modem; else echo auto; fi)"
 		#/nsc
 		+offscreen-cache 
-		"/size:${w}x$(( "$h" - 24 ))"
+		"/size:1920x1000"
 		#/smart-sizing
 		-themes
 		/timeout:3000
 		+toggle-fullscreen
 		-wallpaper
 	)
-	if true; then
+	if false; then
 		psize="$(get_output_physical_size | head -n1)"
 		if [[ -n "$psize" ]]; then
 			RDP_OPTIONS+=(
@@ -96,7 +96,8 @@ rdp_opts () {
 		fi
 	fi
 	if output_is_hidpi; then
-		RDP_OPTIONS+=(/scale:140)
+		#RDP_OPTIONS+=(/scale:140)
+		RDP_OPTIONS+=("/smart-sizing:$(get_output_width)x$(( $(get_output_height) - 32 ))")
 	fi
 	if [ -t 1 ]; then
 		OPTS+=(/log-level:INFO)
