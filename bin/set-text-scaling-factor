@@ -10,4 +10,7 @@ if [[ -z "$factor" ]]; then
 		factor=1
 	fi
 fi
+export "XCURSOR_SIZE=$(echo "24 * $factor" | bc | cut -d. -f1)"
+set -e
+gsettings set org.gnome.desktop.interface cursor-size "$XCURSOR_SIZE"
 exec gsettings set org.gnome.desktop.interface text-scaling-factor "$factor"

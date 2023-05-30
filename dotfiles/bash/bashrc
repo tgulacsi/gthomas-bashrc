@@ -14,7 +14,8 @@ fi
 if [[ $(hostname) != tequila ]]; then
 get_output () {
 	if [[ -z "$SWAYSOCK" || ! -e "$SWAYSOCK" ]]; then
-		export SWAYSOCK="$(ls -t "/run/user/$(id -u)/sway-ipc.$(id -u)."*.sock 2>/dev/null | head -n1)"
+		SWAYSOCK="$(find "/run/user/$(id -u)/" -type s -name "sway-ipc.$(id -u).*.sock" -printf "%T@ %p\n" 2>/dev/null | sort -nr | head -n1 | cut '-d ' -f2)"
+		export SWAYSOCK
 	fi
 	{ swaymsg -t get_outputs -r 2>/dev/null || echo '[]'; } | jq '.[] | select(.focused) | .current_mode' 
 }
@@ -53,7 +54,7 @@ output_is_hidpi () {
 rdp_opts () {
 	w=1920
 	h=1024
-	if [[ !output_is_hidpi ]]; then
+	if ! output_is_hidpi; then
 		w="$(get_output_width)"
 		h="$(get_output_height)"
 	fi
@@ -201,6 +202,10 @@ fi
 if [[ -z "${_PATH_HAS_BEEN_SET:-}" ]]; then
 	if [[ -d "$HOME/bin" ]] && echo "$PATH" | grep -vq "$HOME/bin"; then
 		PATH="$HOME/bin:$PATH"
+	fi
+	if [[ -s "$HOME/.cargo/env" ]]; then
+		# shellcheck source=/dev/null
+		. "$HOME/.cargo/env"
 	fi
 	export PATH
 	_PATH_HAS_BEEN_SET=1

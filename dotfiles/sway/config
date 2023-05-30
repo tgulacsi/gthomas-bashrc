@@ -54,7 +54,7 @@ font pango:Go Mono 14
 
 default_border pixel
 
-seat * xcursor_theme default 32
+#seat * xcursor_theme Adwaita 48
 
 #for_window [app_id="wlfreerdp"] resize grow width 100 ppt; resize grow height 98 ppt
 
