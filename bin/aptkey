@@ -3,22 +3,24 @@ set -eu -o pipefail
 if [ $# -ge 1 ]; then
     keyid="$1"
     gpg --recv-key "$keyid"
-    gpg --export -a "$keyid" | sudo tee /etc/apt/trusted.gpg.d/"$keyid".asc >/dev/null
+    gpg --export -a "$keyid" | sudo tee /etc/apt/trusted.gpg.d/"$keyid".gpg.asc >/dev/null
 else
     tmp="$(mktemp --suffix=.asc)"
     chmod 0644 "$tmp"
     trap "rm -rf '$tmp'" EXIT
     url='https://ftp-master.debian.org/keys'
     dir='/etc/apt/trusted.gpg.d'
-    for i in $(seq 10 15); do
+    for i in $(seq 11 15); do
         bn="archive-key-${i}"
-        echo "$bn" >&2
         if ! curl -fsS -m30 -o "$tmp" "$url/${bn}.asc"; then
            break
         fi
+        echo "$bn" >&2
         sudo tee "$dir/${bn}.asc" <"$tmp" >/dev/null
+        echo "$bn-security.asc"
         curl -fsS -m30 "$url/${bn}-security.asc" | sudo tee "$dir/${bn}-security.asc" >/dev/null
         if curl -fsS -m30 -o "$tmp" "$url/release-${i}.asc"; then
+            echo "release-${i}"
             sudo tee "$dir/release-${i}.asc" <"$tmp" >/dev/null
         fi
     done
