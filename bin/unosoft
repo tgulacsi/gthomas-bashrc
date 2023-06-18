@@ -1,8 +1,13 @@
 #!/bin/bash
 set -e
 set -u
-if [[ -e /etc/openvpn/client/unosoft.conf ]]; then
-	SVC=openvpn-client@unosoft
+flavor=unosoft
+if ip addr show "$(ip link | grep -o 'wlp[^:]*')" | grep -Fq inet 192.168.2; then
+	flavor=telepy
+fi
+
+if [[ -e "/etc/openvpn/client/${flavor}.conf" ]]; then
+	SVC="openvpn-client@${flavor}"
 	TODO="${1:-restart}"
 	if [[ "$TODO" = down ]]; then
 		TODO=stop
