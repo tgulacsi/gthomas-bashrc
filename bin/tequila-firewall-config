@@ -1,0 +1,2 @@
+#!/bin/sh
+exec waypipe ssh tequila sudo -SE firewall-config
