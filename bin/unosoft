@@ -2,7 +2,7 @@
 set -e
 set -u
 flavor=unosoft
-if ip addr show "$(ip link | grep -o 'wlp[^:]*')" | grep -Fq inet 192.168.2; then
+if ip addr show "$(ip link | grep -o 'wlp[^:]*')" | grep -Fq 'inet 192.168.2'; then
 	flavor=telepy
 fi
 

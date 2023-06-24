@@ -64,8 +64,9 @@ rdp_opts () {
 	# https://github.com/FreeRDP/FreeRDP/discussions/8562
 	RDP_OPTIONS=(
 		-grab-keyboard /kbd:0x409 /cert:ignore 
-		-auto-reconnect #+auto-reconnect /auto-reconnect-max-retries:10
-		#+bitmap-cache /codec-cache:nsc
+		+auto-reconnect /auto-reconnect-max-retries:10
+		+bitmap-cache /codec-cache:nsc
+		/bpp:8
 		#/compression-level:2 
 		/clipboard
 		-decorations /disp 
