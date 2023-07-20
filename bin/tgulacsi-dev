@@ -1,6 +1,5 @@
 #!/bin/bash
-set -x
-if ! declare -F get_output_width; then
+if ! declare -F rdp_opts; then
 	. ~/.bashrc
 fi
 rdp_opts

@@ -1,2 +1,4 @@
-#!/bin/sh
-go install "$(go version -m "$(which "$1")" | grep 'path' | awk '{print $2}' | head -n1)@latest"
+#!/bin/bash
+for file; do
+  go install "$(go version -m "$(which "$file")" | grep 'path' | awk '{print $2}' | head -n1)@latest"
+done
