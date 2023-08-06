@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+if [ $# -lt 1 ]; then
+	while true; do
+		img="$(podman images --format '{{.Repository}}\t{{.Tag}}\t{{.ID}}'|sed -ne '/^<none>[[:space:]]<none>[[:space:]]/ { s/^.*[[:space:]]//; p; }' | head -n1)"
+		if [ -z "$img" ]; then
+			break
+		fi
+		"$0" "$img"
+	done
+	exec podman system prune
+fi
+
+img="$1"
+while true; do
+	cid="$(podman rmi "$img" 2>&1 | sed -ne '/Error: image used by/ { s/^.*used by \([a-f0-9]*\):.*$/\1/; p; }')"
+	if [ -z "$cid" ]; then
+		break
+	fi
+	podman rm -f "$cid"
+done

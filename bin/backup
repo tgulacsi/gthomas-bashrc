@@ -4,7 +4,7 @@ exec 2>&1
 # shellcheck source=/dev/null
 . "$HOME/.ssh/restic.env"
 F="$HOME/restic-git-config.tar"
-rm -f "$F" || echo $?
+rm -f "$F" 
 trap 'rm '"$F" EXIT
 
 readarray -d '' files < <(find . -xdev -type l \
