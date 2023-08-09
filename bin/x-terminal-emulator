@@ -18,10 +18,17 @@ declare -a fonts
 fonts=('IntoneMono Nerd Font Mono' 'Go Mono' 'Iosevka Term' 'Fira Code')
 font=
 for fn in "${fonts[@]}"; do
-	font="$(fc-list "${fn}:style=Regular" family | sed -e 's/,.*$//' | head -n1)"
+	font="$(fc-list -f '%{fullname}\n' "${fn}:style=Regular"  | head -n1 | sed -e 's/,.*$//')"
 	if [[ -n "$font" ]]; then
 		break
 	fi
+	case "$fn" in
+		IntoneMono*)
+			dst=/usr/local/share/fonts/font-intel-one-mono
+			mkdir -p "$dst"
+			curl -sS -m30 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/IntelOneMono.tar.xz' | tar xavf - -C "$dst"
+		;;
+	esac
 done
 echo "# font=$font" >&2
 if [ -z "$font" ]; then
