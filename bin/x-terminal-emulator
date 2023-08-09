@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 #which mlterm >&2 && exec mlterm -j blend -e /bin/bash --login
 #which kitty >&2 && exec kitty -1 --instance-group default --detach -e /bin/bash --login
 #set -x
@@ -10,14 +10,16 @@ have_foot=0
 if which foot 2>&1; then
     have_foot=1
 fi
-if [ $have_foot -eq 1 ] && [ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ] && ps -ef|grep -qE 'foot (-s|--server)'; then
+if [[ $have_foot -eq 1 ]] && [[ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]] && pgrep -qE 'foot (-s|--server)'; then
 	exec footclient --login-shell /bin/bash 
 fi
 
+declare -a fonts
+fonts=('IntoneMono Nerd Font Mono' 'Go Mono' 'Iosevka Term' 'Fira Code')
 font=
-for fn in 'Go Mono' 'Iosevka Term' 'Fira Code'; do
-	font="$(fc-list "$fn":Regular family)"
-	if [ -n "$font" ]; then
+for fn in "${fonts[@]}"; do
+	font="$(fc-list "${fn}:style=Regular" family | sed -e 's/,.*$//' | head -n1)"
+	if [[ -n "$font" ]]; then
 		break
 	fi
 done
@@ -33,7 +35,8 @@ case "$monitor" in
 	SA300/SA350:*) fontsize=12 ;;
     *) echo "monitor=$monitor" ;;
 esac
-if [ $have_foot -eq 1 ]; then
+echo "# have_foot=$have_foot font=$font fontsize=$fontsize" >&2
+if [[ $have_foot -eq 1 ]]; then
     set -x
     #exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
     exec foot --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
@@ -43,7 +46,7 @@ which lxterm 2>&1 && exec lxterm -f "$font:pixelsize=$fontsize" -e /bin/bash --l
 which mlterm-wl >&2 && exec mlterm-wl "-deffont=$font" -w $fontsize --sb=false --bel=visual --clip=false -e /bin/bash --login
 which alacritty >&2 && exec alacritty -e /bin/bash --login
 urxvtc "$@"
-if [ $? -eq 2 ]; then
+if [[ $? -eq 2 ]]; then
 	urxvtd -q -o -f
 	urxvtc "$@"
 fi
