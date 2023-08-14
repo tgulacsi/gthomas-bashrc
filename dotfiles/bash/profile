@@ -12,7 +12,9 @@
 # shellcheck source=$HOME/.bashrc disable=SC1091
 . "$HOME/.bashrc"  
 
-touch "$XDG_RUNTIME_DIR/wallpaper.png"
+if [[ -n "${XDG_RUNTIME_DIR:-}" ]]; then
+	touch "$XDG_RUNTIME_DIR/wallpaper.png"
+fi
 
 export NMON=cdm4
 

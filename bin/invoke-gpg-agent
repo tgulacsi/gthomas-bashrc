@@ -6,28 +6,31 @@ mkdir -p "$(dirname "$gfn")"
 
 read -r -a gpg_services < <(systemctl --user list-unit-files 'gpg-*' | awk '/\../ { print $1 }')
 if [[ "${#gpg_services}" -ne 0 ]]; then
-systemctl --user start "${gpg_services[@]}"
-if systemctl --user list-units --all gnome-keyring-daemon.service | grep -qF service; then
-    systemctl --user start gnome-keyring-daemon.service
-fi
-#gpgconf --reload gpg-agent
-#set -x
-export "GPG_TTY=$(tty)"
-if [ ! -e "$sfn" ] || [ ! -e "$sfn" ]; then
-    systemctl --user stop gpg-agent.service 
-    systemctl --user restart gpg-agent-ssh.socket gpg-agent.socket
-fi
-gpg-connect-agent updatestartuptty /bye >/dev/null
+    systemctl --user start "${gpg_services[@]}"
+    if systemctl --user list-units --all gnome-keyring-daemon.service | grep -qF service; then
+        systemctl --user start gnome-keyring-daemon.service
+    fi
+    #gpgconf --reload gpg-agent
+    export "GPG_TTY=$(tty)"
+    if [[ ! -e "$sfn" ]] || [[ ! -e "$sfn" ]]; then
+        systemctl --user stop gpg-agent.service 
+        systemctl --user restart gpg-agent-ssh.socket gpg-agent.socket
+    fi
+    gpg-connect-agent updatestartuptty /bye >/dev/null
 fi
 
-if [[ -z "$SSH_AUTH_SOCK" ]] || [[ ! -e "$SSH_AUTH_SOCK" ]] && [[ -e "$sfn" ]]; then
+if [[ ! -e "$SSH_AUTH_SOCK" ]]; then
+    export SSH_AUTH_SOCK=
+fi
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
     export SSH_AUTH_SOCK="$sfn"
 fi
 
-
-if [[ -e ~/.ssh/TGulacsi.pem ]]; then
-    #ssh-add 2>/dev/null
-	if ! ssh-add -l | grep -Fq 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go'; then
-		ssh-add ~/.ssh/TGulacsi.pem
-fi
+if [[ -n "${SSH_AUTH_SOCK:-}" ]] && [[ -e "$SSH_AUTH_SOCK" ]]; then
+    if [[ -e ~/.ssh/TGulacsi.pem ]]; then
+        #ssh-add 2>/dev/null
+        if ! ssh-add -l | grep -Fq 'SHA256:WmqucptQsstLxCvVq2gnJhORXCRr9bWlUTkY7Qk0+go'; then
+        		ssh-add ~/.ssh/TGulacsi.pem
+        fi
+    fi
 fi
