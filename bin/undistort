@@ -1,2 +1,2 @@
 #!/bin/sh
-exec systemctl --user restart pipwire* wireplumber*
+exec systemctl --user restart wireplumber.service
