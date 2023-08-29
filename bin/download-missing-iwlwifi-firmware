@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+for nm in $(journalctl -k | sed -ne  '/failed to load iwlwifi-/ { s/^.*load //; s/ucode.*$/ucode/;p; }' | sort -u); do 
+	if [ -e "/usr/lib/firmware/$nm" ]; then
+		continue
+	fi
+	if curl -L -sS -m30 -f -o "/tmp/$nm" "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/$nm"; then
+		sudo cp -a "/tmp/$nm" /usr/lib/firmware/
+	fi
+done
