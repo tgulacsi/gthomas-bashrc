@@ -27,9 +27,6 @@ prog=${RDP:-$prog}
 if ! declare -F get_output_width; then
 	. $HOME/.bashrc
 fi
-w="$(get_output_width)"
-h="$(get_output_height)"
-echo "# w=$w h=$h" >&2
 
 p="${PASSWORD:-$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
 rdp_opts

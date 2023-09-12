@@ -76,7 +76,7 @@ rdp_opts () {
 		#/geometry
 		/gfx:AVC444 +gfx-progressive +gfx-small-cache +glyph-cache 
 		#+home-drive
-		/jpeg /jpeg-quality:75
+		#/jpeg /jpeg-quality:75
 		-menu-anims
 		/microphone:format:1 /sound 
 		+multitouch +multitransport

@@ -126,7 +126,7 @@ exec swayidle -w \
 exec_always [ -x /usr/bin/lxpolkit ] && /usr/bin/lxpolkit
 #exec [ -x /usr/bin/mako ] && /usr/bin/mako
 #exec [ -x /usr/bin/swaync ] && /usr/bin/swaync
-exec_always if [ -x $HOME/bin/tamefox ] && !pidof tamefox; then $HOME/bin/tamefox; fi
+exec_always if [ -x "$HOME/bin/tamefox" ] && !pidof tamefox; then "$HOME/bin/tamefox"; fi
 exec [ -x /usr/bin/clipman ] && wl-paste -t text --watch clipman store --no-persist
 exec_always [ -x /usr/bin/gammastep ] && gammastep -l 47.7:19.15
 
