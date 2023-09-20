@@ -6,7 +6,11 @@ if [ $# -ge 1 ]; then
 	shift 1
 fi
 if [ -z "$rdp" ]; then
-	rdp="$(find ~/Downloads -xdev -type f -name 'launch*.rdp' -printf '%T@\t%p\000' | sort -znr -k 1 | head -zn1 | cut -f2)"
+	dir="$(xdg-user-dir DOWNLOAD)"
+	if [ "$dir" = "$HOME" ]; then
+		dir="$HOME/Downloads"
+	fi
+	rdp="$(find "$dir" -xdev -type f -name 'launch*.rdp' -printf '%T@\t%p\000' | sort -znr -k 1 | head -zn1 | cut -f2)"
 fi
 echo "# rdp=${rdp:?RDP???}" >&2
 gw=
