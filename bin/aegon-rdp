@@ -6,9 +6,9 @@ if [ $# -ge 1 ]; then
 	shift 1
 fi
 if [ -z "$rdp" ]; then
-	rdp="$(find "$(xdg-user-dir DOWNLOAD)" -type f -name 'launch*.rdp' -printf '%T@\t%p\000' | sort -znr -k 1 | head -zn1 | cut -f2)"
+	rdp="$(find ~/Downloads -xdev -type f -name 'launch*.rdp' -printf '%T@\t%p\000' | sort -znr -k 1 | head -zn1 | cut -f2)"
 fi
-echo "# rdp=$rdp" >&2
+echo "# rdp=${rdp:?RDP???}" >&2
 gw=
 gat=
 for line in $(tr -d "" < "$rdp" | awk -F: '/^(gateway(hostname|accesstoken))/ {print $1 ":" $3}'); do
@@ -37,7 +37,6 @@ echo "# w=$w h=$h" >&2
 
 rdp_opts
 
-set -x
 #exec xfreerdp  /u:gulacsit /d:ab-aegon "/p:${passw}" "/v:${host}" "/g:${gw}" "/gat:${gat}" "$@"
 #exec xfreerdp "$rdp" /u:gulacsit /d:ab-aegon "/p:${passw}" /cert-tofu -decorations +drives /dynamic-resolution /f -fonts /gdi:hw  /gfx:AVC420 +heartbeat /network:modem -themes +clipboard "$@"
 prog="$(which xfreerdp || echo /opt/freerdp-nightly/bin/xfreerdp)"
