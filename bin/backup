@@ -5,7 +5,7 @@ exec 2>&1
 . "$HOME/.ssh/restic.env"
 F="$HOME/restic-git-config.tar"
 rm -f "$F" 
-trap 'rm '"$F" EXIT
+trap 'rm -f '"$F" EXIT
 
 readarray -d '' files < <(find . -xdev -type l \
 	\( -lname 'dotfiles/*' -o -lname '*/dotfiles/*' \) \

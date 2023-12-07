@@ -37,24 +37,30 @@ if [[ -e "/etc/openvpn/client/${flavor}.conf" ]]; then
 	fi
 	if [[ "$TODO" != dns ]]; then
 		conf=/etc/openvpn/client/tgulacsi.pwd
-		if [[ ${MFA:-0} -eq 1 ]] && [[ -e "$conf" ]]; then
+		if [[ -e "$conf" ]]; then
 			username="$(head -n1 "$conf")"
 			password="$(tail -n1 "$conf")"
-			echo "# username=$username password=$password" >&2
-			if [ ${#password} -ge 6 ] && echo "$password" | grep -q '[0-9]{6}$'; then
-				password="${password:0:$(( ${#password} - 6))}"
-				echo "# cleared password=$password" >&2
+			act="$(gopass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
+			if [[ "$act" != "$password" ]]; then
+				echo "${username}\n${act}" >"$conf"
 			fi
-			# https://gist.github.com/mdeguzis/05d1f284f931223624834788da045c65
-			pin="$({
+			if false && [[ ${MFA:-0} -eq 1 ]]; then
+				echo "# username=$username password=$password" >&2
+				if [ ${#password} -ge 6 ] && echo "$password" | grep -q '[0-9]{6}$'; then
+					password="${password:0:$(( ${#password} - 6))}"
+					echo "# cleared password=$password" >&2
+				fi
+				# https://gist.github.com/mdeguzis/05d1f284f931223624834788da045c65
+				pin="$({
 pinentry <<EOF
 SETPROMPT UNO-SOFT VPN:
 GETPIN
 EOF
 } | sed -ne '/^D / { s/^D //; p; }')"
-			echo "# pin[${#pin}]=$pin" >&2
-			if [[ ${#pin} -eq 6 ]] && echo -n "$pin" | grep -qE '^[0-9]{6}$'; then
-				echo -e "${username}\n${password}${pin}" | tee "$conf"
+				echo "# pin[${#pin}]=$pin" >&2
+				if [[ ${#pin} -eq 6 ]] && echo -n "$pin" | grep -qE '^[0-9]{6}$'; then
+					echo -e "${username}\n${password}${pin}" | tee "$conf"
+				fi
 			fi
 		fi
 		sudo systemctl "$TODO" "$SVC"

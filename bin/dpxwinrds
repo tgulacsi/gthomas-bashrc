@@ -28,7 +28,7 @@ if ! declare -F get_output_width; then
 	. $HOME/.bashrc
 fi
 
-p="${PASSWORD:-$(pass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
+p="${PASSWORD:-$(gopass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)}"
 rdp_opts
 RDP_OPTIONS+=("/u:$u" "/p:$p" /d:unosoft "/v:$DEST" /from-stdin)
 if [ "${1:-}" = "-nocb" ]; then
