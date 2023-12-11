@@ -1,13 +1,13 @@
 #!/bin/bash
 factor="${1:-}"
 if [[ -z "$factor" ]]; then
+	scale="$({ swaymsg -t get_outputs || echo '[]'; } | jq -r '.[] | select(.active).scale' || echo 1)"
 	if ! declare -F output_is_hidpi; then
 		. ~/.bashrc
 	fi
-	if output_is_hidpi; then
+	factor=1
+	if output_is_hidpi && [[ "$(echo "scale=0; $scale * 100" | bc | sed -e 's/\.[0-9]*$//')" -le 100 ]]; then
 		factor=1.5
-	else
-		factor=1
 	fi
 fi
 export "XCURSOR_SIZE=$(echo "32 * $factor" | bc -l | cut -d. -f1)"

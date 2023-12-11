@@ -74,6 +74,7 @@ output eDP1 {
     mode 1920x1080
 	pos 0 0
 	res 1920x1080
+    scale 1
     dpms on
     enable
 }
@@ -81,6 +82,7 @@ output eDP-1 {
     mode 1920x1080
 	pos 0 0
 	res 1920x1080
+    scale 1
     dpms on
     enable
 }
@@ -102,7 +104,7 @@ output HDMI-A-1 {
 
 output "Dell Inc. DELL P2723QE FPC6SS3" {
     position 1920 0
-    scale 1
+    scale 1.5
 }
 
 #output * background $HOME/dotfiles/sway/background.png center dpms on
