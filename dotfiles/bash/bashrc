@@ -58,9 +58,22 @@ get_workspace_size () {
 	get_workspace_rect | jq -r '(.width | tostring) + "x" + (.height | tostring)'
 }
 
+trunc () {
+	sed -e 's/\.[0-9]*$//'
+}
+
 rdp_opts () {
 	smart_size="$(get_workspace_size)"
-	size="1920x$(echo "${smart_size#*x} / ( $(get_workspace_rect | jq -r '.width') / 1920 )" | bc -l | sed -e 's/\.[0-9]*$//')"
+	size_w=1920
+	if output_is_hidpi; then
+		scale="$(swaymsg -r -t get_outputs | jq '.[] | select(.active) | .scale')"
+		if [ "$(echo "$scale * 10" | bc -l | trunc)" -gt 10 ]; then
+			size_w="$(echo "$scale * $size_w" | bc -l | trunc)"
+		fi
+	fi
+	size_h=$(echo "${smart_size#*x} / ( $(get_workspace_rect | jq -r '.width') / ${size_w})" | bc -l | trunc)
+	size="${size_w}x${size_h}"
+	# echo "# size=$size" >&2
 	# https://github.com/FreeRDP/FreeRDP/discussions/8562
 	RDP_OPTIONS=(
 		-grab-keyboard /kbd:0x409 /cert:ignore 
@@ -99,7 +112,7 @@ rdp_opts () {
 			)
 		fi
 	fi
-	if output_is_hidpi; then
+	if false && output_is_hidpi; then
 		#RDP_OPTIONS+=(/scale:140)
 		RDP_OPTIONS+=("/smart-sizing:${smart_size}")
 	fi

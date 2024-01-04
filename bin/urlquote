@@ -1,2 +1,2 @@
 #!/bin/sh
-python -c "import urllib, sys; print(urllib.quote_plus(sys.stdin.read()))"
+python3 -c "import urllib.parse, sys; print(urllib.parse.quote_plus(sys.stdin.read()))"

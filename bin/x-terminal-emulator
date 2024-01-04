@@ -15,10 +15,33 @@ if [[ $have_foot -eq 1 ]] && [[ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock"
 fi
 
 declare -a fonts
-fonts=('IntoneMono Nerd Font Mono' 'Go Mono' 'Iosevka Term' 'Fira Code')
+fonts=(
+	'Go Mono' 
+	'Monaspace Xenon' 
+	'IntoneMono Nerd Font Mono' 
+	'Iosevka Term' 
+	'Fira Code'
+	'Noto Mono'
+)
 font=
 for fn in "${fonts[@]}"; do
-	font="$(fc-list -f '%{fullname}\n' "${fn}:style=Regular"  | head -n1 | sed -e 's/,.*$//')"
+	declare -a names
+	readarray -t names < <(fc-list -f '%{fullname}\n' "${fn}:style=Regular" | sed -e 's/,.*$//')
+	case ${#names} in
+	0) continue ;;
+	1) font="${names[0]}" ; break ;;
+	*) 
+		for f in "${names[@]}"; do
+			if [[ $f =~ ^.*\ Regular$ ]]; then
+				font="$f"
+				break
+			fi
+		done
+		if [[ -z "$font" ]]; then
+			font="${names[0]}"
+		fi
+		break
+	esac
 	if [[ -n "$font" ]]; then
 		break
 	fi
@@ -30,8 +53,11 @@ for fn in "${fonts[@]}"; do
 		;;
 	esac
 done
+if [[ $font =~ ^Monaspace ]]; then
+	font="${font%* Regular}"
+fi
 echo "# font=$font" >&2
-if [ -z "$font" ]; then
+if [[ -z "$font" ]]; then
 	font='Go Mono'
 fi
 fontsize=10
@@ -45,8 +71,8 @@ esac
 echo "# have_foot=$have_foot font=$font fontsize=$fontsize" >&2
 if [[ $have_foot -eq 1 ]]; then
     set -x
-    #exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
-    exec foot --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Sans:size=${fontsize}"
+    #exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Mono:size=${fontsize}"
+    exec foot --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Mono:size=${fontsize}"
 fi
 which stterm 2>&1 && exec stterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
 which lxterm 2>&1 && exec lxterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
