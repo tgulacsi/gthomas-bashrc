@@ -42,7 +42,7 @@ if [[ -e "/etc/openvpn/client/${flavor}.conf" ]]; then
 			password="$(tail -n1 "$conf")"
 			act="$(gopass show U/UNOSOFT/tgulacsi@unosoft/tgulacsi | head -n1)"
 			if [[ "$act" != "$password" ]]; then
-				echo "${username}\n${act}" >"$conf"
+				printf "%s\n%s" "${username}" "${act}" >"$conf"
 			fi
 			if false && [[ ${MFA:-0} -eq 1 ]]; then
 				echo "# username=$username password=$password" >&2
@@ -62,6 +62,15 @@ EOF
 					echo -e "${username}\n${password}${pin}" | tee "$conf"
 				fi
 			fi
+		fi
+		
+		smb="${conf}.smb"
+		want="$(printf "username=%s\npassword=%s\ndomain=unosoft.local\n" "$(id -un)" "$(tail -n1 "$conf")")" 
+		have="$(cat "$smb" || echo '')"
+		echo "# want=$want" >&2
+		echo "# have=$have" >&2
+		if [[ "$want" != "$have" ]]; then
+			echo "$want" >"$smb"
 		fi
 		sudo systemctl "$TODO" "$SVC"
 	fi
