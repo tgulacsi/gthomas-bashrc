@@ -1,0 +1,34 @@
+#!/bin/sh
+# https://gist.github.com/pstray/19c37e0664ec8bfa300e33240e61fd99
+set -eu
+
+if [ -z "${1:-}" ]; then
+    exec "$0" tgulacsi@lnx-dev-ci8 tgulacsi@lnx-dev-kb7 tgulacsi@lnx-dev-wh7 tgulacsi@lnx-dev-ae7
+fi
+
+target="multi-ssh-$$"
+
+if [ -z "$TMUX" ]; then
+    tmux new-session -d -s "$target"
+fi
+
+if command -V autossh >/dev/null 2>/dev/null; then
+    ssh="AUTOSSH_GATETIME=${AUTOSSH_GATETIME:-0} TERM=xterm256-color autossh"
+else
+    ssh="TERM=xterm256-color ssh"
+fi
+
+tmux new-window -n "$target" "$ssh $1"
+shift
+
+for host in "$@"; do
+    tmux split-window -t ":$target" -h "$ssh $host"
+    tmux select-layout -t ":$target" tiled 
+done
+
+tmux select-pane -t ":$target"
+tmux set-window-option -t ":$target" synchronize-panes on 
+
+if [ -z "$TMUX" ]; then
+    tmux attach-session -d -t ":$target"
+fi

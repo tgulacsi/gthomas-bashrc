@@ -67,8 +67,8 @@ EOF
 		smb="${conf}.smb"
 		want="$(printf "username=%s\npassword=%s\ndomain=unosoft.local\n" "$(id -un)" "$(tail -n1 "$conf")")" 
 		have="$(cat "$smb" || echo '')"
-		echo "# want=$want" >&2
-		echo "# have=$have" >&2
+		# echo "# want=$want" >&2
+		# echo "# have=$have" >&2
 		if [[ "$want" != "$have" ]]; then
 			echo "$want" >"$smb"
 		fi
