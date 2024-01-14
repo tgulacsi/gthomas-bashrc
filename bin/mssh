@@ -13,9 +13,9 @@ if [ -z "$TMUX" ]; then
 fi
 
 if command -V autossh >/dev/null 2>/dev/null; then
-    ssh="AUTOSSH_GATETIME=${AUTOSSH_GATETIME:-0} TERM=xterm256-color autossh"
+    ssh="AUTOSSH_GATETIME=${AUTOSSH_GATETIME:-0} TERM=xterm-256color autossh"
 else
-    ssh="TERM=xterm256-color ssh"
+    ssh="TERM=xterm-256color ssh"
 fi
 
 tmux new-window -n "$target" "$ssh $1"
