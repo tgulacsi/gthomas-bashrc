@@ -1,2 +1,3 @@
 #!/bin/sh
-exec grimshot --notify copy "$@"
+set -eu -o pipefail
+grim - | wl-copy

@@ -1,2 +1,3 @@
 #!/bin/sh
-exec grimshot --notify save "$@"
+set -eu
+exec grim ~/Pictures/screenshot-"$(date '+%Y%m%d_%H%M%S').png"

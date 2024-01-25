@@ -23,7 +23,7 @@ case "$mime" in
         if ! command -V swayimg >/dev/null 2>/dev/null; then
             sudo apt install swayimg
         fi
-        exec swayimg -s optimal -i "$fn" ;;
+        exec swayimg -s optimal -c info.mode=brief "$fn" ;;
 esac
 set -x
 exec xdg-open "$fn"
