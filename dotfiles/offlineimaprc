@@ -39,12 +39,13 @@ type = IMAP
 auth_mechanism = XOAUTH2
 remotehost = imap.outlook.com
 remoteuser = t.gulacsi@unosoft.hu
-oauth2_client_id_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_id')
-oauth2_client_secret_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_secret')
+#oauth2_client_id_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_id')
+#oauth2_client_secret_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_secret')
 #oauth2_access_token_eval = get_token('t.gulacsi@unosoft.hu')
 folderfilter = lambda f: f != 'Calendar' and f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+starttls = no
 
 [Account tgulacsi78]
 localrepository = tgulacsi78-local
