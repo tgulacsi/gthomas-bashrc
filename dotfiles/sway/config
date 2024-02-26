@@ -1,6 +1,6 @@
 input * {
     xkb_layout "us,hu"
-    xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,caps:escape"
+    xkb_options "grp:shifts_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,caps:escape_shifted_capslock,compose:rctrl-altgr"
 }
 
 input 1267:12615:DELL0B24:00_04F3:3147_Touchpad {
