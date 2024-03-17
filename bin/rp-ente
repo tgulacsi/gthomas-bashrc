@@ -1,0 +1,2 @@
+#!/bin/sh
+exec waypipe -o ssh ${1:-rp} 'env sh -c "cage -d -- ente --enable-features=UseOzonePlatform --enable-wayland-server --enable-vulkan --ozone-platform=wayland --disable-gpu"'
