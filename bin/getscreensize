@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ "${XDG_SESSION_TYPE:-}" = wayland ]; then
-	swaymsg -t get_outputs | jq -r '.[0] | (.rect.width|tostring)+ "x" + (.rect.height|tostring)'
+	swaymsg -t get_outputs | gojq -r '.[0] | (.rect.width|tostring)+ "x" + (.rect.height|tostring)'
 	exit $?
 fi
 SIZE="$(xrandr --current | sed -ne '/ connected / s/^.* \([0-9][0-9]*x[0-9][0-9]*\).*$/\1/p' | sort -r | head -n1)"

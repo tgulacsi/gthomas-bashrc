@@ -13,10 +13,10 @@ prog=${RDP:-$prog}
 
 #pkill -f "${prog}.*0x409 .* /v:${DEST}"
 
-#focused="$(swaymsg -t get_workspaces | jq -r '.[] | select(.focused) | .output')"
-#output="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused)')"
-#dims="$(echo "$output" | jq -r '(.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
-#scale="$(echo "$output" | jq -r '.scale')"
+#focused="$(swaymsg -t get_workspaces | gojq -r '.[] | select(.focused) | .output')"
+#output="$(swaymsg -t get_outputs | gojq -r '.[] | select(.focused)')"
+#dims="$(echo "$output" | gojq -r '(.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')"
+#scale="$(echo "$output" | gojq -r '.scale')"
 #w=${dims%%x*}
 #h=${dims##*x}
 #if [ -n "$scale" ]; then

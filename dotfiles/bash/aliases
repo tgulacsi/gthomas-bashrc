@@ -8,3 +8,4 @@ alias update='sudo -- sh -c "apt update && apt -y upgrade && apt -y --purge auto
 #    alias vi='env -u TMUX vim'
 #fi
 #alias wezterm='flatpak run org.wezfurlong.wezterm'
+alias ente='/usr/bin/ente --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto'

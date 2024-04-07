@@ -162,3 +162,5 @@ if [[ "$TERM" != 'dumb' ]]; then
 		fi
 	fi
 fi
+
+if [ -e /home/tgulacsi/.nix-profile/etc/profile.d/nix.sh ]; then . /home/tgulacsi/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

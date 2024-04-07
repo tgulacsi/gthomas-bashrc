@@ -61,7 +61,7 @@ if [[ -z "$font" ]]; then
 	font='Go Mono'
 fi
 fontsize=10
-monitor="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .model + ": " + (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')" 
+monitor="$(swaymsg -t get_outputs | gojq -r '.[] | select(.focused) | .model + ": " + (.current_mode.width | tostring) + "x" + (.current_mode.height | tostring)')" 
 case "$monitor" in
 	DELL\ P2723QE:*) fontsize=14 ;;
 	LG\ ULTRAWIDE:*) fontsize=14 ;;

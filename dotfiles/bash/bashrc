@@ -11,22 +11,30 @@ if [[ ${__bashrc_bench:-0} -eq 1 ]]; then
 	set -x
 fi
 
+if ! command -V gojq >/dev/null 2>/dev/null; then
+	if [[ -x "$HOME/bin/gojq" ]]; then
+		export "PATH=$HOME/bin:$PATH"
+	else
+		go install github.com/itchyny/gojq/cmd/gojq@latest
+	fi
+fi
+
 if [[ $(hostname) != tequila ]]; then
 get_output () {
 	if [[ -z "$SWAYSOCK" || ! -e "$SWAYSOCK" ]]; then
 		SWAYSOCK="$(find "/run/user/$(id -u)/" -type s -name "sway-ipc.$(id -u).*.sock" -printf "%T@ %p\n" 2>/dev/null | sort -nr | head -n1 | cut '-d ' -f2)"
 		export SWAYSOCK
 	fi
-	{ swaymsg -t get_outputs -r 2>/dev/null || echo '[]'; } | jq '.[] | select(.focused) | .current_mode' 
+	{ swaymsg -t get_outputs -r 2>/dev/null || echo '[]'; } | gojq '.[] | select(.focused) | .current_mode' 
 }
 get_output_width () {
-	get_output | jq -r '.width'
+	get_output | gojq -r '.width'
 }
 get_output_height () {
-	get_output | jq -r '.height'
+	get_output | gojq -r '.height'
 }
 get_output_size () {
-    get_output | jq -r '(.width | tostring) + " " + (.height | tostring)'
+    get_output | gojq -r '(.width | tostring) + " " + (.height | tostring)'
 }
 get_output_physical_size () {
     command -V wayland-info >/dev/null || sudo apt install wayland-utils >&2
@@ -52,10 +60,10 @@ output_is_hidpi () {
 }
 
 get_workspace_rect () {
-	swaymsg -r -t get_workspaces | jq '.[] | select(.focused) | .rect'
+	swaymsg -r -t get_workspaces | gojq '.[] | select(.focused) | .rect'
 }
 get_workspace_size () {
-	get_workspace_rect | jq -r '(.width | tostring) + "x" + (.height | tostring)'
+	get_workspace_rect | gojq -r '(.width | tostring) + "x" + (.height | tostring)'
 }
 
 trunc () {
@@ -66,12 +74,12 @@ rdp_opts () {
 	smart_size="$(get_workspace_size)"
 	size_w=1920
 	if output_is_hidpi; then
-		scale="$(swaymsg -r -t get_outputs | jq '.[] | select(.active) | .scale')"
+		scale="$(swaymsg -r -t get_outputs | gojq '.[] | select(.active) | .scale')"
 		if [ "$(echo "$scale * 10" | bc -l | trunc)" -gt 10 ]; then
 			size_w="$(echo "$scale * $size_w" | bc -l | trunc)"
 		fi
 	fi
-	size_h=$(echo "${smart_size#*x} / ( $(get_workspace_rect | jq -r '.width') / ${size_w})" | bc -l | trunc)
+	size_h=$(echo "${smart_size#*x} / ( $(get_workspace_rect | gojq -r '.width') / ${size_w})" | bc -l | trunc)
 	size="${size_w}x${size_h}"
 	# echo "# size=$size" >&2
 	# https://github.com/FreeRDP/FreeRDP/discussions/8562
@@ -129,6 +137,7 @@ export MOZ_ENABLE_WAYLAND=1
 export MOZ_DBUS_REMOTE=1
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_QPA_PLATFORM=wayland
+export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 if output_is_hidpi; then
     export QT_SCREEN_SCALE_FACTOR=2
@@ -138,7 +147,8 @@ fi
 export XDG_SESSION_TYPE=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 export SDL_VIDEODRIVER=wayland
-export GDK_BACKEND=wayland,x11
+export GDK_BACKEND=wayland
+export CLUTTER_BACKEND=wayland
 if [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
 		# shellcheck disable=SC2012
     wd="$(ls -t "/run/user/$(id -u)/"wayland-? 2>/dev/null | head)"
@@ -166,6 +176,8 @@ export EDITOR
 export VISUAL=$EDITOR
 export PAGER='less'
 export CCACHE_COMPRESS=1
+
+export OPENAI_API_KEY="$(gopass show I/openai.com/tamas+openai@gulacsi.eu | sed -ne '/API/ { s/^.*: *//; p; }')"
 
 export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
 if [[ -e "$HOME/android-sdk" ]]; then

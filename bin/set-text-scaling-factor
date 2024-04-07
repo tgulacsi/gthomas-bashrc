@@ -1,7 +1,7 @@
 #!/bin/bash
 factor="${1:-}"
 if [[ -z "$factor" ]]; then
-	scale="$({ swaymsg -t get_outputs || echo '[]'; } | jq -r '.[] | select(.active).scale' || echo 1)"
+	scale="$({ swaymsg -t get_outputs || echo '[]'; } | gojq -r '.[] | select(.active).scale' || echo 1)"
 	if ! declare -F output_is_hidpi; then
 		. ~/.bashrc
 	fi

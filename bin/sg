@@ -26,7 +26,7 @@ if [ -z "$ruledir" ]; then
 	exec semgrep --config=auto .
 fi
 
-files="$(semgrep -f "$ruledir" -a --json . | jq -r '.results | select(.[].extra.fix != "") | .[].path' | sort -u)"
+files="$(semgrep -f "$ruledir" -a --json . | gojq -r '.results | select(.[].extra.fix != "") | .[].path' | sort -u)"
 echo "fixable: $files"
 if [ -n "$files" ]; then
 	semgrep -f "$ruledir" --config=auto -a .

@@ -3,7 +3,7 @@
 for sock in $(ls -t "/run/user/$(id -u)/sway-ipc.$(id -u)".*.sock | head -n1); do
     for i in $(seq 1 3); do
         swaymsg -s "$sock" -t get_outputs -r | \
-            jq -r '.[] | (.name) + " " + ((.modes[0].width | tostring) + "x" + (.modes[0].height | tostring))' | \
+            gojq -r '.[] | (.name) + " " + ((.modes[0].width | tostring) + "x" + (.modes[0].height | tostring))' | \
             while read -r nm mode; 
         do
             swaymsg  -s "$sock" "output ${nm} dpms on mode ${mode} enable"
