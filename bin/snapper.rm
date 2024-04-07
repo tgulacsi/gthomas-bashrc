@@ -6,14 +6,17 @@ if [ "${1:-}" = --all ]; then
 	shift
 fi
 
-snapper list-configs | sed -ne '/\// { s/|/\t/; p; }' | while read -r cfg subv; do
+sudo snapper list-configs | sed -ne '/\// { s/|/\t/; p; }' | while read -r cfg subv; do
 	echo "# cfg=$cfg subv=$subv" >&2
 	if [ $all -eq 1 ]; then
-		exec snapper -c "$cfg" delete $(snapper -c "$cfg" list --disable-used-space | sed -ne '/^ *[0-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p')
+		exec sudo snapper -c "$cfg" delete $(snapper -c "$cfg" list --disable-used-space | sed -ne '/^ *[0-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p')
+	elif [ $# -ge 1 ] && [ "$cfg" != "${1:-}" ]; then
+		continue
 	fi
-	snapper -c "$cfg" cleanup timeline
-	snapper -c "$cfg" cleanup number
-	snapper -c "$cfg" list --disable-used-space | grep -F ' apt ' | sed -ne '/^ *[1-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p' | xargs -r snapper -c "$cfg" delete
+	set -x
+	sudo snapper -c "$cfg" cleanup timeline
+	sudo snapper -c "$cfg" cleanup number
+	sudo snapper -c "$cfg" list --disable-used-space | grep -F ' apt ' | sed -ne '/^ *[1-9][0-9]*/ s/^ *\([0-9]*\).*$/\1/p' | xargs -r sudo snapper -c "$cfg" delete
 	set -x
   for t in m d; do for p in 0 5 10 25 50; do sudo btrfs balance start "-${t}usage=${p}" "$subv"; done; done
 	set +x
