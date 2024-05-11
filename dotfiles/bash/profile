@@ -144,6 +144,10 @@ if [ "$(tty)" = "/dev/tty3" ]; then
 	exec systemd-cat -t sway -- dbus-run-session sway 
 fi
 
+# sh <(curl -L https://nixos.org/nix/install)
+if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [ -e ~/.config/nix/nix.conf ]; then export NIX_USER_CONF_FILES=~/.config/nix/nix.conf; fi
+
 #[ -x ~/bin/uno-ssh ] && . ~/bin/uno-ssh
 # tmux
 #echo "# TERM=$TERM XDG_VTNR=$XDG_VTNR TMUX=$TMUX" >&2
@@ -163,4 +167,3 @@ if [[ "$TERM" != 'dumb' ]]; then
 	fi
 fi
 
-if [ -e /home/tgulacsi/.nix-profile/etc/profile.d/nix.sh ]; then . /home/tgulacsi/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

@@ -179,6 +179,7 @@ export CCACHE_COMPRESS=1
 
 if [[ "$(hostname)" = tgulacsi-dell-5570 ]]; then
 	export OPENAI_API_KEY="$(gopass show I/openai.com/tamas+openai@gulacsi.eu | sed -ne '/API/ { s/^.*: *//; p; }')"
+	export MAPSCO_API_KEY=$(gopass show I/geocode.maps.co/t.gulacsi@unosoft.hu | sed -ne '/API/ { s/^.* //; p; }')
 fi
 
 export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
