@@ -1,4 +1,4 @@
-theme = "kanagawa"
+theme = "gruvbox_dark_hard"
 
 [editor]
 cursorline = true
