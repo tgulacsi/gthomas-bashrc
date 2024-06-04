@@ -34,7 +34,7 @@ C-l = "select_next_sibling"
 # Muscle memory
 "{" = ["goto_prev_paragraph", "collapse_selection"]
 "}" = ["goto_next_paragraph", "collapse_selection"]
-0 = "goto_line_start"
+# 0 = "goto_line_start"
 "$" = "goto_line_end"
 "^" = "goto_first_nonwhitespace"
 V = ["select_mode", "extend_to_line_bounds"]
