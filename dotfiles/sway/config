@@ -46,7 +46,8 @@ set $right l
 set $term $HOME/bin/x-terminal-emulator
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-set $menu env PATH="$HOME/bin:$PATH" wofi -f -S run
+exec mkdir -p ~/.config/wofi/ ; echo 'run-print_command=true' >~/.config/wofi/config
+set $menu env PATH="$HOME/bin:$PATH" wofi -t x-terminal-emulator -M fuzzy -S run | xargs -r systemd-cat
 #set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | wofi -d | env PATH=$HOME/bin:$PATH xargs which | xargs -r swaymsg exec --
 #set $menu find -O3 $(echo "$HOME/bin:$PATH" | tr ':' ' ') -maxdepth 1 -executable -printf '%f\n' | env "PATH=$HOME/bin:$PATH" wofi -S run
 #set $menu env PATH=$HOME/bin:$PATH dmenu_path | rofi -mode run
