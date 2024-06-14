@@ -6,11 +6,12 @@
 #if [ ! -d /usr/share/fonts/firacode/ ]; then
 #	sudo apt install fonts-firacode
 #fi
+use_foot_server=0
 have_foot=0
 if which foot 2>&1; then
     have_foot=1
 fi
-if [[ $have_foot -eq 1 ]] && [[ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]] && pgrep -qE 'foot (-s|--server)'; then
+if [[ $use_foot_server -eq 1 ]] && [[ $have_foot -eq 1 ]] && [[ -e "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ]] && pgrep -qE 'foot (-s|--server)'; then
 	exec footclient --login-shell /bin/bash 
 fi
 
@@ -72,7 +73,16 @@ echo "# have_foot=$have_foot font=$font fontsize=$fontsize" >&2
 if [[ $have_foot -eq 1 ]]; then
     set -x
     #exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Mono:size=${fontsize}"
-    exec foot --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Mono:size=${fontsize}"
+    max_brightness="$(cat /sys/class/backlight/intel_backlight/max_brightness)"
+    brightness="$(cat /sys/class/backlight/intel_backlight/brightness)"
+    if [[ $(( brightness * 100 / max_brightness )) -ge 20 ]]; then
+    	theme=selenized-light
+    else
+    	theme=selenized-dark
+    fi
+    exec foot \
+    	--font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Mono:size=${fontsize}" \
+    	-o "include=~/.config/foot/$theme"
 fi
 which stterm 2>&1 && exec stterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
 which lxterm 2>&1 && exec lxterm -f "$font:pixelsize=$fontsize" -e /bin/bash --login
