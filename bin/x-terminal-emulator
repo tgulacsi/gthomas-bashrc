@@ -71,15 +71,19 @@ case "$monitor" in
 esac
 echo "# have_foot=$have_foot font=$font fontsize=$fontsize" >&2
 if [[ $have_foot -eq 1 ]]; then
-    set -x
+		command -V sun-is-up >/dev/null 2>/dev/null || go install github.com/kelvie/sun-is-up@latest
     #exec foot --server --font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Mono:size=${fontsize}"
-    max_brightness="$(cat /sys/class/backlight/intel_backlight/max_brightness)"
-    brightness="$(cat /sys/class/backlight/intel_backlight/brightness)"
-    if [[ $(( brightness * 100 / max_brightness )) -ge 20 ]]; then
+  	theme=selenized-dark
+    if sun-is-up -lat=47.49791200 -long=19.04023500; then
     	theme=selenized-light
-    else
-    	theme=selenized-dark
-    fi
+    else 
+	    max_brightness="$(cat /sys/class/backlight/intel_backlight/max_brightness)"
+	    brightness="$(cat /sys/class/backlight/intel_backlight/brightness)"
+    	if [[ $(( brightness * 100 / max_brightness )) -ge 20 ]]; then
+	    	theme=selenized-light
+	    fi
+	  fi
+	  set -x
     exec foot \
     	--font="${font}:size=${fontsize},forkawesome:size=${fontsize},FontAwesome:size=${fontsize},Noto Mono:size=${fontsize}" \
     	-o "include=~/.config/foot/$theme"
