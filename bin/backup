@@ -28,6 +28,20 @@ for dn in .config .gnupg .ssh Documents .password-store; do
 		files+=("$dn")
 	fi
 done
+
+if command -V apt-clone >/dev/null 2>/dev/null; then
+	fn=arch/packages.apt-clone.tar.gz
+	if [[ -e "$fn" ]] && [[ $(( $(stat -c '%Y' "$fn") + 24 * 3600 )) -ge $(date '+%s') ]]; then
+		echo "# $fn is fresh enough" >&2
+	else
+		if ! command -V dpkg-repack >/dev/null 2>/dev/null; then
+			sudo apt install dpkg-repack
+		fi
+		apt-clone clone --with-dpkg-repack ~/arch/packages
+	fi
+	files+=("$fn")
+fi
+
 echo "# files=${files[*]}" >&2
 
 export "PATH=$HOME/bin:$PATH"

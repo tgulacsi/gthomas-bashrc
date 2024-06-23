@@ -1,0 +1,37 @@
+#!/bin/bash
+set -eu
+# rustup target add x86_64-unknown-linux-musl
+# apt install musl-tools
+#exec env HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1 \
+target=x86_64-unknown-linux-gnu
+if [ $# -ge 1 ]; then
+  target="${1}"
+fi
+tmp="$(mktemp -d --tmpdir)"
+trap 'rm -rf "$tmp"' EXIT INT RETURN
+cat >"$tmp/Dockerfile" <<EOF
+FROM quay.io/pypa/manylinux2014_x86_64
+
+WORKDIR /app
+
+RUN ldd --version
+ENV HOME="\${HOME:-/root}"
+RUN mkdir -p /root/.cargo && curl 'https://sh.rustup.rs' -sSf | bash -s -- -y && echo 'source "\$HOME/.cargo/env"' >>"\$HOME/.bashrc"
+ENV PATH="\$HOME/.cargo/bin:\$PATH"
+RUN cargo --version || { export -p; exit \$?; }
+RUN for dn in /app/runtime/grammars/sources/*; do git config --global --add safe.directory "\$dn"; done
+RUN set -x; env RUSTFLAGS="-C target-feature=-crt-static" cargo build --release -p helix-term --locked -v --message-format short --bin hx
+RUN rm -rf ~/.config/helix/runtime/grammars/
+RUN ./target/release/hx -g fetch && ./target/release/hx -g build && rm -rf ~/.config/helix/runtime/grammars/sources
+EOF
+
+set -x
+sudo podman build -v "${PWD}:/app" -v "$HOME/.cargo:/root/.cargo" "$tmp"
+  #"--userns-uid-map=0:$(id -u):1" \
+  #--userns-uid-map-user "$(id -un)" \
+
+exec sudo chown -R "$(id -un):$(id -gn)" $HOME/.cargo target/ runtime/grammars/
+
+set -x
+exec env RUSTFLAGS="-C target-feature=-crt-static" \
+  cargo install --target "${target}" --path helix-term --locked
