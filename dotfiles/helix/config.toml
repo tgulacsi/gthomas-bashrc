@@ -1,6 +1,7 @@
-theme = "gruvbox_dark_hard"
+theme = "gruvbox_light"
 
 [editor]
+true-color = true
 cursorline = true
 bufferline = "multiple"
 # gutters = []   # for tmux
