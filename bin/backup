@@ -40,7 +40,7 @@ if command -V apt-clone >/dev/null 2>/dev/null; then
 		apt-clone clone --with-dpkg-repack ~/arch/packages
 	else
 		apt-clone clone ~/arch/packages
-7	fi
+	fi
 	files+=("$fn")
 fi
 
