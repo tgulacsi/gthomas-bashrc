@@ -54,13 +54,19 @@ find -O3 ./src/ -xdev -type f -path '*/.git/config' -print0 | tar caf "$F" --nul
 if ! crontab -l >.config/crontab; then rm -f .config/crontab; fi
 apt list ~i 2>/dev/null | sed -ne '/\[installed\]$/ { s,^\([^/]*\)/.*$,\1,; p; }' > .config/apt.installed.list
 
-nice -n 13 ionice -c3 restic backup --exclude-caches -v "${files[@]}"
-sudo tar cf - --one-file-system "${etcdirs[@]}" | restic backup --stdin --stdin-filename etc,usr-local-bin.tar
+RESTIC='nice -n 13 ionice -c3 restic'
+if [[ -d /home/social ]]; then
+	sudo tar cf - -C /home/social . data/ | $RESTIC backup --stdin --stdin-filename social.tar
+fi
 
-restic forget -H 3 -d 3 -w 3 -m 3
+$RESTIC backup --exclude-caches -v "${files[@]}"
+sudo tar cf - --one-file-system "${etcdirs[@]}" | $RESTIC backup --stdin --stdin-filename etc,usr-local-bin.tar
+
+$RESTIC forget -H 3 -d 3 -w 3 -m 3
 
 if [[ -e var/camlistore ]]; then
 	# shellcheck source=/dev/null
 	. "$HOME/.ssh/restic-pk-a32.env"
-	exec nice -n 13 ionice -c3 restic backup -v var/camlistore/*
+	$RESTIC backup -v var/camlistore/*
+	$RESTIC forget -H 3 -d 3 -w 3 -m 3
 fi
