@@ -178,8 +178,8 @@ export PAGER='less'
 export CCACHE_COMPRESS=1
 
 if [[ "$(hostname)" = tgulacsi-dell-5570 ]]; then
-	export OPENAI_API_KEY="$(gopass show I/openai.com/tamas+openai@gulacsi.eu | sed -ne '/API/ { s/^.*: *//; p; }')"
-	export MAPSCO_API_KEY=$(gopass show I/geocode.maps.co/t.gulacsi@unosoft.hu | sed -ne '/API/ { s/^.* //; p; }')
+	export OPENAI_API_KEY="$(gopass show websites/openai.com/tamas+openai@gulacsi.eu | sed -ne '/API/ { s/^.*: *//; p; }')"
+	export MAPSCO_API_KEY=$(gopass show websites/geocode.maps.co/t.gulacsi@unosoft.hu | sed -ne '/API/ { s/^.* //; p; }')
 fi
 
 export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
@@ -248,4 +248,8 @@ if [[ -f ~/.fzf.bash ]]; then
 		# shellcheck disable=SC1091
     # shellcheck source=$HOME/.fzf.bash
     source "$HOME/.fzf.bash"
+fi
+
+if command -V direnv >/dev/null 2>/dev/null && ! type -t _direnv_hook >/dev/null; then
+	eval "$(direnv hook bash)"
 fi
