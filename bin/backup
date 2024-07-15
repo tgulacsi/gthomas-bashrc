@@ -56,17 +56,24 @@ apt list ~i 2>/dev/null | sed -ne '/\[installed\]$/ { s,^\([^/]*\)/.*$,\1,; p; }
 
 RESTIC='nice -n 13 ionice -c3 restic'
 if [[ -d /home/social ]]; then
-	sudo tar cf - -C /home/social . data/ | $RESTIC backup --stdin --stdin-filename social.tar
+	sudo tar cf - -C /home/social . data/ | $RESTIC backup --no-scan --stdin --stdin-filename social.tar
 fi
 
-$RESTIC backup --exclude-caches -v "${files[@]}"
-sudo tar cf - --one-file-system "${etcdirs[@]}" | $RESTIC backup --stdin --stdin-filename etc,usr-local-bin.tar
+if [[ -d ~/.mozilla/firefox ]]; then
+	src="$(findmnt -t overlay -o FS-OPTIONS | sed -ne '/firefox/ { s/^.*workdir=//; s/,.*$//; p; }')"
+	if [[ -n "$src" ]]; then
+		$RESTIC backup --no-scan -v -x -e work "$src"
+	fi
+fi
+
+$RESTIC backup --no-scan --exclude-caches -v "${files[@]}"
+sudo tar cf - --one-file-system "${etcdirs[@]}" | $RESTIC backup --no-scan --stdin --stdin-filename etc,usr-local-bin.tar
 
 $RESTIC forget -H 3 -d 3 -w 3 -m 3
 
 if [[ -e var/camlistore ]]; then
 	# shellcheck source=/dev/null
 	. "$HOME/.ssh/restic-pk-a32.env"
-	$RESTIC backup -v var/camlistore/*
+	$RESTIC backup --no-scan -v var/camlistore/*
 	$RESTIC forget -H 3 -d 3 -w 3 -m 3
 fi
