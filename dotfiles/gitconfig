@@ -27,7 +27,7 @@
 	rebase = false
 
 [commit]
-	gpgsign = true
+	gpgsign = false
 
 [sendemail]
 	smtpserver = /usr/bin/mailx

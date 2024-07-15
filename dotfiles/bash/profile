@@ -162,7 +162,7 @@ if [[ "$TERM" != 'dumb' ]]; then
 			if [[ -n "$last" ]]; then
 				exec tmux attach-session -t "$last"
 			fi
-			exec tmux 
+			exec tmux
 		fi
 	fi
 fi
