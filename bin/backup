@@ -1,11 +1,22 @@
 #!/usr/bin/bash
-set -e
-exec 2>&1
+set -eu
+USER="$(id -un 1000)"
+HOME="/home/$USER"
 # shellcheck source=/dev/null
 . "$HOME/.ssh/restic.env"
 F="$HOME/restic-git-config.tar"
 rm -f "$F" 
 trap 'rm -f '"$F" EXIT
+RESTIC='nice -n 13 ionice -c3 restic'
+
+export "PATH=$HOME/bin:$PATH"
+
+cd "$HOME"
+
+if ! crontab -l -u "$USER" >.config/crontab; then 
+	rm -f .config/crontab; 
+fi
+apt list ~i 2>/dev/null | sed -ne '/\[installed\]$/ { s,^\([^/]*\)/.*$,\1,; p; }' > .config/apt.installed.list
 
 etcdirs=(
 	/etc
@@ -17,7 +28,31 @@ for dn in /var/lib/tailscale /var/lib/grafana /var/www /var/lib/gitea /home/git;
 	fi
 done
 
-sudo tar cf - --one-file-system "${etcdirs[@]}" >/dev/null
+## SUDO
+echo "SUDO?"
+if tty --quiet || [[ "$(id -u)" -eq 0 ]]; then
+	echo '# etc' >&2
+	fn="/var/backups/etc,usr-local-bin.tar.zstd"
+	sudo tar cf "$fn" -I 'zstd -c --long --adapt=min=2,max=6' --one-file-system "${etcdirs[@]}" 
+	sudo chown "$USER" "$fn"
+	if [[ -d /home/social ]]; then
+		echo '# social' >&2
+		fn="/var/backups/social.tar.zstd"
+		sudo tar cf "$fn" -h -I 'zstd -c --long --adapt=min=2,max=6' -C /home/social . data/
+		sudo chown "$USER" "$fn"
+	fi
+fi
+for nm in social etc,usr-local-bin; do
+	fn="/var/backups/${nm}.tar.zstd"
+	if [[ -e "$fn" ]]; then
+		set -x
+		zstd -dc "$fn" | $RESTIC backup --no-scan --stdin --stdin-filename "${nm}.tar" 
+		set +x
+	fi
+done
+
+
+## normal
 
 readarray -d '' files < <(find . -xdev -type l \
 	\( -lname 'dotfiles/*' -o -lname '*/dotfiles/*' \) \
@@ -46,34 +81,27 @@ fi
 
 echo "# files=${files[*]}" >&2
 
-export "PATH=$HOME/bin:$PATH"
-
-cd "$HOME"
-find -O3 ./src/ -xdev -type f -path '*/.git/config' -print0 | tar caf "$F" --null --one-file-system -T -
-
-if ! crontab -l >.config/crontab; then rm -f .config/crontab; fi
-apt list ~i 2>/dev/null | sed -ne '/\[installed\]$/ { s,^\([^/]*\)/.*$,\1,; p; }' > .config/apt.installed.list
-
-RESTIC='nice -n 13 ionice -c3 restic'
-if [[ -d /home/social ]]; then
-	sudo tar cf - -C /home/social . data/ | $RESTIC backup --no-scan --stdin --stdin-filename social.tar
-fi
+find -O3 ./src/ -xdev -type f -path '*/.git/config' -not \( -path '*/Cache/*' -o -path '*/logs/*' \) -print0 | tar caf "$F" --null --one-file-system -T -
 
 if [[ -d ~/.mozilla/firefox ]]; then
 	src="$(findmnt -t overlay -o FS-OPTIONS | sed -ne '/firefox/ { s/^.*workdir=//; s/,.*$//; p; }')"
-	if [[ -n "$src" ]]; then
+	if [[ -n "$src" ]] && [[ -d "$src" ]]; then
+		echo '# firefox' >&2
 		$RESTIC backup --no-scan -v -x -e work "$src"
 	fi
 fi
 
+echo '# files' >&2
 $RESTIC backup --no-scan --exclude-caches -v "${files[@]}"
-sudo tar cf - --one-file-system "${etcdirs[@]}" | $RESTIC backup --no-scan --stdin --stdin-filename etc,usr-local-bin.tar
 
+echo '# forget' >&2
 $RESTIC forget -H 3 -d 3 -w 3 -m 3
 
 if [[ -e var/camlistore ]]; then
 	# shellcheck source=/dev/null
 	. "$HOME/.ssh/restic-pk-a32.env"
+	echo '# camlistore' >&2
 	$RESTIC backup --no-scan -v var/camlistore/*
+	echo '# forget camlistore' >&2
 	$RESTIC forget -H 3 -d 3 -w 3 -m 3
 fi
