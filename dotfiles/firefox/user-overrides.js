@@ -22,5 +22,8 @@ user_pref("privacy.clearOnShutdown_v2.historyFormDataAndDownloads", false); // 2
 user_pref("dom.security.https_only_mode", false);
 
 user_pref("privacy.resistFingerprinting.letterboxing", false);
+user_pref("letterbox", false);
 user_pref("privacy.window.maxInnerWidth", 3200);
 user_pref("privacy.window.maxInnerHeight", 1800);
+
+user_pref("webgl.disabled", false);
