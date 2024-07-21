@@ -7,7 +7,7 @@ mkdir -p "$(dirname "$gfn")"
 read -r -a gpg_services < <(systemctl --user list-unit-files 'gpg-*' | awk '/\../ { print $1 }')
 if [[ "${#gpg_services}" -ne 0 ]]; then
     systemctl --user start "${gpg_services[@]}"
-    if systemctl --user list-units --all gnome-keyring-daemon.service | grep -qF service; then
+    if systemctl --user list-units --all gnome-keyring-daemon.service | grep -v not-found | grep -qF service; then
         systemctl --user start gnome-keyring-daemon.service
     fi
     #gpgconf --reload gpg-agent
