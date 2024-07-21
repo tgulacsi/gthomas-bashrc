@@ -31,16 +31,15 @@ done
 
 if command -V apt-clone >/dev/null 2>/dev/null; then
 	fn=arch/packages.apt-clone.tar.gz
-	if [[ -e "$fn" ]] && [[ $(( $(stat -c '%Y' "$fn") + 7 * 24 * 3600 )) -ge $(date '+%s') ]]; then
+	if [[ -e "$fn" ]] && [[ $(( $(stat -c '%Y' "$fn") + 7 * 24 * 3600 )) -ge "$(date '+%s')" ]]; then
 		echo "# $fn is fresh enough" >&2
-    elif false; then
-      if ! command -V dpkg-repack >/dev/null 2>/dev/null; then
-        sudo apt install dpkg-repack
-      fi
-      apt-clone clone --with-dpkg-repack ~/arch/packages
-    else
-      apt-clone clone ~/arch/packages
+  elif false; then
+    if ! command -V dpkg-repack >/dev/null 2>/dev/null; then
+      sudo apt install dpkg-repack
     fi
+    apt-clone clone --with-dpkg-repack ~/arch/packages
+  else
+    apt-clone clone ~/arch/packages
 	fi
 	files+=("$fn")
 fi
