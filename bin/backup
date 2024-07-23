@@ -38,7 +38,12 @@ if tty --quiet || [[ "$(id -u)" -eq 0 ]]; then
 	if [[ -d /home/social ]]; then
 		echo '# social' >&2
 		fn="/var/backups/social.tar.zstd"
-		sudo tar cf "$fn" -h -I 'zstd -c --long --adapt=min=2,max=6' -C /home/social . data/
+		if ! sudo tar cf "$fn" -h -I 'zstd -c --long --adapt=min=2,max=6' -C /home/social . data/; then
+			Z=$?
+			if [[ "$Z" -ne 1 ]]; then
+				exit "$Z"
+			fi
+		fi
 		sudo chown "$USER" "$fn"
 	fi
 fi
