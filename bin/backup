@@ -63,7 +63,7 @@ readarray -d '' files < <(find . -xdev -type l \
 	\( -lname 'dotfiles/*' -o -lname '*/dotfiles/*' \) \
 	-print0 2>/dev/null)
 files+=("$F")
-for dn in .config .gnupg .ssh Documents .password-store; do
+for dn in .config .gnupg .ssh Documents .password-store .contacts; do
 	if [[ -d "$dn" ]]; then
 		files+=("$dn")
 	fi

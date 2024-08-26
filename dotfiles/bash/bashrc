@@ -107,7 +107,7 @@ rdp_opts () {
 		"/size:${size}"
 		#/smart-sizing
 		-themes
-		/timeout:30000
+		/timeout:60000
 		+toggle-fullscreen
 		-wallpaper
 	)

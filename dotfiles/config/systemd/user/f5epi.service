@@ -9,7 +9,7 @@ Nice=19
 IOSchedulingClass=3
 CPUSchedulingPolicy=idle
 Restart=always
-RestartSec=1s
+RestartSec=100ms
 OOMPolicy=kill
 
 #[Install]
