@@ -1,0 +1,10 @@
+[Unit]
+Description=DavMail Gateway
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/davmail -server /home/tgulacsi/.ssh/davmail/davmail.properties
+
+[Install]
+WantedBy=default.target

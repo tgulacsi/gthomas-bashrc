@@ -1,5 +1,6 @@
 [Unit]
 Description=F5 EndPointInspection
+After=network-online.target
 
 [Service]
 Type=simple
@@ -12,6 +13,5 @@ Restart=always
 RestartSec=100ms
 OOMPolicy=kill
 
-#[Install]
-#WantedBy=networking.target
-#After=networking.target
+[Install]
+WantedBy=default.target
