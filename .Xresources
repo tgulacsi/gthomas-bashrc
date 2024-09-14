@@ -1,1 +1,132 @@
-dotfiles/Xresources
+!----------------------------------------------------------
+! Xft settings
+!----------------------------------------------------------
+
+!Xft.dpi: 96
+Xft.antialias: true
+Xft.rgba: rgb
+Xft.hinting: true
+Xft.hintstyle: hintfull
+
+!----------------------------------------------------------
+! URxvt settings
+!----------------------------------------------------------
+
+URxvt.depth: 32
+URxvt.transparent: false
+URxvt.shading: 18
+URxvt.fading: 10
+URxvt.urgentOnBell: false
+URxvt.visualBell: false
+URxvt.loginShell: true
+URxvt.internalBorder: 3
+URxvt.lineSpace: 0
+URxvt*scrollBar: false
+URxvt*borderless: true
+
+!! Font
+URxvt.allow_bold: true
+!URxvt*font: xft:Go Sans Mono:pixelsize=16:size=12
+!URxvt*boldFont: xft:Droid Sans Mono:size=9
+
+!! Scrollbar
+URxvt.scrollStyle: rxvt
+URxvt.scrollBar: false
+URxvt*saveLines: 1000
+
+!! Perl extensions
+URxvt.perl-ext-common: default,matcher,clipboard,font-size
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.matcher.button: 1
+URxvt.urlLauncher: firefox
+
+URxvt.keysym.C-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal:  font-size:reset
+URxvt.keysym.C-slash:  font-size:show
+
+!! Cursor
+URxvt.cursorBlink: true
+URxvt.cursorColor: #758b93
+URxvt.cursorUnderline: false
+
+!! Pointer
+URxvt.pointerBlank: true
+
+!XTerm*termName: xterm-256color
+xterm*faceName: Go Mono:size=16
+!xterm*faceName: Inconsolata:size=14
+!xterm*faceName: Hack:size=8
+!URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
+!URxvt*font: xft:Inconsolata:pixelsize=14:antialias=true:hinting=true:autohint=true
+URxvt.font: xft:Go Mono:size=14:pixelsize=14:antialias=true:hinting=true:autohint=true,xft:Noto Mono,xft:DejaVu Sans Mono,-*-fixed-*-*-normal-*-*-*-*-*-*-*-iso8859-2
+URxvt*font: xft:Go Mono:size=14:pixelsize=14:antialias=true:hinting=true:autohint=true,xft:Noto Mono,xft:DejaVu Sans Mono,-*-fixed-*-*-normal-*-*-*-*-*-*-*-iso8859-2
+!URxvt*font: xft:Hack:pixelsize=10:antialias=true:hinting=true:autohint=true
+!URxvt*boldFont: xft:Droid Sans Mono:pixelsize=12:antialias=true:hinting=true:autohint=true
+!URxvt.letterSpace: 0
+!URxvt*scrollBar: true
+!URxvt.intensityStyles: false
+
+!----------------------------------------------------------
+! Color settings
+! Source http://ethanschoonover.com/solarized
+!----------------------------------------------------------
+#define S_base03        #002b36
+#define S_base02        #073642
+#define S_base01        #586e75
+#define S_base00        #657b83
+#define S_base0         #839496
+#define S_base1         #93a1a1
+#define S_base2         #eee8d5
+#define S_base3         #fdf6e3
+
+*background:            S_base3
+*foreground:            S_base00
+*fadeColor:             S_base3
+*cursorColor:           S_base01
+*pointerColorBackground:S_base1
+*pointerColorForeground:S_base01
+
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
+
+!! black dark/light
+*color0:                S_base02
+*color8:                S_base03
+
+!! red dark/light
+*color1:                S_red
+*color9:                S_orange
+
+!! green dark/light
+*color2:                S_green
+*color10:               S_base01
+
+!! yellow dark/light
+*color3:                S_yellow
+*color11:               S_base00
+
+!! blue dark/light
+*color4:                S_blue
+*color12:               S_base0
+
+!! magenta dark/light
+*color5:                S_magenta
+*color13:               S_violet
+
+!! cyan dark/light
+*color6:                S_cyan
+*color14:               S_base1
+
+!! white dark/light
+*color7:                S_base2
+*color15:               S_base3

@@ -1,0 +1,7 @@
+#!/bin/bash
+mbsync t.gulacsi 2>&1 | tee >(
+	sed -une '/^Error:.* near side box .* cannot be opened/ { s/^.*near side box //; s/ cannot be opened.*$//; p; }' | \
+	while read -r nm; do
+		echo "t.gulacsi:$nm"
+	done | xargs -r -n 1 -P 8 mbsync
+) 

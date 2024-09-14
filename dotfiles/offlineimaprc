@@ -36,15 +36,21 @@ restoreatime = no
 
 [Repository t.gulacsi-remote]
 type = IMAP
-auth_mechanism = XOAUTH2
-remotehost = imap.outlook.com
-remoteuser = t.gulacsi@unosoft.hu
+#auth_mechanism = XOAUTH2
+auth_mechanism = LOGIN
+#remotehost = imap.outlook.com
+remotehost = localhost
+remoteport = 1143
+remoteuser = t.gulacsi@unosoft.hu,fc44d774-96ff-4925-9137-15b607457519
+#remotepasseval = empty_pass()
+#remotepasseval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu')
 #oauth2_client_id_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_id')
 #oauth2_client_secret_eval = get_pass('U/UNOSOFT/t.gulacsi@unosoft.hu', 'azure_client_secret')
 #oauth2_access_token_eval = get_token('t.gulacsi@unosoft.hu')
-folderfilter = lambda f: f != 'Calendar' and f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
-ssl = yes
-sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+folderfilter = lambda f: f not in ('Contacts', 'Calendar') and f.find('Deleted') < 0 and f.find('Trash') < 0 and f.find('Junk') < 0
+#ssl = yes
+#sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl = no
 starttls = no
 
 [Account tgulacsi78]
